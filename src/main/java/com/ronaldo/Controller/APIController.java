@@ -10,17 +10,32 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ronaldo.domain.UserVo;
-import com.ronaldo.repository.UserRepository;
+import com.ronaldo.mapper.UserMapper;
 
 @RestController
 public class APIController {
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserMapper userMapper;
 
-    @RequestMapping(value = "/JoinUser", method = RequestMethod.GET)
-    public List<UserVo> index(Model model){
-    	List<UserVo> list = userRepository.getUserList();
+    @RequestMapping(value = "/api/join", method = RequestMethod.GET)
+    public List<UserVo> join(Model model){
+    	List<UserVo> list = userMapper.getUserList();
+        return list;
+    }
+    @RequestMapping(value = "/api/login", method = RequestMethod.GET)
+    public List<UserVo> login(Model model){
+    	List<UserVo> list = userMapper.getUserList();
+        return list;
+    }
+    @RequestMapping(value = "/api/charge", method = RequestMethod.GET)
+    public List<UserVo> charge(Model model){
+    	List<UserVo> list = userMapper.getUserList();
+        return list;
+    }
+    @RequestMapping(value = "/api/use", method = RequestMethod.GET)
+    public List<UserVo> use(Model model){
+    	List<UserVo> list = userMapper.getUserList();
         return list;
     }
 }

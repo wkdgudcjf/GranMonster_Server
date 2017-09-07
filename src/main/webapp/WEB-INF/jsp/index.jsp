@@ -7,9 +7,7 @@
 <body>
     <ul>
     <c:forEach var="item" items="${result}">
-        <li>${item.pkn}</li>
-        <li>${item.name}</li>
-        <li>${item.id}</li>
+        <li>${item.userID}</li>
     </c:forEach>
     </ul>
 </body>
