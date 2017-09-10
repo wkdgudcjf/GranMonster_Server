@@ -570,12 +570,6 @@
 		    border-top-left-radius: 5px;
 		    border-top-right-radius: 5px;
 		/*Main CSS*/
-		
-		
-		
-		
-		
-		
 		@media only screen and (max-device-width: 767px) {
 		    .login-logo img {
 		        margin: 0 auto;
@@ -725,7 +719,7 @@
     <div class="row display-table-row">
         <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
             <div class="logo">
-                <a href="/admin" class="hidden-xs hidden-sm">그랑몬스터</a>
+                <img src="/img/logo.png">
             </div>
             <div class="navi">
                 <ul>

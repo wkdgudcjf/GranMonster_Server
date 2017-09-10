@@ -127,8 +127,8 @@
 	         directionX: 'center', // 'center', 'left' or 'right'. 'center' = dots bounce off edges
 	         directionY: 'center', // 'center', 'up' or 'down'. 'center' = dots bounce off edges
 	         density: 10000, // How many particles will be generated: one particle every n pixels
-	         dotColor: '#eee',
-	         lineColor: '#eee',
+	         dotColor: '#D941C5',
+	         lineColor: '#8041D9',
 	         particleRadius: 7, // Dot size
 	         lineWidth: 1,
 	         curvedLines: true,
@@ -145,14 +145,8 @@
         
     <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3"> 
         
-        <div class="row">                
-            <div class="iconmelon">
-              <svg viewBox="0 0 32 32">
-                <g filter="">
-                  <use xlink:href="#git"></use>
-                </g>
-              </svg>
-            </div>
+        <div class="row" style="height:150px; text-align:center">                
+            <img src="/img/logo.png" style="display:inline-block; margin-top:70px">
         </div>
         
         <div class="panel panel-default" >
