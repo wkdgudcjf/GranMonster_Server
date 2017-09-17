@@ -1,6 +1,6 @@
 package com.ronaldo.domain;
 
-public class CompanyAppVo {
+public class AppVo {
     private String appID;
     private String appName;
 	private String companyID;

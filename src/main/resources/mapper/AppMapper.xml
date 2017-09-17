@@ -2,11 +2,8 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ronaldo.mapper.UserMapper">
+<mapper namespace="com.ronaldo.mapper.AppMapper">
 
- 	<insert id="joinUser" parameterType="UserVo">
-      INSERT INTO User (userID,email,name,password,coin) VALUES (#{userID},#{email},#{name},#{password},#{coin})
-     </insert>
     <select id="getUserList" resultType="UserVo">
         SELECT * FROM User
     </select>

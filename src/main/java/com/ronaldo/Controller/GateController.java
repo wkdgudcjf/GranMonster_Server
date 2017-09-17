@@ -8,13 +8,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ronaldo.config.SessionWire;
+import com.ronaldo.service.ApiServiceImpl;
 import com.ronaldo.service.AuthUserServiceImpl;
 
 @Controller
-public class MasterController {
+public class GateController {
 	
 	@Autowired
 	private AuthUserServiceImpl userService;
+	@Autowired
+	private ApiServiceImpl apiService;
 	@Autowired
 	SessionWire sessionWire;
 	@RequestMapping(value={"/agreement"}, method = RequestMethod.GET)
@@ -25,10 +28,9 @@ public class MasterController {
     public String loginGet(Model model){
 		if(sessionWire.getId()!=null)
 		{
-			return "admin";
+			return setAdmin(model);
 		}
-		setMain(model);
-        return "login";
+		return setInitLogin(model);
     }
 	@RequestMapping(value={"/login"}, method = RequestMethod.POST)
     public String loginPost(Model model,@RequestParam("id") String id, @RequestParam("password") String password)
@@ -36,27 +38,22 @@ public class MasterController {
 		if(userService.isVaild(id,password))
 		{
 			sessionWire.setId(id);
-			setAdmin(model);
-			return "admin";
+			return setAdmin(model);
 		}
-		setLogin(model);
-        return "login";
+		return setFalseLogin(model);
     }
 	@RequestMapping(value={"/join"}, method = RequestMethod.GET)
     public String joinGet(Model model){
-		model.addAttribute("message", "");
-        return "join";
+        return setInitJoin(model);
     }
 	@RequestMapping(value={"/join"}, method = RequestMethod.POST)
     public String joinPost(Model model,@RequestParam("id") String id, @RequestParam("password") String password,
     		@RequestParam("email") String email,@RequestParam("inputNumberCheck") String inputNumberCheck){
 		if(userService.createUser(id,password,email,inputNumberCheck))
 		{
-			setMain(model);
-    		return "login";
+			return setInitLogin(model);
 		}
-		setJoin(model);
-        return "join";
+		return setFalseJoin(model);
     }
 	@RequestMapping(value={"/logout"}, method = RequestMethod.GET)
     public String logout(Model model){
@@ -64,32 +61,39 @@ public class MasterController {
 		{
 			sessionWire.invaildate();
 		}
-        return "login";
+		return setInitLogin(model);
     }
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(Model model){
     	if(sessionWire.getId()==null)
 		{
-    		setMain(model);
-    		return "login";
+    		return setInitLogin(model);
 		}
-    	setAdmin(model);
-    	return "admin";
+    	return setAdmin(model);
     }
-    private void setMain(Model model)
+    private String setInitLogin(Model model)
     {
     	model.addAttribute("message", "그랑몬스터");
+    	return "login";
     }
-    private void setLogin(Model model)
+    private String setFalseLogin(Model model)
     {
     	model.addAttribute("message", "아이디 비밀번호를 확인하세요");
+    	return "login";
     }
-    private void setAdmin(Model model)
+    private String setAdmin(Model model)
     {
     	model.addAttribute("user",userService.searchUser(sessionWire.getId()));
+    	return "admin";
     }
-    private void setJoin(Model model)
+    private String setFalseJoin(Model model)
     {
     	model.addAttribute("message", "동일한 id가 존재하거나 인증번호가 틀립니다.");
+    	 return "join";
+    }
+    private String setInitJoin(Model model)
+    {
+    	model.addAttribute("message", "");
+    	 return "join";
     }
 }

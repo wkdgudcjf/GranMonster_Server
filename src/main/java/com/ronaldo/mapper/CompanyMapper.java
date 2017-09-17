@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ronaldo.domain.UserVo;
 
 @Mapper
-public interface  UserMapper{
+public interface  CompanyMapper{
 	 List<UserVo> getUserList();
-	 String joinUser(UserVo userVo);
 }

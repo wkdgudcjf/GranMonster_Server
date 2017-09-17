@@ -155,7 +155,6 @@
     </div>
     </div>
     <div class="form-group">
-    <label for="inputName" class="col-sm-2 control-label"></label>
     <div class="col-sm-6">
       <button type="submit" class="btn btn-primary">회원가입</button>
     </div>
