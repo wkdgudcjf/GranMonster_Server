@@ -1,40 +1,63 @@
 package com.ronaldo.domain;
 
+import java.sql.Timestamp;
+
 public class UserVo {
     private String userID;
-    private String email;
-    private String name;
-    private String password;
-    private int coin;
+    private String userEmail;
+    private String userKey;
+    private String userPassword;
+    private int userCoin;
+    private int userMoney;
+    private Timestamp userDateTime;
+    private boolean userEnable;
+    
+	public boolean isUserEnable() {
+		return userEnable;
+	}
+	public void setUserEnable(boolean userEnable) {
+		this.userEnable = userEnable;
+	}
+	public Timestamp getUserDateTime() {
+		return userDateTime;
+	}
+	public void setUserDateTime(Timestamp userDateTime) {
+		this.userDateTime = userDateTime;
+	}
 	public String getUserID() {
 		return userID;
 	}
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
-	public String getEmail() {
-		return email;
+	public String getUserEmail() {
+		return userEmail;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
-	public String getName() {
-		return name;
+	public String getUserKey() {
+		return userKey;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setUserKey(String userKey) {
+		this.userKey = userKey;
 	}
-	public String getPassword() {
-		return password;
+	public String getUserPassword() {
+		return userPassword;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
 	}
-	public int getCoin() {
-		return coin;
+	public int getUserCoin() {
+		return userCoin;
 	}
-	public void setCoin(int coin) {
-		this.coin = coin;
+	public void setUserCoin(int userCoin) {
+		this.userCoin = userCoin;
 	}
-    
+	public int getUserMoney() {
+		return userMoney;
+	}
+	public void setUserMoney(int userMoney) {
+		this.userMoney = userMoney;
+	}
 }

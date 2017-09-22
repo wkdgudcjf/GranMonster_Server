@@ -13,70 +13,85 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.ronaldo.mapper.BillingMapper;
+import com.ronaldo.domain.UserVo;
 import com.ronaldo.mapper.AppMapper;
 import com.ronaldo.mapper.CompanyMapper;
 import com.ronaldo.mapper.UserMapper;
+import com.ronaldo.service.ApiServiceImpl;
 
 @RestController
 public class APIController {
 	
+	@Autowired
+	private ApiServiceImpl apiService;
 	
 	JSONParser jsonParser = new JSONParser();
 	
     @RequestMapping(value = "/api/join", method = RequestMethod.POST)
     public ResponseEntity<String> join(Model model,@RequestParam("json") String json){
-    	System.out.println("log : " + json);
+    	String result = "success";
     	JSONObject jsonObject;
-    	String id = null;
+    	String key = null;
 		try {
 			jsonObject = (JSONObject) jsonParser.parse(json);
-			id = (String) jsonObject.get("id");
+			key = (String) jsonObject.get("key");
+			apiService.registUser(key);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			result = "fail";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @RequestMapping(value = "/api/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(Model model,@RequestParam("json") String json){
-    	System.out.println("log : " + json);
+    public ResponseEntity<UserVo> login(Model model,@RequestParam("json") String json){
     	JSONObject jsonObject;
-    	String id = null;
+    	String key = null;
+    	UserVo userVo = null;
 		try {
 			jsonObject = (JSONObject) jsonParser.parse(json);
-			id = (String) jsonObject.get("id");
+			key = (String) jsonObject.get("key");
+			userVo = apiService.getUser(key);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return new ResponseEntity<>(userVo, HttpStatus.BAD_REQUEST);
 		}
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(userVo, HttpStatus.OK);
     }
     @RequestMapping(value = "/api/charge", method = RequestMethod.POST)
     public ResponseEntity<String> charge(Model model,@RequestParam("json") String json){
-    	System.out.println("log : " + json);
+    	String result = "success";
     	JSONObject jsonObject;
-    	String id = null;
+    	String key = null;
 		try {
 			jsonObject = (JSONObject) jsonParser.parse(json);
-			id = (String) jsonObject.get("id");
+			key = (String) jsonObject.get("key");
+			apiService.registUser(key);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			result = "fail";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @RequestMapping(value = "/api/use", method = RequestMethod.POST)
     public ResponseEntity<String> use(Model model,@RequestParam("json") String json){
-    	System.out.println("log : " + json);
+    	String result = "success";
     	JSONObject jsonObject;
-    	String id = null;
+    	String key = null;
 		try {
 			jsonObject = (JSONObject) jsonParser.parse(json);
-			id = (String) jsonObject.get("id");
+			key = (String) jsonObject.get("key");
+			apiService.registUser(key);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			result = "fail";
+			return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
 		}
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

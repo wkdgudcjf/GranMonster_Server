@@ -14,9 +14,9 @@ public class AuthUserServiceImpl implements AuthUserService
 	AuthUserMapper authUserMapper;
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	@Override
-	public boolean isVaild(String id, String password) {
-		AuthUserVo user = authUserMapper.searchUser(id);
-		if(user==null || !(passwordEncoder.matches(password, user.getPassword())))
+	public boolean isVaild(String authUserID, String authUserPassword) {
+		AuthUserVo authUserVo = authUserMapper.searchAuthUser(authUserID);
+		if(authUserVo==null || !(passwordEncoder.matches(authUserPassword, authUserVo.getAuthUserPassword())))
 		{
 			return false;
 		}
@@ -24,22 +24,22 @@ public class AuthUserServiceImpl implements AuthUserService
 		return true;
 	}
 	@Override
-	public AuthUserVo searchUser(String id) {
+	public AuthUserVo searchAuthUser(String authUserID) {
 		// TODO Auto-generated method stub
-		return authUserMapper.searchUser(id);
+		return authUserMapper.searchAuthUser(authUserID);
 	}
 	@Override
-	public boolean createUser(String id, String password, String email, String inputNumberCheck) {
+	public boolean createAuthUser(String authUserID, String authUserPassword, String authUserEmail, String inputNumberCheck) {
 		if(!inputNumberCheck.equals("ronaldo"))
 		{
 			return false;
 		}
-		if(authUserMapper.searchUser(id)!=null)
+		if(authUserMapper.searchAuthUser(authUserID)!=null)
 		{
 			return false;
 		}
-		AuthUserVo user = new AuthUserVo(id,passwordEncoder.encode(password),email,"ADMIN");
-		authUserMapper.createUser(user);
+		AuthUserVo authUserVo = new AuthUserVo(authUserID,passwordEncoder.encode(authUserPassword),authUserEmail,"ADMIN");
+		authUserMapper.createAuthUser(authUserVo);
 		return true;
 	} 
 }

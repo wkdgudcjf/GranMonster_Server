@@ -8,6 +8,9 @@ import com.ronaldo.domain.UserVo;
 
 @Mapper
 public interface  UserMapper{
-	 List<UserVo> getUserList();
-	 String joinUser(UserVo userVo);
+	 public List<UserVo> getUserList();
+	 public void registUser(UserVo userVo);
+	 public UserVo getUser(String userKey);
+	 public void deleteUser(int userID);
+	 public void UpdateUser(UserVo userVo);
 }

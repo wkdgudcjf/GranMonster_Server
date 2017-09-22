@@ -1,18 +1,35 @@
 package com.ronaldo.domain;
 
+import java.sql.Timestamp;
+
 public class CompanyVo {
-    private String companyID;
-    private String name;
-	public String getCompanyID() {
+    private int companyID;
+    private String companyName;
+    private Timestamp companyDateTime;
+    private boolean companyEnable;
+	public int getCompanyID() {
 		return companyID;
 	}
-	public void setCompanyID(String companyID) {
+	public void setCompanyID(int companyID) {
 		this.companyID = companyID;
 	}
-	public String getName() {
-		return name;
+	public String getCompanyName() {
+		return companyName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
+	public Timestamp getCompanyDateTime() {
+		return companyDateTime;
+	}
+	public void setCompanyDateTime(Timestamp companyDateTime) {
+		this.companyDateTime = companyDateTime;
+	}
+	public boolean isCompanyEnable() {
+		return companyEnable;
+	}
+	public void setCompanyEnable(boolean companyEnable) {
+		this.companyEnable = companyEnable;
+	}
+    
 }

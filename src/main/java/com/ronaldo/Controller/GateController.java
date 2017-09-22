@@ -28,7 +28,7 @@ public class GateController {
     public String loginGet(Model model){
 		if(sessionWire.getId()!=null)
 		{
-			return setAdmin(model);
+			return setRedirectAdmin(model);
 		}
 		return setInitLogin(model);
     }
@@ -38,7 +38,7 @@ public class GateController {
 		if(userService.isVaild(id,password))
 		{
 			sessionWire.setId(id);
-			return setAdmin(model);
+			return setRedirectAdmin(model);
 		}
 		return setFalseLogin(model);
     }
@@ -49,9 +49,9 @@ public class GateController {
 	@RequestMapping(value={"/join"}, method = RequestMethod.POST)
     public String joinPost(Model model,@RequestParam("id") String id, @RequestParam("password") String password,
     		@RequestParam("email") String email,@RequestParam("inputNumberCheck") String inputNumberCheck){
-		if(userService.createUser(id,password,email,inputNumberCheck))
+		if(userService.createAuthUser(id,password,email,inputNumberCheck))
 		{
-			return setInitLogin(model);
+			return setRedirectLogin(model);
 		}
 		return setFalseJoin(model);
     }
@@ -61,13 +61,13 @@ public class GateController {
 		{
 			sessionWire.invaildate();
 		}
-		return setInitLogin(model);
+		return setRedirectLogin(model);
     }
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String admin(Model model){
     	if(sessionWire.getId()==null)
 		{
-    		return setInitLogin(model);
+    		return setRedirectLogin(model);
 		}
     	return setAdmin(model);
     }
@@ -76,6 +76,11 @@ public class GateController {
     	model.addAttribute("message", "그랑몬스터");
     	return "login";
     }
+    private String setRedirectLogin(Model model)
+    {
+    	model.addAttribute("message", "그랑몬스터");
+    	return "redirect:/login";
+    }
     private String setFalseLogin(Model model)
     {
     	model.addAttribute("message", "아이디 비밀번호를 확인하세요");
@@ -83,8 +88,13 @@ public class GateController {
     }
     private String setAdmin(Model model)
     {
-    	model.addAttribute("user",userService.searchUser(sessionWire.getId()));
+    	model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
     	return "admin";
+    }
+    private String setRedirectAdmin(Model model)
+    {
+    	model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+    	return "redirect:/admin";
     }
     private String setFalseJoin(Model model)
     {

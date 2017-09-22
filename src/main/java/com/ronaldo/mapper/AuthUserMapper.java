@@ -6,10 +6,10 @@ import com.ronaldo.domain.AuthUserVo;
 
 @Mapper
 public interface  AuthUserMapper{
-	public AuthUserVo searchUser(String username); 
+	public AuthUserVo searchAuthUser(String authUserID); 
 	//public List<GrantedAuthority> readAuthority(String username);
-	public void createUser(AuthUserVo user);
+	public void createAuthUser(AuthUserVo authUserVo);
 	//public void createAuthority(AuthUserVo user);
-	public void deleteUser(String username);
+	public void deleteAuthUser(String authUserID);
 	//public void deleteAuthority(String username);
 }

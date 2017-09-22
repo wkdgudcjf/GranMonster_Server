@@ -3,46 +3,61 @@ package com.ronaldo.domain;
 import java.sql.Timestamp;
 
 public class BillingVo {
-    private int seq;
-    private String userID;
-    private String appID;
-    private int money;
-    private int coin;
-    private Timestamp date;
-	public int getSeq() {
-		return seq;
+    private int billingID;
+    private int userID;
+    private int appID;
+    private int billingMoney;
+    private int billingCoin;
+    private String userKey;
+    private String appName;
+	private Timestamp billingDateTime;
+	public int getBillingID() {
+		return billingID;
 	}
-	public void setSeq(int seq) {
-		this.seq = seq;
+	public void setBillingID(int billingID) {
+		this.billingID = billingID;
 	}
-	public String getUserID() {
+	public int getUserID() {
 		return userID;
 	}
-	public void setUserID(String userID) {
+	public void setUserID(int userID) {
 		this.userID = userID;
 	}
-	public String getAppID() {
+	public int getAppID() {
 		return appID;
 	}
-	public void setAppID(String appID) {
+	public void setAppID(int appID) {
 		this.appID = appID;
 	}
-	public int getMoney() {
-		return money;
+	public int getBillingMoney() {
+		return billingMoney;
 	}
-	public void setMoney(int money) {
-		this.money = money;
+	public void setBillingMoney(int billingMoney) {
+		this.billingMoney = billingMoney;
 	}
-	public int getCoin() {
-		return coin;
+	public int getBillingCoin() {
+		return billingCoin;
 	}
-	public void setCoin(int coin) {
-		this.coin = coin;
+	public void setBillingCoin(int billingCoin) {
+		this.billingCoin = billingCoin;
 	}
-	public Timestamp getDate() {
-		return date;
+	public String getUserKey() {
+		return userKey;
 	}
-	public void setDate(Timestamp date) {
-		this.date = date;
+	public void setUserKey(String userKey) {
+		this.userKey = userKey;
 	}
+	public String getAppName() {
+		return appName;
+	}
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+	public Timestamp getBillingDateTime() {
+		return billingDateTime;
+	}
+	public void setBillingDateTime(Timestamp billingDateTime) {
+		this.billingDateTime = billingDateTime;
+	}
+   
 }

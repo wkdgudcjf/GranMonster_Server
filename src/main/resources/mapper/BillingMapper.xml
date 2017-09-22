@@ -5,7 +5,10 @@
 <mapper namespace="com.ronaldo.mapper.BillingMapper">
 
     <select id="getUserList" resultType="BillingVo">
-        SELECT * FROM User
+        SELECT * FROM Billing
     </select>
-
+	<insert id="registBilling" parameterType="BillingVo">
+      	INSERT INTO Billing (userID,userEmail,userKey,userPassword,userCoin,userMoney) 
+      	VALUES (#{userID},#{userEmail},#{userKey},#{userPassword},#{userCoin},#{userMoney})
+    </insert>
 </mapper>

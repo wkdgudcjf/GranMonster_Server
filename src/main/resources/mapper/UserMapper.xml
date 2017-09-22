@@ -4,11 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.UserMapper">
 
- 	<insert id="joinUser" parameterType="UserVo">
-      INSERT INTO User (userID,email,name,password,coin) VALUES (#{userID},#{email},#{name},#{password},#{coin})
+ 	<insert id="registUser" parameterType="UserVo">
+      	INSERT INTO User (userEmail,userKey,userPassword,userCoin,userMoney) 
+      	VALUES (#{userEmail},#{userKey},#{userPassword},#{userCoin},#{userMoney})
      </insert>
+     
     <select id="getUserList" resultType="UserVo">
         SELECT * FROM User
     </select>
-
+    
+    <select id="getUser" parameterType="String" resultType="UserVo">
+        SELECT * FROM User WHERE userKey = #{userKey} 
+    </select>
 </mapper>

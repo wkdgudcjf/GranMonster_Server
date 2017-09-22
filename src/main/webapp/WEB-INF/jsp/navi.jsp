@@ -30,6 +30,20 @@
                  	회사 관리</span>
             </a>
           </li>
+           <li id="navi_user" class="nav-item" data-toggle="tooltip" data-placement="right" title="registcompany">
+            <a class="nav-link" href="/managementuser">
+              <i class="fa fa-fw fa-table"></i>
+              <span class="nav-link-text">
+                 	회원 관리</span>
+            </a>
+          </li>
+           <li id="navi_billing" class="nav-item" data-toggle="tooltip" data-placement="right" title="registcompany">
+            <a class="nav-link" href="/managementbilling">
+              <i class="fa fa-fw fa-table"></i>
+              <span class="nav-link-text">
+                 	영수증 관리</span>
+            </a>
+          </li>
           <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
               <i class="fa fa-fw fa-sitemap"></i>

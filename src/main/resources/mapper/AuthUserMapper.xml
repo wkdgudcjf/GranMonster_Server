@@ -3,14 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.AuthUserMapper">
-    <select id="searchUser" parameterType="String" resultType="AuthUserVo">
-       SELECT * FROM AuthUser WHERE id = #{id}
+    <select id="searchAuthUser" parameterType="String" resultType="AuthUserVo">
+       SELECT * FROM AuthUser WHERE authUserID = #{authUserID}
      </select>
-      <delete id="deleteUser" parameterType="String">
-       DELETE FROM AuthUser WHERE id = #{id} 
+      <delete id="deleteAuthUser" parameterType="String">
+       DELETE FROM AuthUser WHERE authUserID = #{authUserID} 
       </delete> 
-      <insert id="createUser" parameterType="AuthUserVo">
-      INSERT INTO AuthUser (id, password, email, auth) VALUES (#{id}, #{password}, #{email}, #{auth})
+      <insert id="createAuthUser" parameterType="AuthUserVo">
+      INSERT INTO AuthUser (authUserID,authUserEmail,authUserPassword,authUserAuth) VALUES (#{authUserID},#{authUserEmail},#{authUserPassword},#{authUserAuth})
      </insert>
     <!-- 
      <select id="readAuthority" parameterType="String" resultType="org.springframework.security.core.authority.SimpleGrantedAuthority">

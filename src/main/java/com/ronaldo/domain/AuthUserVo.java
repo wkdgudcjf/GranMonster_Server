@@ -2,38 +2,38 @@ package com.ronaldo.domain;
 
 public class AuthUserVo
 { 
-	private String id;
-	private String email;
-	private String password;
-	private String auth;
-	public AuthUserVo(String id, String password, String email, String auth) {
-		this.id = id;
-		this.password = password;
-		this.email = email;
-		this.auth = auth;
+	private String authUserID;
+	private String authUserEmail;
+	private String authUserPassword;
+	private String authUserAuth;
+	public AuthUserVo(String authUserID, String authUserPassword, String authUserEmail, String authUserAuth) {
+		this.authUserID = authUserID;
+		this.authUserPassword = authUserPassword;
+		this.authUserEmail = authUserEmail;
+		this.authUserAuth = authUserAuth;
 	}
-	public String getAuth() {
-		return auth;
+	public String getAuthUserID() {
+		return authUserID;
 	}
-	public void setAuth(String auth) {
-		this.auth = auth;
+	public void setAuthUserID(String authUserID) {
+		this.authUserID = authUserID;
 	}
-	public String getId() {
-		return id;
+	public String getAuthUserEmail() {
+		return authUserEmail;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setAuthUserEmail(String authUserEmail) {
+		this.authUserEmail = authUserEmail;
 	}
-	public String getEmail() {
-		return email;
+	public String getAuthUserPassword() {
+		return authUserPassword;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+	public void setAuthUserPassword(String authUserPassword) {
+		this.authUserPassword = authUserPassword;
 	}
-	public String getPassword() {
-		return password;
+	public String getAuthUserAuth() {
+		return authUserAuth;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setAuthUserAuth(String authUserAuth) {
+		this.authUserAuth = authUserAuth;
 	}
 }
