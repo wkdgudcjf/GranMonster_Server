@@ -28,13 +28,15 @@ public class APIController {
 	JSONParser jsonParser = new JSONParser();
 	
     @RequestMapping(value = "/api/join", method = RequestMethod.POST)
-    public ResponseEntity<String> join(Model model,@RequestParam("json") String json){
+    public ResponseEntity<String> join(Model model,@RequestParam("param") String param){
     	String result = "success";
     	JSONObject jsonObject;
     	String key = null;
+    	System.out.println(param);
 		try {
-			jsonObject = (JSONObject) jsonParser.parse(json);
+			jsonObject = (JSONObject) jsonParser.parse(param);
 			key = (String) jsonObject.get("key");
+			System.out.println(key);
 			apiService.registUser(key);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -45,13 +47,15 @@ public class APIController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @RequestMapping(value = "/api/login", method = RequestMethod.POST)
-    public ResponseEntity<UserVo> login(Model model,@RequestParam("json") String json){
+    public ResponseEntity<UserVo> login(Model model,@RequestParam("param") String param){
     	JSONObject jsonObject;
     	String key = null;
     	UserVo userVo = null;
+    	System.out.println(param);
 		try {
-			jsonObject = (JSONObject) jsonParser.parse(json);
+			jsonObject = (JSONObject) jsonParser.parse(param);
 			key = (String) jsonObject.get("key");
+			System.out.println(key);
 			userVo = apiService.getUser(key);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -61,12 +65,12 @@ public class APIController {
         return new ResponseEntity<>(userVo, HttpStatus.OK);
     }
     @RequestMapping(value = "/api/charge", method = RequestMethod.POST)
-    public ResponseEntity<String> charge(Model model,@RequestParam("json") String json){
+    public ResponseEntity<String> charge(Model model,@RequestParam("param") String param){
     	String result = "success";
     	JSONObject jsonObject;
     	String key = null;
 		try {
-			jsonObject = (JSONObject) jsonParser.parse(json);
+			jsonObject = (JSONObject) jsonParser.parse(param);
 			key = (String) jsonObject.get("key");
 			apiService.registUser(key);
 		} catch (Exception e) {
@@ -78,12 +82,12 @@ public class APIController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @RequestMapping(value = "/api/use", method = RequestMethod.POST)
-    public ResponseEntity<String> use(Model model,@RequestParam("json") String json){
+    public ResponseEntity<String> use(Model model,@RequestParam("param") String param){
     	String result = "success";
     	JSONObject jsonObject;
     	String key = null;
 		try {
-			jsonObject = (JSONObject) jsonParser.parse(json);
+			jsonObject = (JSONObject) jsonParser.parse(param);
 			key = (String) jsonObject.get("key");
 			apiService.registUser(key);
 		} catch (Exception e) {
