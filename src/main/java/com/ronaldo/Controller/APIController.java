@@ -1,6 +1,7 @@
 package com.ronaldo.Controller;
 
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +29,7 @@ public class APIController {
 	JSONParser jsonParser = new JSONParser();
 	
     @RequestMapping(value = "/api/join", method = RequestMethod.POST)
-    public ResponseEntity<String> join(Model model,@RequestParam("param") String param){
+    public ResponseEntity<String> join(@RequestBody String param){
     	String result = "success";
     	JSONObject jsonObject;
     	String key = null;
@@ -47,7 +48,7 @@ public class APIController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @RequestMapping(value = "/api/login", method = RequestMethod.POST)
-    public ResponseEntity<UserVo> login(Model model,@RequestParam("param") String param){
+    public ResponseEntity<UserVo> login(@RequestBody String param){
     	JSONObject jsonObject;
     	String key = null;
     	UserVo userVo = null;
