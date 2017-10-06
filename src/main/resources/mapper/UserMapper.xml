@@ -13,6 +13,12 @@
         SELECT * FROM User
     </select>
     
+    <update id="updateUser" parameterType="UserVo">
+		UPDATE User
+		set userCoin = #{userCoin},userMoney =#{userMoney}
+		where userID = #{userID}
+    </update>
+    
     <select id="getUser" parameterType="String" resultType="UserVo">
         SELECT * FROM User WHERE userKey = #{userKey} 
     </select>

@@ -8,7 +8,9 @@ import com.ronaldo.domain.BillingVo;
 
 @Mapper
 public interface  BillingMapper{
-	 public List<BillingVo> getBillingList();
-	 public void registBilling(BillingVo companyVo);
-	 public void deleteBilling(int companyID);
+	public List<BillingVo> getBillingList();
+	public List<BillingVo> getUserBillingList(int userID);
+	public List<BillingVo> getAppBillingList(int appID);
+	public void addBilling(BillingVo billingVo) throws Exception;
+	public void minusBilling(BillingVo billingVo) throws Exception;
 }

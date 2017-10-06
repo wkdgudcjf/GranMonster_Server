@@ -104,6 +104,7 @@
 		    border-color: #2e6da4;
 		    margin-top: 8px;
 		}
+		p {word-break:break-all;}
 	 </style>
   </head>
 
@@ -160,22 +161,23 @@
                 <tbody>
                   <c:forEach var="item" items="${applist}">
 	                <tr>
-				        <th>
+				        <td>
 				        <c:choose>
 						<c:when test="${item.appEnable==true}"> 
 						    <img src="/img/enable.png" style="max-width: 30px; max-height: 30px;"> 
 						</c:when> 
 						<c:otherwise> 
-						    <img src="/img/disable.png" style="max-width: 35px; max-height: 35px;"> 
+						    <img src="/img/disable.png" style="max-width: 30px; max-height: 30px;"> 
 						</c:otherwise> 
 						</c:choose>
-						</th>
-				         <th><a href="#" onclick="modifyModal(${item.appID});">${item.appName}</a></th>
-				        <th>${item.companyName}</th>
-				        <th>${item.appURL}</th>
-				        <th>${item.appPackage}</th>
-				        <th>${item.appDateTime}</th>
-				        <th><img src="image/${item.appImagePath}"  style="max-width: 150px; max-height: 150px;"></th>
+						</td>
+				         <td><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a> 
+				         / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
+				        <td>${item.companyName}</td>
+				        <td>${item.appURL}</td>
+				        <td>${item.appPackage}</td>
+				        <td>${item.appDateTime}</td>
+				        <td><img src="image/${item.appImagePath}"  style="max-width: 150px; max-height: 150px;"></td>
 				    </tr>
 				    </c:forEach>
                 </tbody>
@@ -209,18 +211,18 @@
 	            <div class="form-group">
 	              <div class="form-row">
 	                <div class="col-md-6">
-	                  <label for="inputName">앱 이름</label>
-	                  <input type="text" name="appName" class="form-control" id="inputName" aria-describedby="nameHelp" placeholder="앱이름">
+	                  <label for="inputAppName">앱 이름</label>
+	                  <input type="text" name="appName" class="form-control" id="inputAppName" aria-describedby="nameHelp" placeholder="앱이름">
 	                </div>
 	                <div class="col-md-6">
-	                  <label for="inputPackage">패키지명</label>
-	                  <input type="text" name="appPackage" class="form-control" id="inputPackage" aria-describedby="nameHelp" placeholder="패키지명">
+	                  <label for="inputAppPackage">패키지명</label>
+	                  <input type="text" name="appPackage" class="form-control" id="inputAppPackage" aria-describedby="nameHelp" placeholder="패키지명">
 	                </div>
 	              </div>
 	            </div>
 	            <div class="form-group">
-	              <label for="inputURL">URL</label>
-	              <input type="text" name="appURL" class="form-control" id="inputURL" aria-describedby="nameHelp" placeholder="URL">
+	              <label for="inputAppURL">URL</label>
+	              <input type="text" name="appURL" class="form-control" id="inputAppURL" aria-describedby="nameHelp" placeholder="URL">
 	            </div>
 	             <div class="form-group">
 	             	<label for="inputCompany">회사 선택</label>
@@ -231,11 +233,11 @@
                  	  </select>
 		         </div>
 	            <div class="form-group">
-	            <label for="inputImage">이미지 업로드</label>
+	            <label for="inputAppImage">이미지 업로드</label>
 	             <div class="filebox bs3-primary preview-image">
                       <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="inputImage">이미지찾기</label> 
-                    <input type="file" id="inputImage" name="appImage" class="upload-hidden" accept="image/*"> 
+                      <label for="inputAppImage">이미지찾기</label> 
+                    <input type="file" id="inputAppImage" name="appImage" class="upload-hidden" accept="image/*"> 
                   </div>
 	            </div>
 	          </form>
@@ -260,22 +262,26 @@
           </div>
           <div class="modal-body">
           	  <form id="modifyappform">
-          	  <input type="hidden" id="modifyID" value="temp" name="appID">
+          	  <input type="hidden" id="modifyAppID" value="temp" name="appID">
 	            <div class="form-group">
 	              <div class="form-row">
 	                <div class="col-md-6">
-	                  <label for="modifyName">앱 이름</label>
-	                  <input type="text" name="appName" class="form-control" id="modifyName" aria-describedby="nameHelp" placeholder="앱이름">
+	                  <label for="modifyAppName">앱 이름</label>
+	                  <input type="text" name="appName" class="form-control" id="modifyAppName" aria-describedby="nameHelp" placeholder="앱이름">
 	                </div>
 	                <div class="col-md-6">
-	                  <label for="modifyPackage">패키지명</label>
-	                  <input type="text" name="appPackage" class="form-control" id="modifyPackage" aria-describedby="nameHelp" placeholder="패키지명">
+	                  <label for="modifyAppPackage">패키지명</label>
+	                  <input type="text" name="appPackage" class="form-control" id="modifyAppPackage" aria-describedby="nameHelp" placeholder="패키지명">
 	                </div>
 	              </div>
 	            </div>
 	            <div class="form-group">
-	              <label for="modifyURL">URL</label>
-	              <input type="text" name="appURL" class="form-control" id="modifyURL" aria-describedby="nameHelp" placeholder="URL">
+	              <label for="appKey">고유키</label>
+	              <p id="appKey"></p>
+	            </div>
+	            <div class="form-group">
+	              <label for="modifyAppURL">URL</label>
+	              <input type="text" name="appURL" class="form-control" id="modifyAppURL" aria-describedby="nameHelp" placeholder="URL">
 	            </div>
 	             <div class="form-group">
 	             	<label for="modifyCompany">회사 선택</label>
@@ -286,20 +292,20 @@
                  	  </select>
 		         </div>
 	            <div class="form-group">
-	            <label for="modifyImage">이미지 업로드(부재시 기존이미지 사용)</label>
+	            <label for="modifyAppImage">이미지 업로드(부재시 기존이미지 사용)</label>
 	             <div class="filebox bs3-primary preview-image">
                       <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="modifyImage">이미지찾기</label> 
-                    <input type="file" id="modifyImage" name="appImage" class="upload-hidden" accept="image/*"> 
+                      <label for="modifyAppImage">이미지찾기</label> 
+                    <input type="file" id="modifyAppImage" name="appImage" class="upload-hidden" accept="image/*"> 
                   </div>
 	            </div>
 	            <div class="form-group">
 	              <label for="modifyEnable">활성여부</label><br>
 	              <label class="radio-inline">
-			     	 <input type="radio" id="modifyEnable" value="true" name="appEnable">활성
+			     	 <input type="radio" id="modifyAppEnable" value="true" name="appEnable">활성
 				  </label>
 				  <label class="radio-inline">
-				     <input type="radio" id="modifyDisable" value="false" name="appEnable">비활성
+				     <input type="radio" id="modifyAppDisable" value="false" name="appEnable">비활성
 				  </label>
 	            </div>
 	          </form>
@@ -311,7 +317,7 @@
         </div>
       </div>
     </div>
-    
+
      <!-- Bootstrap core JavaScript -->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/popper/popper.min.js"></script>
@@ -380,6 +386,27 @@
 		    });
 		});
 		 function registApp(){
+			 var inputAppName = $('#inputAppName'),
+			 inputAppPackage = $('#inputAppPackage'),
+			 inputAppURL = $('#inputAppURL'),
+			 inputAppImage = $('#inputAppImage');
+			 
+			 if (inputAppName.val().length == 0) {
+				 alert('앱 이름을 입력하세요.');
+				 return;
+			 }
+			 if (inputAppPackage.val().length == 0) {
+				 alert('패키지명을 입력하세요.');
+				 return;
+			 }
+			 if (inputAppURL.val().length == 0) {
+				 alert('URL을 입력하세요.');
+				 return;
+			 }
+			 if (inputAppImage.val().length == 0) {
+				 alert('이미지를 선택하세요.');
+				 return;
+			 }
 			$.ajax({
 				url:"/registapp",
 				type: "POST",
@@ -387,55 +414,90 @@
 				enctype: 'multipart/form-data',
 		        processData: false,
 		        contentType: false,
+		        dataType : "text",
 		        cache: false,
 		        success: function () {
 		        	location.reload();
 		        },
-		        error: function () {
+		        error:function(request,status,error){
+		        	alert(request.responseText);
 		        }
 			});
 		}
 		 function modifyApp(){
+			 var inputAppName = $('#modifyAppName'),
+			 inputAppPackage = $('#modifyAppPackage'),
+			 inputAppURL = $('#modifyAppURL');
+			 
+			 if (inputAppName.val().length == 0) {
+				 alert('앱 이름을 입력하세요.');
+				 return;
+			 }
+			 if (inputAppPackage.val().length == 0) {
+				 alert('패키지명을 입력하세요.');
+				 return;
+			 }
+			 if (inputAppURL.val().length == 0) {
+				 alert('URL을 입력하세요.');
+				 return;
+			 }
 				$.ajax({
 					url:"/modifyapp",
 					type: "POST",
 					data: new FormData($("#modifyappform")[0]),
 					enctype: 'multipart/form-data',
 			        processData: false,
+			        dataType : "text",
 			        contentType: false,
 			        cache: false,
 			        success: function () {
 			        	location.reload();
 			        },
-			        error: function () {
+			        error:function(request,status,error){
+			        	alert(request.responseText);
 			        }
 				})
 			 }
-		 function modifyModal(id){
+		 function modifyAppModal(id){
 				$.ajax({
 					url:"/getapp",
 					type: "POST",
 					data : {'appID':id},
 					dataType  : 'json',
 			        success: function (data) {
-			        	 $("#modifyName").val(data.appName);
-			        	 $("#modifyPackage").val(data.appPackage);
-			        	 $("#modifyURL").val(data.appURL);
+			        	 $("#modifyAppName").val(data.appName);
+			        	 $("#modifyAppPackage").val(data.appPackage);
+			        	 $("#appKey").text(data.appKey);
+			        	 $("#modifyAppURL").val(data.appURL);
 			        	 $("#modify_"+data.companyID).prop("selected", true);
 			           	 if(data.appEnable)
 			        	{
-			        		 $("#modifyEnable").prop("checked", true)
+			        		 $("#modifyAppEnable").prop("checked", true)
 			        	}
 			        	 else
 			        	{
-			        		 $("#modifyDisable").prop("checked", true)
+			        		 $("#modifyAppDisable").prop("checked", true)
 			        	}
-			        	 $("#modifyID").val(data.appID);
+			        	 $("#modifyAppID").val(data.appID);
 			        	 $("#modifyAppModal").modal('show');
 			        },
-			        error: function () {
+			        error:function(request,status,error){
+			        	alert(request.responseText);
 			        }
 				})
+			}
+		 function goToEvent(appID){
+			 var form = document.createElement('form');
+			 var objs;
+			 objs = document.createElement('input');
+			 objs.setAttribute('type', 'hidden');
+			 objs.setAttribute('name' , 'appID');
+			 objs.setAttribute('value', appID);
+			 form.appendChild(objs);
+			 form.setAttribute('method', 'post');
+			 form.setAttribute('action', "/managementappevent");
+			 document.body.appendChild(form);
+			 form.submit();
 			}
     </script>
   </body>

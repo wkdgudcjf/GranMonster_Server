@@ -2,6 +2,7 @@ package com.ronaldo.service;
 
 import java.util.List;
 
+import com.ronaldo.domain.AppEventVo;
 import com.ronaldo.domain.AppVo;
 import com.ronaldo.domain.BillingVo;
 import com.ronaldo.domain.CompanyVo;
@@ -23,8 +24,13 @@ public interface ApiService
 	public List<UserVo> getUserList();
 	public UserVo getUser(String userKey);
 	
-	public boolean registBilling(String name);
 	public List<BillingVo> getBillingList();
-	public boolean addBilling(String id,String appId,int coin,int money);
-	public boolean minusBilling(String id,String appId,int coin,int money);
+	public List<BillingVo> getUserBillingList(String userKey);
+	public List<BillingVo> getAppBillingList(String appID);
+	public boolean addBilling(String userKey,String appKey,int billingCoin,int billingMoney,int appEventKey);
+	public boolean minusBilling(String userKey,String appKey,int billingCoin,int appEventKey);
+	
+	public List<AppEventVo> getAppEventList(int appID);
+	public AppEventVo getAppEvent(int appEventID);
+	public boolean registAppEvent(int appID,String appEventContent,int appEventCoin,int appKey);
 }

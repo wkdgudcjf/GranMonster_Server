@@ -12,6 +12,7 @@
         <mapper resource="mapper/CompanyMapper.xml"/>
         <mapper resource="mapper/AppMapper.xml"/>
         <mapper resource="mapper/BillingMapper.xml"/>
+        <mapper resource="mapper/AppEventMapper.xml"/>
     </mappers>
     
 </configuration>

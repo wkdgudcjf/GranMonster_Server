@@ -8,14 +8,29 @@ public class BillingVo {
     private int appID;
     private int billingMoney;
     private int billingCoin;
-    private String userKey;
+    private int appEventKey;
     private String appName;
+    private String userKey;
+    private String appEventContent;
 	private Timestamp billingDateTime;
-	public int getBillingID() {
-		return billingID;
+
+	public int getAppEventKey() {
+		return appEventKey;
 	}
-	public void setBillingID(int billingID) {
-		this.billingID = billingID;
+	public void setAppEventKey(int appEventKey) {
+		this.appEventKey = appEventKey;
+	}
+	public String getAppEventContent() {
+		return appEventContent;
+	}
+	public void setAppEventContent(String appEventContent) {
+		this.appEventContent = appEventContent;
+	}
+	public String getUserKey() {
+		return userKey;
+	}
+	public void setUserKey(String userKey) {
+		this.userKey = userKey;
 	}
 	public int getUserID() {
 		return userID;
@@ -29,6 +44,13 @@ public class BillingVo {
 	public void setAppID(int appID) {
 		this.appID = appID;
 	}
+	public int getBillingID() {
+		return billingID;
+	}
+	public void setBillingID(int billingID) {
+		this.billingID = billingID;
+	}
+	
 	public int getBillingMoney() {
 		return billingMoney;
 	}
@@ -41,12 +63,7 @@ public class BillingVo {
 	public void setBillingCoin(int billingCoin) {
 		this.billingCoin = billingCoin;
 	}
-	public String getUserKey() {
-		return userKey;
-	}
-	public void setUserKey(String userKey) {
-		this.userKey = userKey;
-	}
+	
 	public String getAppName() {
 		return appName;
 	}

@@ -70,21 +70,21 @@
                 <tbody>
                 <c:forEach var="item" items="${userlist}">
                   <tr>
-				        <th>
+				        <td>
 				        <c:choose>
 						<c:when test="${item.userEnable==true}"> 
 						    <img src="/img/enable.png" style="max-width: 30px; max-height: 30px;"> 
 						</c:when> 
 						<c:otherwise> 
-						    <img src="/img/disable.png" style="max-width: 35px; max-height: 35px;"> 
+						    <img src="/img/disable.png" style="max-width: 30px; max-height: 30px;"> 
 						</c:otherwise> 
 						</c:choose>
-						</th>
-				         <th><a href="#" onclick="modifyModal(${item.userID});">${item.userKey}</a></th>
-				        <th>${item.userEmail}</th>
-				        <th>${item.userPassword}</th>
-				        <th>${item.userMoney}</th>
-				        <th>${item.userCoin}</th>
+						</td>
+				         <td><a href="#" onclick="modifyModal(${item.userID});">${item.userKey}</a></td>
+				        <td>${item.userEmail}</td>
+				        <td>${item.userPassword}</td>
+				        <td>${item.userMoney}</td>
+				        <td>${item.userCoin}</td>
 				    </tr>
 			    </c:forEach>
                 </tbody>
@@ -125,7 +125,6 @@
 		 $('#tableTime').text('Updated ' + d.getFullYear()+'/'+(d.getMonth() + 1)+'/'+d.getDate()+' '+d.getHours()
 				 +':'+d.getMinutes()+':'+d.getSeconds());
 		});
-		}
     </script>
   </body>
 

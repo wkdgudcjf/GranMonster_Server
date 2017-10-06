@@ -4,13 +4,17 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.ronaldo.domain.AppEventVo;
 import com.ronaldo.domain.AppVo;
 import com.ronaldo.domain.BillingVo;
 import com.ronaldo.domain.CompanyVo;
 import com.ronaldo.domain.UserVo;
 import com.ronaldo.mapper.BillingMapper;
+import com.ronaldo.mapper.AppEventMapper;
 import com.ronaldo.mapper.AppMapper;
 import com.ronaldo.mapper.CompanyMapper;
 import com.ronaldo.mapper.UserMapper;
@@ -28,7 +32,17 @@ public class ApiServiceImpl implements ApiService
 	
 	@Autowired
 	private BillingMapper billingMapper;
+	
+	@Autowired
+	private AppEventMapper appEventMapper;
 
+	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+	public PasswordEncoder getPasswordEncoder() {
+		return passwordEncoder;
+	}
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
 	@Override
 	public boolean registApp(String appName,int companyID,String appURL, String appImagePath,String appPackage) {
 		AppVo appVo = new AppVo();
@@ -37,8 +51,30 @@ public class ApiServiceImpl implements ApiService
 		appVo.setAppImagePath(appImagePath);
 		appVo.setAppURL(appURL);
 		appVo.setAppPackage(appPackage);
-		appMapper.registApp(appVo);
-		return true;
+		try
+		{
+			appMapper.registApp(appVo);
+			appVo.setAppKey(passwordEncoder.encode(String.valueOf(appVo.getAppID())));
+			appMapper.modifyAppKey(appVo);
+			AppEventVo appEventVo1 = new AppEventVo();
+			appEventVo1.setAppEventContent("충전");
+			appEventVo1.setAppEventKey(1);
+			appEventVo1.setAppID(appVo.getAppID());
+			appEventVo1.setAppEventCoin(0);
+			appEventMapper.registAppEvent(appEventVo1);
+			AppEventVo appEventVo2 = new AppEventVo();
+			appEventVo2.setAppEventContent("사용");
+			appEventVo2.setAppEventKey(2);
+			appEventVo2.setAppID(appVo.getAppID());
+			appEventVo2.setAppEventCoin(0);
+			appEventMapper.registAppEvent(appEventVo2);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 	@Override
 	public boolean modifyApp(int appID,String appName,int companyID,String appURL, String appImagePath,String appPackage,boolean appEnable)
@@ -51,12 +87,20 @@ public class ApiServiceImpl implements ApiService
 		appVo.setAppURL(appURL);
 		appVo.setAppPackage(appPackage);
 		appVo.setAppEnable(appEnable);
-		appMapper.updateApp(appVo);
-		return true;
+		try
+		{
+			appMapper.updateApp(appVo);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 	@Override
 	public AppVo getApp(int appID) {
-		return appMapper.getApp(appID);
+		return appMapper.getAppByID(appID);
 	}
 	@Override
 	public List<AppVo> getAppList() {
@@ -67,8 +111,16 @@ public class ApiServiceImpl implements ApiService
 	public boolean registCompany(String companyName) {
 		CompanyVo companyVo = new CompanyVo();
 		companyVo.setCompanyName(companyName);
-		companyMapper.registCompany(companyVo);
-		return true;
+		try
+		{
+			companyMapper.registCompany(companyVo);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 	@Override
 	public boolean modifyCompany(int companyID,String companyName,boolean companyEnable)
@@ -77,8 +129,16 @@ public class ApiServiceImpl implements ApiService
 		companyVo.setCompanyID(companyID);
 		companyVo.setCompanyName(companyName);
 		companyVo.setCompanyEnable(companyEnable);
-		companyMapper.updateCompany(companyVo);
-		return true;
+		try
+		{
+			companyMapper.updateCompany(companyVo);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 	@Override
 	public CompanyVo getCompany(int companyID) {
@@ -89,7 +149,6 @@ public class ApiServiceImpl implements ApiService
 		return companyMapper.getCompanyList();
 	}
 
-	
 	@Override
 	public boolean registUser(String userKey) {
 		UserVo userVo = new UserVo();
@@ -98,8 +157,16 @@ public class ApiServiceImpl implements ApiService
 		userVo.setUserPassword("none");
 		userVo.setUserMoney(0);
 		userVo.setUserCoin(0);
-		userMapper.registUser(userVo);
-		return true;
+		try
+		{
+			userMapper.registUser(userVo);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 	@Override
 	public List<UserVo> getUserList() {
@@ -111,24 +178,109 @@ public class ApiServiceImpl implements ApiService
 	}
 	
 	@Override
-	public boolean registBilling(String name) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	@Override
 	public List<BillingVo> getBillingList() {
-		// TODO Auto-generated method stub
-		return null;
+		return billingMapper.getBillingList();
 	}
 	@Override
-	public boolean addBilling(String id, String appId, int coin, int money) {
+	public boolean addBilling(String userKey, String appKey, int billingCoin, int billingMoney,int appEventKey) {
 		// TODO Auto-generated method stub
-		return false;
+		BillingVo billingVo = new BillingVo();
+		billingVo.setUserID(userMapper.getUser(userKey).getUserID());
+		billingVo.setAppID(appMapper.getAppByKey(appKey).getAppID());
+		billingVo.setBillingCoin(billingCoin);
+		billingVo.setBillingMoney(billingMoney);
+		billingVo.setAppEventKey(appEventKey);
+		try
+		{
+			billingMapper.addBilling(billingVo);
+			UserVo userVo = userMapper.getUser(userKey);
+			userVo.setUserCoin(userVo.getUserCoin() + billingCoin);
+			userVo.setUserMoney(userVo.getUserMoney() + billingMoney);
+			userMapper.updateUser(userVo);
+			//여기서 User Coin도 올려줌.
+			//event 분기해서 이벤트도 올려줌.
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	@Override
-	public boolean minusBilling(String id, String appId, int coin, int money) {
+	public boolean minusBilling(String userKey, String appKey, int billingCoin,int appEventKey) {
+		BillingVo billingVo = new BillingVo();
+		billingVo.setUserID(userMapper.getUser(userKey).getUserID());
+		billingVo.setAppID(appMapper.getAppByKey(appKey).getAppID());
+		billingVo.setBillingCoin(billingCoin);
+		billingVo.setAppEventKey(appEventKey);
+		try
+		{
+			billingMapper.minusBilling(billingVo);
+			UserVo userVo = userMapper.getUser(userKey);
+			userVo.setUserCoin(userVo.getUserCoin() - billingCoin);
+			userMapper.updateUser(userVo);
+			//여기서 User Coin도 내려줌.
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	@Override
+	public List<BillingVo> getUserBillingList(String userKey) {
+		return billingMapper.getUserBillingList(userMapper.getUser(userKey).getUserID());
+	}
+	@Override
+	public List<BillingVo> getAppBillingList(String appKey) {
+		return billingMapper.getAppBillingList(appMapper.getAppByKey(appKey).getAppID());
+	}
+	@Override
+	public List<AppEventVo> getAppEventList(int appID) {
+		return appEventMapper.getAppEventByAppID(appID);
+	}
+	@Override
+	public boolean registAppEvent(int appID, String appEventContent, int appEventCoin,int appKey) {
 		// TODO Auto-generated method stub
-		return false;
+		AppEventVo appEventVo = new AppEventVo();
+		appEventVo.setAppID(appID);
+		appEventVo.setAppEventContent(appEventContent);
+		appEventVo.setAppEventCoin(appEventCoin);
+		appEventVo.setAppEventKey(appKey);
+		try
+		{
+			appEventMapper.registAppEvent(appEventVo);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public AppEventVo getAppEvent(int appEventID) {
+		// TODO Auto-generated method stub
+		return appEventMapper.getAppEventByEventID(appEventID);
+	}
+	public boolean modifyAppEvent(int appEventID, String appEventContent, int appEventCoin, boolean appEventEnable) {
+		// TODO Auto-generated method stub
+		AppEventVo appEventVo = new AppEventVo();
+		appEventVo.setAppEventID(appEventID);
+		appEventVo.setAppEventContent(appEventContent);
+		appEventVo.setAppEventCoin(appEventCoin);
+		appEventVo.setAppEventEnable(appEventEnable);
+		try
+		{
+			appEventMapper.updateAppEvent(appEventVo);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

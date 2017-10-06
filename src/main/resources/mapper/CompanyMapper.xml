@@ -12,12 +12,12 @@
     <select id="getEnableCompanyList"  parameterType="boolean" resultType="CompanyVo">
         SELECT * FROM Company WHERE companyEnable = #{companyEnable}
     </select>
-    <select id="registCompany" parameterType="CompanyVo">
+    <insert id="registCompany" parameterType="CompanyVo">
        	INSERT INTO Company (companyName) VALUES (#{companyName})
-    </select>
-	<update id="deleteCompany" parameterType="int">
+    </insert>
+	<delete id="deleteCompany" parameterType="int">
        DELETE FROM Company WHERE companyID = #{companyID} 
-    </update>
+    </delete>
     <update id="updateCompany" parameterType="CompanyVo">
 		UPDATE Company
 		set companyName = #{companyName},companyEnable = #{companyEnable}

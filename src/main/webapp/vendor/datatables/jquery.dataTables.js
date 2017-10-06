@@ -4212,9 +4212,9 @@
 				_fnFilterComplete( settings, {
 					"sSearch": val,
 					"bRegex": previousSearch.bRegex,
-					"bSmart": previousSearch.bSmart ,
+					"bSmart": previousSearch.bSmart,
 					"bCaseInsensitive": previousSearch.bCaseInsensitive
-				} );
+				});
 	
 				// Need to redraw, without resorting
 				settings._iDisplayStart = 0;

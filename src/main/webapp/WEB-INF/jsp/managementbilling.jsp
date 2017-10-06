@@ -49,30 +49,33 @@
               <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>아이디</th>
-                    <th>회사명</th>
-                    <th>공란1</th>
-                    <th>공란2</th>
-                    <th>공란3</th>
+                    <th>유저 키</th>
+                    <th>앱 이름</th>
+                    <th>돈</th>
+                    <th>코인</th>
+                    <th>날짜</th>
+                    <th>타입</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>ID</th>
-                    <th>Company Name</th>
-                    <th>Temp1</th>
-                    <th>Temp2</th>
-                    <th>Temp3</th>
+                    <th>User Key</th>
+                    <th>App Name</th>
+                    <th>Money</th>
+                    <th>Coin</th>
+                    <th>Date</th>
+                    <th>Type</th>
                   </tr>
                 </tfoot>
                 <tbody>
                 <c:forEach var="item" items="${billinglist}">
                 <tr>
-			        <th>${item.companyID}</th>
-			        <th>${item.companyName}</th>
-			        <th>test</th>
-			        <th>test</th>
-			        <th>test</th>
+			        <td>${item.userKey}</td>
+			        <td>${item.appName}</td>
+			        <td>${item.billingMoney}</td>
+			        <td>${item.billingCoin}</td>
+			        <td>${item.billingDateTime}</td>
+			        <td>${item.billingEventContent}</td>
 			    </tr>
 			    </c:forEach>
                 </tbody>
@@ -113,7 +116,6 @@
 		 $('#tableTime').text('Updated ' + d.getFullYear()+'/'+(d.getMonth() + 1)+'/'+d.getDate()+' '+d.getHours()
 				 +':'+d.getMinutes()+':'+d.getSeconds());
 		});
-	}
     </script>
   </body>
 

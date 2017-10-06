@@ -16,35 +16,35 @@
                 Dashboard</span>
             </a>
           </li>
-          <li id="navi_app" class="nav-item" data-toggle="tooltip" data-placement="right" title="registapp">
+          <li id="navi_app" class="nav-item" data-toggle="tooltip" data-placement="right" title="managementapp">
             <a class="nav-link" href="/managementapp">
-              <i class="fa fa-fw fa-area-chart"></i>
+              <i class="fa fa-fw fa-cubes"></i>
               <span class="nav-link-text">
               	 앱 관리</span>
             </a>
           </li>
-          <li id="navi_company" class="nav-item" data-toggle="tooltip" data-placement="right" title="registcompany">
+          <li id="navi_company" class="nav-item" data-toggle="tooltip" data-placement="right" title="managementcompany">
             <a class="nav-link" href="/managementcompany">
-              <i class="fa fa-fw fa-table"></i>
+              <i class="fa fa-fw fa-building"></i>
               <span class="nav-link-text">
                  	회사 관리</span>
             </a>
           </li>
-           <li id="navi_user" class="nav-item" data-toggle="tooltip" data-placement="right" title="registcompany">
+           <li id="navi_user" class="nav-item" data-toggle="tooltip" data-placement="right" title="managementbilling">
             <a class="nav-link" href="/managementuser">
-              <i class="fa fa-fw fa-table"></i>
+              <i class="fa fa-fw fa-user-circle-o"></i>
               <span class="nav-link-text">
                  	회원 관리</span>
             </a>
           </li>
            <li id="navi_billing" class="nav-item" data-toggle="tooltip" data-placement="right" title="registcompany">
             <a class="nav-link" href="/managementbilling">
-              <i class="fa fa-fw fa-table"></i>
+              <i class="fa fa-fw fa-won"></i>
               <span class="nav-link-text">
                  	영수증 관리</span>
             </a>
           </li>
-          <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
+  <!--     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
             <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseMulti" data-parent="#exampleAccordion">
               <i class="fa fa-fw fa-sitemap"></i>
               <span class="nav-link-text">
@@ -70,6 +70,7 @@
               </li>
             </ul>
           </li>
+            -->
         </ul>
         <ul class="navbar-nav sidenav-toggler">
           <li class="nav-item">

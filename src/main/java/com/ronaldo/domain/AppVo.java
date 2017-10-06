@@ -4,7 +4,8 @@ import java.sql.Timestamp;
 
 public class AppVo {
     private int appID;
-    private String appName;
+    private String appKey;
+	private String appName;
 	private int companyID;
 	private String appURL;
 	private String appImagePath;
@@ -12,7 +13,12 @@ public class AppVo {
 	private String companyName;
 	private Timestamp appDateTime;
 	private boolean appEnable;
-	
+    public String getAppKey() {
+		return appKey;
+	}
+	public void setAppKey(String appKey) {
+		this.appKey = appKey;
+	}
 	public boolean isAppEnable() {
 		return appEnable;
 	}

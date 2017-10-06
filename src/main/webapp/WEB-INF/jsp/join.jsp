@@ -147,7 +147,7 @@
     </div>
     </div>
     <div class="form-group">
-    <label for="inputAgree" class="col-sm-2 control-label">약관 동의</label>
+    <label for="agree" class="col-sm-2 control-label">약관 동의</label>
     <div class="col-sm-6 checkbox">
       <label>
         <input id="agree" type="checkbox"> <a href="/agreement"> 이용약관</a>에 동의합니다.

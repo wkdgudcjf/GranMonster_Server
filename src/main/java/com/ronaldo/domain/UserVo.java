@@ -3,7 +3,7 @@ package com.ronaldo.domain;
 import java.sql.Timestamp;
 
 public class UserVo {
-    private String userID;
+    private int userID;
     private String userEmail;
     private String userKey;
     private String userPassword;
@@ -24,10 +24,10 @@ public class UserVo {
 	public void setUserDateTime(Timestamp userDateTime) {
 		this.userDateTime = userDateTime;
 	}
-	public String getUserID() {
+	public int getUserID() {
 		return userID;
 	}
-	public void setUserID(String userID) {
+	public void setUserID(int userID) {
 		this.userID = userID;
 	}
 	public String getUserEmail() {

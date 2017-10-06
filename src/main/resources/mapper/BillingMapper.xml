@@ -3,12 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.BillingMapper">
-
-    <select id="getUserList" resultType="BillingVo">
-        SELECT * FROM Billing
+    <select id="getBillingList"  resultType="BillingVo">
+        SELECT * FROM Billing natural join User natural join App
     </select>
+	
 	<insert id="registBilling" parameterType="BillingVo">
-      	INSERT INTO Billing (userID,userEmail,userKey,userPassword,userCoin,userMoney) 
-      	VALUES (#{userID},#{userEmail},#{userKey},#{userPassword},#{userCoin},#{userMoney})
+      	INSERT INTO Billing (userID,appID,billingMoney,billingCoin) 
+      	VALUES (#{userID},#{appID},#{billingMoney},#{billingCoin})
     </insert>
 </mapper>
