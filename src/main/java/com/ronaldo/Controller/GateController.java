@@ -35,6 +35,10 @@ public class GateController {
 	@RequestMapping(value={"/login"}, method = RequestMethod.POST)
     public String loginPost(Model model,@RequestParam("id") String id, @RequestParam("password") String password)
 	{
+		if(sessionWire.getId()!=null)
+		{
+			return setRedirectAdmin(model);
+		}
 		if(userService.isVaild(id,password))
 		{
 			sessionWire.setId(id);

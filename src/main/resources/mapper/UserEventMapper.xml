@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ronaldo.mapper.UserEventMapper">
+	<insert id="registAppEvent" parameterType="AppEventVo">
+       	INSERT INTO AppEvent 
+       	(appID,appEventContent,appEventKey,appEventCoin)
+       	VALUES
+       	(#{appID},#{appEventContent},#{appEventKey},#{appEventCoin})
+    </insert>
+    <update id="updateAppEvent" parameterType="CompanyVo">
+		UPDATE AppEvent
+		set appEventContent = #{appEventContent},appEventEnable = #{appEventEnable},appEventCoin = #{appEventCoin}
+		where appEventID = #{appEventID}
+    </update>
+    <select id="getAppEventList" resultType="AppEventVo">
+        SELECT * FROM AppEvent
+    </select>
+    
+    <select id="getAppEventByAppID" parameterType="int" resultType="AppEventVo">
+        SELECT * FROM AppEvent WHERE appID = #{appID} ORDER BY appEventKey ASC
+    </select>
+    <select id="getAppEventByEventID" parameterType="int" resultType="AppEventVo">
+        SELECT * FROM AppEvent WHERE appEventID = #{appEventID}
+    </select>
+</mapper>

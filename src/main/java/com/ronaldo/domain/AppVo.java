@@ -1,6 +1,7 @@
 package com.ronaldo.domain;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 public class AppVo {
     private int appID;
@@ -13,7 +14,15 @@ public class AppVo {
 	private String companyName;
 	private Timestamp appDateTime;
 	private boolean appEnable;
-    public String getAppKey() {
+	private List<AppEventVo> appEventList;
+	
+    public List<AppEventVo> getAppEventList() {
+		return appEventList;
+	}
+	public void setAppEventList(List<AppEventVo> appEventList) {
+		this.appEventList = appEventList;
+	}
+	public String getAppKey() {
 		return appKey;
 	}
 	public void setAppKey(String appKey) {

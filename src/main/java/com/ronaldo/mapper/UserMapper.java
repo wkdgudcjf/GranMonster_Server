@@ -13,4 +13,5 @@ public interface  UserMapper{
 	 public UserVo getUser(String userKey);
 	 public void deleteUser(int userID) throws Exception;
 	 public void updateUser(UserVo userVo) throws Exception;
+	 public UserVo getUserByUserID(int userID);
 }

@@ -6,6 +6,7 @@ import com.ronaldo.domain.AppEventVo;
 import com.ronaldo.domain.AppVo;
 import com.ronaldo.domain.BillingVo;
 import com.ronaldo.domain.CompanyVo;
+import com.ronaldo.domain.UserInAppVo;
 import com.ronaldo.domain.UserVo;
 
 public interface ApiService
@@ -21,8 +22,11 @@ public interface ApiService
 	public boolean modifyCompany(int companyID,String companyName,boolean companyEnable);
 	
 	public boolean registUser(String userKey);
+	public boolean registUserInApp(String userKey,String appKey);
 	public List<UserVo> getUserList();
 	public UserVo getUser(String userKey);
+	public UserVo getUser(int userID);
+	public List<UserInAppVo> getUserInAppByUserID(int userID);
 	
 	public List<BillingVo> getBillingList();
 	public List<BillingVo> getUserBillingList(String userKey);
@@ -32,5 +36,6 @@ public interface ApiService
 	
 	public List<AppEventVo> getAppEventList(int appID);
 	public AppEventVo getAppEvent(int appEventID);
-	public boolean registAppEvent(int appID,String appEventContent,int appEventCoin,int appKey);
+	public boolean registAppEvent(int appID,String appEventContent,int appEventCoin);
+	
 }

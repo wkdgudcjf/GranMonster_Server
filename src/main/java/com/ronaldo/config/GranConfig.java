@@ -5,7 +5,11 @@ public class GranConfig
 	public final static String RETURN_COMPANY_REGIST_SECCESS = "성공하였습니다.";
 	public final static String RETURN_COMPANY_MODIFY_SECCESS = "성공하였습니다.";
 	public final static String RETURN_COMPANY_FAIL = "이미 회사명이 존재합니다.";
+	
 	public final static String RETURN_APP_REGIST_SECCESS = "성공하였습니다.";
 	public final static String RETURN_APP_MODIFY_SECCESS = "성공하였습니다.";
 	public final static String RETURN_APP_FAIL = "실패하였습니다. 운영팀에 문의 주시기 바랍니다.";
+	
+	public final static String RETURN_USER_JOIN_SUCCESS = "회원가입에 성공하셨습니다.";
+	public final static String RETURN_USER_JOIN_FAIL = "이미 존재하는 아이디 입니다.";
 }

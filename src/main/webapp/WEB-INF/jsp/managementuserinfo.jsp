@@ -33,59 +33,50 @@
         <!-- Breadcrumbs -->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <h4>유저 관리</h4>
+            <h4>${user.userKey}</h4>
           </li>
-          <li class="breadcrumb-item active">Management User</li>
+          <li class="breadcrumb-item active">User Info</li>
         </ol>
         
         <!-- Tables -->
         <div class="card mb-3">
           <div class="card-header">
             <i class="fa fa-table"></i>
-            User List
+            User App List
           </div>
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
                 <thead>
                   <tr>
-                    <th>활성여부</th>
-                    <th>키</th>
-                    <th>이메일</th>
-                    <th>비밀번호</th>
-                    <th>돈</th>
-                    <th>캐쉬</th>
+                    <th>가입된 앱</th>
+                    <th>이벤트 내용</th>
+                    <th>보상</th>
+                    <th>달성 여부</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>Enable</th>
-                    <th>Key</th>
-                    <th>email</th>
-                    <th>password</th>
-                    <th>money</th>
-                    <th>cash</th>
+                    <th>App Name</th>
+                    <th>Event Content</th>
+                    <th>Coin</th>
+                    <th>Event Enable</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                <c:forEach var="item" items="${userlist}">
-                  <tr>
-				        <td>
-				        <c:choose>
-						<c:when test="${item.userEnable==true}"> 
-						    <img src="/img/enable.png" style="max-width: 30px; max-height: 30px;"> 
-						</c:when> 
-						<c:otherwise> 
-						    <img src="/img/disable.png" style="max-width: 30px; max-height: 30px;"> 
-						</c:otherwise> 
+                <c:forEach var="item" items="${userinapplist}">
+               		<c:forEach var="event" items="${item.appEventList}" varStatus="status">  
+              	     <tr>
+	              	    <c:choose>
+							<c:when test="${status.first==true}"> 
+							   	 <td rowspan="${item.appEventList.size()}">${item.appName}</td>
+							</c:when> 
 						</c:choose>
-						</td>
-				         <td><a href="#" onclick="goToUserInfo(${item.userID});">${item.userKey}</a></td>
-				        <td>${item.userEmail}</td>
-				        <td>${item.userPassword}</td>
-				        <td>${item.userMoney}</td>
-				        <td>${item.userCoin}</td>
-				    </tr>
+				        <td>${event.appEventContent}</td>
+				        <td>${event.appEventCoin}</td>
+				        <td>X</td>
+			         </tr>
+				    </c:forEach>
 			    </c:forEach>
                 </tbody>
               </table>

@@ -24,6 +24,7 @@ import com.ronaldo.config.SessionWire;
 import com.ronaldo.domain.AppEventVo;
 import com.ronaldo.domain.AppVo;
 import com.ronaldo.domain.CompanyVo;
+import com.ronaldo.domain.UserInAppVo;
 import com.ronaldo.service.AuthUserServiceImpl;
 import com.ronaldo.service.ApiServiceImpl;
 @Controller
@@ -69,6 +70,22 @@ public class AdminController
     		return setRedirectLogin(model);
 		}
     	return setManagementCompany(model);
+    }
+	@RequestMapping(value = "/managementappevent", method = RequestMethod.POST)
+    public String managementappevent(Model model,@RequestParam("appID") int appID) {
+		if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementAppEvent(model,appID);
+    }
+	@RequestMapping(value = "/managementuserinfo", method = RequestMethod.POST)
+    public String managementuserinfo(Model model,@RequestParam("userID") int userID) {
+		if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementUserInfo(model,userID);
     }
 	@RequestMapping(value = "/registapp", method = RequestMethod.POST)
     public ResponseEntity<String> registApp(@RequestParam("appPackage") String appPackage
@@ -140,19 +157,11 @@ public class AdminController
     public ResponseEntity<AppEventVo> getAppEvent(@RequestParam("appEventID") int appEventID) {
         return new ResponseEntity<>(apiService.getAppEvent(appEventID),HttpStatus.OK);
     }
-	@RequestMapping(value = "/managementappevent", method = RequestMethod.POST)
-    public String managementappevent(Model model,@RequestParam("appID") int appID) {
-		if(sessionWire.getId()==null)
-		{
-    		return setRedirectLogin(model);
-		}
-    	return setManagementAppEvent(model,appID);
-    }
 	@RequestMapping(value = "/registappevent", method = RequestMethod.POST)
-    public ResponseEntity<String> registappevent(@RequestParam("appKey") int appKey,@RequestParam("appID") int appID,
+    public ResponseEntity<String> registappevent(@RequestParam("appID") int appID,
     		@RequestParam("appEventContent") String appEventContent
     		, @RequestParam("appEventCoin") int appEventCoin) {
-        if(apiService.registAppEvent(appID,appEventContent,appEventCoin,appKey))
+        if(apiService.registAppEvent(appID,appEventContent,appEventCoin))
         {
             return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
         }
@@ -165,9 +174,9 @@ public class AdminController
     		@RequestParam("appEventEnable") boolean appEventEnable) {
 		if(apiService.modifyAppEvent(appEventID,appEventContent,appEventCoin,appEventEnable))
 		{
-			 return new ResponseEntity<>(GranConfig.RETURN_COMPANY_MODIFY_SECCESS,HttpStatus.OK);
+			 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
 		}
-        return new ResponseEntity<>(GranConfig.RETURN_COMPANY_FAIL,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
     }
 	@RequestMapping(value = "/registcompany", method = RequestMethod.POST)
     public ResponseEntity<String> registCompany(@RequestParam("companyName") String companyName) {
@@ -209,7 +218,6 @@ public class AdminController
     {
 		List<AppEventVo> list = apiService.getAppEventList(appID);
 		model.addAttribute("app",apiService.getApp(appID));
-		model.addAttribute("size",list.get(list.size()-1).getAppEventKey()+1);
     	model.addAttribute("eventList",list);
     	return "managementappevent";
     }
@@ -218,6 +226,18 @@ public class AdminController
     	model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
     	model.addAttribute("userlist",apiService.getUserList());
     	return "managementuser";
+    }
+	private String setManagementUserInfo(Model model,int userID)
+    {
+		List<UserInAppVo> userInAppList = apiService.getUserInAppByUserID(userID);
+		for(int i=0;i<userInAppList.size();i++)
+		{
+			List<AppEventVo> appEventList = apiService.getAppEventList(userInAppList.get(i).getAppID());
+			userInAppList.get(i).setAppEventList(appEventList);
+		}
+		model.addAttribute("user",apiService.getUser(userID));
+		model.addAttribute("userinapplist",userInAppList);
+    	return "managementuserinfo";
     }
 	private String setManagementBilling(Model model)
     {

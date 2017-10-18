@@ -12,11 +12,14 @@ import com.ronaldo.domain.AppEventVo;
 import com.ronaldo.domain.AppVo;
 import com.ronaldo.domain.BillingVo;
 import com.ronaldo.domain.CompanyVo;
+import com.ronaldo.domain.UserInAppVo;
 import com.ronaldo.domain.UserVo;
 import com.ronaldo.mapper.BillingMapper;
 import com.ronaldo.mapper.AppEventMapper;
 import com.ronaldo.mapper.AppMapper;
 import com.ronaldo.mapper.CompanyMapper;
+import com.ronaldo.mapper.UserEventMapper;
+import com.ronaldo.mapper.UserInAppMapper;
 import com.ronaldo.mapper.UserMapper;
 @Service
 public class ApiServiceImpl implements ApiService
@@ -35,6 +38,13 @@ public class ApiServiceImpl implements ApiService
 	
 	@Autowired
 	private AppEventMapper appEventMapper;
+	
+	@Autowired
+	private UserInAppMapper userInAppMapper;
+
+	@Autowired
+	private UserEventMapper userEventMapper;
+
 
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	public PasswordEncoder getPasswordEncoder() {
@@ -159,7 +169,7 @@ public class ApiServiceImpl implements ApiService
 		userVo.setUserCoin(0);
 		try
 		{
-			userMapper.registUser(userVo);
+			userMapper.registUser(userVo); // 회원가입.
 			return true;
 		}
 		catch(Exception e)
@@ -169,6 +179,34 @@ public class ApiServiceImpl implements ApiService
 		}
 	}
 	@Override
+	public boolean registUserInApp(String userKey,String appKey) {
+		try
+		{
+			UserInAppVo userInAppVo = new UserInAppVo();
+			userInAppVo.setAppID(appMapper.getAppByKey(appKey).getAppID());
+			userInAppVo.setUserID(userMapper.getUser(userKey).getUserID());
+			//여기서 그 유저가 이 앱에 로그인이 되어 있다면?
+			userInAppMapper.registUserInApp(userInAppVo);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public UserInAppVo getUserInApp(String userKey, String appKey) {
+		// TODO Auto-generated method stub
+		UserInAppVo userInAppVo = new UserInAppVo();
+		userInAppVo.setUserID(userMapper.getUser(userKey).getUserID());
+		userInAppVo.setAppID(appMapper.getAppByKey(appKey).getAppID());
+		return userInAppMapper.getUserInApp(userInAppVo);
+	}
+	public List<UserInAppVo> getUserInAppByUserID(int userID) {
+		// TODO Auto-generated method stub
+		return userInAppMapper.getUserInAppByUserID(userID);
+	}
+	@Override
 	public List<UserVo> getUserList() {
 		return userMapper.getUserList();
 	}
@@ -176,7 +214,10 @@ public class ApiServiceImpl implements ApiService
 	public UserVo getUser(String userKey) {
 		return userMapper.getUser(userKey);
 	}
-	
+	@Override
+	public UserVo getUser(int userID) {
+		return userMapper.getUserByUserID(userID);
+	}
 	@Override
 	public List<BillingVo> getBillingList() {
 		return billingMapper.getBillingList();
@@ -243,15 +284,16 @@ public class ApiServiceImpl implements ApiService
 		return appEventMapper.getAppEventByAppID(appID);
 	}
 	@Override
-	public boolean registAppEvent(int appID, String appEventContent, int appEventCoin,int appKey) {
+	public boolean registAppEvent(int appID, String appEventContent, int appEventCoin) {
 		// TODO Auto-generated method stub
 		AppEventVo appEventVo = new AppEventVo();
 		appEventVo.setAppID(appID);
 		appEventVo.setAppEventContent(appEventContent);
 		appEventVo.setAppEventCoin(appEventCoin);
-		appEventVo.setAppEventKey(appKey);
 		try
 		{
+			List<AppEventVo> list = getAppEventList(appID);
+			appEventVo.setAppEventKey(list.get(list.size()-1).getAppEventKey()+1);
 			appEventMapper.registAppEvent(appEventVo);
 			return true;
 		}
@@ -283,4 +325,5 @@ public class ApiServiceImpl implements ApiService
 			return false;
 		}
 	}
+	
 }

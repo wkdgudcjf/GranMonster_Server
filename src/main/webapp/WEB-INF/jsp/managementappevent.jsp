@@ -121,7 +121,6 @@
           <div class="modal-body">
           	  <form id="registappeventform">
           	  	<input type="hidden" id="appEventAppID" value="${app.appID}" name="appID">
-          	  	<input type="hidden" id="appEventAppKey" value="${size}" name="appKey">
 	            <div class="form-group">
 	              <label for="inputAppEventContent">내용</label>
 	              <input type="text" name="appEventContent" class="form-control" id="inputAppEventContent" aria-describedby="nameHelp" placeholder="이벤트 내용">   
