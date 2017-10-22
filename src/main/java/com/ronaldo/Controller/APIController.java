@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.simple.JSONObject;
@@ -14,6 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.ronaldo.config.GranConfig;
+import com.ronaldo.dao.AppDAO;
+import com.ronaldo.dao.AppListDAO;
+import com.ronaldo.dao.ReturnUserDAO;
+import com.ronaldo.dao.UserDAO;
 import com.ronaldo.domain.AppVo;
 import com.ronaldo.domain.UserVo;
 import com.ronaldo.service.ApiServiceImpl;
@@ -27,18 +33,26 @@ public class APIController {
 	JSONParser jsonParser = new JSONParser();
 	
     @RequestMapping(value = "/api/login", method = RequestMethod.POST)
-    public ResponseEntity<UserVo> login(@RequestBody String param){
+    public ResponseEntity<ReturnUserDAO> login(@RequestBody String param){
     	JSONObject jsonObject;
     	String userKey,appKey = null;
     	UserVo userVo = null;
-    	System.out.println(param);
+    	UserDAO userDAO = null;
+    	ReturnUserDAO returnUserDAO = null;
 		try {
 			jsonObject = (JSONObject) jsonParser.parse(param);
 			userKey = (String) jsonObject.get("userKey");
 			appKey = (String) jsonObject.get("appKey");
+			returnUserDAO = new ReturnUserDAO();
+			userDAO = new UserDAO();
 			// 로그인 이벤트가 켜져있다면 로그인 이벤트 코인 올려주고 이벤트 보상 처리.
 			// 로그인 횟수,연속로그인 처리는 추후에..
 			// 이것도 로그인 지네가 횟수나 뭐 연속로그인 새고 달성했을경우에 이벤트로만 보내주는게 맞는거 아닌지?..
+			if(apiService.getAppByKey(appKey)==null)
+			{
+				returnUserDAO.setState(GranConfig.RETURN_APP_KEY_FAIL);
+				return new ResponseEntity<>(returnUserDAO, HttpStatus.BAD_REQUEST);
+			}
 			userVo = apiService.getUser(userKey);
 			if(userVo == null) // 모든 앱에서 처음 가입이면.
 			{
@@ -46,11 +60,11 @@ public class APIController {
 				{
 					apiService.registUserInApp(userKey, appKey);
 					userVo = apiService.getUser(userKey);
-					return new ResponseEntity<>(userVo, HttpStatus.OK);
 				}
 				else
 				{
-					return new ResponseEntity<>(userVo, HttpStatus.BAD_REQUEST);
+					returnUserDAO.setState(GranConfig.RETURN_USER_LOGIN_FAIL);
+					return new ResponseEntity<>(returnUserDAO, HttpStatus.BAD_REQUEST);
 				}	
 			}
 			else
@@ -63,9 +77,14 @@ public class APIController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return new ResponseEntity<>(userVo, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(returnUserDAO, HttpStatus.BAD_REQUEST);
 		}
-        return new ResponseEntity<>(userVo, HttpStatus.OK);
+		userDAO.setUserCoin(userVo.getUserCoin());
+		userDAO.setUserEmail(userVo.getUserEmail());
+		userDAO.setUserMoney(userVo.getUserMoney());
+		returnUserDAO.setUserDAO(userDAO);
+		returnUserDAO.setState(GranConfig.RETURN_USER_LOGIN_SUCCESS);
+		return new ResponseEntity<>(returnUserDAO, HttpStatus.OK);
     }
     @RequestMapping(value = "/api/coinCharge", method = RequestMethod.POST)
     public ResponseEntity<String> coinCharge(@RequestParam("param") String param){
@@ -122,15 +141,23 @@ public class APIController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @RequestMapping(value = "/api/applist", method = RequestMethod.POST)
-    public ResponseEntity<List<AppVo>> applist(@RequestBody String param){
+    public ResponseEntity<AppListDAO> applist(@RequestBody String param){
     	JSONObject jsonObject;
-    	String userKey,appKey = null;
+    	String userKey = null,appKey = null;
     	List<AppVo> appList = null;
+    	List<AppDAO> returnAppList = null;
+    	AppListDAO appListDAO = null;
     	System.out.println(param);
 		try {
+			appListDAO = new AppListDAO();
 			jsonObject = (JSONObject) jsonParser.parse(param);
 			userKey = (String) jsonObject.get("userKey");
 			appKey = (String) jsonObject.get("appKey");
+			if(apiService.getAppByKey(appKey)==null)
+			{
+				appListDAO.setState(GranConfig.RETURN_APP_KEY_FAIL);
+				return new ResponseEntity<>(appListDAO, HttpStatus.BAD_REQUEST);
+			}
 			// 이벤트 리스트랑 유저가 이 앱의 이벤트 성공했는지 도전중인지에 대한 여부까지 같이 리턴해줘야 한다.
 			// 우선 다른 앱의 이벤트 성공/도전 여부는 생략하기로 한다. 아니면 각 앱에서 항상 최신 데이터를 보내줘야 하는데 그건 불가능하다.
 			// 유저가 다른 앱을 접속해야만 갱신이 되기 때문. 물론 파라미터로 다 기록하면 되지만 중간에 끼어든 이벤트
@@ -138,18 +165,29 @@ public class APIController {
 			// 만약 다 알고 싶으면 항상 서버에서 정해놓은 값(스코어,레벨,모은 돈....) 으로만 이벤트를 해야하며 물론 정해놓은 값들은 앱에서 갱신될때마다 서버에 보내줘야한다.
 			//apiService.minusBilling(userKey, appKey, Integer.parseInt(coin));
 			appList = apiService.getAppList();
+			returnAppList = new ArrayList<AppDAO>();
 			for(int i=0;i<appList.size();i++)
 			{
-				appList.get(i).setAppEventList(apiService.getAppEventList(appList.get(i).getAppID()));
+				AppDAO appDAO = new AppDAO();
+				appDAO.setAppImagePath(appList.get(i).getAppImagePath());
+				appDAO.setAppName(appList.get(i).getAppName());
+				appDAO.setAppPackage(appList.get(i).getAppPackage());
+				appDAO.setAppURL(appList.get(i).getAppURL());
+				// event 확인하기 (userKey로)
+				appDAO.setAppEventList(apiService.getAppEventList(appList.get(i).getAppID()));
+				returnAppList.add(appDAO);
 			}
+			appListDAO.setAppList(returnAppList);
 			// 이벤트 기한은 서버에서는 적용만하고 앱에서 노출x 처리하도록.
 			// 서버에서는 기한이 지나면 Disable 하는 코드 적용.
-			
+			appListDAO.setState(GranConfig.RETURN_APP_SUCCESS);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return new ResponseEntity<>(appList, HttpStatus.BAD_REQUEST);
+			appListDAO.setState(GranConfig.RETURN_APP_FAIL);
+			return new ResponseEntity<>(appListDAO, HttpStatus.BAD_REQUEST);
 		}
-        return new ResponseEntity<>(appList, HttpStatus.OK);
+		
+        return new ResponseEntity<>(appListDAO, HttpStatus.OK);
     }
 }

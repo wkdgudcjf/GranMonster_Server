@@ -112,6 +112,10 @@ public class ApiServiceImpl implements ApiService
 	public AppVo getApp(int appID) {
 		return appMapper.getAppByID(appID);
 	}
+	public AppVo getAppByKey(String appKey) {
+		return appMapper.getAppByKey(appKey);
+	}
+	
 	@Override
 	public List<AppVo> getAppList() {
 		return appMapper.getAppList();
