@@ -155,6 +155,7 @@ public class APIController {
 			appKey = (String) jsonObject.get("appKey");
 			if(apiService.getAppByKey(appKey)==null)
 			{
+				System.out.println("앱없다");
 				appListDAO.setState(GranConfig.RETURN_APP_KEY_FAIL);
 				return new ResponseEntity<>(appListDAO, HttpStatus.BAD_REQUEST);
 			}
@@ -176,6 +177,7 @@ public class APIController {
 				// event 확인하기 (userKey로)
 				appDAO.setAppEventList(apiService.getAppEventList(appList.get(i).getAppID()));
 				returnAppList.add(appDAO);
+				System.out.println("앱이름  : "+appDAO.getAppName());
 			}
 			appListDAO.setAppList(returnAppList);
 			// 이벤트 기한은 서버에서는 적용만하고 앱에서 노출x 처리하도록.
@@ -185,9 +187,10 @@ public class APIController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			appListDAO.setState(GranConfig.RETURN_APP_FAIL);
+			System.out.println("실패");
 			return new ResponseEntity<>(appListDAO, HttpStatus.BAD_REQUEST);
 		}
-		
+		System.out.println("보내줌" + returnAppList.size());
         return new ResponseEntity<>(appListDAO, HttpStatus.OK);
     }
 }
