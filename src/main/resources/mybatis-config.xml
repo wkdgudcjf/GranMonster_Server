@@ -11,6 +11,7 @@
         <mapper resource="mapper/AuthUserMapper.xml"/>
         <mapper resource="mapper/CompanyMapper.xml"/>
         <mapper resource="mapper/AppMapper.xml"/>
+        <mapper resource="mapper/ExchangeMapper.xml"/>
         <mapper resource="mapper/BillingMapper.xml"/>
         <mapper resource="mapper/AppEventMapper.xml"/>
         <mapper resource="mapper/UserEventMapper.xml"/>

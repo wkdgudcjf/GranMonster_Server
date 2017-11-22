@@ -40,7 +40,18 @@
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>jstl</artifactId>
 		</dependency>
-		
+		<dependency>
+		     <groupId>com.google.api-client</groupId>
+		     <artifactId>google-api-client</artifactId>
+		     <version>1.23.0</version>
+	   </dependency>
+	   <!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-androidpublisher -->
+		<dependency>
+		    <groupId>com.google.apis</groupId>
+		    <artifactId>google-api-services-androidpublisher</artifactId>
+		    <version>v2-rev47-1.23.0</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.mybatis.spring.boot/mybatis-spring-boot-starter -->
 		<dependency>
 		    <groupId>org.mybatis.spring.boot</groupId>

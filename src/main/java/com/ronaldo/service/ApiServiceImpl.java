@@ -1,6 +1,7 @@
 package com.ronaldo.service;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,12 @@ import com.ronaldo.domain.BillingVo;
 import com.ronaldo.domain.CompanyVo;
 import com.ronaldo.domain.UserInAppVo;
 import com.ronaldo.domain.UserVo;
+import com.ronaldo.domain.ExchangeVo;
 import com.ronaldo.mapper.BillingMapper;
 import com.ronaldo.mapper.AppEventMapper;
 import com.ronaldo.mapper.AppMapper;
 import com.ronaldo.mapper.CompanyMapper;
+import com.ronaldo.mapper.ExchangeMapper;
 import com.ronaldo.mapper.UserEventMapper;
 import com.ronaldo.mapper.UserInAppMapper;
 import com.ronaldo.mapper.UserMapper;
@@ -32,6 +35,9 @@ public class ApiServiceImpl implements ApiService
 	
 	@Autowired
 	private AppMapper appMapper;
+	
+	@Autowired
+	private ExchangeMapper exchangeMapper;
 	
 	@Autowired
 	private BillingMapper billingMapper;
@@ -66,7 +72,7 @@ public class ApiServiceImpl implements ApiService
 			appMapper.registApp(appVo);
 			appVo.setAppKey(passwordEncoder.encode(String.valueOf(appVo.getAppID())));
 			appMapper.modifyAppKey(appVo);
-			AppEventVo appEventVo1 = new AppEventVo();
+/*			AppEventVo appEventVo1 = new AppEventVo();
 			appEventVo1.setAppEventContent("충전");
 			appEventVo1.setAppEventKey(1);
 			appEventVo1.setAppID(appVo.getAppID());
@@ -77,7 +83,7 @@ public class ApiServiceImpl implements ApiService
 			appEventVo2.setAppEventKey(2);
 			appEventVo2.setAppID(appVo.getAppID());
 			appEventVo2.setAppEventCoin(0);
-			appEventMapper.registAppEvent(appEventVo2);
+			appEventMapper.registAppEvent(appEventVo2);*/
 			return true;
 		}
 		catch(Exception e)
@@ -120,7 +126,11 @@ public class ApiServiceImpl implements ApiService
 	public List<AppVo> getAppList() {
 		return appMapper.getAppList();
 	}
-	
+	@Override
+	public List<AppVo> getEnableAppList(boolean appEnable) {
+		// TODO Auto-generated method stub
+		return appMapper.getEnableAppList(appEnable);
+	}
 	@Override
 	public boolean registCompany(String companyName) {
 		CompanyVo companyVo = new CompanyVo();
@@ -227,20 +237,21 @@ public class ApiServiceImpl implements ApiService
 		return billingMapper.getBillingList();
 	}
 	@Override
-	public boolean addBilling(String userKey, String appKey, int billingCoin, int billingMoney,int appEventKey) {
+	public boolean addBilling(String userKey, String appKey, int billingCoin, int billingMoney,boolean billingType) {
 		// TODO Auto-generated method stub
 		BillingVo billingVo = new BillingVo();
 		billingVo.setUserID(userMapper.getUser(userKey).getUserID());
 		billingVo.setAppID(appMapper.getAppByKey(appKey).getAppID());
 		billingVo.setBillingCoin(billingCoin);
 		billingVo.setBillingMoney(billingMoney);
-		billingVo.setAppEventKey(appEventKey);
+		billingVo.setBillingType(billingType);
 		try
 		{
 			billingMapper.addBilling(billingVo);
 			UserVo userVo = userMapper.getUser(userKey);
 			userVo.setUserCoin(userVo.getUserCoin() + billingCoin);
 			userVo.setUserMoney(userVo.getUserMoney() + billingMoney);
+			userVo.setUserPayload("");
 			userMapper.updateUser(userVo);
 			//여기서 User Coin도 올려줌.
 			//event 분기해서 이벤트도 올려줌.
@@ -254,12 +265,12 @@ public class ApiServiceImpl implements ApiService
 	}
 
 	@Override
-	public boolean minusBilling(String userKey, String appKey, int billingCoin,int appEventKey) {
+	public boolean minusBilling(String userKey, String appKey, int billingCoin,boolean billingType) {
 		BillingVo billingVo = new BillingVo();
 		billingVo.setUserID(userMapper.getUser(userKey).getUserID());
 		billingVo.setAppID(appMapper.getAppByKey(appKey).getAppID());
 		billingVo.setBillingCoin(billingCoin);
-		billingVo.setAppEventKey(appEventKey);
+		billingVo.setBillingType(billingType);
 		try
 		{
 			billingMapper.minusBilling(billingVo);
@@ -296,8 +307,8 @@ public class ApiServiceImpl implements ApiService
 		appEventVo.setAppEventCoin(appEventCoin);
 		try
 		{
-			List<AppEventVo> list = getAppEventList(appID);
-			appEventVo.setAppEventKey(list.get(list.size()-1).getAppEventKey()+1);
+			//List<AppEventVo> list = getAppEventList(appID);
+			//appEventVo.setAppEventKey(list.get(list.size()-1).getAppEventKey()+1);
 			appEventMapper.registAppEvent(appEventVo);
 			return true;
 		}
@@ -329,5 +340,68 @@ public class ApiServiceImpl implements ApiService
 			return false;
 		}
 	}
+	public String setUserPayload(String appKey, String userKey) {
+		Date date = new Date();
+		String encode = appKey+userKey+date.toString();
+		String payload = passwordEncoder.encode(encode);
+		UserVo userVo = new UserVo();
+		userVo.setUserKey(userKey);
+		userVo.setUserPayload(payload);
+		try {
+			userMapper.updateUserPayload(userVo);
+		} catch (Exception e) {
+			payload = "fail";
+			e.printStackTrace();
+		}
+		return payload;
+	}
+	public String getUserPayload(String userKey) {
+		return userMapper.getUser(userKey).getUserPayload();
+	}
+	public List<ExchangeVo> getExchangeList() {
+		// TODO Auto-generated method stub
+		return exchangeMapper.getExchangeList();
+	}
+	public List<ExchangeVo> getEnableExchangeList(boolean exchangeEnable) {
+		// TODO Auto-generated method stub
+		return exchangeMapper.getEnableExchangeList(exchangeEnable);
+	}
+	public boolean modifyExchange(int exchangeID, int exchangeMoney, int exchangeCoin, boolean exchangeEnable) {
+		ExchangeVo exchangeVo = new ExchangeVo();
+		exchangeVo.setExchangeID(exchangeID);
+		exchangeVo.setExchangeMoney(exchangeMoney);
+		exchangeVo.setExchangeCoin(exchangeCoin);
+		exchangeVo.setExchangeEnable(exchangeEnable);
+		try
+		{
+			exchangeMapper.updateExchange(exchangeVo);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	public ExchangeVo getExchange(int exchangeID) {
+		// TODO Auto-generated method stub
+		return exchangeMapper.getExchange(exchangeID);
+	}
+	public boolean registExchange(int exchangeMoney, int exchangeCoin) {
+		ExchangeVo exchangeVo = new ExchangeVo();
+		exchangeVo.setExchangeMoney(exchangeMoney);
+		exchangeVo.setExchangeCoin(exchangeCoin);
+		try
+		{
+			exchangeMapper.registExchange(exchangeVo);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	
 }

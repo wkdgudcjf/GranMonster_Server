@@ -123,7 +123,7 @@
         <!-- 추가 -->
         <div class="row">
           <div class="col-xl-3 col-sm-4 mb-3">
-			   <Button type="button" class="btn btn-success" data-toggle="modal" data-target="#registAppModal">앱 등록</Button>
+			   <Button type="button" class="btn btn-success" data-toggle="modal" data-target="#registAppModal">앱 등록(Regist App)</Button>
           </div>
         </div>
         
@@ -135,7 +135,7 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
+              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0" style="table-layout:fixed;">
                 <thead>
                   <tr>
                     <th>활성여부</th>
@@ -174,7 +174,7 @@
 				         <td><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
 				         / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
 				        <td>${item.companyName}</td>
-				        <td>${item.appURL}</td>
+				        <td style="word-break:break-all;"><a href="${item.appURL}">${item.appURL}</a></td>
 				        <td>${item.appPackage}</td>
 				        <td>${item.appDateTime}</td>
 				        <td><img src="image/${item.appImagePath}"  style="max-width: 150px; max-height: 150px;"></td>

@@ -19,6 +19,12 @@
 		where userID = #{userID}
     </update>
     
+     <update id="updateUserPayload" parameterType="UserVo">
+		UPDATE User
+		set userPayload = #{userPayload}
+		where userKey = #{userKey}
+    </update>
+    
     <select id="getUser" parameterType="String" resultType="UserVo">
         SELECT * FROM User WHERE userKey = #{userKey} 
     </select>

@@ -33,15 +33,15 @@
         <!-- Breadcrumbs -->
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
-            <h4>회사 관리</h4>
+            <h4>그랑코인 관리</h4>
           </li>
-          <li class="breadcrumb-item active">Management Company</li>
+          <li class="breadcrumb-item active">Management Grancoin</li>
         </ol>
         
         <!-- 추가 -->
         <div class="row">
           <div class="col-xl-3 col-sm-4 mb-3">
-			   <Button type="button" class="btn btn-success" data-toggle="modal" data-target="#registCompanyModal">회사 등록(Regist Company)</Button>
+			   <Button type="button" class="btn btn-success" data-toggle="modal" data-target="#registExchangeModal">그랑코인 등록(Regist Grancoin)</Button>
           </div>
         </div>
         
@@ -49,7 +49,7 @@
         <div class="card mb-3">
           <div class="card-header">
             <i class="fa fa-table"></i>
-            Company List
+            Grancoin List
           </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -57,23 +57,25 @@
                 <thead>
                   <tr>
                     <th>활성여부</th>
-                    <th>회사명</th>
-                    <th>등록시간</th>
+                    <th>번호</th>
+                    <th>금액</th>
+                    <th>그랑코인</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
                     <th>Enable</th>
-                    <th>Company Name</th>
-                    <th>Date</th>
+                    <th>No</th>
+                    <th>Money</th>
+                    <th>Gran Coin</th>
                   </tr>
                 </tfoot>
                 <tbody>
-                <c:forEach var="item" items="${companylist}">
+                <c:forEach var="item" items="${exchangelist}">
                 <tr>
 			        <td>
 			        <c:choose>
-						<c:when test="${item.companyEnable==true}">
+						<c:when test="${item.exchangeEnable==true}">
 						    <img src="/img/enable.png" style="max-width: 30px; max-height: 30px;">
 						</c:when>
 						<c:otherwise>
@@ -81,8 +83,9 @@
 						</c:otherwise>
 					</c:choose>
 					</td>
-			        <td><a href="#" onclick="modifyCompanyModal(${item.companyID});">${item.companyName}</a></td>
-			        <td>${item.companyDateTime}</td>
+			        <td><a href="#" onclick="modifyExchangeModal(${item.exchangeID});">${item.exchangeID}</a></td>
+			        <td>${item.exchangeMoney}</td>
+			        <td>${item.exchangeCoin}</td>
 			    </tr>
 			    </c:forEach>
                 </tbody>
@@ -101,63 +104,71 @@
 	<jsp:include page="footer.jsp" flush="false"/>
     </div>
 	
-	 <!-- ModifyCompany Modal -->
-    <div class="modal fade" id="modifyCompanyModal" tabindex="-1" role="dialog" aria-labelledby="modifyCompanyModalLabel" aria-hidden="true">
+	 <!-- ModifyExchange Modal -->
+    <div class="modal fade" id="modifyExchangeModal" tabindex="-1" role="dialog" aria-labelledby="modifyExchangeModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="modifyCompanyModalLabel">Modify Company</h5>
+            <h5 class="modal-title" id="modifyExchangeModalLabel">Modify Exchange</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-          	  <form id="modifycompanyform">
-          	  <input type="hidden" id="modifyCompanyID" value="temp" name="companyID">
+          	  <form id="modifyexchangeform">
+          	  <input type="hidden" id="modifyExchangeID" value="temp" name="exchangeID">
 	            <div class="form-group">
-	              <label for="modifyCompanyName">회사명</label>
-	              <input type="text" name="companyName" class="form-control" id="modifyCompanyName" aria-describedby="nameHelp" placeholder="회사명">
+	              <label for="modifyExchangeMoney">금액</label>
+	              <input type="text" name="exchangeMoney" class="form-control" id="modifyExchangeMoney" aria-describedby="nameHelp" placeholder="금액">
+	            </div>
+	             <div class="form-group">
+	              <label for="modifyExchangeCoin">코인</label>
+	              <input type="text" name="exchangeCoin" class="form-control" id="modifyExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
 	            </div>
 	            <div class="form-group">
 	              <label for="modifyEnable">활성여부</label><br>
 	              <label class="radio-inline">
-			     	 <input type="radio" id="modifyCompanyEnable" value="true" name="companyEnable">활성
+			     	 <input type="radio" id="modifyExchangeEnable" value="true" name="exchangeEnable">활성
 				  </label>
 				  <label class="radio-inline">
-				     <input type="radio" id="modifyCompanyDisable" value="false" name="companyEnable">비활성
+				     <input type="radio" id="modifyExchangeDisable" value="false" name="exchangeEnable">비활성
 				  </label>
 	            </div>
 	          </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="#" onclick="modifyCompany();">수정하기</a>
+            <a class="btn btn-primary" href="#" onclick="modifyExchange();">수정하기</a>
           </div>
         </div>
       </div>
     </div>
     
 	 <!-- RegistCompany Modal -->
-    <div class="modal fade" id="registCompanyModal" tabindex="-1" role="dialog" aria-labelledby="registCompanyModalLabel" aria-hidden="true">
+    <div class="modal fade" id="registExchangeModal" tabindex="-1" role="dialog" aria-labelledby="registExchangeModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="registCompanyModalLabel">Regist Company</h5>
+            <h5 class="modal-title" id="registExchangeModalLabel">Regist Exchange</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-          	  <form id="registcompanyform">
-	            <div class="form-group">
-	              <label for="inputCompanyName">회사명</label>
-	              <input type="text" name="companyName" class="form-control" id="inputCompanyName" aria-describedby="nameHelp" placeholder="회사명">
-	            </div>
-	          </form>
+          	  <form id="registexchangeform">
+	          	  <div class="form-group">
+	            	<label for="inputExchangeName">금액</label>
+		            <input type="text" name="exchangeMoney" class="form-control" id="inputExchangeMoney" aria-describedby="nameHelp" placeholder="금액">
+		          </div>
+		           <div class="form-group">
+		            <label for="inputExchangeCoin">코인</label>
+		            <input type="text" name="exchangeCoin" class="form-control" id="inputExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
+		          </div>
+          	 </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="#" onclick="registCompany();">등록하기</a>
+            <a class="btn btn-primary" href="#" onclick="registExchange();">등록하기</a>
           </div>
         </div>
       </div>
@@ -181,21 +192,26 @@
 	<script type="text/javascript">
 		 $(document).ready(function(){
 			 var d = new Date();
-			 $('#navi_company').attr('class',"nav-item active");
+			 $('#navi_exchange').attr('class',"nav-item active");
 			 $('#tableTime').text('Updated ' + d.getFullYear()+'/'+(d.getMonth() + 1)+'/'+d.getDate()+' '+d.getHours()
 					 +':'+d.getMinutes()+':'+d.getSeconds());
 		});
 		
-		 function registCompany(){
-			 var inputCompanyName = $('#inputCompanyName');
-			 if (inputCompanyName.val().length == 0) {
-				 alert('회사 이름을 입력하세요.');
+		 function registExchange(){
+			 var inputExchangeMoney = $('#inputExchangeMoney');
+			 var inputExchangeCoin = $('#inputExchangeCoin');
+			 if (inputExchangeMoney.val().length == 0) {
+				 alert('금액을 입력하세요.');
+				 return;
+			 }
+			 if (inputExchangeCoin.val().length == 0) {
+				 alert('코인을 입력하세요.');
 				 return;
 			 }
 			$.ajax({
-				url:"/registcompany",
+				url:"/registexchange",
 				type: "POST",
-				data: new FormData($("#registcompanyform")[0]),
+				data: new FormData($("#registexchangeform")[0]),
 				enctype: 'multipart/form-data',
 				dataType : "text",
 		        processData: false,
@@ -209,16 +225,21 @@
 		        }
 			})
 		 }
-		 function modifyCompany(){
-			 var modifyCompanyName = $('#modifyCompanyName');
-			 if (modifyCompanyName.val().length == 0) {
-				 alert('회사 이름을 입력하세요.');
+		 function modifyExchange(){
+			 var modifyExchangeMoney = $('#modifyExchangeMoney');
+			 var modifyExchangeCoin = $('#modifyExchangeCoin');
+			 if (modifyExchangeMoney.val().length == 0) {
+				 alert('금액을 입력하세요.');
+				 return;
+			 }
+			 if (modifyExchangeCoin.val().length == 0) {
+				 alert('코인을 입력하세요.');
 				 return;
 			 }
 				$.ajax({
-					url:"/modifycompany",
+					url:"/modifyexchange",
 					type: "POST",
-					data: new FormData($("#modifycompanyform")[0]),
+					data: new FormData($("#modifyexchangeform")[0]),
 					enctype: 'multipart/form-data',
 			        processData: false,
 			        contentType: false,
@@ -232,24 +253,25 @@
 			        }
 				})
 			 }
-		 function modifyCompanyModal(id){
+		 function modifyExchangeModal(id){
 				$.ajax({
-					url:"/getcompany",
+					url:"/getexchange",
 					type: "POST",
-					data : {'companyID':id},
+					data : {'exchangeID':id},
 					dataType  : "json",
 			        success: function (data) {
-			        	 $("#modifyCompanyName").val(data.companyName);
-			        	 if(data.companyEnable)
+			        	 $("#modifyExchangeMoney").val(data.exchangeMoney);
+			        	 $('#modifyExchangeCoin').val(data.exchangeCoin)
+			        	 if(data.exchangeEnable)
 			        	{
-			        		 $("#modifyCompanyEnable").prop("checked", true)
+			        		 $("#modifyExchangeEnable").prop("checked", true)
 			        	}
 			        	 else
 			        	{
-			        		 $("#modifyCompanyDisable").prop("checked", true)
+			        		 $("#modifyExchangeDisable").prop("checked", true)
 			        	}
-			        	 $("#modifyCompanyID").val(data.companyID);
-			        	 $("#modifyCompanyModal").modal('show');
+			        	 $("#modifyExchangeID").val(data.exchangeID);
+			        	 $("#modifyExchangeModal").modal('show');
 			        },
 			        error:function(request,status,error){
 			        	alert(request.responseText);

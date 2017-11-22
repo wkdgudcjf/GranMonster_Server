@@ -44,7 +44,7 @@
         <!-- 추가 -->
         <div class="row">
           <div class="col-xl-3 col-sm-4 mb-3">
-			   <Button type="button" class="btn btn-success" data-toggle="modal" data-target="#registAppEventModal">이벤트 등록</Button>
+			   <Button type="button" class="btn btn-success" data-toggle="modal" data-target="#registAppEventModal">이벤트 등록(Regist Event)</Button>
           </div>
         </div>
         
@@ -258,10 +258,6 @@
 				})
 			 }
 		 function modifyAppEventModal(id,key){
-			 	if(key == 1 || key == 2) // 충전,사용은 건들지 못하게 함.
-			 	{
-			 		return;
-			 	}
 				$.ajax({
 					url:"/getappevent",
 					type: "POST",

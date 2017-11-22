@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ronaldo.config.SessionWire;
-import com.ronaldo.service.ApiServiceImpl;
 import com.ronaldo.service.AuthUserServiceImpl;
 
 @Controller
@@ -16,8 +15,6 @@ public class GateController {
 	
 	@Autowired
 	private AuthUserServiceImpl userService;
-	@Autowired
-	private ApiServiceImpl apiService;
 	@Autowired
 	SessionWire sessionWire;
 	@RequestMapping(value={"/agreement"}, method = RequestMethod.GET)

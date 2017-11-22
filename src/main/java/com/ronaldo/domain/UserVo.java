@@ -11,7 +11,7 @@ public class UserVo {
     private int userMoney;
     private Timestamp userDateTime;
     private boolean userEnable;
-    
+    private String userPayload;
 	public boolean isUserEnable() {
 		return userEnable;
 	}
@@ -60,4 +60,11 @@ public class UserVo {
 	public void setUserMoney(int userMoney) {
 		this.userMoney = userMoney;
 	}
+	public String getUserPayload() {
+		return userPayload;
+	}
+	public void setUserPayload(String userPayload) {
+		this.userPayload = userPayload;
+	}
+	
 }

@@ -51,8 +51,8 @@
                   <tr>
                     <th>유저 키</th>
                     <th>앱 이름</th>
-                    <th>돈</th>
-                    <th>코인</th>
+                    <th>금액</th>
+                    <th>그랑코인</th>
                     <th>날짜</th>
                     <th>타입</th>
                   </tr>
@@ -62,7 +62,7 @@
                     <th>User Key</th>
                     <th>App Name</th>
                     <th>Money</th>
-                    <th>Coin</th>
+                    <th>Gran Coin</th>
                     <th>Date</th>
                     <th>Type</th>
                   </tr>

@@ -79,9 +79,7 @@
 		 history.back();
 	 }
 	 $(function(){
-		 $('#openBtn').click(function(){
-				$('#myModal').modal({show:true})
-			});
+	             
 	     $('#particles').particleground({
 	         minSpeedX: 0.1,
 	         maxSpeedX: 0.7,
@@ -100,7 +98,6 @@
 	     });
 
 	 });
-	
     </script>
 </head>
 
@@ -180,19 +177,6 @@
        <button type="button" class="btn btn-success" onclick="previous()">이용약관 최종 확인</button>
       </form>
     </div>
-    <!-- <a href="#" class="btn" id="openBtn">EPCompany</a> -->
-    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">×</button>
-                <h3>Modal header</h3>
-        </div>
-        <div class="modal-body">
-            <p>EPCompany.</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" data-dismiss="modal">Close</button>
-        </div>
-    </div>  
   </section>
 </div>
 <div id="particles"></div>

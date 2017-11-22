@@ -24,6 +24,7 @@ import com.ronaldo.config.SessionWire;
 import com.ronaldo.domain.AppEventVo;
 import com.ronaldo.domain.AppVo;
 import com.ronaldo.domain.CompanyVo;
+import com.ronaldo.domain.ExchangeVo;
 import com.ronaldo.domain.UserInAppVo;
 import com.ronaldo.service.AuthUserServiceImpl;
 import com.ronaldo.service.ApiServiceImpl;
@@ -62,6 +63,14 @@ public class AdminController
     		return setRedirectLogin(model);
 		}
     	return setManagementBilling(model);
+    }
+	@RequestMapping(value = "/managementexchange", method = RequestMethod.GET)
+    public String managementgrancoin(Model model){
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementExchange(model);
     }
 	@RequestMapping(value = "/managementcompany", method = RequestMethod.GET)
     public String managementcompany(Model model){
@@ -178,6 +187,29 @@ public class AdminController
 		}
         return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
     }
+	@RequestMapping(value = "/registexchange", method = RequestMethod.POST)
+    public ResponseEntity<String> registExchange(@RequestParam("exchangeMoney") int exchangeMoney,
+    		@RequestParam("exchangeCoin") int exchangeCoin) {
+		if(apiService.registExchange(exchangeMoney,exchangeCoin))
+		{
+			 return new ResponseEntity<>(GranConfig.RETURN_COMPANY_REGIST_SECCESS,HttpStatus.OK);
+		}
+        return new ResponseEntity<>(GranConfig.RETURN_COMPANY_FAIL,HttpStatus.BAD_REQUEST);
+    }
+	@RequestMapping(value = "/modifyexchange", method = RequestMethod.POST)
+    public ResponseEntity<String> modifyExchange(@RequestParam("exchangeMoney") int exchangeMoney,
+    		@RequestParam("exchangeCoin") int exchangeCoin,
+    		@RequestParam("exchangeID") int exchangeID,@RequestParam("exchangeEnable") boolean exchangeEnable) {
+		if(apiService.modifyExchange(exchangeID,exchangeMoney,exchangeCoin,exchangeEnable))
+		{
+			 return new ResponseEntity<>(GranConfig.RETURN_COMPANY_MODIFY_SECCESS,HttpStatus.OK);
+		}
+        return new ResponseEntity<>(GranConfig.RETURN_COMPANY_FAIL,HttpStatus.BAD_REQUEST);
+    }
+	@RequestMapping(value = "/getexchange", method = RequestMethod.POST)
+    public ResponseEntity<ExchangeVo> getExchange(@RequestParam("exchangeID") int exchangeID) {
+        return new ResponseEntity<>(apiService.getExchange(exchangeID),HttpStatus.OK);
+    }
 	@RequestMapping(value = "/registcompany", method = RequestMethod.POST)
     public ResponseEntity<String> registCompany(@RequestParam("companyName") String companyName) {
 		if(apiService.registCompany(companyName))
@@ -199,6 +231,7 @@ public class AdminController
     public ResponseEntity<CompanyVo> getCompany(@RequestParam("companyID") int companyID) {
         return new ResponseEntity<>(apiService.getCompany(companyID),HttpStatus.OK);
     }
+	
 	private String setManagementApp(Model model)
     {
 		ArrayList<AppVo> appList = (ArrayList<AppVo>)apiService.getAppList();
@@ -244,6 +277,12 @@ public class AdminController
     	model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
     	model.addAttribute("billinglist",apiService.getBillingList());
     	return "managementbilling";
+    }
+	private String setManagementExchange(Model model)
+    {
+    	model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+    	model.addAttribute("exchangelist",apiService.getExchangeList());
+    	return "managementexchange";
     }
 	private String setRedirectLogin(Model model)
     {

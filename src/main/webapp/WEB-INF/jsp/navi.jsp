@@ -37,11 +37,18 @@
                  	회원 관리</span>
             </a>
           </li>
-           <li id="navi_billing" class="nav-item" data-toggle="tooltip" data-placement="right" title="registcompany">
+           <li id="navi_billing" class="nav-item" data-toggle="tooltip" data-placement="right" title="managementbilling">
             <a class="nav-link" href="/managementbilling">
               <i class="fa fa-fw fa-won"></i>
               <span class="nav-link-text">
                  	영수증 관리</span>
+            </a>
+          </li>
+          <li id="navi_grancoin" class="nav-item" data-toggle="tooltip" data-placement="right" title="managementexchange">
+            <a class="nav-link" href="/managementexchange">
+              <i class="fa fa-fw fa-credit-card"></i>
+              <span class="nav-link-text">
+                 	그랑코인 관리</span>
             </a>
           </li>
   <!--     <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Menu Levels">
