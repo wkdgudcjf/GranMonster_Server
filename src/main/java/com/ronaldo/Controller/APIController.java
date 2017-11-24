@@ -248,8 +248,10 @@ public class APIController {
 			
 			for (int i = 0; i < exchangeList.size(); i++) {
 				ExchangeDAO exchangeDAO = new ExchangeDAO();
-				exchangeDAO.setCoin(exchangeList.get(i).getExchangeCoin());
-				exchangeDAO.setPrice(exchangeList.get(i).getExchangeMoney());
+				exchangeDAO.setExchangeCoin(exchangeList.get(i).getExchangeCoin());
+				exchangeDAO.setExchangeMoney(exchangeList.get(i).getExchangeMoney());
+				exchangeDAO.setExchangeName(exchangeList.get(i).getExchangeName());
+				exchangeDAO.setExchangeImagePath(exchangeList.get(i).getExchangeImagePath());
 				returnExchangeList.add(exchangeDAO);
 			}
 			
@@ -292,7 +294,7 @@ public class APIController {
 				purchaseDAO.setState(GranConfig.RETURN_APP_KEY_FAIL);
 				return new ResponseEntity<>(purchaseDAO, HttpStatus.BAD_REQUEST);
 			}
-			String emailAddress = "temp";
+			String emailAddress = "test";
 
 			JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();

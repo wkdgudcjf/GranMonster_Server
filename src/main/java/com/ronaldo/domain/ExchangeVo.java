@@ -5,6 +5,8 @@ public class ExchangeVo {
     private int exchangeMoney;
     private int exchangeCoin;
     private boolean exchangeEnable;
+    private String exchangeName;
+    private String exchangeImagePath;
 	public int getExchangeID() {
 		return exchangeID;
 	}
@@ -28,6 +30,18 @@ public class ExchangeVo {
 	}
 	public void setExchangeEnable(boolean exchangeEnable) {
 		this.exchangeEnable = exchangeEnable;
+	}
+	public String getExchangeName() {
+		return exchangeName;
+	}
+	public void setExchangeName(String exchangeName) {
+		this.exchangeName = exchangeName;
+	}
+	public String getExchangeImagePath() {
+		return exchangeImagePath;
+	}
+	public void setExchangeImagePath(String exchangeImagePath) {
+		this.exchangeImagePath = exchangeImagePath;
 	}
     
 }

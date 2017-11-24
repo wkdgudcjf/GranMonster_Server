@@ -318,10 +318,12 @@ public class ApiServiceImpl implements ApiService
 			return false;
 		}
 	}
+	@Override
 	public AppEventVo getAppEvent(int appEventID) {
 		// TODO Auto-generated method stub
 		return appEventMapper.getAppEventByEventID(appEventID);
 	}
+	@Override
 	public boolean modifyAppEvent(int appEventID, String appEventContent, int appEventCoin, boolean appEventEnable) {
 		// TODO Auto-generated method stub
 		AppEventVo appEventVo = new AppEventVo();
@@ -340,6 +342,7 @@ public class ApiServiceImpl implements ApiService
 			return false;
 		}
 	}
+	@Override
 	public String setUserPayload(String appKey, String userKey) {
 		Date date = new Date();
 		String encode = appKey+userKey+date.toString();
@@ -355,23 +358,30 @@ public class ApiServiceImpl implements ApiService
 		}
 		return payload;
 	}
+	@Override
 	public String getUserPayload(String userKey) {
 		return userMapper.getUser(userKey).getUserPayload();
 	}
+	@Override
 	public List<ExchangeVo> getExchangeList() {
 		// TODO Auto-generated method stub
 		return exchangeMapper.getExchangeList();
 	}
+	@Override
 	public List<ExchangeVo> getEnableExchangeList(boolean exchangeEnable) {
 		// TODO Auto-generated method stub
 		return exchangeMapper.getEnableExchangeList(exchangeEnable);
 	}
-	public boolean modifyExchange(int exchangeID, int exchangeMoney, int exchangeCoin, boolean exchangeEnable) {
+	@Override
+	public boolean modifyExchange(int exchangeID, int exchangeMoney, int exchangeCoin, boolean exchangeEnable,
+			String exchangeName, String exchangeImagePath) {
 		ExchangeVo exchangeVo = new ExchangeVo();
 		exchangeVo.setExchangeID(exchangeID);
 		exchangeVo.setExchangeMoney(exchangeMoney);
 		exchangeVo.setExchangeCoin(exchangeCoin);
 		exchangeVo.setExchangeEnable(exchangeEnable);
+		exchangeVo.setExchangeName(exchangeName);
+		exchangeVo.setExchangeImagePath(exchangeImagePath);
 		try
 		{
 			exchangeMapper.updateExchange(exchangeVo);
@@ -387,10 +397,13 @@ public class ApiServiceImpl implements ApiService
 		// TODO Auto-generated method stub
 		return exchangeMapper.getExchange(exchangeID);
 	}
-	public boolean registExchange(int exchangeMoney, int exchangeCoin) {
+	@Override
+	public boolean registExchange(int exchangeMoney, int exchangeCoin, String exchangeName, String exchangeImagePath) {
 		ExchangeVo exchangeVo = new ExchangeVo();
 		exchangeVo.setExchangeMoney(exchangeMoney);
 		exchangeVo.setExchangeCoin(exchangeCoin);
+		exchangeVo.setExchangeName(exchangeName);
+		exchangeVo.setExchangeImagePath(exchangeImagePath);
 		try
 		{
 			exchangeMapper.registExchange(exchangeVo);
@@ -402,6 +415,4 @@ public class ApiServiceImpl implements ApiService
 			return false;
 		}
 	}
-	
-	
 }

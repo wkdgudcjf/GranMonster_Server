@@ -12,7 +12,7 @@
     <select id="getAppList" resultType="AppVo">
         SELECT * FROM App natural join Company
     </select>
-    <select id="getEnableAppList"  parameterType="boolean" resultType="CompanyVo">
+    <select id="getEnableAppList"  parameterType="boolean" resultType="AppVo">
         SELECT * FROM App natural join Company WHERE appEnable = #{appEnable}
     </select>
  	<insert id="registApp" parameterType="AppVo" useGeneratedKeys="true" keyProperty="appID">

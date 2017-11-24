@@ -104,7 +104,6 @@
 		    border-color: #2e6da4;
 		    margin-top: 8px;
 		}
-		p {word-break:break-all;}
 	 </style>
   </head>
 
@@ -177,7 +176,7 @@
 				        <td style="word-break:break-all;"><a href="${item.appURL}">${item.appURL}</a></td>
 				        <td>${item.appPackage}</td>
 				        <td>${item.appDateTime}</td>
-				        <td><img src="image/${item.appImagePath}"  style="max-width: 150px; max-height: 150px;"></td>
+				        <td><img src="image/app/${item.appImagePath}"  style="max-width: 150px; max-height: 150px;"></td>
 				    </tr>
 				    </c:forEach>
                 </tbody>

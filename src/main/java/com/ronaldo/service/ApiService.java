@@ -26,9 +26,11 @@ public interface ApiService
 	public boolean modifyCompany(int companyID,String companyName,boolean companyEnable);
 	
 	public List<ExchangeVo> getExchangeList();
-	public boolean modifyExchange(int exchangeID, int exchangeMoney, int exchangeCoin, boolean exchangeEnable);
+	boolean modifyExchange(int exchangeID, int exchangeMoney, int exchangeCoin, boolean exchangeEnable,
+			String exchangeName, String exchangeImagePath);
 	public ExchangeVo getExchange(int exchangeID);
-	public boolean registExchange(int exchangeMoney, int exchangeCoin);
+	boolean registExchange(int exchangeMoney, int exchangeCoin, String exchangeName, String exchangeImagePath);
+	public List<ExchangeVo> getEnableExchangeList(boolean exchangeEnable);
 	
 	public boolean registUser(String userKey);
 	public boolean registUserInApp(String userKey,String appKey);
@@ -46,5 +48,9 @@ public interface ApiService
 	public List<AppEventVo> getAppEventList(int appID);
 	public AppEventVo getAppEvent(int appEventID);
 	public boolean registAppEvent(int appID,String appEventContent,int appEventCoin);
+	boolean modifyAppEvent(int appEventID, String appEventContent, int appEventCoin, boolean appEventEnable);
+	
+	
+	
 	
 }

@@ -105,7 +105,7 @@ public class AdminController
         	 byte[] bytes = appImage.getBytes();
         	 String originalFileName = appImage.getOriginalFilename();
              String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-             Path path = Paths.get(context.getRealPath("image/") + appName+"_v1"+originalFileExtension);
+             Path path = Paths.get(context.getRealPath("image/app/") + appName+"_v1"+originalFileExtension);
              if(apiService.registApp(appName,companyID, appURL, appName+"_v1"+originalFileExtension, appPackage))
              {
                  Files.write(path, bytes);
@@ -144,7 +144,7 @@ public class AdminController
 			{
 				if(bytes.length != 0)
 				{
-					Path path = Paths.get(context.getRealPath("image/") + ImagePath);
+					Path path = Paths.get(context.getRealPath("image/app/") + ImagePath);
 				    Files.write(path, bytes);
 				}
 				return new ResponseEntity<>(GranConfig.RETURN_APP_MODIFY_SECCESS,HttpStatus.OK);
@@ -189,22 +189,66 @@ public class AdminController
     }
 	@RequestMapping(value = "/registexchange", method = RequestMethod.POST)
     public ResponseEntity<String> registExchange(@RequestParam("exchangeMoney") int exchangeMoney,
-    		@RequestParam("exchangeCoin") int exchangeCoin) {
-		if(apiService.registExchange(exchangeMoney,exchangeCoin))
-		{
-			 return new ResponseEntity<>(GranConfig.RETURN_COMPANY_REGIST_SECCESS,HttpStatus.OK);
-		}
-        return new ResponseEntity<>(GranConfig.RETURN_COMPANY_FAIL,HttpStatus.BAD_REQUEST);
+    		@RequestParam("exchangeCoin") int exchangeCoin,
+    		@RequestParam("exchangeName") String exchangeName,@RequestParam("exchangeImage") MultipartFile exchangeImage) {
+		 try {
+        	 // Get the file and save it uploads dir
+        	 byte[] bytes = exchangeImage.getBytes();
+        	 String originalFileName = exchangeImage.getOriginalFilename();
+             String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+             Path path = Paths.get(context.getRealPath("image/exchange/") + exchangeName+"_v1"+originalFileExtension);
+         
+             if(apiService.registExchange(exchangeMoney,exchangeCoin,exchangeName,exchangeName+"_v1"+originalFileExtension))
+             {
+                 Files.write(path, bytes);
+            	 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
+             }
+             else
+             {
+            	 return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+             }
+        } catch (Exception e) {
+        	e.printStackTrace();
+            return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+        }
     }
 	@RequestMapping(value = "/modifyexchange", method = RequestMethod.POST)
     public ResponseEntity<String> modifyExchange(@RequestParam("exchangeMoney") int exchangeMoney,
     		@RequestParam("exchangeCoin") int exchangeCoin,
+    		@RequestParam("exchangeName") String exchangeName,@RequestParam("exchangeImage") MultipartFile exchangeImage,
     		@RequestParam("exchangeID") int exchangeID,@RequestParam("exchangeEnable") boolean exchangeEnable) {
-		if(apiService.modifyExchange(exchangeID,exchangeMoney,exchangeCoin,exchangeEnable))
-		{
-			 return new ResponseEntity<>(GranConfig.RETURN_COMPANY_MODIFY_SECCESS,HttpStatus.OK);
-		}
-        return new ResponseEntity<>(GranConfig.RETURN_COMPANY_FAIL,HttpStatus.BAD_REQUEST);
+        try {
+       	 // Get the file and save it uploads dir
+			 String ImagePath = apiService.getExchange(exchangeID).getExchangeImagePath();
+			 byte[] bytes = exchangeImage.getBytes();
+			 if(bytes.length != 0)
+			 {
+				 String originalFileName = exchangeImage.getOriginalFilename();
+	             String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+				 StringTokenizer stk = new StringTokenizer(ImagePath,"_v");
+				 String str1 = stk.nextToken();
+				 String str2 = stk.nextToken();
+				 int ver = str2.charAt(0)-48;
+				 ver++;
+				 ImagePath = exchangeName+"_v"+ver+originalFileExtension;
+			 }
+			if(apiService.modifyExchange(exchangeID,exchangeMoney,exchangeCoin,exchangeEnable,exchangeName,ImagePath))
+			{
+				if(bytes.length != 0)
+				{
+					Path path = Paths.get(context.getRealPath("image/exchange/") + ImagePath);
+				    Files.write(path, bytes);
+				}
+				return new ResponseEntity<>(GranConfig.RETURN_APP_MODIFY_SECCESS,HttpStatus.OK);
+			}
+			else
+			{
+				return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+			}
+       } catch (Exception e) {
+    	   e.printStackTrace();
+           return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+       }
     }
 	@RequestMapping(value = "/getexchange", method = RequestMethod.POST)
     public ResponseEntity<ExchangeVo> getExchange(@RequestParam("exchangeID") int exchangeID) {

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.ExchangeMapper">
  	<select id="getExchange" parameterType="int" resultType="ExchangeVo">
-        SELECT * FROM Exchange WHERE exchangeID = #{exchangeID} 
+        SELECT * FROM Exchange WHERE exchangeID = #{exchangeID}
     </select>
     <select id="getExchangeList" resultType="ExchangeVo">
         SELECT * FROM Exchange
@@ -13,7 +13,8 @@
         SELECT * FROM Exchange WHERE exchangeEnable = #{exchangeEnable}
     </select>
     <insert id="registExchange" parameterType="ExchangeVo">
-       	INSERT INTO Exchange (exchangeMoney,exchangeCoin) VALUES (#{exchangeMoney},#{exchangeCoin})
+       	INSERT INTO Exchange (exchangeMoney,exchangeCoin,exchangeName,exchangeImagePath)
+       	VALUES (#{exchangeMoney},#{exchangeCoin},#{exchangeName},#{exchangeImagePath})
     </insert>
 	<delete id="deleteExchange" parameterType="int">
        DELETE FROM Exchange WHERE exchangeID = #{exchangeID} 
@@ -21,6 +22,7 @@
     <update id="updateExchange" parameterType="ExchangeVo">
 		UPDATE Exchange
 		set exchangeMoney = #{exchangeMoney},exchangeCoin = #{exchangeCoin},exchangeEnable = #{exchangeEnable}
+		,exchangeName = #{exchangeName},exchangeImagePath = #{exchangeImagePath}
 		where exchangeID = #{exchangeID}
     </update>
 </mapper>
