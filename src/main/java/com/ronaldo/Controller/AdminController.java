@@ -3,6 +3,7 @@ package com.ronaldo.Controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -168,9 +169,11 @@ public class AdminController
     }
 	@RequestMapping(value = "/registappevent", method = RequestMethod.POST)
     public ResponseEntity<String> registappevent(@RequestParam("appID") int appID,
-    		@RequestParam("appEventContent") String appEventContent
-    		, @RequestParam("appEventCoin") int appEventCoin) {
-        if(apiService.registAppEvent(appID,appEventContent,appEventCoin))
+    		@RequestParam("appEventContent") String appEventContent,@RequestParam("appEventKey") String appEventKey
+    		, @RequestParam("appEventCoin") int appEventCoin, @RequestParam("appEventStartTime") String appEventStartTime
+    		, @RequestParam("appEventEndTime") String appEventEndTime, @RequestParam("appEventLimit") int appEventLimit) {
+        if(apiService.registAppEvent(appID,appEventContent,appEventCoin,Timestamp.valueOf(appEventStartTime.replace("T"," ")),
+        		Timestamp.valueOf(appEventEndTime.replace("T"," ")),appEventKey,appEventLimit))
         {
             return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
         }
@@ -178,10 +181,12 @@ public class AdminController
     }
 	@RequestMapping(value = "/modifyappevent", method = RequestMethod.POST)
     public ResponseEntity<String> modifyappevent(@RequestParam("appEventID") int appEventID,
-    		@RequestParam("appEventContent") String appEventContent
-    		, @RequestParam("appEventCoin") int appEventCoin,
-    		@RequestParam("appEventEnable") boolean appEventEnable) {
-		if(apiService.modifyAppEvent(appEventID,appEventContent,appEventCoin,appEventEnable))
+    		@RequestParam("appEventContent") String appEventContent,@RequestParam("appEventKey") String appEventKey
+    		, @RequestParam("appEventCoin") int appEventCoin,@RequestParam("appEventEnable") boolean appEventEnable,
+    		 @RequestParam("appEventStartTime") String appEventStartTime, @RequestParam("appEventEndTime") String appEventEndTime
+    		 , @RequestParam("appEventLimit") int appEventLimit) {
+		if(apiService.modifyAppEvent(appEventID,appEventContent,appEventCoin,appEventEnable,Timestamp.valueOf(appEventStartTime.replace("T"," ")),
+        		Timestamp.valueOf(appEventEndTime.replace("T"," ")),appEventKey,appEventLimit))
 		{
 			 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
 		}
@@ -189,7 +194,7 @@ public class AdminController
     }
 	@RequestMapping(value = "/registexchange", method = RequestMethod.POST)
     public ResponseEntity<String> registExchange(@RequestParam("exchangeMoney") int exchangeMoney,
-    		@RequestParam("exchangeCoin") int exchangeCoin,
+    		@RequestParam("exchangeCoin") int exchangeCoin,@RequestParam("exchangeKey") String exchangeKey,
     		@RequestParam("exchangeName") String exchangeName,@RequestParam("exchangeImage") MultipartFile exchangeImage) {
 		 try {
         	 // Get the file and save it uploads dir
@@ -198,7 +203,7 @@ public class AdminController
              String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
              Path path = Paths.get(context.getRealPath("image/exchange/") + exchangeName+"_v1"+originalFileExtension);
          
-             if(apiService.registExchange(exchangeMoney,exchangeCoin,exchangeName,exchangeName+"_v1"+originalFileExtension))
+             if(apiService.registExchange(exchangeMoney,exchangeCoin,exchangeName,exchangeKey,exchangeName+"_v1"+originalFileExtension))
              {
                  Files.write(path, bytes);
             	 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
@@ -214,7 +219,7 @@ public class AdminController
     }
 	@RequestMapping(value = "/modifyexchange", method = RequestMethod.POST)
     public ResponseEntity<String> modifyExchange(@RequestParam("exchangeMoney") int exchangeMoney,
-    		@RequestParam("exchangeCoin") int exchangeCoin,
+    		@RequestParam("exchangeCoin") int exchangeCoin,@RequestParam("exchangeKey") String exchangeKey,
     		@RequestParam("exchangeName") String exchangeName,@RequestParam("exchangeImage") MultipartFile exchangeImage,
     		@RequestParam("exchangeID") int exchangeID,@RequestParam("exchangeEnable") boolean exchangeEnable) {
         try {
@@ -232,7 +237,7 @@ public class AdminController
 				 ver++;
 				 ImagePath = exchangeName+"_v"+ver+originalFileExtension;
 			 }
-			if(apiService.modifyExchange(exchangeID,exchangeMoney,exchangeCoin,exchangeEnable,exchangeName,ImagePath))
+			if(apiService.modifyExchange(exchangeID,exchangeMoney,exchangeCoin,exchangeEnable,exchangeName,exchangeKey,ImagePath))
 			{
 				if(bytes.length != 0)
 				{

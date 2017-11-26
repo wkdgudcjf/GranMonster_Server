@@ -5,6 +5,7 @@ public class ExchangeDAO {
 	private int exchangeCoin;
 	private String exchangeName;
 	private String exchangeImagePath;
+	private String exchangeKey;
 	public int getExchangeMoney() {
 		return exchangeMoney;
 	}
@@ -28,6 +29,12 @@ public class ExchangeDAO {
 	}
 	public void setExchangeImagePath(String exchangeImagePath) {
 		this.exchangeImagePath = exchangeImagePath;
+	}
+	public String getExchangeKey() {
+		return exchangeKey;
+	}
+	public void setExchangeKey(String exchangeKey) {
+		this.exchangeKey = exchangeKey;
 	}
 	
 }

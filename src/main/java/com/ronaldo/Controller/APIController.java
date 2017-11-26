@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.servlet.ServletContext;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +38,15 @@ import com.ronaldo.dao.ReturnUserDAO;
 import com.ronaldo.dao.UserDAO;
 import com.ronaldo.domain.AppVo;
 import com.ronaldo.domain.ExchangeVo;
+import com.ronaldo.domain.UserInAppVo;
 import com.ronaldo.domain.UserVo;
 import com.ronaldo.service.ApiServiceImpl;
 
 @RestController
 public class APIController {
-
+	
+	@Autowired
+	ServletContext context;
 	@Autowired
 	private ApiServiceImpl apiService;
 
@@ -155,8 +160,10 @@ public class APIController {
 		JSONObject jsonObject;
 		String userKey = null, appKey = null;
 		List<AppVo> appList = null;
+		List<UserInAppVo> userInAppList = null;
 		List<AppDAO> returnAppList = null;
 		AppListDAO appListDAO = null;
+		UserVo userVO = null;
 		try {
 			appListDAO = new AppListDAO();
 			jsonObject = (JSONObject) jsonParser.parse(param);
@@ -174,6 +181,8 @@ public class APIController {
 			// 갱신될때마다 서버에 보내줘야한다.
 			// apiService.minusBilling(userKey, appKey, Integer.parseInt(coin));
 			appList = apiService.getEnableAppList(true);
+			userVO = apiService.getUser(userKey);
+			userInAppList = apiService.getUserInAppByUserID(userVO.getUserID());
 			returnAppList = new ArrayList<AppDAO>();
 			for (int i = 0; i < appList.size(); i++) {
 				AppDAO appDAO = new AppDAO();
@@ -181,8 +190,17 @@ public class APIController {
 				appDAO.setAppName(appList.get(i).getAppName());
 				appDAO.setAppPackage(appList.get(i).getAppPackage());
 				appDAO.setAppURL(appList.get(i).getAppURL());
+				appDAO.setAppInstall(false);
 				// event 확인하기 (userKey로)
-				appDAO.setAppEventList(apiService.getAppEventList(appList.get(i).getAppID()));
+				appDAO.setAppEventList(apiService.getAppEventList(appList.get(i).getAppID())); // event 여부.
+				for(int j=0;j<userInAppList.size();j++)
+				{
+					if(userInAppList.get(j).getAppID()==appList.get(i).getAppID())
+					{
+						appDAO.setAppInstall(true); // 첫고객 판단
+						// 설치 여부는 패키지로 판단.
+					}
+				}
 				returnAppList.add(appDAO);
 			}
 			appListDAO.setAppList(returnAppList);
@@ -252,6 +270,7 @@ public class APIController {
 				exchangeDAO.setExchangeMoney(exchangeList.get(i).getExchangeMoney());
 				exchangeDAO.setExchangeName(exchangeList.get(i).getExchangeName());
 				exchangeDAO.setExchangeImagePath(exchangeList.get(i).getExchangeImagePath());
+				exchangeDAO.setExchangeKey(exchangeList.get(i).getExchangeKey());
 				returnExchangeList.add(exchangeDAO);
 			}
 			
@@ -269,7 +288,8 @@ public class APIController {
 	@RequestMapping(value = "/api/purchase", method = RequestMethod.POST)
 	public ResponseEntity<PurchaseDAO> purchase(@RequestBody String param) {
 		JSONObject jsonObject;
-		String userKey = null, appKey = null, coin = null, money = null, payload = null;
+		String userKey = null, appKey = null ,payload = null;
+		long coin,price;
 		String productId = null, purchaseToken = null;
 		PurchaseDAO purchaseDAO = null;
 		try {
@@ -277,8 +297,8 @@ public class APIController {
 			jsonObject = (JSONObject) jsonParser.parse(param);
 			userKey = (String) jsonObject.get("userKey");
 			appKey = (String) jsonObject.get("appKey");
-			coin = (String) jsonObject.get("coin");
-			money = (String) jsonObject.get("money");
+			coin = (long) jsonObject.get("coin");
+			price = (long) jsonObject.get("price");
 			payload = (String) jsonObject.get("payload");
 			productId = (String) jsonObject.get("productId");
 			purchaseToken = (String) jsonObject.get("purchaseToken");
@@ -294,13 +314,13 @@ public class APIController {
 				purchaseDAO.setState(GranConfig.RETURN_APP_KEY_FAIL);
 				return new ResponseEntity<>(purchaseDAO, HttpStatus.BAD_REQUEST);
 			}
-			String emailAddress = "test";
+		/*	String emailAddress = "gran-server-service@granmonster-185912.iam.gserviceaccount.com";
 
 			JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 			HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
 			GoogleCredential credential = new GoogleCredential.Builder().setTransport(httpTransport)
 					.setJsonFactory(JSON_FACTORY).setServiceAccountId(emailAddress)
-					.setServiceAccountPrivateKeyFromP12File(new File("granmonster-160fa837dc4c.p12"))
+					.setServiceAccountPrivateKeyFromP12File(new File(context.getRealPath("p12/granmonster-160fa837dc4c.p12")))
 					.setServiceAccountScopes(Collections.singleton("https://www.googleapis.com/auth/androidpublisher"))
 					.build();
 
@@ -316,17 +336,17 @@ public class APIController {
 
 			// 인앱 상품의 소비 상태. 0 아직 소비 안됨(Yet to be consumed) / 1 소비됨(Consumed)
 			Integer consumptionState = productPurchase.getConsumptionState();
-
+			System.out.println(consumptionState);
 			// 개발자가 지정한 임의 문자열 정보
 			String developerPayload = productPurchase.getDeveloperPayload();
-
+			System.out.println(developerPayload);
 			// 구매 상태. 0 구매완료 / 1 취소됨
 			Integer purchaseState = productPurchase.getPurchaseState();
-
+			System.out.println(purchaseState);
 			// 상품이 구매된 시각. 타임스탬프 형태
 			Long purchaseTimeMillis = productPurchase.getPurchaseTimeMillis();
-
-			apiService.addBilling(userKey, appKey, Integer.parseInt(coin), Integer.parseInt(money), true);
+			System.out.println(purchaseTimeMillis);*/
+			apiService.addBilling(userKey, appKey, (int)coin, (int)price, true);
 
 			purchaseDAO.setUserPayload(payload);
 			purchaseDAO.setState(GranConfig.RETURN_APP_SUCCESS);
@@ -341,6 +361,39 @@ public class APIController {
 
 	@RequestMapping(value = "/api/exhaust", method = RequestMethod.POST)
 	public ResponseEntity<ExhaustDAO> exhaust(@RequestParam("param") String param) {
+		ExhaustDAO exhaustDAO = null;
+		JSONObject jsonObject;
+		String userKey = null, appKey = null, coin = null, payload = null;
+		try {
+			exhaustDAO = new ExhaustDAO();
+			jsonObject = (JSONObject) jsonParser.parse(param);
+			userKey = (String) jsonObject.get("userKey");
+			appKey = (String) jsonObject.get("appKey");
+			coin = (String) jsonObject.get("coin");
+			payload = (String) jsonObject.get("payload");
+
+			String userpayload = apiService.getUserPayload(userKey);
+			if (!(userpayload.equals(payload))) {
+				exhaustDAO.setState(GranConfig.RETURN_APP_KEY_FAIL);
+				return new ResponseEntity<>(exhaustDAO, HttpStatus.BAD_REQUEST);
+			}
+			if (apiService.getAppByKey(appKey) == null) {
+				exhaustDAO.setState(GranConfig.RETURN_APP_KEY_FAIL);
+				return new ResponseEntity<>(exhaustDAO, HttpStatus.BAD_REQUEST);
+			}
+			apiService.minusBilling(userKey, appKey, Integer.parseInt(coin), false);
+			exhaustDAO.setState(GranConfig.RETURN_APP_SUCCESS);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			exhaustDAO.setState(GranConfig.RETURN_APP_FAIL);
+			return new ResponseEntity<>(exhaustDAO, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(exhaustDAO, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/api/event", method = RequestMethod.POST)
+	public ResponseEntity<ExhaustDAO> event(@RequestParam("param") String param) {
 		ExhaustDAO exhaustDAO = null;
 		JSONObject jsonObject;
 		String userKey = null, appKey = null, coin = null, payload = null;

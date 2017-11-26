@@ -139,6 +139,7 @@
                   <tr>
                     <th>활성여부</th>
                     <th>상품명</th>
+                    <th>상품키</th>
                     <th>금액</th>
                     <th>그랑코인</th>
                     <th>이미지</th>
@@ -148,6 +149,7 @@
                   <tr>
                     <th>Enable</th>
                     <th>Name</th>
+                    <th>Key</th>
                     <th>Money</th>
                     <th>Gran Coin</th>
                     <th>Image</th>
@@ -167,6 +169,7 @@
 					</c:choose>
 					</td>
 			        <td><a href="#" onclick="modifyExchangeModal(${item.exchangeID});">${item.exchangeName}</a></td>
+			        <td>${item.exchangeKey}</td>
 			        <td>${item.exchangeMoney}</td>
 			        <td>${item.exchangeCoin}</td>
 			        <td><img src="image/exchange/${item.exchangeImagePath}"  style="max-width: 150px; max-height: 150px;"></td>
@@ -204,6 +207,10 @@
           	 	<div class="form-group">
 	            	<label for="modifyExchangeName">상품명</label>
 		            <input type="text" name="exchangeName" class="form-control" id="modifyExchangeName" aria-describedby="nameHelp" placeholder="상품명">
+	           </div>
+	           	<div class="form-group">
+	            	<label for="modifyExchangeKey">상품키</label>
+		            <input type="text" name="exchangeKey" class="form-control" id="modifyExchangeKey" aria-describedby="nameHelp" placeholder="상품키">
 	           </div>
 	            <div class="form-group">
 	              <label for="modifyExchangeMoney">금액</label>
@@ -255,6 +262,10 @@
           	     <div class="form-group">
 	            	<label for="inputExchangeName">상품명</label>
 		            <input type="text" name="exchangeName" class="form-control" id="inputExchangeName" aria-describedby="nameHelp" placeholder="상품명">
+		          </div>
+		          <div class="form-group">
+	            	<label for="inputExchangeKey">상품키</label>
+		            <input type="text" name="exchangeKey" class="form-control" id="inputExchangeKey" aria-describedby="nameHelp" placeholder="상품키">
 		          </div>
 	          	  <div class="form-group">
 	            	<label for="inputExchangeMoney">금액</label>
@@ -354,6 +365,7 @@
 			 var inputExchangeMoney = $('#inputExchangeMoney'),
 			  inputExchangeCoin = $('#inputExchangeCoin'),
 			  inputExchangeName = $('#inputExchangeName'),
+			  inputExchangeKey = $('#inputExchangeKey'),
 			  inputExchangeImage = $('#inputExchangeImage');
 			 if (inputExchangeMoney.val().length == 0) {
 				 alert('금액을 입력하세요.');
@@ -369,6 +381,10 @@
 			 }
 			 if (inputExchangeImage.val().length == 0) {
 				 alert('이미지를 입력하세요.');
+				 return;
+			 }
+			 if (inputExchangeKey.val().length == 0) {
+				 alert('상품키를 입력하세요.');
 				 return;
 			 }
 			$.ajax({
@@ -392,6 +408,7 @@
 			 var modifyExchangeMoney = $('#modifyExchangeMoney');
 			  modifyExchangeCoin = $('#modifyExchangeCoin'),
 			  modifyExchangeName = $('#modifyExchangeName');
+			  modifyExchangeKey = $('#modifyExchangeKey');
 			 if (modifyExchangeMoney.val().length == 0) {
 				 alert('금액을 입력하세요.');
 				 return;
@@ -402,6 +419,10 @@
 			 }
 			 if (modifyExchangeName.val().length == 0) {
 				 alert('상품명을 입력하세요.');
+				 return;
+			 }
+			 if (modifyExchangeKey.val().length == 0) {
+				 alert('상품키을 입력하세요.');
 				 return;
 			 }
 				$.ajax({
@@ -431,6 +452,7 @@
 			        	 $("#modifyExchangeMoney").val(data.exchangeMoney);
 			        	 $('#modifyExchangeCoin').val(data.exchangeCoin);
 			        	 $('#modifyExchangeName').val(data.exchangeName);
+			        	 $('#modifyExchangeKey').val(data.exchangeName);
 			        	 if(data.exchangeEnable)
 			        	{
 			        		 $("#modifyExchangeEnable").prop("checked", true)

@@ -12,7 +12,6 @@
     <meta name="author" content="">
     
     <title>그랑몬스터</title>
-	
     <!-- Bootstrap core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -21,7 +20,7 @@
 
     <!-- Plugin CSS -->
     <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-
+    
     <!-- Custom styles for this template -->
     <link href="css/sb-admin.css" rel="stylesheet">
      <style type="text/css">
@@ -44,7 +43,7 @@
         <!-- 추가 -->
         <div class="row">
           <div class="col-xl-3 col-sm-4 mb-3">
-			   <Button type="button" class="btn btn-success" data-toggle="modal" data-target="#registAppEventModal">이벤트 등록(Regist Event)</Button>
+			   <Button type="button" class="btn btn-success" onclick="registAppEventModal()">이벤트 등록(Regist Event)</Button>
           </div>
         </div>
         
@@ -63,6 +62,9 @@
                     <th>이벤트키</th>
                     <th>내용</th>
                     <th>보상</th>
+                    <th>시작 시간</th>
+                    <th>종료 시간</th>
+                    <th>제한 인원수</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -71,6 +73,9 @@
                     <th>Event Key</th>
                     <th>Content</th>
                     <th>Coin</th>
+                    <th>StartTime</th>
+                    <th>EndTime</th>
+                    <th>Limit</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -86,10 +91,13 @@
 						</c:otherwise> 
 						</c:choose>
 						</td>
-				         <td><a href="#" onclick="modifyAppEventModal(${item.appEventID},${item.appEventKey});">${item.appEventKey}</a> 
+				         <td><a href="#" onclick="modifyAppEventModal(${item.appEventID});">${item.appEventKey}</a> 
 				        </td>
 				        <td>${item.appEventContent}</td>
 				        <td>${item.appEventCoin}</td>
+				        <td>${item.appEventStartTime}</td>
+				        <td>${item.appEventEndTime}</td>
+				        <td>${item.appEventLimit}</td>
 				    </tr>
 				    </c:forEach>
                 </tbody>
@@ -129,6 +137,22 @@
 	              <label for="inputAppEventCoin">보상코인</label>
 	              <input type="text" name="appEventCoin" class="form-control" id="inputAppEventCoin" aria-describedby="nameHelp" placeholder="보상 Coin">
 	            </div>
+	            <div class="form-group">
+	              <label for="inputAppEventKey">api 키</label>
+	              <input type="text" name="appEventKey" class="form-control" id="inputAppEventKey" aria-describedby="nameHelp" placeholder="api 키">
+	            </div>
+	            <div class="form-group">
+	              <label for="inputAppEventStartTime">시작 시점</label>
+	              <input type="datetime-local" name="appEventStartTime" class="form-control" id="inputAppEventStartTime" aria-describedby="nameHelp" placeholder="시작 시점">
+	            </div>
+	            <div class="form-group">
+	              <label for="inputAppEventEndTime">종료 시점</label>
+	              <input type="datetime-local" name="appEventEndTime" class="form-control" id="inputAppEventEndTime" aria-describedby="nameHelp" placeholder="종료 시점">
+	            </div>
+	            <div class="form-group">
+	              <label for="inputAppEventLimit">제한 인원수</label>
+	              <input type="text" name="appEventLimit" class="form-control" id="inputAppEventLimit" aria-describedby="nameHelp" placeholder="제한 인원수">
+	            </div>
 	            <!-- 이벤트 기간 , 인원수 추가 고려. -->
 	          </form>
           </div>
@@ -162,6 +186,22 @@
 	              <input type="text" name="appEventCoin" class="form-control" id="modifyAppEventCoin" aria-describedby="nameHelp" placeholder="보상 Coin">
 	            </div>
 	            <div class="form-group">
+	              <label for="modifyAppEventKey">api 키</label>
+	              <input type="text" name="appEventKey" class="form-control" id="modifyAppEventKey" aria-describedby="nameHelp" placeholder="api 키">
+	            </div>
+	            <div class="form-group">
+	              <label for="modifyAppEventStartTime">시작 시점</label>
+	              <input type="datetime-local" name="appEventStartTime" class="form-control" id="modifyAppEventStartTime" aria-describedby="nameHelp" placeholder="시작 시점">
+	            </div>
+	            <div class="form-group">
+	              <label for="modifyAppEventEndTime">종료 시점</label>
+	              <input type="datetime-local" name="appEventEndTime" class="form-control" id="modifyAppEventEndTime" aria-describedby="nameHelp" placeholder="종료 시점">
+	            </div>
+	            <div class="form-group">
+	              <label for="modifyAppEventLimit">제한 인원수</label>
+	              <input type="text" name="appEventLimit" class="form-control" id="modifyAppEventLimit" aria-describedby="nameHelp" placeholder="제한 인원수">
+	            </div>
+	            <div class="form-group">
 	              <label for="modifyAppEventEnable">활성여부</label><br>
 	              <label class="radio-inline">
 			     	 <input type="radio" id="modifyAppEventEnable" value="true" name="appEventEnable">활성
@@ -189,7 +229,7 @@
     <script src="vendor/chart.js/Chart.min.js"></script>
     <script src="vendor/datatables/jquery.dataTables.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-
+   
     <!-- Custom scripts for this template -->
     <script src="js/sb-admin.min.js"></script>
     
@@ -201,15 +241,25 @@
 			 $('#tableTime').text('Updated ' + d.getFullYear()+'/'+(d.getMonth() + 1)+'/'+d.getDate()+' '+d.getHours()
 					 +':'+d.getMinutes()+':'+d.getSeconds());
 		});
-		 function registAppEvent(){
+	 	function registAppEvent(){
 			 var inputAppEventContent = $('#inputAppEventContent'),
-			 inputAppEventCoin = $('#inputAppEventCoin');
+			 inputAppEventCoin = $('#inputAppEventCoin'),
+			 inputAppEventKey = $('#inputAppEventKey'),
+			 inputAppEventLimit = $('#inputAppEventLimit');
 			 if (inputAppEventContent.val().length == 0) {
 				 alert('이벤트 내용을 입력하세요.');
 				 return;
 			 }
 			 if (inputAppEventCoin.val().length == 0) {
 				 alert('보상을 입력하세요.');
+				 return;
+			 }
+			 if (inputAppEventKey.val().length == 0) {
+				 alert('키를 입력하세요.');
+				 return;
+			 }
+			 if (inputAppEventLimit.val().length == 0) {
+				 alert('인원수를 입력하세요.');
 				 return;
 			 }
 			$.ajax({
@@ -231,13 +281,23 @@
 		}
 		 function modifyAppEvent(){
 			 var modifyAppEventContent = $('#modifyAppEventContent'),
-			 modifyAppEventCoin = $('#modifyAppEventCoin');
+			 modifyAppEventCoin = $('#modifyAppEventCoin'),
+			 modifyAppEventKey = $('#modifyAppEventKey'),
+			 modifyAppEventLimit = $('#modifyAppEventLimit');
 			 if (modifyAppEventContent.val().length == 0) {
 				 alert('이벤트 내용을 입력하세요.');
 				 return;
 			 }
 			 if (modifyAppEventCoin.val().length == 0) {
 				 alert('보상을 입력하세요.');
+				 return;
+			 }
+			 if (modifyAppEventKey.val().length == 0) {
+				 alert('키를 입력하세요.');
+				 return;
+			 }
+			 if (modifyAppEventLimit.val().length == 0) {
+				 alert('인원수를 입력하세요.');
 				 return;
 			 }
 				$.ajax({
@@ -257,15 +317,32 @@
 			        }
 				})
 			 }
-		 function modifyAppEventModal(id,key){
+		 function registAppEventModal(){
+			 var date = new Date();
+			 var afterdate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
+			 $('#inputAppEventStartTime').val(afterdate.slice(0,19));
+			 $('#inputAppEventEndTime').val(afterdate.slice(0,19));
+			 document.getElementById("inputAppEventStartTime").min = afterdate.slice(0,19);
+			 document.getElementById("inputAppEventEndTime").min = afterdate.slice(0,19);
+			 $("#registAppEventModal").modal('show');
+		 }
+		 function modifyAppEventModal(id){
 				$.ajax({
 					url:"/getappevent",
 					type: "POST",
 					data : {'appEventID':id},
 					dataType  : 'json',
 			        success: function (data) {
+			        	 var startdate = new Date(data.appEventStartTime); 
+			        	 var enddate = new Date(data.appEventEndTime); 
+			        	 var afterstartdate = new Date(startdate.getTime() - (startdate.getTimezoneOffset() * 60000)).toJSON();
+			        	 var afterenddate = new Date(enddate.getTime() - (enddate.getTimezoneOffset() * 60000)).toJSON();
 			        	 $("#modifyAppEventContent").val(data.appEventContent);
 			        	 $("#modifyAppEventCoin").val(data.appEventCoin);
+			        	 $('#modifyAppEventStartTime').val(afterstartdate.slice(0,19));
+						 $('#modifyAppEventEndTime').val(afterenddate.slice(0,19));
+						 $('#modifyAppEventKey').val(data.appEventKey);
+						 $('#modifyAppEventLimit').val(data.appEventLimit);
 			           	 if(data.appEventEnable)
 			        	{
 			        		 $("#modifyAppEventEnable").prop("checked", true)

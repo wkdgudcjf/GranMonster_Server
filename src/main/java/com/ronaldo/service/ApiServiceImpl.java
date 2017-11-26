@@ -209,6 +209,7 @@ public class ApiServiceImpl implements ApiService
 			return false;
 		}
 	}
+	@Override
 	public UserInAppVo getUserInApp(String userKey, String appKey) {
 		// TODO Auto-generated method stub
 		UserInAppVo userInAppVo = new UserInAppVo();
@@ -216,6 +217,7 @@ public class ApiServiceImpl implements ApiService
 		userInAppVo.setAppID(appMapper.getAppByKey(appKey).getAppID());
 		return userInAppMapper.getUserInApp(userInAppVo);
 	}
+	@Override
 	public List<UserInAppVo> getUserInAppByUserID(int userID) {
 		// TODO Auto-generated method stub
 		return userInAppMapper.getUserInAppByUserID(userID);
@@ -299,16 +301,19 @@ public class ApiServiceImpl implements ApiService
 		return appEventMapper.getAppEventByAppID(appID);
 	}
 	@Override
-	public boolean registAppEvent(int appID, String appEventContent, int appEventCoin) {
+	public boolean registAppEvent(int appID, String appEventContent, int appEventCoin,
+			Timestamp appEventStartTime, Timestamp appEventEndTime, String appEventKey, int appEventLimit) {
 		// TODO Auto-generated method stub
 		AppEventVo appEventVo = new AppEventVo();
 		appEventVo.setAppID(appID);
 		appEventVo.setAppEventContent(appEventContent);
 		appEventVo.setAppEventCoin(appEventCoin);
+		appEventVo.setAppEventStartTime(appEventStartTime);
+		appEventVo.setAppEventEndTime(appEventEndTime);
+		appEventVo.setAppEventKey(appEventKey);
+		appEventVo.setAppEventLimit(appEventLimit);
 		try
 		{
-			//List<AppEventVo> list = getAppEventList(appID);
-			//appEventVo.setAppEventKey(list.get(list.size()-1).getAppEventKey()+1);
 			appEventMapper.registAppEvent(appEventVo);
 			return true;
 		}
@@ -324,13 +329,18 @@ public class ApiServiceImpl implements ApiService
 		return appEventMapper.getAppEventByEventID(appEventID);
 	}
 	@Override
-	public boolean modifyAppEvent(int appEventID, String appEventContent, int appEventCoin, boolean appEventEnable) {
+	public boolean modifyAppEvent(int appEventID, String appEventContent, int appEventCoin, boolean appEventEnable,
+			Timestamp appEventStartTime, Timestamp appEventEndTime, String appEventKey, int appEventLimit) {
 		// TODO Auto-generated method stub
 		AppEventVo appEventVo = new AppEventVo();
 		appEventVo.setAppEventID(appEventID);
 		appEventVo.setAppEventContent(appEventContent);
 		appEventVo.setAppEventCoin(appEventCoin);
 		appEventVo.setAppEventEnable(appEventEnable);
+		appEventVo.setAppEventStartTime(appEventStartTime);
+		appEventVo.setAppEventEndTime(appEventEndTime);
+		appEventVo.setAppEventKey(appEventKey);
+		appEventVo.setAppEventLimit(appEventLimit);
 		try
 		{
 			appEventMapper.updateAppEvent(appEventVo);
@@ -374,7 +384,7 @@ public class ApiServiceImpl implements ApiService
 	}
 	@Override
 	public boolean modifyExchange(int exchangeID, int exchangeMoney, int exchangeCoin, boolean exchangeEnable,
-			String exchangeName, String exchangeImagePath) {
+			String exchangeName,String exchangeKey, String exchangeImagePath) {
 		ExchangeVo exchangeVo = new ExchangeVo();
 		exchangeVo.setExchangeID(exchangeID);
 		exchangeVo.setExchangeMoney(exchangeMoney);
@@ -382,6 +392,7 @@ public class ApiServiceImpl implements ApiService
 		exchangeVo.setExchangeEnable(exchangeEnable);
 		exchangeVo.setExchangeName(exchangeName);
 		exchangeVo.setExchangeImagePath(exchangeImagePath);
+		exchangeVo.setExchangeKey(exchangeKey);
 		try
 		{
 			exchangeMapper.updateExchange(exchangeVo);
@@ -393,17 +404,19 @@ public class ApiServiceImpl implements ApiService
 			return false;
 		}
 	}
+	@Override
 	public ExchangeVo getExchange(int exchangeID) {
 		// TODO Auto-generated method stub
 		return exchangeMapper.getExchange(exchangeID);
 	}
 	@Override
-	public boolean registExchange(int exchangeMoney, int exchangeCoin, String exchangeName, String exchangeImagePath) {
+	public boolean registExchange(int exchangeMoney, int exchangeCoin, String exchangeName, String exchangeKey, String exchangeImagePath) {
 		ExchangeVo exchangeVo = new ExchangeVo();
 		exchangeVo.setExchangeMoney(exchangeMoney);
 		exchangeVo.setExchangeCoin(exchangeCoin);
 		exchangeVo.setExchangeName(exchangeName);
 		exchangeVo.setExchangeImagePath(exchangeImagePath);
+		exchangeVo.setExchangeKey(exchangeKey);
 		try
 		{
 			exchangeMapper.registExchange(exchangeVo);

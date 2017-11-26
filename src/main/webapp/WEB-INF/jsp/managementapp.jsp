@@ -135,6 +135,15 @@
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0" style="table-layout:fixed;">
+              	<colgroup>
+					<col style="width:10%;">
+					<col style="width:15%;">
+					<col style="width:15%;">
+					<col style="width:20%;">
+					<col style="width:10%;">
+					<col style="width:15%;">
+					<col style="width:15%;">
+				</colgroup>
                 <thead>
                   <tr>
                     <th>활성여부</th>
@@ -173,10 +182,10 @@
 				         <td><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
 				         / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
 				        <td>${item.companyName}</td>
-				        <td style="word-break:break-all;"><a href="${item.appURL}">${item.appURL}</a></td>
+				        <td><a href="${item.appURL}">${item.appURL}</a></td>
 				        <td>${item.appPackage}</td>
 				        <td>${item.appDateTime}</td>
-				        <td><img src="image/app/${item.appImagePath}"  style="max-width: 150px; max-height: 150px;"></td>
+				        <td><img src="image/app/${item.appImagePath}"  style="max-width: 200px; max-height: 200px;"></td>
 				    </tr>
 				    </c:forEach>
                 </tbody>

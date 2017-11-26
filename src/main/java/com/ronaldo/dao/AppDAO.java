@@ -10,6 +10,7 @@ public class AppDAO {
 	private String appURL;
 	private String appImagePath;
 	private String appPackage;
+	private boolean appInstall;
 	private List<AppEventVo> appEventList;
 	public String getAppName() {
 		return appName;
@@ -34,6 +35,13 @@ public class AppDAO {
 	}
 	public void setAppPackage(String appPackage) {
 		this.appPackage = appPackage;
+	}
+	
+	public boolean isAppInstall() {
+		return appInstall;
+	}
+	public void setAppInstall(boolean appInstall) {
+		this.appInstall = appInstall;
 	}
 	public List<AppEventVo> getAppEventList() {
 		return appEventList;

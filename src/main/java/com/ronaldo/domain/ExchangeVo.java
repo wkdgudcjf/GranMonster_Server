@@ -7,6 +7,7 @@ public class ExchangeVo {
     private boolean exchangeEnable;
     private String exchangeName;
     private String exchangeImagePath;
+    private String exchangeKey;
 	public int getExchangeID() {
 		return exchangeID;
 	}
@@ -42,6 +43,12 @@ public class ExchangeVo {
 	}
 	public void setExchangeImagePath(String exchangeImagePath) {
 		this.exchangeImagePath = exchangeImagePath;
+	}
+	public String getExchangeKey() {
+		return exchangeKey;
+	}
+	public void setExchangeKey(String exchangeKey) {
+		this.exchangeKey = exchangeKey;
 	}
     
 }

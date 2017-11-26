@@ -1,5 +1,6 @@
 package com.ronaldo.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import com.ronaldo.domain.AppEventVo;
@@ -27,9 +28,9 @@ public interface ApiService
 	
 	public List<ExchangeVo> getExchangeList();
 	boolean modifyExchange(int exchangeID, int exchangeMoney, int exchangeCoin, boolean exchangeEnable,
-			String exchangeName, String exchangeImagePath);
+			String exchangeName,String exchangeKey, String exchangeImagePath);
 	public ExchangeVo getExchange(int exchangeID);
-	boolean registExchange(int exchangeMoney, int exchangeCoin, String exchangeName, String exchangeImagePath);
+	boolean registExchange(int exchangeMoney, int exchangeCoin, String exchangeName,String exchangeKey, String exchangeImagePath);
 	public List<ExchangeVo> getEnableExchangeList(boolean exchangeEnable);
 	
 	public boolean registUser(String userKey);
@@ -38,6 +39,7 @@ public interface ApiService
 	public UserVo getUser(String userKey);
 	public UserVo getUser(int userID);
 	public List<UserInAppVo> getUserInAppByUserID(int userID);
+	public UserInAppVo getUserInApp(String userKey, String appKey);
 	
 	public List<BillingVo> getBillingList();
 	public List<BillingVo> getUserBillingList(String userKey);
@@ -47,10 +49,6 @@ public interface ApiService
 	
 	public List<AppEventVo> getAppEventList(int appID);
 	public AppEventVo getAppEvent(int appEventID);
-	public boolean registAppEvent(int appID,String appEventContent,int appEventCoin);
-	boolean modifyAppEvent(int appEventID, String appEventContent, int appEventCoin, boolean appEventEnable);
-	
-	
-	
-	
+	public boolean registAppEvent(int appID,String appEventContent,int appEventCoin, Timestamp appEventStartTime, Timestamp appEventEndTime, String appEventKey, int appEventLimit);
+	boolean modifyAppEvent(int appEventID, String appEventContent, int appEventCoin, boolean appEventEnable,Timestamp appEventStartTime, Timestamp appEventEndTime, String appEventKey, int appEventLimit);	
 }
