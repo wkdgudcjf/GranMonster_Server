@@ -16,6 +16,7 @@ import com.ronaldo.domain.CompanyVo;
 import com.ronaldo.domain.UserInAppVo;
 import com.ronaldo.domain.UserVo;
 import com.ronaldo.domain.ExchangeVo;
+import com.ronaldo.domain.UserEventVo;
 import com.ronaldo.mapper.BillingMapper;
 import com.ronaldo.mapper.AppEventMapper;
 import com.ronaldo.mapper.AppMapper;
@@ -239,7 +240,7 @@ public class ApiServiceImpl implements ApiService
 		return billingMapper.getBillingList();
 	}
 	@Override
-	public boolean addBilling(String userKey, String appKey, int billingCoin, int billingMoney,boolean billingType) {
+	public boolean addBilling(String userKey, String appKey, int billingCoin, int billingMoney,String billingType) {
 		// TODO Auto-generated method stub
 		BillingVo billingVo = new BillingVo();
 		billingVo.setUserID(userMapper.getUser(userKey).getUserID());
@@ -255,8 +256,6 @@ public class ApiServiceImpl implements ApiService
 			userVo.setUserMoney(userVo.getUserMoney() + billingMoney);
 			userVo.setUserPayload("");
 			userMapper.updateUser(userVo);
-			//여기서 User Coin도 올려줌.
-			//event 분기해서 이벤트도 올려줌.
 			return true;
 		}
 		catch(Exception e)
@@ -265,9 +264,33 @@ public class ApiServiceImpl implements ApiService
 			return false;
 		}
 	}
-
 	@Override
-	public boolean minusBilling(String userKey, String appKey, int billingCoin,boolean billingType) {
+	public boolean addBilling(int userID, int appID, int billingCoin, int billingMoney,String billingType) {
+		// TODO Auto-generated method stub
+		BillingVo billingVo = new BillingVo();
+		billingVo.setUserID(userID);
+		billingVo.setAppID(appID);
+		billingVo.setBillingCoin(billingCoin);
+		billingVo.setBillingMoney(billingMoney);
+		billingVo.setBillingType(billingType);
+		try
+		{
+			billingMapper.addBilling(billingVo);
+			UserVo userVo = userMapper.getUserByUserID(userID);
+			userVo.setUserCoin(userVo.getUserCoin() + billingCoin);
+			userVo.setUserMoney(userVo.getUserMoney() + billingMoney);
+			userVo.setUserPayload("");
+			userMapper.updateUser(userVo);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	@Override
+	public boolean minusBilling(String userKey, String appKey, int billingCoin,String billingType) {
 		BillingVo billingVo = new BillingVo();
 		billingVo.setUserID(userMapper.getUser(userKey).getUserID());
 		billingVo.setAppID(appMapper.getAppByKey(appKey).getAppID());
@@ -327,6 +350,14 @@ public class ApiServiceImpl implements ApiService
 	public AppEventVo getAppEvent(int appEventID) {
 		// TODO Auto-generated method stub
 		return appEventMapper.getAppEventByEventID(appEventID);
+	}
+	@Override
+	public AppEventVo getAppEvent(int appID,String appEventKey) {
+		// TODO Auto-generated method stub
+		AppEventVo appEventVo = new AppEventVo();
+		appEventVo.setAppID(appID);
+		appEventVo.setAppEventKey(appEventKey);
+		return appEventMapper.getAppEventByAppIDByEventKey(appEventVo);
 	}
 	@Override
 	public boolean modifyAppEvent(int appEventID, String appEventContent, int appEventCoin, boolean appEventEnable,
@@ -427,5 +458,34 @@ public class ApiServiceImpl implements ApiService
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public UserEventVo getUserEvent(int userID, int appEventID) {
+		UserEventVo userEvent = new UserEventVo();
+		userEvent.setUserID(userID);
+		userEvent.setAppEventID(appEventID);
+		return userEventMapper.getUserEvent(userEvent);
+	}
+	@Override
+	public boolean registUserEvent(int userID, int appEventID) {
+		UserEventVo userEvent = new UserEventVo();
+		userEvent.setUserID(userID);
+		userEvent.setAppEventID(appEventID);
+		try
+		{
+			userEventMapper.registUserEvent(userEvent);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	@Override
+	public List<UserEventVo> getUserEventList(int userID) {
+		// TODO Auto-generated method stub
+		return userEventMapper.getUserEventList(userID);
 	}
 }

@@ -8,6 +8,7 @@ import com.ronaldo.domain.AppVo;
 import com.ronaldo.domain.BillingVo;
 import com.ronaldo.domain.CompanyVo;
 import com.ronaldo.domain.ExchangeVo;
+import com.ronaldo.domain.UserEventVo;
 import com.ronaldo.domain.UserInAppVo;
 import com.ronaldo.domain.UserVo;
 
@@ -44,11 +45,17 @@ public interface ApiService
 	public List<BillingVo> getBillingList();
 	public List<BillingVo> getUserBillingList(String userKey);
 	public List<BillingVo> getAppBillingList(String appID);
-	public boolean addBilling(String userKey,String appKey,int billingCoin,int billingMoney,boolean billingType);
-	public boolean minusBilling(String userKey,String appKey,int billingCoin,boolean billingType);
+	public boolean addBilling(String userKey,String appKey,int billingCoin,int billingMoney,String billingType);
+	public boolean addBilling(int userID, int appID, int billingCoin, int billingMoney, String billingType);
+	public boolean minusBilling(String userKey,String appKey,int billingCoin,String billingType);
 	
 	public List<AppEventVo> getAppEventList(int appID);
 	public AppEventVo getAppEvent(int appEventID);
+	public AppEventVo getAppEvent(int appID,String appEventKey);
 	public boolean registAppEvent(int appID,String appEventContent,int appEventCoin, Timestamp appEventStartTime, Timestamp appEventEndTime, String appEventKey, int appEventLimit);
 	boolean modifyAppEvent(int appEventID, String appEventContent, int appEventCoin, boolean appEventEnable,Timestamp appEventStartTime, Timestamp appEventEndTime, String appEventKey, int appEventLimit);	
+	
+	public boolean registUserEvent(int userID, int appEventID);
+	public UserEventVo getUserEvent(int userID, int appEventID);
+	public List<UserEventVo> getUserEventList(int userID);
 }

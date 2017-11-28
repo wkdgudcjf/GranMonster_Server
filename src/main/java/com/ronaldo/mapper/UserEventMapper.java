@@ -4,13 +4,11 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ronaldo.domain.AppEventVo;
+import com.ronaldo.domain.UserEventVo;
 
 @Mapper
 public interface  UserEventMapper{
-	 public List<AppEventVo> getAppEventList();
-	 public List<AppEventVo> getAppEventByAppID(int appID);
-	 public AppEventVo getAppEventByEventID(int appEventID);
-	 public void registAppEvent(AppEventVo appEventVo) throws Exception;
-	 public void updateAppEvent(AppEventVo appEventVo) throws Exception;
+	public UserEventVo getUserEvent(UserEventVo userEvent);
+	public void registUserEvent(UserEventVo userEvent);
+	public List<UserEventVo> getUserEventList(int userID);
 }

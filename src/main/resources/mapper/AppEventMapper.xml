@@ -18,7 +18,9 @@
     <select id="getAppEventList" resultType="AppEventVo">
         SELECT * FROM AppEvent
     </select>
-    
+     <select id="getAppEventByAppIDByEventKey" parameterType="AppEventVo" resultType="AppEventVo">
+        SELECT * FROM AppEvent WHERE appID = #{appID} and appEventKey = #{appEventKey}
+    </select>
     <select id="getAppEventByAppID" parameterType="int" resultType="AppEventVo">
         SELECT * FROM AppEvent WHERE appID = #{appID} ORDER BY appEventKey ASC
     </select>

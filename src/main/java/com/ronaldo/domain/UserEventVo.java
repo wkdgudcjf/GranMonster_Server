@@ -23,5 +23,4 @@ public class UserEventVo {
 	public void setAppEventID(int appEventID) {
 		this.appEventID = appEventID;
 	}
-    
 }

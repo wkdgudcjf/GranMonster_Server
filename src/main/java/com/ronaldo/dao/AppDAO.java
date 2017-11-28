@@ -1,6 +1,5 @@
 package com.ronaldo.dao;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import com.ronaldo.domain.AppEventVo;
@@ -11,7 +10,7 @@ public class AppDAO {
 	private String appImagePath;
 	private String appPackage;
 	private boolean appInstall;
-	private List<AppEventVo> appEventList;
+	private List<AppEventDAO> appEventList;
 	public String getAppName() {
 		return appName;
 	}
@@ -43,10 +42,10 @@ public class AppDAO {
 	public void setAppInstall(boolean appInstall) {
 		this.appInstall = appInstall;
 	}
-	public List<AppEventVo> getAppEventList() {
+	public List<AppEventDAO> getAppEventList() {
 		return appEventList;
 	}
-	public void setAppEventList(List<AppEventVo> appEventList) {
+	public void setAppEventList(List<AppEventDAO> appEventList) {
 		this.appEventList = appEventList;
 	}
 	

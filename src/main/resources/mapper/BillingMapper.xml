@@ -8,7 +8,7 @@
     </select>
 	
 	<insert id="registBilling" parameterType="BillingVo">
-      	INSERT INTO Billing (userID,appID,billingMoney,billingCoin) 
-      	VALUES (#{userID},#{appID},#{billingMoney},#{billingCoin})
+      	INSERT INTO Billing (userID,appID,billingMoney,billingCoin,billingType) 
+      	VALUES (#{userID},#{appID},#{billingMoney},#{billingCoin},#{billingType})
     </insert>
 </mapper>

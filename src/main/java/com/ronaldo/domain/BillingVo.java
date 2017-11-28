@@ -8,17 +8,17 @@ public class BillingVo {
     private int appID;
     private int billingMoney;
     private int billingCoin;
-    private boolean billingType;
+    private String billingType;
     private String appName;
     private String userKey;
     private String appEventContent;
 	private Timestamp billingDateTime;
 
 
-	public boolean isBillingType() {
+	public String isBillingType() {
 		return billingType;
 	}
-	public void setBillingType(boolean billingType) {
+	public void setBillingType(String billingType) {
 		this.billingType = billingType;
 	}
 	public String getAppEventContent() {
