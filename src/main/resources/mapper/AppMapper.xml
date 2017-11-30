@@ -17,9 +17,9 @@
     </select>
  	<insert id="registApp" parameterType="AppVo" useGeneratedKeys="true" keyProperty="appID">
        	INSERT INTO App 
-       	(appName,companyID,appURL,appImagePath,appPackage) 
+       	(appName,companyID,appURL,appImageIconPath,appImageBannerPath,appPackage) 
        	VALUES
-       	(#{appName},#{companyID},#{appURL},#{appImagePath},#{appPackage})
+       	(#{appName},#{companyID},#{appURL},#{appImageIconPath},#{appImageBannerPath},#{appPackage})
     </insert>
     <delete id="deleteApp" parameterType="int">
        DELETE FROM App WHERE appID = #{appID} 
@@ -27,7 +27,7 @@
     <update id="updateApp" parameterType="AppVo">
 		UPDATE App
 		set appName = #{appName},companyID = #{companyID},appURL = #{appURL}
-		,appImagePath = #{appImagePath},appPackage = #{appPackage},appEnable = #{appEnable}
+		,appImageIconPath = #{appImageIconPath},appImageBannerPath = #{appImageBannerPath},appPackage = #{appPackage},appEnable = #{appEnable}
 		where appID = #{appID}
     </update> 
      <update id="modifyAppKey" parameterType="AppVo">

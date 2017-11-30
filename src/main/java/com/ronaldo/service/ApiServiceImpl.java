@@ -61,11 +61,12 @@ public class ApiServiceImpl implements ApiService
 		this.passwordEncoder = passwordEncoder;
 	}
 	@Override
-	public boolean registApp(String appName,int companyID,String appURL, String appImagePath,String appPackage) {
+	public boolean registApp(String appName,int companyID,String appURL, String appImageIconPath,String appImageBannerPath,String appPackage) {
 		AppVo appVo = new AppVo();
 		appVo.setAppName(appName);
 		appVo.setCompanyID(companyID);
-		appVo.setAppImagePath(appImagePath);
+		appVo.setAppImageIconPath(appImageIconPath);
+		appVo.setAppImageBannerPath(appImageBannerPath);
 		appVo.setAppURL(appURL);
 		appVo.setAppPackage(appPackage);
 		try
@@ -73,18 +74,6 @@ public class ApiServiceImpl implements ApiService
 			appMapper.registApp(appVo);
 			appVo.setAppKey(passwordEncoder.encode(String.valueOf(appVo.getAppID())));
 			appMapper.modifyAppKey(appVo);
-/*			AppEventVo appEventVo1 = new AppEventVo();
-			appEventVo1.setAppEventContent("충전");
-			appEventVo1.setAppEventKey(1);
-			appEventVo1.setAppID(appVo.getAppID());
-			appEventVo1.setAppEventCoin(0);
-			appEventMapper.registAppEvent(appEventVo1);
-			AppEventVo appEventVo2 = new AppEventVo();
-			appEventVo2.setAppEventContent("사용");
-			appEventVo2.setAppEventKey(2);
-			appEventVo2.setAppID(appVo.getAppID());
-			appEventVo2.setAppEventCoin(0);
-			appEventMapper.registAppEvent(appEventVo2);*/
 			return true;
 		}
 		catch(Exception e)
@@ -94,13 +83,14 @@ public class ApiServiceImpl implements ApiService
 		}
 	}
 	@Override
-	public boolean modifyApp(int appID,String appName,int companyID,String appURL, String appImagePath,String appPackage,boolean appEnable)
+	public boolean modifyApp(int appID,String appName,int companyID,String appURL, String appImageIconPath,String appImageBannerPath,String appPackage,boolean appEnable)
 	{
 		AppVo appVo = new AppVo();
 		appVo.setAppID(appID);
 		appVo.setAppName(appName);
 		appVo.setCompanyID(companyID);
-		appVo.setAppImagePath(appImagePath);
+		appVo.setAppImageIconPath(appImageIconPath);
+		appVo.setAppImageBannerPath(appImageBannerPath);
 		appVo.setAppURL(appURL);
 		appVo.setAppPackage(appPackage);
 		appVo.setAppEnable(appEnable);
@@ -250,7 +240,7 @@ public class ApiServiceImpl implements ApiService
 		billingVo.setBillingType(billingType);
 		try
 		{
-			billingMapper.addBilling(billingVo);
+			billingMapper.registBilling(billingVo);
 			UserVo userVo = userMapper.getUser(userKey);
 			userVo.setUserCoin(userVo.getUserCoin() + billingCoin);
 			userVo.setUserMoney(userVo.getUserMoney() + billingMoney);
@@ -275,7 +265,7 @@ public class ApiServiceImpl implements ApiService
 		billingVo.setBillingType(billingType);
 		try
 		{
-			billingMapper.addBilling(billingVo);
+			billingMapper.registBilling(billingVo);
 			UserVo userVo = userMapper.getUserByUserID(userID);
 			userVo.setUserCoin(userVo.getUserCoin() + billingCoin);
 			userVo.setUserMoney(userVo.getUserMoney() + billingMoney);
@@ -298,7 +288,7 @@ public class ApiServiceImpl implements ApiService
 		billingVo.setBillingType(billingType);
 		try
 		{
-			billingMapper.minusBilling(billingVo);
+			billingMapper.registBilling(billingVo);
 			UserVo userVo = userMapper.getUser(userKey);
 			userVo.setUserCoin(userVo.getUserCoin() - billingCoin);
 			userMapper.updateUser(userVo);
@@ -484,8 +474,27 @@ public class ApiServiceImpl implements ApiService
 		}
 	}
 	@Override
+	public boolean modifyUserEvent(int userEventID,int userID, int appEventID) {
+		UserEventVo userEvent = new UserEventVo();
+		userEvent.setUserEventID(userEventID);
+		userEvent.setUserID(userID);
+		userEvent.setAppEventID(appEventID);
+		userEvent.setUserEventEnable(true);
+		try
+		{
+			userEventMapper.updateUserEvent(userEvent);
+			return true;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	}
+	@Override
 	public List<UserEventVo> getUserEventList(int userID) {
 		// TODO Auto-generated method stub
 		return userEventMapper.getUserEventList(userID);
 	}
+	
 }

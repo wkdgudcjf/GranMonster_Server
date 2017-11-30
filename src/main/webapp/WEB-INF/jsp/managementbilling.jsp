@@ -75,7 +75,7 @@
 			        <td>${item.billingMoney}</td>
 			        <td>${item.billingCoin}</td>
 			        <td>${item.billingDateTime}</td>
-			        <td>${item.billingEventContent}</td>
+			        <td>${item.billingType}</td>
 			    </tr>
 			    </c:forEach>
                 </tbody>

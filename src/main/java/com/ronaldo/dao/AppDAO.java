@@ -2,15 +2,22 @@ package com.ronaldo.dao;
 
 import java.util.List;
 
-import com.ronaldo.domain.AppEventVo;
-
 public class AppDAO {
 	private String appName;
+	private String appKey;
 	private String appURL;
-	private String appImagePath;
+	private String appImageIconPath;
+	private String appImageBannerPath;
 	private String appPackage;
 	private boolean appInstall;
 	private List<AppEventDAO> appEventList;
+	
+	public String getAppKey() {
+		return appKey;
+	}
+	public void setAppKey(String appKey) {
+		this.appKey = appKey;
+	}
 	public String getAppName() {
 		return appName;
 	}
@@ -23,11 +30,17 @@ public class AppDAO {
 	public void setAppURL(String appURL) {
 		this.appURL = appURL;
 	}
-	public String getAppImagePath() {
-		return appImagePath;
+	public String getAppImageIconPath() {
+		return appImageIconPath;
 	}
-	public void setAppImagePath(String appImagePath) {
-		this.appImagePath = appImagePath;
+	public void setAppImageIconPath(String appImageIconPath) {
+		this.appImageIconPath = appImageIconPath;
+	}
+	public String getAppImageBannerPath() {
+		return appImageBannerPath;
+	}
+	public void setAppImageBannerPath(String appImageBannerPath) {
+		this.appImageBannerPath = appImageBannerPath;
 	}
 	public String getAppPackage() {
 		return appPackage;

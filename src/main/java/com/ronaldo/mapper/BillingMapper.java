@@ -11,6 +11,5 @@ public interface  BillingMapper{
 	public List<BillingVo> getBillingList();
 	public List<BillingVo> getUserBillingList(int userID);
 	public List<BillingVo> getAppBillingList(int appID);
-	public void addBilling(BillingVo billingVo) throws Exception;
-	public void minusBilling(BillingVo billingVo) throws Exception;
+	public void registBilling(BillingVo billingVo) throws Exception;
 }

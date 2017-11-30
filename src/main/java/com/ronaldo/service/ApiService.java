@@ -14,11 +14,11 @@ import com.ronaldo.domain.UserVo;
 
 public interface ApiService
 {
-	public boolean registApp(String appName,int companyID,String appURL, String appImagePath,String appPackage);
+	public boolean registApp(String appName,int companyID,String appURL, String appImageIconPath,String appImageBannerPath,String appPackage);
 	public List<AppVo> getAppList();
 	public List<AppVo> getEnableAppList(boolean appEnable);
 	public AppVo getApp(int appID);
-	public boolean modifyApp(int appID,String appName,int companyID,String appURL, String appImagePath,String appPackage,boolean appEnable);
+	public boolean modifyApp(int appID,String appName,int companyID,String appURL,String appImageIconPath,String appImageBannerPath,String appPackage,boolean appEnable);
 	public String setUserPayload(String appKey, String userKey);
 	public String getUserPayload(String userKey);
 	
@@ -58,4 +58,5 @@ public interface ApiService
 	public boolean registUserEvent(int userID, int appEventID);
 	public UserEventVo getUserEvent(int userID, int appEventID);
 	public List<UserEventVo> getUserEventList(int userID);
+	public boolean modifyUserEvent(int userEventID,int userID, int appEventID);
 }

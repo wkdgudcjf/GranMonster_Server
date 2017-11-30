@@ -53,6 +53,7 @@
                     <th>이벤트 내용</th>
                     <th>보상</th>
                     <th>달성 여부</th>
+                    <th>보상 여부</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -60,7 +61,8 @@
                     <th>App Name</th>
                     <th>Event Content</th>
                     <th>Coin</th>
-                    <th>Event Enable</th>
+                    <th>Event Success Enable</th>
+                    <th>Event Reward Enable</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -74,7 +76,8 @@
 						</c:choose>
 				        <td>${event.appEventContent}</td>
 				        <td>${event.appEventCoin}</td>
-				        <td>X</td>
+				        <td>${event.appEventSuccessEnable}</td>
+				        <td>${event.appEventRewardEnable}</td>
 			         </tr>
 				    </c:forEach>
 			    </c:forEach>

@@ -12,7 +12,8 @@ public class AppEventVo {
 	private Timestamp appEventEndTime;
 	private int appEventLimit;
 	private boolean appEventEnable;
-	
+	private String appEventSuccessEnable;
+	private String appEventRewardEnable;
 	public String getAppEventKey() {
 		return appEventKey;
 	}
@@ -66,6 +67,18 @@ public class AppEventVo {
 	}
 	public void setAppEventEnable(boolean appEventEnable) {
 		this.appEventEnable = appEventEnable;
+	}
+	public String getAppEventSuccessEnable() {
+		return appEventSuccessEnable;
+	}
+	public void setAppEventSuccessEnable(String appEventSuccessEnable) {
+		this.appEventSuccessEnable = appEventSuccessEnable;
+	}
+	public String getAppEventRewardEnable() {
+		return appEventRewardEnable;
+	}
+	public void setAppEventRewardEnable(String appEventRewardEnable) {
+		this.appEventRewardEnable = appEventRewardEnable;
 	}
 	
 }

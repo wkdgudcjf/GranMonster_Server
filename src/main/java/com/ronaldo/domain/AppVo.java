@@ -9,7 +9,8 @@ public class AppVo {
 	private String appName;
 	private int companyID;
 	private String appURL;
-	private String appImagePath;
+	private String appImageIconPath;
+	private String appImageBannerPath;
 	private String appPackage;
 	private String companyName;
 	private Timestamp appDateTime;
@@ -55,11 +56,17 @@ public class AppVo {
 	public void setAppURL(String appURL) {
 		this.appURL = appURL;
 	}
-	public String getAppImagePath() {
-		return appImagePath;
+	public String getAppImageIconPath() {
+		return appImageIconPath;
 	}
-	public void setAppImagePath(String appImagePath) {
-		this.appImagePath = appImagePath;
+	public void setAppImageIconPath(String appImageIconPath) {
+		this.appImageIconPath = appImageIconPath;
+	}
+	public String getAppImageBannerPath() {
+		return appImageBannerPath;
+	}
+	public void setAppImageBannerPath(String appImageBannerPath) {
+		this.appImageBannerPath = appImageBannerPath;
 	}
 	public String getAppPackage() {
 		return appPackage;

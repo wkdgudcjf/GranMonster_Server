@@ -9,6 +9,11 @@
        	VALUES
        	(#{userID},#{appEventID})
     </insert>
+     <update id="updateUserEvent" parameterType="UserEventVo">
+		UPDATE UserEvent
+		set userID = #{userID},appEventID = #{appEventID},userEventEnable = #{userEventEnable}
+		where userEventID = #{userEventID}
+    </update> 
     <select id="getUserEventList" parameterType="int" resultType="UserEventVo">
         SELECT * FROM UserEvent WHERE userID = #{userID}
     </select>

@@ -17,4 +17,10 @@ public class GranConfig
 	public final static String RETURN_USER_LOGIN_FAIL = "로그인 할 수 없는 아이디 입니다. 운영팀에 문의바랍니다.";
 	
 	public final static String RETURN_APP_KEY_FAIL = "등록되지 않는 앱 입니다.";
+	public final static String RETURN_DEFICIENCY_COIN = "코인이 부족합니다.";
+	
+	public final static String RETURN_EVENT_DUPL = "이미 등록된 이벤트 입니다.";
+	public final static String RETURN_EVENT_UNREGIST = "달성하지 못한 이벤트 입니다.";
+	public final static String RETURN_EVENT_NO = "없는 이벤트 입니다.";
+	public final static String RETURN_EVENT_UNENABLE = "비활성 이벤트 입니다.";
 }

@@ -22,10 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ronaldo.config.GranConfig;
 import com.ronaldo.config.SessionWire;
+import com.ronaldo.dao.AppEventDAO;
 import com.ronaldo.domain.AppEventVo;
 import com.ronaldo.domain.AppVo;
 import com.ronaldo.domain.CompanyVo;
 import com.ronaldo.domain.ExchangeVo;
+import com.ronaldo.domain.UserEventVo;
 import com.ronaldo.domain.UserInAppVo;
 import com.ronaldo.service.AuthUserServiceImpl;
 import com.ronaldo.service.ApiServiceImpl;
@@ -100,16 +102,26 @@ public class AdminController
 	@RequestMapping(value = "/registapp", method = RequestMethod.POST)
     public ResponseEntity<String> registApp(@RequestParam("appPackage") String appPackage
     		, @RequestParam("appURL") String appURL,@RequestParam("companyID") int companyID,
-    		@RequestParam("appName") String appName,@RequestParam("appImage") MultipartFile appImage) {
+    		@RequestParam("appName") String appName,@RequestParam("appIconImage") MultipartFile appIconImage
+    		,@RequestParam("appBannerImage") MultipartFile appBannerImage) {
         try {
         	 // Get the file and save it uploads dir
-        	 byte[] bytes = appImage.getBytes();
-        	 String originalFileName = appImage.getOriginalFilename();
-             String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-             Path path = Paths.get(context.getRealPath("image/app/") + appName+"_v1"+originalFileExtension);
-             if(apiService.registApp(appName,companyID, appURL, appName+"_v1"+originalFileExtension, appPackage))
+        	 byte[] iconBytes = appIconImage.getBytes();
+        	 String iconOriginalFileName = appIconImage.getOriginalFilename();
+             String iconOriginalFileExtension = iconOriginalFileName.substring(iconOriginalFileName.lastIndexOf("."));
+             String iconFileName = appName+"_v1_icon"+iconOriginalFileExtension;
+             Path iconPath = Paths.get(context.getRealPath("image/appIcon/") + iconFileName);
+             
+             byte[] bannerBytes = appBannerImage.getBytes();
+        	 String bannerOriginalFileName = appBannerImage.getOriginalFilename();
+             String bannerOriginalFileExtension = bannerOriginalFileName.substring(bannerOriginalFileName.lastIndexOf("."));
+             String bannerFileName = appName+"_v1_banner"+bannerOriginalFileExtension;
+             Path bannerPath = Paths.get(context.getRealPath("image/appBanner/") + bannerFileName);
+             
+             if(apiService.registApp(appName,companyID, appURL, iconFileName,bannerFileName, appPackage))
              {
-                 Files.write(path, bytes);
+                 Files.write(iconPath, iconBytes);
+                 Files.write(bannerPath, bannerBytes);
             	 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
              }
              else
@@ -124,29 +136,48 @@ public class AdminController
 	@RequestMapping(value = "/modifyapp", method = RequestMethod.POST)
     public ResponseEntity<String> modifyApp(@RequestParam("appID") int appID,@RequestParam("appPackage") String appPackage
     		, @RequestParam("appURL") String appURL,@RequestParam("companyID") int companyID,
-    		@RequestParam("appName") String appName,@RequestParam("appImage") MultipartFile appImage
-    		,@RequestParam("appEnable") boolean appEnable) {
+    		@RequestParam("appName") String appName,@RequestParam("appIconImage") MultipartFile appIconImage
+    		,@RequestParam("appBannerImage") MultipartFile appBannerImage,@RequestParam("appEnable") boolean appEnable) {
 		 try {
         	 // Get the file and save it uploads dir
-			 String ImagePath = apiService.getApp(appID).getAppImagePath();
-			 byte[] bytes = appImage.getBytes();
-			 if(bytes.length != 0)
+			 AppVo appVo = apiService.getApp(appID);
+			 String imageIconPath = appVo.getAppImageIconPath();
+			 String imageBannerPath = appVo.getAppImageBannerPath();
+			 byte[] iconBytes = appIconImage.getBytes();
+			 byte[] bannerBytes = appBannerImage.getBytes();
+			 if(iconBytes.length != 0)
 			 {
-				 String originalFileName = appImage.getOriginalFilename();
-	             String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-				 StringTokenizer stk = new StringTokenizer(ImagePath,"_v");
+	        	 String iconOriginalFileName = appIconImage.getOriginalFilename();
+	             String iconOriginalFileExtension = iconOriginalFileName.substring(iconOriginalFileName.lastIndexOf("."));
+				 StringTokenizer stk = new StringTokenizer(imageIconPath,"_v");
 				 String str1 = stk.nextToken();
 				 String str2 = stk.nextToken();
 				 int ver = str2.charAt(0)-48;
 				 ver++;
-				 ImagePath = appName+"_v"+ver+originalFileExtension;
+				 imageIconPath = appName+"_v"+ver+"_icon"+iconOriginalFileExtension;
 			 }
-			if(apiService.modifyApp(appID,appName,companyID, appURL, ImagePath, appPackage,appEnable))
+			 if(bannerBytes.length != 0)
+			 {
+				 String bannerOriginalFileName = appBannerImage.getOriginalFilename();
+	             String bannerOriginalFileExtension = bannerOriginalFileName.substring(bannerOriginalFileName.lastIndexOf("."));
+				 StringTokenizer stk = new StringTokenizer(imageBannerPath,"_v");
+				 String str1 = stk.nextToken();
+				 String str2 = stk.nextToken();
+				 int ver = str2.charAt(0)-48;
+				 ver++;
+				 imageBannerPath = appName+"_v"+ver+"_banner"+bannerOriginalFileExtension;
+			 }
+			if(apiService.modifyApp(appID,appName,companyID, appURL, imageIconPath,imageBannerPath, appPackage,appEnable))
 			{
-				if(bytes.length != 0)
+				if(iconBytes.length != 0)
 				{
-					Path path = Paths.get(context.getRealPath("image/app/") + ImagePath);
-				    Files.write(path, bytes);
+		            Path iconPath = Paths.get(context.getRealPath("image/appIcon/") + imageIconPath);
+				    Files.write(iconPath, iconBytes);
+				}
+				if(bannerBytes.length != 0)
+				{
+		            Path bannerPath = Paths.get(context.getRealPath("image/appBanner/") + imageBannerPath);
+				    Files.write(bannerPath, bannerBytes);
 				}
 				return new ResponseEntity<>(GranConfig.RETURN_APP_MODIFY_SECCESS,HttpStatus.OK);
 			}
@@ -312,9 +343,27 @@ public class AdminController
 	private String setManagementUserInfo(Model model,int userID)
     {
 		List<UserInAppVo> userInAppList = apiService.getUserInAppByUserID(userID);
+		List<UserEventVo> userEventList = apiService.getUserEventList(userID);
 		for(int i=0;i<userInAppList.size();i++)
 		{
 			List<AppEventVo> appEventList = apiService.getAppEventList(userInAppList.get(i).getAppID());
+			for(int j=0;j<appEventList.size();j++)
+			{
+				appEventList.get(j).setAppEventRewardEnable("X");
+				appEventList.get(j).setAppEventSuccessEnable("X");
+				for(int k=0;k<userEventList.size();k++)
+				{
+					if(userEventList.get(k).getAppEventID()==appEventList.get(j).getAppEventID())
+					{
+						appEventList.get(j).setAppEventSuccessEnable("O");
+						if(userEventList.get(k).isUserEventEnable())
+						{
+							appEventList.get(j).setAppEventRewardEnable("O");
+						}
+						break;
+					}
+				}
+			}
 			userInAppList.get(i).setAppEventList(appEventList);
 		}
 		model.addAttribute("user",apiService.getUser(userID));

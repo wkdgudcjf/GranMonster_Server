@@ -11,4 +11,5 @@ public interface  UserEventMapper{
 	public UserEventVo getUserEvent(UserEventVo userEvent);
 	public void registUserEvent(UserEventVo userEvent);
 	public List<UserEventVo> getUserEventList(int userID);
+	public void updateUserEvent(UserEventVo userEvent);
 }

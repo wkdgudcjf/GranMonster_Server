@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -19,13 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.services.androidpublisher.AndroidPublisher;
-import com.google.api.services.androidpublisher.model.ProductPurchase;
 import com.ronaldo.config.GranConfig;
 import com.ronaldo.dao.AppDAO;
 import com.ronaldo.dao.AppEventDAO;
@@ -192,7 +183,9 @@ public class APIController {
 			returnAppList = new ArrayList<AppDAO>();
 			for (int i = 0; i < appList.size(); i++) {
 				AppDAO appDAO = new AppDAO();
-				appDAO.setAppImagePath(appList.get(i).getAppImagePath());
+				appDAO.setAppKey(appList.get(i).getAppKey());
+				appDAO.setAppImageIconPath(appList.get(i).getAppImageIconPath());
+				appDAO.setAppImageBannerPath(appList.get(i).getAppImageBannerPath());
 				appDAO.setAppName(appList.get(i).getAppName());
 				appDAO.setAppPackage(appList.get(i).getAppPackage());
 				appDAO.setAppURL(appList.get(i).getAppURL());
@@ -203,14 +196,20 @@ public class APIController {
 				for(int j=0;j<appEventList.size();j++)
 				{
 					AppEventDAO appEventDAO = new AppEventDAO();
-					appEventDAO.setAppEventContent(appEventList.get(i).getAppEventContent());
-					appEventDAO.setAppEventCoin(appEventList.get(i).getAppEventCoin());
-					appEventDAO.setAppEventEnable(false);
+					appEventDAO.setAppEventKey(appEventList.get(j).getAppEventKey());
+					appEventDAO.setAppEventContent(appEventList.get(j).getAppEventContent());
+					appEventDAO.setAppEventCoin(appEventList.get(j).getAppEventCoin());
+					appEventDAO.setAppEventRewardEnable(false);
+					appEventDAO.setAppEventSuccessEnable(false);
 					for(int k=0;k<userEventList.size();k++)
 					{
-						if(userEventList.get(k).getAppEventID()==appEventList.get(i).getAppEventID())
+						if(userEventList.get(k).getAppEventID()==appEventList.get(j).getAppEventID())
 						{
-							appEventDAO.setAppEventEnable(true);
+							appEventDAO.setAppEventSuccessEnable(true);
+							if(userEventList.get(k).isUserEventEnable())
+							{
+								appEventDAO.setAppEventRewardEnable(true);
+							}
 							break;
 						}
 					}
@@ -264,6 +263,7 @@ public class APIController {
 			payloadDAO.setState(GranConfig.RETURN_APP_FAIL);
 			return new ResponseEntity<>(payloadDAO, HttpStatus.BAD_REQUEST);
 		}
+		
 		return new ResponseEntity<>(payloadDAO, HttpStatus.OK);
 	}
 
@@ -384,16 +384,18 @@ public class APIController {
 	}
 
 	@RequestMapping(value = "/api/exhaust", method = RequestMethod.POST)
-	public ResponseEntity<ExhaustDAO> exhaust(@RequestParam("param") String param) {
+	public ResponseEntity<ExhaustDAO> exhaust(@RequestBody String param) {
 		ExhaustDAO exhaustDAO = null;
 		JSONObject jsonObject;
-		String userKey = null, appKey = null, coin = null, payload = null;
+		String userKey = null, appKey = null , payload = null;
+		long coin;
+		UserVo userVo;
 		try {
 			exhaustDAO = new ExhaustDAO();
 			jsonObject = (JSONObject) jsonParser.parse(param);
 			userKey = (String) jsonObject.get("userKey");
 			appKey = (String) jsonObject.get("appKey");
-			coin = (String) jsonObject.get("coin");
+			coin = (long) jsonObject.get("coin");
 			payload = (String) jsonObject.get("payload");
 
 			String userpayload = apiService.getUserPayload(userKey);
@@ -405,7 +407,14 @@ public class APIController {
 				exhaustDAO.setState(GranConfig.RETURN_APP_KEY_FAIL);
 				return new ResponseEntity<>(exhaustDAO, HttpStatus.BAD_REQUEST);
 			}
-			apiService.minusBilling(userKey, appKey, Integer.parseInt(coin), "사용");
+			userVo = apiService.getUser(userKey);
+			if(userVo.getUserCoin() < coin) // 코인이 더 적으면 false 리턴
+			{
+				exhaustDAO.setState(GranConfig.RETURN_DEFICIENCY_COIN);
+				return new ResponseEntity<>(exhaustDAO, HttpStatus.BAD_REQUEST);
+			}
+			
+			apiService.minusBilling(userKey, appKey, (int)coin, "사용");
 			exhaustDAO.setState(GranConfig.RETURN_APP_SUCCESS);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -417,7 +426,7 @@ public class APIController {
 	}
 	
 	@RequestMapping(value = "/api/event", method = RequestMethod.POST)
-	public ResponseEntity<EventDAO> event(@RequestParam("param") String param) {
+	public ResponseEntity<EventDAO> event(@RequestBody String param) {
 		EventDAO eventDAO = null;
 		JSONObject jsonObject;
 		String userKey = null, appKey = null,appEventKey = null;
@@ -437,13 +446,13 @@ public class APIController {
 			}
 			appEventVo = apiService.getAppEvent(appVO.getAppID(),appEventKey);
 			if (appEventVo == null) {
-				eventDAO.setState(GranConfig.RETURN_APP_KEY_FAIL); // 이벤트가 없을때.
+				eventDAO.setState(GranConfig.RETURN_EVENT_NO); // 이벤트가 없을때.
 				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
 			}
 			
 			if(!appEventVo.isAppEventEnable())
 			{
-				eventDAO.setState(GranConfig.RETURN_APP_KEY_FAIL); // 이벤트가 활성화되지 않았을때
+				eventDAO.setState(GranConfig.RETURN_EVENT_UNENABLE); // 이벤트가 활성화되지 않았을때
 				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
 			}
 			
@@ -452,11 +461,64 @@ public class APIController {
 			UserEventVo userEventVo = apiService.getUserEvent(userID,appEventVo.getAppEventID());
 			if(userEventVo!=null)
 			{
-				eventDAO.setState(GranConfig.RETURN_APP_KEY_FAIL); // 이미 이벤트 진행
+				eventDAO.setState(GranConfig.RETURN_EVENT_DUPL); // 이미 이벤트 진행
+				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
+			}
+			apiService.registUserEvent(userID,appEventVo.getAppEventID()); // userevent 등록
+			eventDAO.setState(GranConfig.RETURN_APP_SUCCESS);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			eventDAO.setState(GranConfig.RETURN_APP_FAIL);
+			return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(eventDAO, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/api/eventreward", method = RequestMethod.POST)
+	public ResponseEntity<EventDAO> eventreward(@RequestBody String param) {
+		EventDAO eventDAO = null;
+		JSONObject jsonObject;
+		String userKey = null, appKey = null,appEventKey = null;
+		AppVo appVO = null;
+		AppEventVo appEventVo = null;
+		try {
+			eventDAO = new EventDAO();
+			jsonObject = (JSONObject) jsonParser.parse(param);
+			userKey = (String) jsonObject.get("userKey");
+			appKey = (String) jsonObject.get("appKey");
+			appEventKey = (String) jsonObject.get("eventKey");
+			
+			appVO = apiService.getAppByKey(appKey);
+			if (appVO == null) {
+				eventDAO.setState(GranConfig.RETURN_APP_KEY_FAIL); // 앱이 없을때
+				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
+			}
+
+			appEventVo = apiService.getAppEvent(appVO.getAppID(),appEventKey);
+			if (appEventVo == null) {
+				eventDAO.setState(GranConfig.RETURN_EVENT_NO); // 이벤트가 없을때.
 				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
 			}
 			
-			apiService.registUserEvent(userID,appEventVo.getAppEventID()); // userevent 등록
+			if(!appEventVo.isAppEventEnable())
+			{
+				eventDAO.setState(GranConfig.RETURN_EVENT_UNENABLE); // 이벤트가 활성화되지 않았을때
+				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
+			}
+			
+			int userID = apiService.getUser(userKey).getUserID();
+			UserEventVo userEventVo = apiService.getUserEvent(userID,appEventVo.getAppEventID());
+			if(userEventVo==null)
+			{
+				eventDAO.setState(GranConfig.RETURN_EVENT_UNREGIST); // 이벤트가 등록되지 않았을때
+				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
+			}
+			else if(userEventVo.isUserEventEnable())
+			{
+				eventDAO.setState(GranConfig.RETURN_EVENT_DUPL); // 이미 이벤트 보상을 받았을때
+				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
+			}
+			apiService.modifyUserEvent(userEventVo.getUserEventID(),userID,appEventVo.getAppEventID());
 			apiService.addBilling(userID, appVO.getAppID(), appEventVo.getAppEventCoin(), 0, appEventVo.getAppEventContent());
 			eventDAO.setState(GranConfig.RETURN_APP_SUCCESS);
 		} catch (Exception e) {

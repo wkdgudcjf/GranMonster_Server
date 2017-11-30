@@ -137,9 +137,10 @@
               <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0" style="table-layout:fixed;">
               	<colgroup>
 					<col style="width:10%;">
-					<col style="width:15%;">
-					<col style="width:15%;">
+					<col style="width:10%;">
+					<col style="width:10%;">
 					<col style="width:20%;">
+					<col style="width:10%;">
 					<col style="width:10%;">
 					<col style="width:15%;">
 					<col style="width:15%;">
@@ -152,7 +153,8 @@
                     <th>마켓경로</th>
                     <th>패키지명</th>
                     <th>등록시간</th>
-                    <th>이미지</th>
+                    <th>아이콘 이미지</th>
+                    <th>배너 이미지</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -163,7 +165,8 @@
                     <th>Market URL</th>
                     <th>Package</th>
                     <th>Date</th>
-                    <th>Image</th>
+                    <th>Icon Image</th>
+                    <th>Banner Image</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -176,7 +179,7 @@
 						</c:when> 
 						<c:otherwise> 
 						    <img src="/img/disable.png" style="max-width: 30px; max-height: 30px;"> 
-						</c:otherwise> 
+						</c:otherwise>
 						</c:choose>
 						</td>
 				         <td><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
@@ -185,7 +188,8 @@
 				        <td><a href="${item.appURL}">${item.appURL}</a></td>
 				        <td>${item.appPackage}</td>
 				        <td>${item.appDateTime}</td>
-				        <td><img src="image/app/${item.appImagePath}"  style="max-width: 200px; max-height: 200px;"></td>
+				        <td><img src="image/appIcon/${item.appImageIconPath}"  style="max-width: 150px; max-height: 150px;"></td>
+				        <td><img src="image/appBanner/${item.appImageBannerPath}"  style="max-width: 150px; max-height: 150px;"></td>
 				    </tr>
 				    </c:forEach>
                 </tbody>
@@ -241,11 +245,19 @@
                  	  </select>
 		         </div>
 	            <div class="form-group">
-	            <label for="inputAppImage">이미지 업로드</label>
+	            <label for="inputAppIconImage">아이콘 이미지 업로드</label>
 	             <div class="filebox bs3-primary preview-image">
                       <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="inputAppImage">이미지찾기</label> 
-                    <input type="file" id="inputAppImage" name="appImage" class="upload-hidden" accept="image/*"> 
+                      <label for="inputAppIconImage">이미지찾기</label> 
+                    <input type="file" id="inputAppIconImage" name="appIconImage" class="upload-hidden" accept="image/*"> 
+                  </div>
+	            </div>
+	            <div class="form-group">
+	            <label for="inputAppBannerImage">배너 이미지 업로드</label>
+	             <div class="filebox bs3-primary preview-image">
+                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+                      <label for="inputAppBannerImage">이미지찾기</label> 
+                    <input type="file" id="inputAppBannerImage" name="appBannerImage" class="upload-hidden" accept="image/*"> 
                   </div>
 	            </div>
 	          </form>
@@ -300,11 +312,19 @@
                  	  </select>
 		         </div>
 	            <div class="form-group">
-	            <label for="modifyAppImage">이미지 업로드(부재시 기존이미지 사용)</label>
+	            <label for="modifyAppIconImage">아이콘 이미지 업로드(부재시 기존이미지 사용)</label>
 	             <div class="filebox bs3-primary preview-image">
                       <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="modifyAppImage">이미지찾기</label> 
-                    <input type="file" id="modifyAppImage" name="appImage" class="upload-hidden" accept="image/*"> 
+                      <label for="modifyAppIconImage">이미지찾기</label> 
+                    <input type="file" id="modifyAppIconImage" name="appIconImage" class="upload-hidden" accept="image/*"> 
+                  </div>
+	            </div>
+	            <div class="form-group">
+	            <label for="modifyAppBannerImage">배너 이미지 업로드(부재시 기존이미지 사용)</label>
+	             <div class="filebox bs3-primary preview-image">
+                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+                      <label for="modifyAppBannerImage">이미지찾기</label> 
+                    <input type="file" id="modifyAppBannerImage" name="appBannerImage" class="upload-hidden" accept="image/*"> 
                   </div>
 	            </div>
 	            <div class="form-group">
@@ -397,8 +417,8 @@
 			 var inputAppName = $('#inputAppName'),
 			 inputAppPackage = $('#inputAppPackage'),
 			 inputAppURL = $('#inputAppURL'),
-			 inputAppImage = $('#inputAppImage');
-			 
+			 inputAppIconImage = $('#inputAppIconImage');
+			 inputAppBannerImage = $('#inputAppBannerImage');
 			 if (inputAppName.val().length == 0) {
 				 alert('앱 이름을 입력하세요.');
 				 return;
@@ -411,8 +431,12 @@
 				 alert('URL을 입력하세요.');
 				 return;
 			 }
-			 if (inputAppImage.val().length == 0) {
-				 alert('이미지를 선택하세요.');
+			 if (inputAppIconImage.val().length == 0) {
+				 alert('아이콘 이미지를 선택하세요.');
+				 return;
+			 }
+			 if (inputAppBannerImage.val().length == 0) {
+				 alert('배너 이미지를 선택하세요.');
 				 return;
 			 }
 			$.ajax({

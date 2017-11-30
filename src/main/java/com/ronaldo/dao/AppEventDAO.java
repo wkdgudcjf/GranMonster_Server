@@ -3,7 +3,16 @@ package com.ronaldo.dao;
 public class AppEventDAO {
     private String appEventContent;
 	private int appEventCoin;
-	private boolean appEventEnable;
+	private String appEventKey;
+	private boolean appEventSuccessEnable;
+	private boolean appEventRewardEnable;
+	
+	public String getAppEventKey() {
+		return appEventKey;
+	}
+	public void setAppEventKey(String appEventKey) {
+		this.appEventKey = appEventKey;
+	}
 	public String getAppEventContent() {
 		return appEventContent;
 	}
@@ -16,11 +25,18 @@ public class AppEventDAO {
 	public void setAppEventCoin(int appEventCoin) {
 		this.appEventCoin = appEventCoin;
 	}
-	public boolean isAppEventEnable() {
-		return appEventEnable;
+	public boolean isAppEventSuccessEnable() {
+		return appEventSuccessEnable;
 	}
-	public void setAppEventEnable(boolean appEventEnable) {
-		this.appEventEnable = appEventEnable;
+	public void setAppEventSuccessEnable(boolean appEventSuccessEnable) {
+		this.appEventSuccessEnable = appEventSuccessEnable;
 	}
+	public boolean isAppEventRewardEnable() {
+		return appEventRewardEnable;
+	}
+	public void setAppEventRewardEnable(boolean appEventRewardEnable) {
+		this.appEventRewardEnable = appEventRewardEnable;
+	}
+	
 	
 }

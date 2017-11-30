@@ -11,21 +11,14 @@ public class BillingVo {
     private String billingType;
     private String appName;
     private String userKey;
-    private String appEventContent;
 	private Timestamp billingDateTime;
 
 
-	public String isBillingType() {
+	public String getBillingType() {
 		return billingType;
 	}
 	public void setBillingType(String billingType) {
 		this.billingType = billingType;
-	}
-	public String getAppEventContent() {
-		return appEventContent;
-	}
-	public void setAppEventContent(String appEventContent) {
-		this.appEventContent = appEventContent;
 	}
 	public String getUserKey() {
 		return userKey;
@@ -77,5 +70,4 @@ public class BillingVo {
 	public void setBillingDateTime(Timestamp billingDateTime) {
 		this.billingDateTime = billingDateTime;
 	}
-   
 }

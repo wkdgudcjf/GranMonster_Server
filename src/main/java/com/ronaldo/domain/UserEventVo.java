@@ -5,6 +5,7 @@ public class UserEventVo {
     private int userEventID;
     private int userID;
     private int appEventID;
+    private boolean userEventEnable;
 	public int getUserEventID() {
 		return userEventID;
 	}
@@ -23,4 +24,11 @@ public class UserEventVo {
 	public void setAppEventID(int appEventID) {
 		this.appEventID = appEventID;
 	}
+	public boolean isUserEventEnable() {
+		return userEventEnable;
+	}
+	public void setUserEventEnable(boolean userEventEnable) {
+		this.userEventEnable = userEventEnable;
+	}
+	
 }
