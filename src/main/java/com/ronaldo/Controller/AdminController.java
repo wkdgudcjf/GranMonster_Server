@@ -10,10 +10,20 @@ import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.transaction.Transaction;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.support.DefaultTransactionStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,18 +41,26 @@ import com.ronaldo.domain.UserEventVo;
 import com.ronaldo.domain.UserInAppVo;
 import com.ronaldo.service.AuthUserServiceImpl;
 import com.ronaldo.service.ApiServiceImpl;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 public class AdminController
 {
 	@Autowired
-	ServletContext context;
+	private ServletContext context;
 	@Autowired
 	private AuthUserServiceImpl userService;
 	@Autowired
 	private ApiServiceImpl apiService;
 	@Autowired
-	SessionWire sessionWire;
+	private SessionWire sessionWire;
+	@Autowired
+	private DataSourceTransactionManager dataSourceTransactionManager;
 	
+	private static final Logger LOG = LoggerFactory.getLogger(AdminController.class);
+	 
 	@RequestMapping(value = "/managementapp", method = RequestMethod.GET)
     public String managementapp(Model model){
     	if(sessionWire.getId()==null)
@@ -65,6 +83,7 @@ public class AdminController
 		{
     		return setRedirectLogin(model);
 		}
+    	
     	return setManagementBilling(model);
     }
 	@RequestMapping(value = "/managementexchange", method = RequestMethod.GET)
@@ -104,6 +123,10 @@ public class AdminController
     		, @RequestParam("appURL") String appURL,@RequestParam("companyID") int companyID,
     		@RequestParam("appName") String appName,@RequestParam("appIconImage") MultipartFile appIconImage
     		,@RequestParam("appBannerImage") MultipartFile appBannerImage) {
+		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+        defaultTransactionDefinition.setName("regist_app");
+        defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(defaultTransactionDefinition);
         try {
         	 // Get the file and save it uploads dir
         	 byte[] iconBytes = appIconImage.getBytes();
@@ -117,15 +140,16 @@ public class AdminController
              String bannerOriginalFileExtension = bannerOriginalFileName.substring(bannerOriginalFileName.lastIndexOf("."));
              String bannerFileName = appName+"_v1_banner"+bannerOriginalFileExtension;
              Path bannerPath = Paths.get(context.getRealPath("image/appBanner/") + bannerFileName);
-             
              if(apiService.registApp(appName,companyID, appURL, iconFileName,bannerFileName, appPackage))
              {
                  Files.write(iconPath, iconBytes);
                  Files.write(bannerPath, bannerBytes);
+                 dataSourceTransactionManager.commit(transactionStatus);
             	 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
              }
              else
              {
+            	 dataSourceTransactionManager.rollback(transactionStatus);
             	 return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
              }
         } catch (Exception e) {
@@ -138,7 +162,7 @@ public class AdminController
     		, @RequestParam("appURL") String appURL,@RequestParam("companyID") int companyID,
     		@RequestParam("appName") String appName,@RequestParam("appIconImage") MultipartFile appIconImage
     		,@RequestParam("appBannerImage") MultipartFile appBannerImage,@RequestParam("appEnable") boolean appEnable) {
-		 try {
+        try {
         	 // Get the file and save it uploads dir
 			 AppVo appVo = apiService.getApp(appID);
 			 String imageIconPath = appVo.getAppImageIconPath();

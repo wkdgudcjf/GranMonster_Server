@@ -1,13 +1,14 @@
 package com.ronaldo.dao;
 
 public class PurchaseDAO {
-	private String userPayload;
+	private int coin;
 	private String state;
-	public String getUserPayload() {
-		return userPayload;
+
+	public int getCoin() {
+		return coin;
 	}
-	public void setUserPayload(String userPayload) {
-		this.userPayload = userPayload;
+	public void setCoin(int coin) {
+		this.coin = coin;
 	}
 	public String getState() {
 		return state;

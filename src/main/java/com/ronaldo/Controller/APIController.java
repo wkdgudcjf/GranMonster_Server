@@ -13,9 +13,15 @@ import javax.servlet.ServletContext;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.ronaldo.config.GranConfig;
 import com.ronaldo.dao.AppDAO;
@@ -41,12 +47,14 @@ import com.ronaldo.service.ApiServiceImpl;
 public class APIController {
 	
 	@Autowired
-	ServletContext context;
+	private ServletContext context;
 	@Autowired
 	private ApiServiceImpl apiService;
 
-	JSONParser jsonParser = new JSONParser();
-
+	private JSONParser jsonParser = new JSONParser();
+	private static final Logger LOG = LoggerFactory.getLogger(AdminController.class);
+	@Autowired
+	private DataSourceTransactionManager dataSourceTransactionManager;
 	@RequestMapping(value = "/api/login", method = RequestMethod.POST)
 	public ResponseEntity<ReturnUserDAO> login(@RequestBody String param) {
 		JSONObject jsonObject;
@@ -54,6 +62,10 @@ public class APIController {
 		UserVo userVo = null;
 		UserDAO userDAO = null;
 		ReturnUserDAO returnUserDAO = null;
+		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+		defaultTransactionDefinition.setName("login");
+		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(defaultTransactionDefinition);
 		try {
 			jsonObject = (JSONObject) jsonParser.parse(param);
 			userKey = (String) jsonObject.get("userKey");
@@ -72,7 +84,10 @@ public class APIController {
 			{
 				if (apiService.registUser(userKey)) // 일단 유저 등록시키고.
 				{
-					apiService.registUserInApp(userKey, appKey);
+					if(!apiService.registUserInApp(userKey, appKey))
+					{
+						dataSourceTransactionManager.rollback(transactionStatus);
+					}
 					userVo = apiService.getUser(userKey);
 				} else {
 					returnUserDAO.setState(GranConfig.RETURN_USER_LOGIN_FAIL);
@@ -81,14 +96,20 @@ public class APIController {
 			} else {
 				if (apiService.getUserInApp(userKey, appKey) == null) // 앱 처음이면 앱 등록시킨다.
 				{
-					apiService.registUserInApp(userKey, appKey);
+					if(!apiService.registUserInApp(userKey, appKey))
+					{
+						returnUserDAO.setState(GranConfig.RETURN_USER_LOGIN_FAIL);
+						return new ResponseEntity<>(returnUserDAO, HttpStatus.BAD_REQUEST);
+					}
 				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.printStackTrace();  // 파싱실패.
+			returnUserDAO.setState(GranConfig.RETURN_USER_LOGIN_FAIL);
 			return new ResponseEntity<>(returnUserDAO, HttpStatus.BAD_REQUEST);
 		}
+		dataSourceTransactionManager.commit(transactionStatus);
 		userDAO.setUserCoin(userVo.getUserCoin());
 		userDAO.setUserEmail(userVo.getUserEmail());
 		userDAO.setUserMoney(userVo.getUserMoney());
@@ -233,7 +254,7 @@ public class APIController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			appListDAO.setState(GranConfig.RETURN_APP_FAIL);
+			appListDAO.setState(GranConfig.RETURN_APP_FAIL);  // 파싱실패.
 			return new ResponseEntity<>(appListDAO, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(appListDAO, HttpStatus.OK);
@@ -260,7 +281,7 @@ public class APIController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			payloadDAO.setState(GranConfig.RETURN_APP_FAIL);
+			payloadDAO.setState(GranConfig.RETURN_APP_FAIL);  // 파싱실패.
 			return new ResponseEntity<>(payloadDAO, HttpStatus.BAD_REQUEST);
 		}
 		
@@ -303,7 +324,7 @@ public class APIController {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			exchangeListDAO.setState(GranConfig.RETURN_APP_FAIL);
+			exchangeListDAO.setState(GranConfig.RETURN_APP_FAIL);  // 파싱실패.
 			return new ResponseEntity<>(exchangeListDAO, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(exchangeListDAO, HttpStatus.OK);
@@ -316,6 +337,10 @@ public class APIController {
 		long coin,price;
 		String productId = null, purchaseToken = null;
 		PurchaseDAO purchaseDAO = null;
+		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+		defaultTransactionDefinition.setName("addBilling");
+		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(defaultTransactionDefinition);
 		try {
 			purchaseDAO = new PurchaseDAO();
 			jsonObject = (JSONObject) jsonParser.parse(param);
@@ -370,16 +395,24 @@ public class APIController {
 			// 상품이 구매된 시각. 타임스탬프 형태
 			Long purchaseTimeMillis = productPurchase.getPurchaseTimeMillis();
 			System.out.println(purchaseTimeMillis);*/
-			apiService.addBilling(userKey, appKey, (int)coin, (int)price, "충전");
 
-			purchaseDAO.setUserPayload(payload);
+			
+			if(!apiService.addBilling(userKey, appKey, (int)coin, (int)price, "충전"))
+			{
+				dataSourceTransactionManager.rollback(transactionStatus);
+				purchaseDAO.setState(GranConfig.RETURN_APP_FAIL);
+				return new ResponseEntity<>(purchaseDAO, HttpStatus.BAD_REQUEST);
+			}
 			purchaseDAO.setState(GranConfig.RETURN_APP_SUCCESS);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			purchaseDAO.setState(GranConfig.RETURN_APP_FAIL);
+			purchaseDAO.setState(GranConfig.RETURN_APP_FAIL);  // 파싱실패.
 			return new ResponseEntity<>(purchaseDAO, HttpStatus.BAD_REQUEST);
 		}
+		dataSourceTransactionManager.commit(transactionStatus);
+		UserVo userVO = apiService.getUser(userKey);
+		purchaseDAO.setCoin(userVO.getUserCoin());
 		return new ResponseEntity<>(purchaseDAO, HttpStatus.OK);
 	}
 
@@ -390,6 +423,10 @@ public class APIController {
 		String userKey = null, appKey = null , payload = null;
 		long coin;
 		UserVo userVo;
+		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+		defaultTransactionDefinition.setName("minusBilling");
+		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(defaultTransactionDefinition);
 		try {
 			exhaustDAO = new ExhaustDAO();
 			jsonObject = (JSONObject) jsonParser.parse(param);
@@ -414,14 +451,22 @@ public class APIController {
 				return new ResponseEntity<>(exhaustDAO, HttpStatus.BAD_REQUEST);
 			}
 			
-			apiService.minusBilling(userKey, appKey, (int)coin, "사용");
+			if(!apiService.minusBilling(userKey, appKey, (int)coin, "사용"))
+			{
+				dataSourceTransactionManager.rollback(transactionStatus);
+				exhaustDAO.setState(GranConfig.RETURN_APP_FAIL);
+				return new ResponseEntity<>(exhaustDAO, HttpStatus.BAD_REQUEST);
+			}
 			exhaustDAO.setState(GranConfig.RETURN_APP_SUCCESS);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			exhaustDAO.setState(GranConfig.RETURN_APP_FAIL);
+			exhaustDAO.setState(GranConfig.RETURN_APP_FAIL);  // 파싱실패.
 			return new ResponseEntity<>(exhaustDAO, HttpStatus.BAD_REQUEST);
 		}
+		UserVo userVO = apiService.getUser(userKey);
+		exhaustDAO.setCoin(userVO.getUserCoin());
+		dataSourceTransactionManager.commit(transactionStatus);
 		return new ResponseEntity<>(exhaustDAO, HttpStatus.OK);
 	}
 	
@@ -464,12 +509,16 @@ public class APIController {
 				eventDAO.setState(GranConfig.RETURN_EVENT_DUPL); // 이미 이벤트 진행
 				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
 			}
-			apiService.registUserEvent(userID,appEventVo.getAppEventID()); // userevent 등록
+			if(!apiService.registUserEvent(userID,appEventVo.getAppEventID())) // userevent 등록
+			{
+				eventDAO.setState(GranConfig.RETURN_APP_FAIL);
+				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
+			}
 			eventDAO.setState(GranConfig.RETURN_APP_SUCCESS);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			eventDAO.setState(GranConfig.RETURN_APP_FAIL);
+			eventDAO.setState(GranConfig.RETURN_APP_FAIL); // 파싱실패.
 			return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(eventDAO, HttpStatus.OK);
@@ -481,6 +530,10 @@ public class APIController {
 		String userKey = null, appKey = null,appEventKey = null;
 		AppVo appVO = null;
 		AppEventVo appEventVo = null;
+		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+		defaultTransactionDefinition.setName("eventreward");
+		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(defaultTransactionDefinition);
 		try {
 			eventDAO = new EventDAO();
 			jsonObject = (JSONObject) jsonParser.parse(param);
@@ -518,15 +571,27 @@ public class APIController {
 				eventDAO.setState(GranConfig.RETURN_EVENT_DUPL); // 이미 이벤트 보상을 받았을때
 				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
 			}
-			apiService.modifyUserEvent(userEventVo.getUserEventID(),userID,appEventVo.getAppEventID());
-			apiService.addBilling(userID, appVO.getAppID(), appEventVo.getAppEventCoin(), 0, appEventVo.getAppEventContent());
+			
+			if(!apiService.modifyUserEvent(userEventVo.getUserEventID(),userID,appEventVo.getAppEventID()))
+			{
+				eventDAO.setState(GranConfig.RETURN_APP_FAIL);
+				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
+			}
+			if(!apiService.addBilling(userID, appVO.getAppID(), appEventVo.getAppEventCoin(), 0, appEventVo.getAppEventContent()))
+			{
+				dataSourceTransactionManager.rollback(transactionStatus);
+				eventDAO.setState(GranConfig.RETURN_APP_FAIL);
+				return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
+			}
 			eventDAO.setState(GranConfig.RETURN_APP_SUCCESS);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-			eventDAO.setState(GranConfig.RETURN_APP_FAIL);
+			eventDAO.setState(GranConfig.RETURN_APP_FAIL); // 파싱실패.
 			return new ResponseEntity<>(eventDAO, HttpStatus.BAD_REQUEST);
 		}
+		dataSourceTransactionManager.commit(transactionStatus);
+		UserVo userVO = apiService.getUser(userKey);
+		eventDAO.setCoin(userVO.getUserCoin());
 		return new ResponseEntity<>(eventDAO, HttpStatus.OK);
 	}
 }

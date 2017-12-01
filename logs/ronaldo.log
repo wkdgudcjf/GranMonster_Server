@@ -1,0 +1,15 @@
+2017-12-01 23:32:09.414  INFO DESKTOP-B9OFJUT --- [nio-8080-exec-4] c.r.C.AdminController                    : Info log
+2017-12-01 23:32:09.414  WARN DESKTOP-B9OFJUT --- [nio-8080-exec-4] c.r.C.AdminController                    : Hey, This is a warning!
+2017-12-01 23:32:09.415 ERROR DESKTOP-B9OFJUT --- [nio-8080-exec-4] c.r.C.AdminController                    : Oops! We have an Error. OK
+2017-12-01 23:33:15.085  INFO DESKTOP-B9OFJUT --- [           main] c.r.ServletInitializer                   : Starting ServletInitializer on DESKTOP-B9OFJUT with PID 38352 (E:\ws\Ronaldo\target\classes started by jhc in E:\ws\Ronaldo)
+2017-12-01 23:33:15.088  INFO DESKTOP-B9OFJUT --- [           main] c.r.ServletInitializer                   : No active profile set, falling back to default profiles: default
+2017-12-01 23:33:18.161  INFO DESKTOP-B9OFJUT --- [           main] c.r.ServletInitializer                   : Started ServletInitializer in 3.255 seconds (JVM running for 4.31)
+2017-12-01 23:33:35.793  INFO DESKTOP-B9OFJUT --- [           main] c.r.ServletInitializer                   : Starting ServletInitializer on DESKTOP-B9OFJUT with PID 42100 (E:\ws\Ronaldo\target\classes started by jhc in E:\ws\Ronaldo)
+2017-12-01 23:33:35.797  INFO DESKTOP-B9OFJUT --- [           main] c.r.ServletInitializer                   : No active profile set, falling back to default profiles: default
+2017-12-01 23:33:38.929  INFO DESKTOP-B9OFJUT --- [           main] c.r.ServletInitializer                   : Started ServletInitializer in 3.333 seconds (JVM running for 4.498)
+2017-12-01 23:33:59.380  INFO DESKTOP-B9OFJUT --- [           main] c.r.ServletInitializer                   : Starting ServletInitializer on DESKTOP-B9OFJUT with PID 42420 (E:\ws\Ronaldo\target\classes started by jhc in E:\ws\Ronaldo)
+2017-12-01 23:33:59.384  INFO DESKTOP-B9OFJUT --- [           main] c.r.ServletInitializer                   : No active profile set, falling back to default profiles: default
+2017-12-01 23:34:02.808  INFO DESKTOP-B9OFJUT --- [           main] c.r.ServletInitializer                   : Started ServletInitializer in 3.636 seconds (JVM running for 4.823)
+2017-12-01 23:34:44.103  INFO DESKTOP-B9OFJUT --- [nio-8080-exec-4] c.r.C.AdminController                    : Info log
+2017-12-01 23:34:44.104  WARN DESKTOP-B9OFJUT --- [nio-8080-exec-4] c.r.C.AdminController                    : Hey, This is a warning!
+2017-12-01 23:34:44.104 ERROR DESKTOP-B9OFJUT --- [nio-8080-exec-4] c.r.C.AdminController                    : Oops! We have an Error. OK
