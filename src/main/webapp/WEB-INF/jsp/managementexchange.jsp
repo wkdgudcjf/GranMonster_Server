@@ -224,7 +224,7 @@
 	              <input type="text" name="exchangeCoin" class="form-control" id="modifyExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
 	            </div>
 	            <div class="form-group">
-		            <label for="modifyHExchangeImage">가로형 이미지 업로드(454x580)(부재시 기존이미지 사용)</label>
+		            <label for="modifyHExchangeImage">가로형 이미지 업로드(124x253)(부재시 기존이미지 사용)</label>
 		             <div class="filebox bs3-primary preview-image">
 	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
 	                      <label for="modifyHExchangeImage">이미지찾기</label> 
@@ -232,7 +232,7 @@
 	                  </div>
 		            </div>
 	             <div class="form-group">
-		            <label for="modifyVExchangeImage">세로형 이미지 업로드(580x350)(부재시 기존이미지 사용)</label>
+		            <label for="modifyVExchangeImage">세로형 이미지 업로드(145x210)(부재시 기존이미지 사용)</label>
 		             <div class="filebox bs3-primary preview-image">
 	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
 	                      <label for="modifyVExchangeImage">이미지찾기</label> 
@@ -287,7 +287,7 @@
 		            <input type="text" name="exchangeCoin" class="form-control" id="inputExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
 		          </div>
 		          <div class="form-group">
-		            <label for="inputHExchangeImage">가로형 이미지 업로드(454x580)</label>
+		            <label for="inputHExchangeImage">가로형 이미지 업로드(124x253)</label>
 		             <div class="filebox bs3-primary preview-image">
 	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
 	                      <label for="inputHExchangeImage">이미지찾기</label> 
@@ -295,7 +295,7 @@
 	                  </div>
 		            </div>
 	             <div class="form-group">
-		            <label for="inputVExchangeImage">세로형 이미지 업로드(580x350)</label>
+		            <label for="inputVExchangeImage">세로형 이미지 업로드(145x210)</label>
 		             <div class="filebox bs3-primary preview-image">
 	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
 	                      <label for="inputVExchangeImage">이미지찾기</label> 
