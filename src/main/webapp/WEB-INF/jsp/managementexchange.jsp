@@ -175,7 +175,7 @@
 			        <td>${item.exchangeMoney}</td>
 			        <td>${item.exchangeCoin}</td>
 			        <td><img src="image/HExchange/${item.exchangeHImagePath}"  style="max-width: 150px; max-height: 100px;"></td>
-			        <td><img src="image/VEchange/${item.exchangeVImagePath}"  style="max-width: 100px; max-height: 150px;"></td>
+			        <td><img src="image/VExchange/${item.exchangeVImagePath}"  style="max-width: 100px; max-height: 150px;"></td>
 			    </tr>
 			    </c:forEach>
                 </tbody>
