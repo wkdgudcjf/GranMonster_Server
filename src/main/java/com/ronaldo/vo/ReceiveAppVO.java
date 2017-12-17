@@ -10,8 +10,8 @@ public class ReceiveAppVO {
 	private int companyID;
 	private String appName;
 	private MultipartFile appIconImage;
-	private MultipartFile appBannerImage;
-
+	private MultipartFile appHBannerImage;
+	private MultipartFile appVBannerImage;
 	public int getAppID() {
 		return appID;
 	}
@@ -54,10 +54,16 @@ public class ReceiveAppVO {
 	public void setAppIconImage(MultipartFile appIconImage) {
 		this.appIconImage = appIconImage;
 	}
-	public MultipartFile getAppBannerImage() {
-		return appBannerImage;
+	public MultipartFile getAppHBannerImage() {
+		return appHBannerImage;
 	}
-	public void setAppBannerImage(MultipartFile appBannerImage) {
-		this.appBannerImage = appBannerImage;
+	public void setAppHBannerImage(MultipartFile appHBannerImage) {
+		this.appHBannerImage = appHBannerImage;
+	}
+	public MultipartFile getAppVBannerImage() {
+		return appVBannerImage;
+	}
+	public void setAppVBannerImage(MultipartFile appVBannerImage) {
+		this.appVBannerImage = appVBannerImage;
 	}
 }

@@ -109,7 +109,7 @@ public class ApiServiceImpl implements ApiService
 		this.passwordEncoder = passwordEncoder;
 	}
 	@Override
-	public boolean registApp(ReceiveAppVO receiveAppVO, String appImageIconPath,String appImageBannerPath) {
+	public boolean registApp(ReceiveAppVO receiveAppVO, String appImageIconPath,String appImageHBannerPath,String appImageVBannerPath) {
 		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
 		defaultTransactionDefinition.setName("registapp");
 		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -118,7 +118,8 @@ public class ApiServiceImpl implements ApiService
 		appDTO.setAppName(receiveAppVO.getAppName());
 		appDTO.setCompanyID(receiveAppVO.getCompanyID());
 		appDTO.setAppImageIconPath(appImageIconPath);
-		appDTO.setAppImageBannerPath(appImageBannerPath);
+		appDTO.setAppImageHBannerPath(appImageHBannerPath);
+		appDTO.setAppImageVBannerPath(appImageVBannerPath);
 		appDTO.setAppURL(receiveAppVO.getAppURL());
 		appDTO.setAppPackage(receiveAppVO.getAppPackage());
 		try
@@ -137,14 +138,15 @@ public class ApiServiceImpl implements ApiService
 		}
 	}
 	@Override
-	public boolean modifyApp(ReceiveAppVO receiveAppVO,String appImageIconPath,String appImageBannerPath)
+	public boolean modifyApp(ReceiveAppVO receiveAppVO,String appImageIconPath,String appImageHBannerPath,String appImageVBannerPath)
 	{
 		AppDTO appDTO = new AppDTO();
 		appDTO.setAppID(receiveAppVO.getAppID());
 		appDTO.setAppName(receiveAppVO.getAppName());
 		appDTO.setCompanyID(receiveAppVO.getCompanyID());
 		appDTO.setAppImageIconPath(appImageIconPath);
-		appDTO.setAppImageBannerPath(appImageBannerPath);
+		appDTO.setAppImageHBannerPath(appImageHBannerPath);
+		appDTO.setAppImageVBannerPath(appImageVBannerPath);
 		appDTO.setAppURL(receiveAppVO.getAppURL());
 		appDTO.setAppPackage(receiveAppVO.getAppPackage());
 		appDTO.setAppEnable(receiveAppVO.isAppEnable());
@@ -435,14 +437,15 @@ public class ApiServiceImpl implements ApiService
 		return exchangeMapper.getEnableExchangeList(exchangeEnable);
 	}
 	@Override
-	public boolean modifyExchange(ReceiveExchangeVO receiveExchangeVO, String exchangeImagePath) {
+	public boolean modifyExchange(ReceiveExchangeVO receiveExchangeVO, String HFileName,String VFileName) {
 		ExchangeDTO exchangeDTO = new ExchangeDTO();
 		exchangeDTO.setExchangeID(receiveExchangeVO.getExchangeID());
 		exchangeDTO.setExchangeMoney(receiveExchangeVO.getExchangeMoney());
 		exchangeDTO.setExchangeCoin(receiveExchangeVO.getExchangeCoin());
 		exchangeDTO.setExchangeEnable(receiveExchangeVO.isExchangeEnable());
 		exchangeDTO.setExchangeName(receiveExchangeVO.getExchangeName());
-		exchangeDTO.setExchangeImagePath(exchangeImagePath);
+		exchangeDTO.setExchangeHImagePath(HFileName);
+		exchangeDTO.setExchangeVImagePath(VFileName);
 		exchangeDTO.setExchangeKey(receiveExchangeVO.getExchangeKey());
 		try
 		{
@@ -460,12 +463,13 @@ public class ApiServiceImpl implements ApiService
 		return exchangeMapper.getExchange(exchangeID);
 	}
 	@Override
-	public boolean registExchange(ReceiveExchangeVO receiveExchangeVO, String exchangeImagePath) {
+	public boolean registExchange(ReceiveExchangeVO receiveExchangeVO, String HFileName,String VFileName) {
 		ExchangeDTO exchangeDTO = new ExchangeDTO();
 		exchangeDTO.setExchangeMoney(receiveExchangeVO.getExchangeMoney());
 		exchangeDTO.setExchangeCoin(receiveExchangeVO.getExchangeCoin());
 		exchangeDTO.setExchangeName(receiveExchangeVO.getExchangeName());
-		exchangeDTO.setExchangeImagePath(exchangeImagePath);
+		exchangeDTO.setExchangeHImagePath(HFileName);
+		exchangeDTO.setExchangeVImagePath(VFileName);
 		exchangeDTO.setExchangeKey(receiveExchangeVO.getExchangeKey());
 		try
 		{
@@ -565,7 +569,6 @@ public class ApiServiceImpl implements ApiService
 		dataSourceTransactionManager.commit(transactionStatus);
 		returnUserVO.setUserCoin(userDTO.getUserCoin());
 		returnUserVO.setUserEmail(userDTO.getUserEmail());
-		returnUserVO.setUserMoney(userDTO.getUserMoney());
 		returnUserVO.setState(LoginEnum.SUCCESS);
 		return;
 	}
@@ -592,7 +595,8 @@ public class ApiServiceImpl implements ApiService
 			ReturnAppVO returnAppVO = new ReturnAppVO();
 			returnAppVO.setAppKey(appDTOList.get(i).getAppKey());
 			returnAppVO.setAppImageIconPath(appDTOList.get(i).getAppImageIconPath());
-			returnAppVO.setAppImageBannerPath(appDTOList.get(i).getAppImageBannerPath());
+			returnAppVO.setAppImageHBannerPath(appDTOList.get(i).getAppImageHBannerPath());
+			returnAppVO.setAppImageVBannerPath(appDTOList.get(i).getAppImageVBannerPath());
 			returnAppVO.setAppName(appDTOList.get(i).getAppName());
 			returnAppVO.setAppPackage(appDTOList.get(i).getAppPackage());
 			returnAppVO.setAppURL(appDTOList.get(i).getAppURL());
@@ -697,7 +701,8 @@ public class ApiServiceImpl implements ApiService
 			returnExchangeVO.setExchangeCoin(exchangeList.get(i).getExchangeCoin());
 			returnExchangeVO.setExchangeMoney(exchangeList.get(i).getExchangeMoney());
 			returnExchangeVO.setExchangeName(exchangeList.get(i).getExchangeName());
-			returnExchangeVO.setExchangeImagePath(exchangeList.get(i).getExchangeImagePath());
+			returnExchangeVO.setExchangeHImagePath(exchangeList.get(i).getExchangeHImagePath());
+			returnExchangeVO.setExchangeVImagePath(exchangeList.get(i).getExchangeVImagePath());
 			returnExchangeVO.setExchangeKey(exchangeList.get(i).getExchangeKey());
 			returnExchangeVOList.add(returnExchangeVO);
 		}
@@ -767,7 +772,7 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("purchase(INVALID_BILLING) - AppKey : " + appKey+" / UserKey : "+userKey);
 		}
 		returnPurchaseVO.setState(PurchaseEnum.SUCCESS);
-		returnPurchaseVO.setCoin(userDTO.getUserCoin()+coin);
+		returnPurchaseVO.setCoin(userDTO.getUserCoin());
 		return;
 	}
 	
@@ -808,7 +813,7 @@ public class ApiServiceImpl implements ApiService
 			return;
 		}
 		returnExhaustVO.setState(ExhaustEnum.SUCCESS);
-		returnExhaustVO.setCoin(userDTO.getUserCoin()-coin);
+		returnExhaustVO.setCoin(userDTO.getUserCoin());
 		return;
 	}
 	
@@ -942,7 +947,7 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("eventReward(INVALID_BILLING) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
-		if(!modifyEventCount(appEventDTO.getAppEventID(),appEventDTO.getAppEventCount()))
+		if(!modifyEventCount(appEventDTO.getAppEventID(),appEventDTO.getAppEventCount()+1))
 		{
 			dataSourceTransactionManager.rollback(transactionStatus);
 			returnEventRewardVO.setState(EventRewardEnum.INVALID_EVENT_COUNT); // 이벤트 카운트 에러
@@ -955,7 +960,7 @@ public class ApiServiceImpl implements ApiService
 		}
 		dataSourceTransactionManager.commit(transactionStatus);
 		
-		returnEventRewardVO.setCoin(userDTO.getUserCoin() + appEventDTO.getAppEventCoin());
+		returnEventRewardVO.setCoin(userDTO.getUserCoin());
 		returnEventRewardVO.setState(EventRewardEnum.SUCCESS); // ok
 		return;
 	}

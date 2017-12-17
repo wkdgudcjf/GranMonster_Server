@@ -6,7 +6,6 @@ public class ReturnUserVO {
     private LoginEnum state;
     private String userEmail;
     private int userCoin;
-    private int userMoney;
 	public LoginEnum getState() {
 		return state;
 	}
@@ -24,11 +23,5 @@ public class ReturnUserVO {
 	}
 	public void setUserCoin(int userCoin) {
 		this.userCoin = userCoin;
-	}
-	public int getUserMoney() {
-		return userMoney;
-	}
-	public void setUserMoney(int userMoney) {
-		this.userMoney = userMoney;
 	}
 }

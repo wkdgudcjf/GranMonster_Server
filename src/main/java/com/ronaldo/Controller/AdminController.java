@@ -3,9 +3,6 @@ package com.ronaldo.Controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -128,15 +125,23 @@ public class AdminController
              String iconFileName = receiveAppVO.getAppName()+"_v1_icon"+iconOriginalFileExtension;
              Path iconPath = Paths.get(context.getRealPath("image/appIcon/") + iconFileName);
              
-             byte[] bannerBytes = receiveAppVO.getAppBannerImage().getBytes();
-        	 String bannerOriginalFileName = receiveAppVO.getAppBannerImage().getOriginalFilename();
-             String bannerOriginalFileExtension = bannerOriginalFileName.substring(bannerOriginalFileName.lastIndexOf("."));
-             String bannerFileName = receiveAppVO.getAppName()+"_v1_banner"+bannerOriginalFileExtension;
-             Path bannerPath = Paths.get(context.getRealPath("image/appBanner/") + bannerFileName);
-             if(apiService.registApp(receiveAppVO,iconFileName,bannerFileName))
+             byte[] HbannerBytes = receiveAppVO.getAppHBannerImage().getBytes();
+        	 String HbannerOriginalFileName = receiveAppVO.getAppHBannerImage().getOriginalFilename();
+             String HbannerOriginalFileExtension = HbannerOriginalFileName.substring(HbannerOriginalFileName.lastIndexOf("."));
+             String HbannerFileName = receiveAppVO.getAppName()+"_v1_Hbanner"+HbannerOriginalFileExtension;
+             Path HbannerPath = Paths.get(context.getRealPath("image/appHBanner/") + HbannerFileName);
+             
+             byte[] VbannerBytes = receiveAppVO.getAppVBannerImage().getBytes();
+        	 String VbannerOriginalFileName = receiveAppVO.getAppVBannerImage().getOriginalFilename();
+             String VbannerOriginalFileExtension = VbannerOriginalFileName.substring(VbannerOriginalFileName.lastIndexOf("."));
+             String VbannerFileName = receiveAppVO.getAppName()+"_v1_Vbanner"+VbannerOriginalFileExtension;
+             Path VbannerPath = Paths.get(context.getRealPath("image/appVBanner/") + VbannerFileName);
+             
+             if(apiService.registApp(receiveAppVO,iconFileName,HbannerFileName,VbannerFileName))
              {
                  Files.write(iconPath, iconBytes);
-                 Files.write(bannerPath, bannerBytes);
+                 Files.write(HbannerPath, HbannerBytes);
+                 Files.write(VbannerPath, VbannerBytes);
             	 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
              }
              else
@@ -155,9 +160,11 @@ public class AdminController
         	 // Get the file and save it uploads dir
 			 AppDTO appDTO = apiService.getApp(receiveAppVO.getAppID());
 			 String imageIconPath = appDTO.getAppImageIconPath();
-			 String imageBannerPath = appDTO.getAppImageBannerPath();
+			 String imageHBannerPath = appDTO.getAppImageHBannerPath();
+			 String imageVBannerPath = appDTO.getAppImageVBannerPath();
 			 byte[] iconBytes = receiveAppVO.getAppIconImage().getBytes();
-			 byte[] bannerBytes = receiveAppVO.getAppBannerImage().getBytes();
+			 byte[] HbannerBytes = receiveAppVO.getAppHBannerImage().getBytes();
+			 byte[] VbannerBytes = receiveAppVO.getAppVBannerImage().getBytes();
 			 if(iconBytes.length != 0)
 			 {
 	        	 String iconOriginalFileName = receiveAppVO.getAppIconImage().getOriginalFilename();
@@ -169,28 +176,44 @@ public class AdminController
 				 ver++;
 				 imageIconPath = receiveAppVO.getAppName()+"_v"+ver+"_icon"+iconOriginalFileExtension;
 			 }
-			 if(bannerBytes.length != 0)
+			 if(HbannerBytes.length != 0)
 			 {
-				 String bannerOriginalFileName = receiveAppVO.getAppBannerImage().getOriginalFilename();
-	             String bannerOriginalFileExtension = bannerOriginalFileName.substring(bannerOriginalFileName.lastIndexOf("."));
-				 StringTokenizer stk = new StringTokenizer(imageBannerPath,"_v");
+				 String HbannerOriginalFileName = receiveAppVO.getAppHBannerImage().getOriginalFilename();
+	             String HbannerOriginalFileExtension = HbannerOriginalFileName.substring(HbannerOriginalFileName.lastIndexOf("."));
+				 StringTokenizer stk = new StringTokenizer(imageHBannerPath,"_v");
 				 String str1 = stk.nextToken();
 				 String str2 = stk.nextToken();
 				 int ver = str2.charAt(0)-48;
 				 ver++;
-				 imageBannerPath = receiveAppVO.getAppName()+"_v"+ver+"_banner"+bannerOriginalFileExtension;
+				 imageHBannerPath = receiveAppVO.getAppName()+"_v"+ver+"_Hbanner"+HbannerOriginalFileExtension;
 			 }
-			if(apiService.modifyApp(receiveAppVO, imageIconPath,imageBannerPath))
+			 if(VbannerBytes.length != 0)
+			 {
+				 String VbannerOriginalFileName = receiveAppVO.getAppVBannerImage().getOriginalFilename();
+	             String VbannerOriginalFileExtension = VbannerOriginalFileName.substring(VbannerOriginalFileName.lastIndexOf("."));
+				 StringTokenizer stk = new StringTokenizer(imageVBannerPath,"_v");
+				 String str1 = stk.nextToken();
+				 String str2 = stk.nextToken();
+				 int ver = str2.charAt(0)-48;
+				 ver++;
+				 imageVBannerPath = receiveAppVO.getAppName()+"_v"+ver+"_Vbanner"+VbannerOriginalFileExtension;
+			 }
+			if(apiService.modifyApp(receiveAppVO, imageIconPath,imageHBannerPath,imageVBannerPath))
 			{
 				if(iconBytes.length != 0)
 				{
 		            Path iconPath = Paths.get(context.getRealPath("image/appIcon/") + imageIconPath);
 				    Files.write(iconPath, iconBytes);
 				}
-				if(bannerBytes.length != 0)
+				if(HbannerBytes.length != 0)
 				{
-		            Path bannerPath = Paths.get(context.getRealPath("image/appBanner/") + imageBannerPath);
-				    Files.write(bannerPath, bannerBytes);
+		            Path HbannerPath = Paths.get(context.getRealPath("image/appHBanner/") + imageHBannerPath);
+				    Files.write(HbannerPath, HbannerBytes);
+				}
+				if(VbannerBytes.length != 0)
+				{
+		            Path VbannerPath = Paths.get(context.getRealPath("image/appVBanner/") + imageVBannerPath);
+				    Files.write(VbannerPath, VbannerBytes);
 				}
 				return new ResponseEntity<>(GranConfig.RETURN_APP_MODIFY_SECCESS,HttpStatus.OK);
 			}
@@ -235,16 +258,22 @@ public class AdminController
     public ResponseEntity<String> registExchange(@ModelAttribute ReceiveExchangeVO receiveExchangeVO) 
 	{
 		 try {
-        	 // Get the file and save it uploads dir
-        	 byte[] bytes = receiveExchangeVO.getExchangeImage().getBytes();
-        	 String originalFileName = receiveExchangeVO.getExchangeImage().getOriginalFilename();
-             String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-             String fileName = receiveExchangeVO.getExchangeName()+"_v1"+originalFileExtension;
-             Path path = Paths.get(context.getRealPath("image/exchange/") + fileName);
-
-             if(apiService.registExchange(receiveExchangeVO,fileName))
+             byte[] HBytes = receiveExchangeVO.getExchangeHImage().getBytes();
+        	 String HOriginalFileName = receiveExchangeVO.getExchangeHImage().getOriginalFilename();
+             String HOriginalFileExtension = HOriginalFileName.substring(HOriginalFileName.lastIndexOf("."));
+             String HFileName = receiveExchangeVO.getExchangeName()+"_v1_H"+HOriginalFileExtension;
+             Path HExchangePath = Paths.get(context.getRealPath("image/HExchange/") + HFileName);
+             
+             byte[] VBytes = receiveExchangeVO.getExchangeVImage().getBytes();
+        	 String VOriginalFileName = receiveExchangeVO.getExchangeVImage().getOriginalFilename();
+             String VOriginalFileExtension = VOriginalFileName.substring(VOriginalFileName.lastIndexOf("."));
+             String VFileName = receiveExchangeVO.getExchangeName()+"_v1_V"+VOriginalFileExtension;
+             Path VExchangePath = Paths.get(context.getRealPath("image/HExchange/") + VFileName);
+             
+             if(apiService.registExchange(receiveExchangeVO,HFileName,VFileName))
              {
-                 Files.write(path, bytes);
+                 Files.write(HExchangePath, HBytes);
+                 Files.write(VExchangePath, VBytes);
             	 return new ResponseEntity<>(GranConfig.RETURN_EXCHANGE_REGIST_SECCESS,HttpStatus.OK);
              }
              else
@@ -261,25 +290,44 @@ public class AdminController
 	{
         try {
        	 // Get the file and save it uploads dir
-			 String ImagePath = apiService.getExchange(receiveExchangeVO.getExchangeID()).getExchangeImagePath();
-			 byte[] bytes = receiveExchangeVO.getExchangeImage().getBytes();
-			 if(bytes.length != 0)
+        	ExchangeDTO exchangeDTO = apiService.getExchange(receiveExchangeVO.getExchangeID());
+			 String HImagePath = exchangeDTO.getExchangeHImagePath();
+			 String VImagePath = exchangeDTO.getExchangeVImagePath();
+			 byte[] Hbytes = receiveExchangeVO.getExchangeHImage().getBytes();
+			 byte[] Vbytes = receiveExchangeVO.getExchangeVImage().getBytes();
+			 if(Hbytes.length != 0)
 			 {
-				 String originalFileName = receiveExchangeVO.getExchangeImage().getOriginalFilename();
+				 String originalFileName = receiveExchangeVO.getExchangeHImage().getOriginalFilename();
 	             String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-				 StringTokenizer stk = new StringTokenizer(ImagePath,"_v");
+				 StringTokenizer stk = new StringTokenizer(HImagePath,"_v");
 				 String str1 = stk.nextToken();
 				 String str2 = stk.nextToken();
 				 int ver = str2.charAt(0)-48;
 				 ver++;
-				 ImagePath = receiveExchangeVO.getExchangeName()+"_v"+ver+originalFileExtension;
+				 HImagePath = receiveExchangeVO.getExchangeName()+"_v"+ver+"_H"+originalFileExtension;
 			 }
-			if(apiService.modifyExchange(receiveExchangeVO,ImagePath))
+			 if(Hbytes.length != 0)
+			 {
+				 String originalFileName = receiveExchangeVO.getExchangeVImage().getOriginalFilename();
+	             String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+				 StringTokenizer stk = new StringTokenizer(VImagePath,"_v");
+				 String str1 = stk.nextToken();
+				 String str2 = stk.nextToken();
+				 int ver = str2.charAt(0)-48;
+				 ver++;
+				 VImagePath = receiveExchangeVO.getExchangeName()+"_v"+ver+"_V"+originalFileExtension;
+			 }
+			if(apiService.modifyExchange(receiveExchangeVO,HImagePath,HImagePath))
 			{
-				if(bytes.length != 0)
+				if(Hbytes.length != 0)
 				{
-					Path path = Paths.get(context.getRealPath("image/exchange/") + ImagePath);
-				    Files.write(path, bytes);
+					Path Hpath = Paths.get(context.getRealPath("image/HExchange/") + HImagePath);
+				    Files.write(Hpath, Hbytes);
+				}
+				if(Vbytes.length != 0)
+				{
+					Path Vpath = Paths.get(context.getRealPath("image/VExchange/") + VImagePath);
+				    Files.write(Vpath, Vbytes);
 				}
 				return new ResponseEntity<>(GranConfig.RETURN_EXCHANGE_MODIFY_SECCESS,HttpStatus.OK);
 			}

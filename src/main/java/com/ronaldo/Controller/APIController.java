@@ -98,7 +98,7 @@ public class APIController {
 		
 		apiService.event(receiveEventVO,returnEventVO);
 		
-		return new ResponseEntity<>(returnEventVO, HttpStatus.OK);
+		return new ResponseEntity<>( returnEventVO, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/api/eventreward", method = RequestMethod.POST)
 	public ResponseEntity<ReturnEventRewardVO> eventreward(@RequestBody ReceiveEventRewardVO receiveEventRewardVO) {

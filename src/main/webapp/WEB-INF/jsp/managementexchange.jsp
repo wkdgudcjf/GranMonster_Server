@@ -142,7 +142,8 @@
                     <th>상품키</th>
                     <th>금액</th>
                     <th>그랑코인</th>
-                    <th>이미지</th>
+                    <th>가로 이미지</th>
+                    <th>세로 이미지</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -152,7 +153,8 @@
                     <th>Key</th>
                     <th>Money</th>
                     <th>Gran Coin</th>
-                    <th>Image</th>
+                    <th>Horizontal Image</th>
+                    <th>Vertical Image</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -172,7 +174,8 @@
 			        <td>${item.exchangeKey}</td>
 			        <td>${item.exchangeMoney}</td>
 			        <td>${item.exchangeCoin}</td>
-			        <td><img src="image/exchange/${item.exchangeImagePath}"  style="max-width: 150px; max-height: 150px;"></td>
+			        <td><img src="image/HExchange/${item.exchangeHImagePath}"  style="max-width: 150px; max-height: 100px;"></td>
+			        <td><img src="image/VEchange/${item.exchangeVImagePath}"  style="max-width: 100px; max-height: 150px;"></td>
 			    </tr>
 			    </c:forEach>
                 </tbody>
@@ -220,14 +223,22 @@
 	              <label for="modifyExchangeCoin">코인(고유)</label>
 	              <input type="text" name="exchangeCoin" class="form-control" id="modifyExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
 	            </div>
-	             <div class="form-group">
-	            <label for="modifyExchangeImage">이미지 업로드(부재시 기존이미지 사용)</label>
+	            <div class="form-group">
+		            <label for="modifyHExchangeImage">가로형 이미지 업로드(454x580)(부재시 기존이미지 사용)</label>
 		             <div class="filebox bs3-primary preview-image">
-		                     <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-		                     <label for="modifyExchangeImage">이미지찾기</label> 
-		                   <input type="file" id="modifyExchangeImage" name="exchangeImage" class="upload-hidden" accept="image/*"> 
-	                 </div>
-	            </div>
+	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+	                      <label for="modifyHExchangeImage">이미지찾기</label> 
+	                    <input type="file" id="modifyHExchangeImage" name="exchangeHImage" class="upload-hidden" accept="image/*"> 
+	                  </div>
+		            </div>
+	             <div class="form-group">
+		            <label for="modifyVExchangeImage">세로형 이미지 업로드(580x350)(부재시 기존이미지 사용)</label>
+		             <div class="filebox bs3-primary preview-image">
+	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+	                      <label for="modifyVExchangeImage">이미지찾기</label> 
+	                    <input type="file" id="modifyVExchangeImage" name="exchangeVImage" class="upload-hidden" accept="image/*"> 
+	                  </div>
+		            </div>
 	            <div class="form-group">
 	              <label for="modifyEnable">활성여부</label><br>
 	              <label class="radio-inline">
@@ -276,11 +287,19 @@
 		            <input type="text" name="exchangeCoin" class="form-control" id="inputExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
 		          </div>
 		          <div class="form-group">
-		            <label for="inputExchangeImage">이미지 업로드</label>
+		            <label for="inputHExchangeImage">가로형 이미지 업로드(454x580)</label>
 		             <div class="filebox bs3-primary preview-image">
 	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-	                      <label for="inputExchangeImage">이미지찾기</label> 
-	                    <input type="file" id="inputExchangeImage" name="exchangeImage" class="upload-hidden" accept="image/*"> 
+	                      <label for="inputHExchangeImage">이미지찾기</label> 
+	                    <input type="file" id="inputHExchangeImage" name="exchangeHImage" class="upload-hidden" accept="image/*"> 
+	                  </div>
+		            </div>
+	             <div class="form-group">
+		            <label for="inputVExchangeImage">세로형 이미지 업로드(580x350)</label>
+		             <div class="filebox bs3-primary preview-image">
+	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+	                      <label for="inputVExchangeImage">이미지찾기</label> 
+	                    <input type="file" id="inputVExchangeImage" name="exchangeVImage" class="upload-hidden" accept="image/*"> 
 	                  </div>
 		            </div>
           	 </form>
@@ -366,7 +385,8 @@
 			  inputExchangeCoin = $('#inputExchangeCoin'),
 			  inputExchangeName = $('#inputExchangeName'),
 			  inputExchangeKey = $('#inputExchangeKey'),
-			  inputExchangeImage = $('#inputExchangeImage');
+			  inputHExchangeImage = $('#inputHExchangeImage');
+			  inputVExchangeImage = $('#inputVExchangeImage');
 			 if (inputExchangeMoney.val().length == 0) {
 				 alert('금액을 입력하세요.');
 				 return;
@@ -379,8 +399,12 @@
 				 alert('상품명을 입력하세요.');
 				 return;
 			 }
-			 if (inputExchangeImage.val().length == 0) {
-				 alert('이미지를 입력하세요.');
+			 if (inputHExchangeImage.val().length == 0) {
+				 alert('가로형 이미지를 입력하세요.');
+				 return;
+			 }
+			 if (inputVExchangeImage.val().length == 0) {
+				 alert('세로형 이미지를 입력하세요.');
 				 return;
 			 }
 			 if (inputExchangeKey.val().length == 0) {
@@ -452,7 +476,7 @@
 			        	 $("#modifyExchangeMoney").val(data.exchangeMoney);
 			        	 $('#modifyExchangeCoin').val(data.exchangeCoin);
 			        	 $('#modifyExchangeName').val(data.exchangeName);
-			        	 $('#modifyExchangeKey').val(data.exchangeName);
+			        	 $('#modifyExchangeKey').val(data.exchangeKey);
 			        	 if(data.exchangeEnable)
 			        	{
 			        		 $("#modifyExchangeEnable").prop("checked", true)

@@ -33,11 +33,11 @@ import com.ronaldo.domain.UserDTO;
 
 public interface ApiService
 {
-	public boolean registApp(ReceiveAppVO receiveAppVO, String appImageIconPath, String appImageBannerPath);
+	public boolean registApp(ReceiveAppVO receiveAppVO, String appImageIconPath, String appImageHBannerPath,String appImageVBannerPath);
 	public List<AppDTO> getAppList();
 	public List<AppDTO> getEnableAppList(boolean appEnable);
 	public AppDTO getApp(int appID);
-	public boolean modifyApp(ReceiveAppVO receiveAppVO,String appImageIconPath,String appImageBannerPath);
+	public boolean modifyApp(ReceiveAppVO receiveAppVO,String appImageIconPath,String appImageHBannerPath,String appImageVBannerPath);
 	public AppDTO getApp(String appKey);
 	
 	public String setUserPayload(String appKey, String userKey);
@@ -49,9 +49,9 @@ public interface ApiService
 	public boolean modifyCompany(ReceiveCompanyVO receiveCompanyVOe);
 	
 	public List<ExchangeDTO> getExchangeList();
-	boolean modifyExchange(ReceiveExchangeVO receiveExchangeVO, String exchangeImagePath);
+	boolean modifyExchange(ReceiveExchangeVO receiveExchangeVO, String HFileName,String VFileName);
 	public ExchangeDTO getExchange(int exchangeID);
-	boolean registExchange(ReceiveExchangeVO receiveExchangeVO, String exchangeImagePath);
+	boolean registExchange(ReceiveExchangeVO receiveExchangeVO, String HFileName,String VFileName);
 	public List<ExchangeDTO> getEnableExchangeList(boolean exchangeEnable);
 	
 	public boolean registUser(String userKey);

@@ -7,7 +7,8 @@ public class ReceiveExchangeVO {
 	private int exchangeCoin;
 	private String exchangeKey;
 	private String exchangeName;
-	private MultipartFile exchangeImage;
+	private MultipartFile exchangeHImage;
+	private MultipartFile exchangeVImage;
 	private int exchangeID;
 	private boolean exchangeEnable;
 	public int getExchangeMoney() {
@@ -34,11 +35,17 @@ public class ReceiveExchangeVO {
 	public void setExchangeName(String exchangeName) {
 		this.exchangeName = exchangeName;
 	}
-	public MultipartFile getExchangeImage() {
-		return exchangeImage;
+	public MultipartFile getExchangeHImage() {
+		return exchangeHImage;
 	}
-	public void setExchangeImage(MultipartFile exchangeImage) {
-		this.exchangeImage = exchangeImage;
+	public void setExchangeHImage(MultipartFile exchangeHImage) {
+		this.exchangeHImage = exchangeHImage;
+	}
+	public MultipartFile getExchangeVImage() {
+		return exchangeVImage;
+	}
+	public void setExchangeVImage(MultipartFile exchangeVImage) {
+		this.exchangeVImage = exchangeVImage;
 	}
 	public int getExchangeID() {
 		return exchangeID;

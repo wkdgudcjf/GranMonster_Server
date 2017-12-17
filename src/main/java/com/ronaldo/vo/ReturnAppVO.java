@@ -7,7 +7,8 @@ public class ReturnAppVO {
 	private String appKey;
 	private String appURL;
 	private String appImageIconPath;
-	private String appImageBannerPath;
+	private String appImageHBannerPath;
+	private String appImageVBannerPath;
 	private String appPackage;
 	private boolean appInstall;
 	private List<ReturnAppEventVO> appEventList;
@@ -36,11 +37,17 @@ public class ReturnAppVO {
 	public void setAppImageIconPath(String appImageIconPath) {
 		this.appImageIconPath = appImageIconPath;
 	}
-	public String getAppImageBannerPath() {
-		return appImageBannerPath;
+	public String getAppImageHBannerPath() {
+		return appImageHBannerPath;
 	}
-	public void setAppImageBannerPath(String appImageBannerPath) {
-		this.appImageBannerPath = appImageBannerPath;
+	public void setAppImageHBannerPath(String appImageHBannerPath) {
+		this.appImageHBannerPath = appImageHBannerPath;
+	}
+	public String getAppImageVBannerPath() {
+		return appImageVBannerPath;
+	}
+	public void setAppImageVBannerPath(String appImageVBannerPath) {
+		this.appImageVBannerPath = appImageVBannerPath;
 	}
 	public String getAppPackage() {
 		return appPackage;

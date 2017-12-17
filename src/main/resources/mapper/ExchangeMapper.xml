@@ -13,8 +13,8 @@
         SELECT * FROM Exchange WHERE exchangeEnable = #{exchangeEnable}
     </select>
     <insert id="registExchange" parameterType="ExchangeDTO">
-       	INSERT INTO Exchange (exchangeMoney,exchangeCoin,exchangeName,exchangeKey,exchangeImagePath)
-       	VALUES (#{exchangeMoney},#{exchangeCoin},#{exchangeName},#{exchangeKey},#{exchangeImagePath})
+       	INSERT INTO Exchange (exchangeMoney,exchangeCoin,exchangeName,exchangeKey,exchangeHImagePath,exchangeVImagePath)
+       	VALUES (#{exchangeMoney},#{exchangeCoin},#{exchangeName},#{exchangeKey},#{exchangeHImagePath},#{exchangeVImagePath})
     </insert>
 	<delete id="deleteExchange" parameterType="int">
        DELETE FROM Exchange WHERE exchangeID = #{exchangeID} 
@@ -22,7 +22,7 @@
     <update id="updateExchange" parameterType="ExchangeDTO">
 		UPDATE Exchange
 		set exchangeMoney = #{exchangeMoney},exchangeCoin = #{exchangeCoin},exchangeEnable = #{exchangeEnable}
-		,exchangeName = #{exchangeName},exchangeKey = #{exchangeKey},exchangeImagePath = #{exchangeImagePath}
+		,exchangeName = #{exchangeName},exchangeKey = #{exchangeKey},exchangeHImagePath = #{exchangeHImagePath},exchangeVImagePath = #{exchangeVImagePath}
 		where exchangeID = #{exchangeID}
     </update>
 </mapper>

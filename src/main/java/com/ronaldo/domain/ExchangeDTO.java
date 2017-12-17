@@ -6,7 +6,8 @@ public class ExchangeDTO {
     private int exchangeCoin;
     private boolean exchangeEnable;
     private String exchangeName;
-    private String exchangeImagePath;
+    private String exchangeHImagePath;
+    private String exchangeVImagePath;
     private String exchangeKey;
 	public int getExchangeID() {
 		return exchangeID;
@@ -38,11 +39,17 @@ public class ExchangeDTO {
 	public void setExchangeName(String exchangeName) {
 		this.exchangeName = exchangeName;
 	}
-	public String getExchangeImagePath() {
-		return exchangeImagePath;
+	public String getExchangeHImagePath() {
+		return exchangeHImagePath;
 	}
-	public void setExchangeImagePath(String exchangeImagePath) {
-		this.exchangeImagePath = exchangeImagePath;
+	public void setExchangeHImagePath(String exchangeHImagePath) {
+		this.exchangeHImagePath = exchangeHImagePath;
+	}
+	public String getExchangeVImagePath() {
+		return exchangeVImagePath;
+	}
+	public void setExchangeVImagePath(String exchangeVImagePath) {
+		this.exchangeVImagePath = exchangeVImagePath;
 	}
 	public String getExchangeKey() {
 		return exchangeKey;
