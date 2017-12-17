@@ -1,18 +1,20 @@
-package com.ronaldo.dao;
+package com.ronaldo.vo;
 
-public class PayloadDAO {
+import com.ronaldo.config.ErrorCodeConfig.PayloadEnum;
+
+public class ReturnPayloadVO {
 	private String userPayload;
-	private String state;
+	private PayloadEnum state;
 	public String getUserPayload() {
 		return userPayload;
 	}
 	public void setUserPayload(String userPayload) {
 		this.userPayload = userPayload;
 	}
-	public String getState() {
+	public PayloadEnum getState() {
 		return state;
 	}
-	public void setState(String state) {
+	public void setState(PayloadEnum state) {
 		this.state = state;
 	}
 	

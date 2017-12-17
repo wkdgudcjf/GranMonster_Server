@@ -209,15 +209,15 @@
 		            <input type="text" name="exchangeName" class="form-control" id="modifyExchangeName" aria-describedby="nameHelp" placeholder="상품명">
 	           </div>
 	           	<div class="form-group">
-	            	<label for="modifyExchangeKey">상품키</label>
+	            	<label for="modifyExchangeKey">상품키(고유)</label>
 		            <input type="text" name="exchangeKey" class="form-control" id="modifyExchangeKey" aria-describedby="nameHelp" placeholder="상품키">
 	           </div>
 	            <div class="form-group">
-	              <label for="modifyExchangeMoney">금액</label>
+	              <label for="modifyExchangeMoney">금액(고유)</label>
 	              <input type="text" name="exchangeMoney" class="form-control" id="modifyExchangeMoney" aria-describedby="nameHelp" placeholder="금액">
 	            </div>
 	             <div class="form-group">
-	              <label for="modifyExchangeCoin">코인</label>
+	              <label for="modifyExchangeCoin">코인(고유)</label>
 	              <input type="text" name="exchangeCoin" class="form-control" id="modifyExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
 	            </div>
 	             <div class="form-group">
@@ -264,15 +264,15 @@
 		            <input type="text" name="exchangeName" class="form-control" id="inputExchangeName" aria-describedby="nameHelp" placeholder="상품명">
 		          </div>
 		          <div class="form-group">
-	            	<label for="inputExchangeKey">상품키</label>
+	            	<label for="inputExchangeKey">상품키(고유)</label>
 		            <input type="text" name="exchangeKey" class="form-control" id="inputExchangeKey" aria-describedby="nameHelp" placeholder="상품키">
 		          </div>
 	          	  <div class="form-group">
-	            	<label for="inputExchangeMoney">금액</label>
+	            	<label for="inputExchangeMoney">금액(고유)</label>
 		            <input type="text" name="exchangeMoney" class="form-control" id="inputExchangeMoney" aria-describedby="nameHelp" placeholder="금액">
 		          </div>
 		           <div class="form-group">
-		            <label for="inputExchangeCoin">코인</label>
+		            <label for="inputExchangeCoin">코인(고유)</label>
 		            <input type="text" name="exchangeCoin" class="form-control" id="inputExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
 		          </div>
 		          <div class="form-group">

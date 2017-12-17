@@ -3,44 +3,35 @@ package com.ronaldo.Controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.servlet.ServletContext;
 
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.transaction.Transaction;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.DefaultTransactionStatus;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ronaldo.config.GranConfig;
 import com.ronaldo.config.SessionWire;
-import com.ronaldo.dao.AppEventDAO;
-import com.ronaldo.domain.AppEventVo;
-import com.ronaldo.domain.AppVo;
-import com.ronaldo.domain.CompanyVo;
-import com.ronaldo.domain.ExchangeVo;
-import com.ronaldo.domain.UserEventVo;
-import com.ronaldo.domain.UserInAppVo;
-import com.ronaldo.service.AuthUserServiceImpl;
-import com.ronaldo.service.ApiServiceImpl;
+import com.ronaldo.domain.AppEventDTO;
+import com.ronaldo.domain.AppDTO;
+import com.ronaldo.domain.CompanyDTO;
+import com.ronaldo.domain.ExchangeDTO;
+import com.ronaldo.domain.UserEventDTO;
+import com.ronaldo.domain.UserInAppDTO;
+import com.ronaldo.service.ApiService;
+import com.ronaldo.service.AuthUserService;
+import com.ronaldo.vo.ReceiveAppEventVO;
+import com.ronaldo.vo.ReceiveAppVO;
+import com.ronaldo.vo.ReceiveCompanyVO;
+import com.ronaldo.vo.ReceiveExchangeVO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,18 +42,17 @@ public class AdminController
 	@Autowired
 	private ServletContext context;
 	@Autowired
-	private AuthUserServiceImpl userService;
+	private AuthUserService userService;
 	@Autowired
-	private ApiServiceImpl apiService;
+	private ApiService apiService;
 	@Autowired
 	private SessionWire sessionWire;
-	@Autowired
-	private DataSourceTransactionManager dataSourceTransactionManager;
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AdminController.class);
 	 
 	@RequestMapping(value = "/managementapp", method = RequestMethod.GET)
-    public String managementapp(Model model){
+    public String managementapp(Model model)
+	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
@@ -70,7 +60,8 @@ public class AdminController
     	return setManagementApp(model);
     }
 	@RequestMapping(value = "/managementuser", method = RequestMethod.GET)
-    public String managementuser(Model model){
+    public String managementuser(Model model)
+	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
@@ -78,7 +69,8 @@ public class AdminController
     	return setManagementUser(model);
     }
 	@RequestMapping(value = "/managementbilling", method = RequestMethod.GET)
-    public String managementbilling(Model model){
+    public String managementbilling(Model model)
+	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
@@ -87,7 +79,8 @@ public class AdminController
     	return setManagementBilling(model);
     }
 	@RequestMapping(value = "/managementexchange", method = RequestMethod.GET)
-    public String managementgrancoin(Model model){
+    public String managementgrancoin(Model model)
+	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
@@ -95,7 +88,8 @@ public class AdminController
     	return setManagementExchange(model);
     }
 	@RequestMapping(value = "/managementcompany", method = RequestMethod.GET)
-    public String managementcompany(Model model){
+    public String managementcompany(Model model)
+	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
@@ -103,7 +97,8 @@ public class AdminController
     	return setManagementCompany(model);
     }
 	@RequestMapping(value = "/managementappevent", method = RequestMethod.POST)
-    public String managementappevent(Model model,@RequestParam("appID") int appID) {
+    public String managementappevent(Model model,@RequestParam("appID") int appID) 
+	{
 		if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
@@ -111,7 +106,8 @@ public class AdminController
     	return setManagementAppEvent(model,appID);
     }
 	@RequestMapping(value = "/managementuserinfo", method = RequestMethod.POST)
-    public String managementuserinfo(Model model,@RequestParam("userID") int userID) {
+    public String managementuserinfo(Model model,@RequestParam("userID") int userID)
+	{
 		if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
@@ -119,79 +115,69 @@ public class AdminController
     	return setManagementUserInfo(model,userID);
     }
 	@RequestMapping(value = "/registapp", method = RequestMethod.POST)
-    public ResponseEntity<String> registApp(@RequestParam("appPackage") String appPackage
-    		, @RequestParam("appURL") String appURL,@RequestParam("companyID") int companyID,
-    		@RequestParam("appName") String appName,@RequestParam("appIconImage") MultipartFile appIconImage
-    		,@RequestParam("appBannerImage") MultipartFile appBannerImage) {
-		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
-        defaultTransactionDefinition.setName("regist_app");
-        defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-        TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(defaultTransactionDefinition);
+    public ResponseEntity<String> registApp(@ModelAttribute ReceiveAppVO receiveAppVO)
+	{
         try {
         	 // Get the file and save it uploads dir
-        	 byte[] iconBytes = appIconImage.getBytes();
-        	 String iconOriginalFileName = appIconImage.getOriginalFilename();
+        	 byte[] iconBytes = receiveAppVO.getAppIconImage().getBytes();
+        	 String iconOriginalFileName = receiveAppVO.getAppIconImage().getOriginalFilename();
              String iconOriginalFileExtension = iconOriginalFileName.substring(iconOriginalFileName.lastIndexOf("."));
-             String iconFileName = appName+"_v1_icon"+iconOriginalFileExtension;
+             String iconFileName = receiveAppVO.getAppName()+"_v1_icon"+iconOriginalFileExtension;
              Path iconPath = Paths.get(context.getRealPath("image/appIcon/") + iconFileName);
              
-             byte[] bannerBytes = appBannerImage.getBytes();
-        	 String bannerOriginalFileName = appBannerImage.getOriginalFilename();
+             byte[] bannerBytes = receiveAppVO.getAppBannerImage().getBytes();
+        	 String bannerOriginalFileName = receiveAppVO.getAppBannerImage().getOriginalFilename();
              String bannerOriginalFileExtension = bannerOriginalFileName.substring(bannerOriginalFileName.lastIndexOf("."));
-             String bannerFileName = appName+"_v1_banner"+bannerOriginalFileExtension;
+             String bannerFileName = receiveAppVO.getAppName()+"_v1_banner"+bannerOriginalFileExtension;
              Path bannerPath = Paths.get(context.getRealPath("image/appBanner/") + bannerFileName);
-             if(apiService.registApp(appName,companyID, appURL, iconFileName,bannerFileName, appPackage))
+             if(apiService.registApp(receiveAppVO,iconFileName,bannerFileName))
              {
                  Files.write(iconPath, iconBytes);
                  Files.write(bannerPath, bannerBytes);
-                 dataSourceTransactionManager.commit(transactionStatus);
             	 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
              }
              else
              {
-            	 dataSourceTransactionManager.rollback(transactionStatus);
-            	 return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+            	 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_FAIL,HttpStatus.BAD_REQUEST);
              }
         } catch (Exception e) {
-        	e.printStackTrace();
-            return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+        	LOG.info(e.getMessage());
+            return new ResponseEntity<>(GranConfig.RETURN_IMAGE_FAIL,HttpStatus.BAD_REQUEST);
         }
     }
 	@RequestMapping(value = "/modifyapp", method = RequestMethod.POST)
-    public ResponseEntity<String> modifyApp(@RequestParam("appID") int appID,@RequestParam("appPackage") String appPackage
-    		, @RequestParam("appURL") String appURL,@RequestParam("companyID") int companyID,
-    		@RequestParam("appName") String appName,@RequestParam("appIconImage") MultipartFile appIconImage
-    		,@RequestParam("appBannerImage") MultipartFile appBannerImage,@RequestParam("appEnable") boolean appEnable) {
+    public ResponseEntity<String> modifyApp(@ModelAttribute ReceiveAppVO receiveAppVO)
+	{
         try {
         	 // Get the file and save it uploads dir
-			 AppVo appVo = apiService.getApp(appID);
-			 String imageIconPath = appVo.getAppImageIconPath();
-			 String imageBannerPath = appVo.getAppImageBannerPath();
-			 byte[] iconBytes = appIconImage.getBytes();
-			 byte[] bannerBytes = appBannerImage.getBytes();
+			 AppDTO appDTO = apiService.getApp(receiveAppVO.getAppID());
+			 String imageIconPath = appDTO.getAppImageIconPath();
+			 String imageBannerPath = appDTO.getAppImageBannerPath();
+			 byte[] iconBytes = receiveAppVO.getAppIconImage().getBytes();
+			 byte[] bannerBytes = receiveAppVO.getAppBannerImage().getBytes();
 			 if(iconBytes.length != 0)
 			 {
-	        	 String iconOriginalFileName = appIconImage.getOriginalFilename();
+	        	 String iconOriginalFileName = receiveAppVO.getAppIconImage().getOriginalFilename();
 	             String iconOriginalFileExtension = iconOriginalFileName.substring(iconOriginalFileName.lastIndexOf("."));
 				 StringTokenizer stk = new StringTokenizer(imageIconPath,"_v");
 				 String str1 = stk.nextToken();
 				 String str2 = stk.nextToken();
 				 int ver = str2.charAt(0)-48;
 				 ver++;
-				 imageIconPath = appName+"_v"+ver+"_icon"+iconOriginalFileExtension;
+				 imageIconPath = receiveAppVO.getAppName()+"_v"+ver+"_icon"+iconOriginalFileExtension;
 			 }
 			 if(bannerBytes.length != 0)
 			 {
-				 String bannerOriginalFileName = appBannerImage.getOriginalFilename();
+				 String bannerOriginalFileName = receiveAppVO.getAppBannerImage().getOriginalFilename();
 	             String bannerOriginalFileExtension = bannerOriginalFileName.substring(bannerOriginalFileName.lastIndexOf("."));
 				 StringTokenizer stk = new StringTokenizer(imageBannerPath,"_v");
 				 String str1 = stk.nextToken();
 				 String str2 = stk.nextToken();
 				 int ver = str2.charAt(0)-48;
 				 ver++;
-				 imageBannerPath = appName+"_v"+ver+"_banner"+bannerOriginalFileExtension;
+				 imageBannerPath = receiveAppVO.getAppName()+"_v"+ver+"_banner"+bannerOriginalFileExtension;
 			 }
-			if(apiService.modifyApp(appID,appName,companyID, appURL, imageIconPath,imageBannerPath, appPackage,appEnable))
+			if(apiService.modifyApp(receiveAppVO, imageIconPath,imageBannerPath))
 			{
 				if(iconBytes.length != 0)
 				{
@@ -207,142 +193,136 @@ public class AdminController
 			}
 			else
 			{
-				return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(GranConfig.RETURN_APP_MODIFY_FAIL,HttpStatus.BAD_REQUEST);
 			}
         } catch (Exception e) {
-        	e.printStackTrace();
-            return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+        	LOG.info(e.getMessage());
+            return new ResponseEntity<>(GranConfig.RETURN_IMAGE_FAIL,HttpStatus.BAD_REQUEST);
         }
     }
 	@RequestMapping(value = "/getapp", method = RequestMethod.POST)
-    public ResponseEntity<AppVo> getApp(@RequestParam("appID") int appID) {
+    public ResponseEntity<AppDTO> getApp(@RequestParam("appID") int appID)
+	{
         return new ResponseEntity<>(apiService.getApp(appID),HttpStatus.OK);
     }
 	@RequestMapping(value = "/getappevent", method = RequestMethod.POST)
-    public ResponseEntity<AppEventVo> getAppEvent(@RequestParam("appEventID") int appEventID) {
+    public ResponseEntity<AppEventDTO> getAppEvent(@RequestParam("appEventID") int appEventID)
+	{
         return new ResponseEntity<>(apiService.getAppEvent(appEventID),HttpStatus.OK);
     }
 	@RequestMapping(value = "/registappevent", method = RequestMethod.POST)
-    public ResponseEntity<String> registappevent(@RequestParam("appID") int appID,
-    		@RequestParam("appEventContent") String appEventContent,@RequestParam("appEventKey") String appEventKey
-    		, @RequestParam("appEventCoin") int appEventCoin, @RequestParam("appEventStartTime") String appEventStartTime
-    		, @RequestParam("appEventEndTime") String appEventEndTime, @RequestParam("appEventLimit") int appEventLimit) {
-        if(apiService.registAppEvent(appID,appEventContent,appEventCoin,Timestamp.valueOf(appEventStartTime.replace("T"," ")),
-        		Timestamp.valueOf(appEventEndTime.replace("T"," ")),appEventKey,appEventLimit))
+    public ResponseEntity<String> registappevent(@ModelAttribute ReceiveAppEventVO receiveAppEventVO)
+	{
+        if(apiService.registAppEvent(receiveAppEventVO))
         {
-            return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
+            return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_REGIST_SECCESS,HttpStatus.OK);
         }
-        return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_REGIST_FAIL,HttpStatus.BAD_REQUEST);
     }
 	@RequestMapping(value = "/modifyappevent", method = RequestMethod.POST)
-    public ResponseEntity<String> modifyappevent(@RequestParam("appEventID") int appEventID,
-    		@RequestParam("appEventContent") String appEventContent,@RequestParam("appEventKey") String appEventKey
-    		, @RequestParam("appEventCoin") int appEventCoin,@RequestParam("appEventEnable") boolean appEventEnable,
-    		 @RequestParam("appEventStartTime") String appEventStartTime, @RequestParam("appEventEndTime") String appEventEndTime
-    		 , @RequestParam("appEventLimit") int appEventLimit) {
-		if(apiService.modifyAppEvent(appEventID,appEventContent,appEventCoin,appEventEnable,Timestamp.valueOf(appEventStartTime.replace("T"," ")),
-        		Timestamp.valueOf(appEventEndTime.replace("T"," ")),appEventKey,appEventLimit))
+    public ResponseEntity<String> modifyappevent(@ModelAttribute ReceiveAppEventVO receiveAppEventVO) 
+	{
+		if(apiService.modifyAppEvent(receiveAppEventVO))
 		{
-			 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
+			 return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_MODIFY_SECCESS,HttpStatus.OK);
 		}
-        return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_MODIFY_FAIL,HttpStatus.BAD_REQUEST);
     }
 	@RequestMapping(value = "/registexchange", method = RequestMethod.POST)
-    public ResponseEntity<String> registExchange(@RequestParam("exchangeMoney") int exchangeMoney,
-    		@RequestParam("exchangeCoin") int exchangeCoin,@RequestParam("exchangeKey") String exchangeKey,
-    		@RequestParam("exchangeName") String exchangeName,@RequestParam("exchangeImage") MultipartFile exchangeImage) {
+    public ResponseEntity<String> registExchange(@ModelAttribute ReceiveExchangeVO receiveExchangeVO) 
+	{
 		 try {
         	 // Get the file and save it uploads dir
-        	 byte[] bytes = exchangeImage.getBytes();
-        	 String originalFileName = exchangeImage.getOriginalFilename();
+        	 byte[] bytes = receiveExchangeVO.getExchangeImage().getBytes();
+        	 String originalFileName = receiveExchangeVO.getExchangeImage().getOriginalFilename();
              String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-             Path path = Paths.get(context.getRealPath("image/exchange/") + exchangeName+"_v1"+originalFileExtension);
-         
-             if(apiService.registExchange(exchangeMoney,exchangeCoin,exchangeName,exchangeKey,exchangeName+"_v1"+originalFileExtension))
+             String fileName = receiveExchangeVO.getExchangeName()+"_v1"+originalFileExtension;
+             Path path = Paths.get(context.getRealPath("image/exchange/") + fileName);
+
+             if(apiService.registExchange(receiveExchangeVO,fileName))
              {
                  Files.write(path, bytes);
-            	 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
+            	 return new ResponseEntity<>(GranConfig.RETURN_EXCHANGE_REGIST_SECCESS,HttpStatus.OK);
              }
              else
              {
-            	 return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+            	 return new ResponseEntity<>(GranConfig.RETURN_EXCHANGE_REGIST_FAIL,HttpStatus.BAD_REQUEST);
              }
         } catch (Exception e) {
-        	e.printStackTrace();
-            return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+        	LOG.info(e.getMessage());
+            return new ResponseEntity<>(GranConfig.RETURN_IMAGE_FAIL,HttpStatus.BAD_REQUEST);
         }
     }
 	@RequestMapping(value = "/modifyexchange", method = RequestMethod.POST)
-    public ResponseEntity<String> modifyExchange(@RequestParam("exchangeMoney") int exchangeMoney,
-    		@RequestParam("exchangeCoin") int exchangeCoin,@RequestParam("exchangeKey") String exchangeKey,
-    		@RequestParam("exchangeName") String exchangeName,@RequestParam("exchangeImage") MultipartFile exchangeImage,
-    		@RequestParam("exchangeID") int exchangeID,@RequestParam("exchangeEnable") boolean exchangeEnable) {
+    public ResponseEntity<String> modifyExchange(@ModelAttribute ReceiveExchangeVO receiveExchangeVO)
+	{
         try {
        	 // Get the file and save it uploads dir
-			 String ImagePath = apiService.getExchange(exchangeID).getExchangeImagePath();
-			 byte[] bytes = exchangeImage.getBytes();
+			 String ImagePath = apiService.getExchange(receiveExchangeVO.getExchangeID()).getExchangeImagePath();
+			 byte[] bytes = receiveExchangeVO.getExchangeImage().getBytes();
 			 if(bytes.length != 0)
 			 {
-				 String originalFileName = exchangeImage.getOriginalFilename();
+				 String originalFileName = receiveExchangeVO.getExchangeImage().getOriginalFilename();
 	             String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
 				 StringTokenizer stk = new StringTokenizer(ImagePath,"_v");
 				 String str1 = stk.nextToken();
 				 String str2 = stk.nextToken();
 				 int ver = str2.charAt(0)-48;
 				 ver++;
-				 ImagePath = exchangeName+"_v"+ver+originalFileExtension;
+				 ImagePath = receiveExchangeVO.getExchangeName()+"_v"+ver+originalFileExtension;
 			 }
-			if(apiService.modifyExchange(exchangeID,exchangeMoney,exchangeCoin,exchangeEnable,exchangeName,exchangeKey,ImagePath))
+			if(apiService.modifyExchange(receiveExchangeVO,ImagePath))
 			{
 				if(bytes.length != 0)
 				{
 					Path path = Paths.get(context.getRealPath("image/exchange/") + ImagePath);
 				    Files.write(path, bytes);
 				}
-				return new ResponseEntity<>(GranConfig.RETURN_APP_MODIFY_SECCESS,HttpStatus.OK);
+				return new ResponseEntity<>(GranConfig.RETURN_EXCHANGE_MODIFY_SECCESS,HttpStatus.OK);
 			}
 			else
 			{
-				return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+				return new ResponseEntity<>(GranConfig.RETURN_EXCHANGE_MODIFY_FAIL,HttpStatus.BAD_REQUEST);
 			}
        } catch (Exception e) {
-    	   e.printStackTrace();
-           return new ResponseEntity<>(GranConfig.RETURN_APP_FAIL,HttpStatus.BAD_REQUEST);
+    	   LOG.info(e.getMessage());
+           return new ResponseEntity<>(GranConfig.RETURN_IMAGE_FAIL,HttpStatus.BAD_REQUEST);
        }
     }
 	@RequestMapping(value = "/getexchange", method = RequestMethod.POST)
-    public ResponseEntity<ExchangeVo> getExchange(@RequestParam("exchangeID") int exchangeID) {
+    public ResponseEntity<ExchangeDTO> getExchange(@RequestParam("exchangeID") int exchangeID)
+	{
         return new ResponseEntity<>(apiService.getExchange(exchangeID),HttpStatus.OK);
     }
 	@RequestMapping(value = "/registcompany", method = RequestMethod.POST)
-    public ResponseEntity<String> registCompany(@RequestParam("companyName") String companyName) {
-		if(apiService.registCompany(companyName))
+    public ResponseEntity<String> registCompany(@ModelAttribute ReceiveCompanyVO receiveCompanyVO)
+	{
+		if(apiService.registCompany(receiveCompanyVO))
 		{
 			 return new ResponseEntity<>(GranConfig.RETURN_COMPANY_REGIST_SECCESS,HttpStatus.OK);
 		}
-        return new ResponseEntity<>(GranConfig.RETURN_COMPANY_FAIL,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(GranConfig.RETURN_COMPANY_REGIST_FAIL,HttpStatus.BAD_REQUEST);
     }
 	@RequestMapping(value = "/modifycompany", method = RequestMethod.POST)
-    public ResponseEntity<String> modifyCompany(@RequestParam("companyName") String companyName,
-    		@RequestParam("companyID") int companyID,@RequestParam("companyEnable") boolean companyEnable) {
-		if(apiService.modifyCompany(companyID,companyName,companyEnable))
+    public ResponseEntity<String> modifyCompany(@ModelAttribute ReceiveCompanyVO receiveCompanyVO)
+	{
+		if(apiService.modifyCompany(receiveCompanyVO))
 		{
 			 return new ResponseEntity<>(GranConfig.RETURN_COMPANY_MODIFY_SECCESS,HttpStatus.OK);
 		}
-        return new ResponseEntity<>(GranConfig.RETURN_COMPANY_FAIL,HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(GranConfig.RETURN_COMPANY_MODIFY_FAIL,HttpStatus.BAD_REQUEST);
     }
 	@RequestMapping(value = "/getcompany", method = RequestMethod.POST)
-    public ResponseEntity<CompanyVo> getCompany(@RequestParam("companyID") int companyID) {
+    public ResponseEntity<CompanyDTO> getCompany(@RequestParam("companyID") int companyID)
+	{
         return new ResponseEntity<>(apiService.getCompany(companyID),HttpStatus.OK);
     }
 	
 	private String setManagementApp(Model model)
     {
-		ArrayList<AppVo> appList = (ArrayList<AppVo>)apiService.getAppList();
-		ArrayList<CompanyVo> companyList = (ArrayList<CompanyVo>)apiService.getCompanyList();
     	model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-    	model.addAttribute("companylist",companyList);
-    	model.addAttribute("applist",appList);
+    	model.addAttribute("companylist",apiService.getCompanyList());
+    	model.addAttribute("applist",apiService.getAppList());
     	return "managementapp";
     }
 	private String setManagementCompany(Model model)
@@ -353,9 +333,8 @@ public class AdminController
     }
 	private String setManagementAppEvent(Model model,int appID)
     {
-		List<AppEventVo> list = apiService.getAppEventList(appID);
 		model.addAttribute("app",apiService.getApp(appID));
-    	model.addAttribute("eventList",list);
+    	model.addAttribute("eventList",apiService.getAppEventList(appID));
     	return "managementappevent";
     }
 	private String setManagementUser(Model model)
@@ -366,11 +345,12 @@ public class AdminController
     }
 	private String setManagementUserInfo(Model model,int userID)
     {
-		List<UserInAppVo> userInAppList = apiService.getUserInAppByUserID(userID);
-		List<UserEventVo> userEventList = apiService.getUserEventList(userID);
+		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다...
+		List<UserInAppDTO> userInAppList = apiService.getUserInAppByUserID(userID);
+		List<UserEventDTO> userEventList = apiService.getUserEventList(userID);
 		for(int i=0;i<userInAppList.size();i++)
 		{
-			List<AppEventVo> appEventList = apiService.getAppEventList(userInAppList.get(i).getAppID());
+			List<AppEventDTO> appEventList = apiService.getAppEventList(userInAppList.get(i).getAppID());
 			for(int j=0;j<appEventList.size();j++)
 			{
 				appEventList.get(j).setAppEventRewardEnable("X");
@@ -408,7 +388,7 @@ public class AdminController
     }
 	private String setRedirectLogin(Model model)
     {
-    	model.addAttribute("message", "그랑몬스터");
+    	model.addAttribute("message", "Gran Monster");
     	return "redirect:/login";
     }
 }

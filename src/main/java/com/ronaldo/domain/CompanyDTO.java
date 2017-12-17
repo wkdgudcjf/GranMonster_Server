@@ -2,7 +2,7 @@ package com.ronaldo.domain;
 
 import java.sql.Timestamp;
 
-public class CompanyVo {
+public class CompanyDTO {
     private int companyID;
     private String companyName;
     private Timestamp companyDateTime;

@@ -1,6 +1,6 @@
 package com.ronaldo.domain;
 
-public class ExchangeVo {
+public class ExchangeDTO {
     private int exchangeID;
     private int exchangeMoney;
     private int exchangeCoin;

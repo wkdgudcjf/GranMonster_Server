@@ -3,28 +3,28 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.AppEventMapper">
-	<insert id="registAppEvent" parameterType="AppEventVo">
+	<insert id="registAppEvent" parameterType="AppEventDTO">
        	INSERT INTO AppEvent 
        	(appID,appEventContent,appEventCoin,appEventStartTime,appEventEndTime, appEventKey, appEventLimit)
        	VALUES
        	(#{appID},#{appEventContent},#{appEventCoin},#{appEventStartTime},#{appEventEndTime},#{appEventKey},#{appEventLimit})
     </insert>
-    <update id="updateAppEvent" parameterType="AppEventVo">
+    <update id="updateAppEvent" parameterType="AppEventDTO">
 		UPDATE AppEvent
 		set appEventContent = #{appEventContent},appEventEnable = #{appEventEnable},appEventCoin = #{appEventCoin}
 		,appEventStartTime = #{appEventStartTime},appEventEndTime = #{appEventEndTime},appEventKey = #{appEventKey},appEventLimit = #{appEventLimit}
 		where appEventID = #{appEventID}
     </update>
-    <select id="getAppEventList" resultType="AppEventVo">
+    <select id="getAppEventList" resultType="AppEventDTO">
         SELECT * FROM AppEvent
     </select>
-     <select id="getAppEventByAppIDByEventKey" parameterType="AppEventVo" resultType="AppEventVo">
+     <select id="getAppEventByAppIDByEventKey" parameterType="AppEventDTO" resultType="AppEventDTO">
         SELECT * FROM AppEvent WHERE appID = #{appID} and appEventKey = #{appEventKey}
     </select>
-    <select id="getAppEventByAppID" parameterType="int" resultType="AppEventVo">
+    <select id="getAppEventByAppID" parameterType="int" resultType="AppEventDTO">
         SELECT * FROM AppEvent WHERE appID = #{appID} ORDER BY appEventKey ASC
     </select>
-    <select id="getAppEventByEventID" parameterType="int" resultType="AppEventVo">
+    <select id="getAppEventByEventID" parameterType="int" resultType="AppEventDTO">
         SELECT * FROM AppEvent WHERE appEventID = #{appEventID}
     </select>
 </mapper>

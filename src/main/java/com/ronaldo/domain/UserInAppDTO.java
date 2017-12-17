@@ -2,17 +2,17 @@ package com.ronaldo.domain;
 
 import java.util.List;
 
-public class UserInAppVo {
+public class UserInAppDTO {
     private int userInAppID;
     private int userID;
     private int appID;
     private String appName;
-    private List<AppEventVo> appEventList;
+    private List<AppEventDTO> appEventList;
     
-	public List<AppEventVo> getAppEventList() {
+	public List<AppEventDTO> getAppEventList() {
 		return appEventList;
 	}
-	public void setAppEventList(List<AppEventVo> appEventList) {
+	public void setAppEventList(List<AppEventDTO> appEventList) {
 		this.appEventList = appEventList;
 	}
 	public String getAppName() {

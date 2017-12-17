@@ -3,19 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.AppMapper">
-	<select id="getAppByID" parameterType="int" resultType="AppVo">
+	<select id="getAppByID" parameterType="int" resultType="AppDTO">
         SELECT * FROM App natural join Company WHERE appID = #{appID}
     </select>
-    <select id="getAppByKey" parameterType="String" resultType="AppVo">
+    <select id="getAppByKey" parameterType="String" resultType="AppDTO">
         SELECT * FROM App natural join Company WHERE appKey = #{appKey}
     </select>
-    <select id="getAppList" resultType="AppVo">
+    <select id="getAppList" resultType="AppDTO">
         SELECT * FROM App natural join Company
     </select>
-    <select id="getEnableAppList"  parameterType="boolean" resultType="AppVo">
+    <select id="getEnableAppList"  parameterType="boolean" resultType="AppDTO">
         SELECT * FROM App natural join Company WHERE appEnable = #{appEnable}
     </select>
- 	<insert id="registApp" parameterType="AppVo" useGeneratedKeys="true" keyProperty="appID">
+ 	<insert id="registApp" parameterType="AppDTO" useGeneratedKeys="true" keyProperty="appID">
        	INSERT INTO App 
        	(appName,companyID,appURL,appImageIconPath,appImageBannerPath,appPackage) 
        	VALUES
@@ -24,13 +24,13 @@
     <delete id="deleteApp" parameterType="int">
        DELETE FROM App WHERE appID = #{appID} 
     </delete>
-    <update id="updateApp" parameterType="AppVo">
+    <update id="updateApp" parameterType="AppDTO">
 		UPDATE App
 		set appName = #{appName},companyID = #{companyID},appURL = #{appURL}
 		,appImageIconPath = #{appImageIconPath},appImageBannerPath = #{appImageBannerPath},appPackage = #{appPackage},appEnable = #{appEnable}
 		where appID = #{appID}
     </update> 
-     <update id="modifyAppKey" parameterType="AppVo">
+     <update id="modifyAppKey" parameterType="AppDTO">
 		UPDATE App
 		set appKey = #{appKey}
 		where appID = #{appID}

@@ -1,12 +1,12 @@
 package com.ronaldo.domain;
 
-public class AuthUserVo
+public class AuthUserDTO
 { 
 	private String authUserID;
 	private String authUserEmail;
 	private String authUserPassword;
 	private String authUserAuth;
-	public AuthUserVo(String authUserID, String authUserPassword, String authUserEmail, String authUserAuth) {
+	public AuthUserDTO(String authUserID, String authUserPassword, String authUserEmail, String authUserAuth) {
 		this.authUserID = authUserID;
 		this.authUserPassword = authUserPassword;
 		this.authUserEmail = authUserEmail;

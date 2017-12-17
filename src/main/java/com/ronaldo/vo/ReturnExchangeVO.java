@@ -1,6 +1,6 @@
-package com.ronaldo.dao;
+package com.ronaldo.vo;
 
-public class ExchangeDAO {
+public class ReturnExchangeVO {
 	private int exchangeMoney;
 	private int exchangeCoin;
 	private String exchangeName;

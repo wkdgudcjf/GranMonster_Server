@@ -223,7 +223,7 @@
 	            <div class="form-group">
 	              <div class="form-row">
 	                <div class="col-md-6">
-	                  <label for="inputAppName">앱 이름</label>
+	                  <label for="inputAppName">앱 이름(고유)</label>
 	                  <input type="text" name="appName" class="form-control" id="inputAppName" aria-describedby="nameHelp" placeholder="앱이름">
 	                </div>
 	                <div class="col-md-6">
@@ -286,7 +286,7 @@
 	            <div class="form-group">
 	              <div class="form-row">
 	                <div class="col-md-6">
-	                  <label for="modifyAppName">앱 이름</label>
+	                  <label for="modifyAppName">앱 이름(고유)</label>
 	                  <input type="text" name="appName" class="form-control" id="modifyAppName" aria-describedby="nameHelp" placeholder="앱이름">
 	                </div>
 	                <div class="col-md-6">

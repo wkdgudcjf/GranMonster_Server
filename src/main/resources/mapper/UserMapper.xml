@@ -4,31 +4,31 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.UserMapper">
 
- 	<insert id="registUser" parameterType="UserVo" useGeneratedKeys="true" keyProperty="userID">
+ 	<insert id="registUser" parameterType="UserDTO" useGeneratedKeys="true" keyProperty="userID">
       	INSERT INTO User (userEmail,userKey,userPassword,userCoin,userMoney) 
       	VALUES (#{userEmail},#{userKey},#{userPassword},#{userCoin},#{userMoney})
      </insert>
      
-    <select id="getUserList" resultType="UserVo">
+    <select id="getUserList" resultType="UserDTO">
         SELECT * FROM User
     </select>
     
-    <update id="updateUser" parameterType="UserVo">
+    <update id="updateUser" parameterType="UserDTO">
 		UPDATE User
 		set userCoin = #{userCoin},userMoney =#{userMoney}
 		where userID = #{userID}
     </update>
     
-     <update id="updateUserPayload" parameterType="UserVo">
+     <update id="updateUserPayload" parameterType="UserDTO">
 		UPDATE User
 		set userPayload = #{userPayload}
 		where userKey = #{userKey}
     </update>
     
-    <select id="getUser" parameterType="String" resultType="UserVo">
+    <select id="getUser" parameterType="String" resultType="UserDTO">
         SELECT * FROM User WHERE userKey = #{userKey} 
     </select>
-    <select id="getUserByUserID" parameterType="int" resultType="UserVo">
+    <select id="getUserByUserID" parameterType="int" resultType="UserDTO">
         SELECT * FROM User WHERE userID = #{userID} 
     </select>
 </mapper>

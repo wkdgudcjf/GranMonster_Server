@@ -1,7 +1,6 @@
 package com.ronaldo.domain;
 
-
-public class UserEventVo {
+public class UserEventDTO {
     private int userEventID;
     private int userID;
     private int appEventID;

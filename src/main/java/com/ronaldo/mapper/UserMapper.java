@@ -4,15 +4,15 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ronaldo.domain.UserVo;
+import com.ronaldo.domain.UserDTO;
 
 @Mapper
 public interface  UserMapper{
-	 public List<UserVo> getUserList();
-	 public void registUser(UserVo userVo) throws Exception;
-	 public UserVo getUser(String userKey);
+	 public List<UserDTO> getUserList();
+	 public void registUser(UserDTO userDTO) throws Exception;
+	 public UserDTO getUser(String userKey);
 	 public void deleteUser(int userID) throws Exception;
-	 public void updateUser(UserVo userVo) throws Exception;
-	 public void updateUserPayload(UserVo userVo) throws Exception;
-	 public UserVo getUserByUserID(int userID);
+	 public void updateUser(UserDTO userDTO) throws Exception;
+	 public void updateUserPayload(UserDTO userDTO) throws Exception;
+	 public UserDTO getUserByUserID(int userID);
 }

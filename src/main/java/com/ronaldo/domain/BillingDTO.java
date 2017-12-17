@@ -2,7 +2,7 @@ package com.ronaldo.domain;
 
 import java.sql.Timestamp;
 
-public class BillingVo {
+public class BillingDTO {
     private int billingID;
     private int userID;
     private int appID;

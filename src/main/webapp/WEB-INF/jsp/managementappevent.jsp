@@ -138,7 +138,7 @@
 	              <input type="text" name="appEventCoin" class="form-control" id="inputAppEventCoin" aria-describedby="nameHelp" placeholder="보상 Coin">
 	            </div>
 	            <div class="form-group">
-	              <label for="inputAppEventKey">api 키</label>
+	              <label for="inputAppEventKey">이벤트 키(고유)</label>
 	              <input type="text" name="appEventKey" class="form-control" id="inputAppEventKey" aria-describedby="nameHelp" placeholder="api 키">
 	            </div>
 	            <div class="form-group">
@@ -186,7 +186,7 @@
 	              <input type="text" name="appEventCoin" class="form-control" id="modifyAppEventCoin" aria-describedby="nameHelp" placeholder="보상 Coin">
 	            </div>
 	            <div class="form-group">
-	              <label for="modifyAppEventKey">api 키</label>
+	              <label for="modifyAppEventKey">이벤트 키(고유)</label>
 	              <input type="text" name="appEventKey" class="form-control" id="modifyAppEventKey" aria-describedby="nameHelp" placeholder="api 키">
 	            </div>
 	            <div class="form-group">
@@ -255,7 +255,7 @@
 				 return;
 			 }
 			 if (inputAppEventKey.val().length == 0) {
-				 alert('키를 입력하세요.');
+				 alert('이벤트키를 입력하세요.');
 				 return;
 			 }
 			 if (inputAppEventLimit.val().length == 0) {
@@ -293,7 +293,7 @@
 				 return;
 			 }
 			 if (modifyAppEventKey.val().length == 0) {
-				 alert('키를 입력하세요.');
+				 alert('이벤트키를 입력하세요.');
 				 return;
 			 }
 			 if (modifyAppEventLimit.val().length == 0) {

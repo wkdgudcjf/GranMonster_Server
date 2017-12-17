@@ -1,8 +1,8 @@
-package com.ronaldo.dao;
+package com.ronaldo.vo;
 
 import java.util.List;
 
-public class AppDAO {
+public class ReturnAppVO {
 	private String appName;
 	private String appKey;
 	private String appURL;
@@ -10,7 +10,7 @@ public class AppDAO {
 	private String appImageBannerPath;
 	private String appPackage;
 	private boolean appInstall;
-	private List<AppEventDAO> appEventList;
+	private List<ReturnAppEventVO> appEventList;
 	
 	public String getAppKey() {
 		return appKey;
@@ -55,10 +55,10 @@ public class AppDAO {
 	public void setAppInstall(boolean appInstall) {
 		this.appInstall = appInstall;
 	}
-	public List<AppEventDAO> getAppEventList() {
+	public List<ReturnAppEventVO> getAppEventList() {
 		return appEventList;
 	}
-	public void setAppEventList(List<AppEventDAO> appEventList) {
+	public void setAppEventList(List<ReturnAppEventVO> appEventList) {
 		this.appEventList = appEventList;
 	}
 	

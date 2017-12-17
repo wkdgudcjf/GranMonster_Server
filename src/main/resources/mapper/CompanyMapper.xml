@@ -3,22 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.CompanyMapper">
- 	<select id="getCompany" parameterType="int" resultType="CompanyVo">
+ 	<select id="getCompany" parameterType="int" resultType="CompanyDTO">
         SELECT * FROM Company WHERE companyID = #{companyID} 
     </select>
-    <select id="getCompanyList" resultType="CompanyVo">
+    <select id="getCompanyList" resultType="CompanyDTO">
         SELECT * FROM Company
     </select>
-    <select id="getEnableCompanyList"  parameterType="boolean" resultType="CompanyVo">
+    <select id="getEnableCompanyList"  parameterType="boolean" resultType="CompanyDTO">
         SELECT * FROM Company WHERE companyEnable = #{companyEnable}
     </select>
-    <insert id="registCompany" parameterType="CompanyVo">
+    <insert id="registCompany" parameterType="CompanyDTO">
        	INSERT INTO Company (companyName) VALUES (#{companyName})
     </insert>
 	<delete id="deleteCompany" parameterType="int">
        DELETE FROM Company WHERE companyID = #{companyID} 
     </delete>
-    <update id="updateCompany" parameterType="CompanyVo">
+    <update id="updateCompany" parameterType="CompanyDTO">
 		UPDATE Company
 		set companyName = #{companyName},companyEnable = #{companyEnable}
 		where companyID = #{companyID}

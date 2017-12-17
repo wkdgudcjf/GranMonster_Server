@@ -5,8 +5,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ronaldo.domain.AuthUserVo;
+import com.ronaldo.domain.AuthUserDTO;
 import com.ronaldo.mapper.AuthUserMapper;
+import com.ronaldo.vo.AuthUserVO;
 @Service
 public class AuthUserServiceImpl implements AuthUserService
 { 
@@ -14,9 +15,9 @@ public class AuthUserServiceImpl implements AuthUserService
 	AuthUserMapper authUserMapper;
 	private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	@Override
-	public boolean isVaild(String authUserID, String authUserPassword) {
-		AuthUserVo authUserVo = authUserMapper.searchAuthUser(authUserID);
-		if(authUserVo==null || !(passwordEncoder.matches(authUserPassword, authUserVo.getAuthUserPassword())))
+	public boolean isVaild(AuthUserVO authUserVO) {
+		AuthUserDTO authUserDTO = authUserMapper.searchAuthUser(authUserVO.getId());
+		if(authUserDTO==null || !(passwordEncoder.matches(authUserVO.getPassword(), authUserDTO.getAuthUserPassword())))
 		{
 			return false;
 		}
@@ -24,22 +25,22 @@ public class AuthUserServiceImpl implements AuthUserService
 		return true;
 	}
 	@Override
-	public AuthUserVo searchAuthUser(String authUserID) {
+	public AuthUserDTO searchAuthUser(String authUserID) {
 		// TODO Auto-generated method stub
 		return authUserMapper.searchAuthUser(authUserID);
 	}
 	@Override
-	public boolean createAuthUser(String authUserID, String authUserPassword, String authUserEmail, String inputNumberCheck) {
-		if(!inputNumberCheck.equals("ronaldo"))
+	public boolean createAuthUser(AuthUserVO authUserVO) {
+		if(!authUserVO.getInputNumberCheck().equals("ronaldo"))
 		{
 			return false;
 		}
-		if(authUserMapper.searchAuthUser(authUserID)!=null)
+		if(authUserMapper.searchAuthUser(authUserVO.getId())!=null)
 		{
 			return false;
 		}
-		AuthUserVo authUserVo = new AuthUserVo(authUserID,passwordEncoder.encode(authUserPassword),authUserEmail,"ADMIN");
-		authUserMapper.createAuthUser(authUserVo);
+		AuthUserDTO authUserDTO = new AuthUserDTO(authUserVO.getId(),passwordEncoder.encode(authUserVO.getPassword()),authUserVO.getEmail(),"ADMIN");
+		authUserMapper.createAuthUser(authUserDTO);
 		return true;
 	} 
 }

@@ -1,20 +1,10 @@
 package com.ronaldo.Controller;
 
-import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager; 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ronaldo.domain.AuthenticationRequest;
-import com.ronaldo.domain.AuthenticationToken;
-import com.ronaldo.domain.AuthUserVo;
 import com.ronaldo.service.AuthUserService;
 
 @RestController

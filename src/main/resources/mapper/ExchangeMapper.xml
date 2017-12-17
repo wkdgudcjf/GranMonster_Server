@@ -3,23 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.ExchangeMapper">
- 	<select id="getExchange" parameterType="int" resultType="ExchangeVo">
+ 	<select id="getExchange" parameterType="int" resultType="ExchangeDTO">
         SELECT * FROM Exchange WHERE exchangeID = #{exchangeID}
     </select>
-    <select id="getExchangeList" resultType="ExchangeVo">
+    <select id="getExchangeList" resultType="ExchangeDTO">
         SELECT * FROM Exchange
     </select>
-    <select id="getEnableExchangeList"  parameterType="boolean" resultType="ExchangeVo">
+    <select id="getEnableExchangeList"  parameterType="boolean" resultType="ExchangeDTO">
         SELECT * FROM Exchange WHERE exchangeEnable = #{exchangeEnable}
     </select>
-    <insert id="registExchange" parameterType="ExchangeVo">
+    <insert id="registExchange" parameterType="ExchangeDTO">
        	INSERT INTO Exchange (exchangeMoney,exchangeCoin,exchangeName,exchangeKey,exchangeImagePath)
        	VALUES (#{exchangeMoney},#{exchangeCoin},#{exchangeName},#{exchangeKey},#{exchangeImagePath})
     </insert>
 	<delete id="deleteExchange" parameterType="int">
        DELETE FROM Exchange WHERE exchangeID = #{exchangeID} 
     </delete>
-    <update id="updateExchange" parameterType="ExchangeVo">
+    <update id="updateExchange" parameterType="ExchangeDTO">
 		UPDATE Exchange
 		set exchangeMoney = #{exchangeMoney},exchangeCoin = #{exchangeCoin},exchangeEnable = #{exchangeEnable}
 		,exchangeName = #{exchangeName},exchangeKey = #{exchangeKey},exchangeImagePath = #{exchangeImagePath}

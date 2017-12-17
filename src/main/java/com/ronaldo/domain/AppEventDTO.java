@@ -2,7 +2,7 @@ package com.ronaldo.domain;
 
 import java.sql.Timestamp;
 
-public class AppEventVo {
+public class AppEventDTO {
     private int appEventID;
     private int appID;
     private String appEventContent;

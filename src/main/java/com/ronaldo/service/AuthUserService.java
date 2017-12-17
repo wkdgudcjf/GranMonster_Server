@@ -1,10 +1,11 @@
 package com.ronaldo.service;
 
-import com.ronaldo.domain.AuthUserVo;
+import com.ronaldo.domain.AuthUserDTO;
+import com.ronaldo.vo.AuthUserVO;
 
 public interface AuthUserService
 { 
-	public boolean isVaild(String id,String password);
-	public boolean createAuthUser(String id, String password, String email, String inputNumberCheck);
-	public AuthUserVo searchAuthUser(String id);
+	public boolean isVaild(AuthUserVO authUserVO);
+	public boolean createAuthUser(AuthUserVO authUserVO);
+	public AuthUserDTO searchAuthUser(String id);
 }

@@ -1,6 +1,6 @@
-package com.ronaldo.dao;
+package com.ronaldo.vo;
 
-public class AppEventDAO {
+public class ReturnAppEventVO {
     private String appEventContent;
 	private int appEventCoin;
 	private String appEventKey;

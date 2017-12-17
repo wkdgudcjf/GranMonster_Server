@@ -2,7 +2,7 @@ package com.ronaldo.domain;
 
 import java.sql.Timestamp;
 
-public class UserVo {
+public class UserDTO {
     private int userID;
     private String userEmail;
     private String userKey;

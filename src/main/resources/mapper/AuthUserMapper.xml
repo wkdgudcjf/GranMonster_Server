@@ -3,13 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.AuthUserMapper">
-    <select id="searchAuthUser" parameterType="String" resultType="AuthUserVo">
+    <select id="searchAuthUser" parameterType="String" resultType="AuthUserDTO">
        SELECT * FROM AuthUser WHERE authUserID = #{authUserID}
      </select>
       <delete id="deleteAuthUser" parameterType="String">
        DELETE FROM AuthUser WHERE authUserID = #{authUserID} 
       </delete> 
-      <insert id="createAuthUser" parameterType="AuthUserVo">
+      <insert id="createAuthUser" parameterType="AuthUserDTO">
       INSERT INTO AuthUser (authUserID,authUserEmail,authUserPassword,authUserAuth) VALUES (#{authUserID},#{authUserEmail},#{authUserPassword},#{authUserAuth})
      </insert>
     <!-- 

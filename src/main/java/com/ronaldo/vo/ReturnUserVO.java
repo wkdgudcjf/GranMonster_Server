@@ -1,9 +1,18 @@
-package com.ronaldo.dao;
+package com.ronaldo.vo;
 
-public class UserDAO {
+import com.ronaldo.config.ErrorCodeConfig.LoginEnum;
+
+public class ReturnUserVO {
+    private LoginEnum state;
     private String userEmail;
     private int userCoin;
     private int userMoney;
+	public LoginEnum getState() {
+		return state;
+	}
+	public void setState(LoginEnum state) {
+		this.state = state;
+	}
 	public String getUserEmail() {
 		return userEmail;
 	}
@@ -22,5 +31,4 @@ public class UserDAO {
 	public void setUserMoney(int userMoney) {
 		this.userMoney = userMoney;
 	}
-	
 }

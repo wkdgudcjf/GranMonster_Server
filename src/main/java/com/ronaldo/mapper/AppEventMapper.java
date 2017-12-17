@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.ronaldo.domain.AppEventVo;
+import com.ronaldo.domain.AppEventDTO;
 
 @Mapper
 public interface  AppEventMapper{
-	 public List<AppEventVo> getAppEventList();
-	 public List<AppEventVo> getAppEventByAppID(int appID);
-	 public AppEventVo getAppEventByEventID(int appEventID);
-	 public AppEventVo getAppEventByAppIDByEventKey(AppEventVo appEventVo);
-	 public void registAppEvent(AppEventVo appEventVo) throws Exception;
-	 public void updateAppEvent(AppEventVo appEventVo) throws Exception;
+	 public List<AppEventDTO> getAppEventList();
+	 public List<AppEventDTO> getAppEventByAppID(int appID);
+	 public AppEventDTO getAppEventByEventID(int appEventID);
+	 public AppEventDTO getAppEventByAppIDByEventKey(AppEventDTO appEventDTO);
+	 public void registAppEvent(AppEventDTO appEventDTO) throws Exception;
+	 public void updateAppEvent(AppEventDTO appEventDTO) throws Exception;
 }
