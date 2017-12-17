@@ -268,7 +268,7 @@ public class AdminController
         	 String VOriginalFileName = receiveExchangeVO.getExchangeVImage().getOriginalFilename();
              String VOriginalFileExtension = VOriginalFileName.substring(VOriginalFileName.lastIndexOf("."));
              String VFileName = receiveExchangeVO.getExchangeName()+"_v1_V"+VOriginalFileExtension;
-             Path VExchangePath = Paths.get(context.getRealPath("image/HExchange/") + VFileName);
+             Path VExchangePath = Paths.get(context.getRealPath("image/VExchange/") + VFileName);
              
              if(apiService.registExchange(receiveExchangeVO,HFileName,VFileName))
              {
