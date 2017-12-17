@@ -15,6 +15,16 @@
 		,appEventStartTime = #{appEventStartTime},appEventEndTime = #{appEventEndTime},appEventKey = #{appEventKey},appEventLimit = #{appEventLimit}
 		where appEventID = #{appEventID}
     </update>
+     <update id="modifyEventCount" parameterType="AppEventDTO">
+		UPDATE AppEvent
+		set appEventCount = #{appEventCount}
+		where appEventID = #{appEventID}
+    </update>
+    <update id="disableAppEvent" parameterType="int">
+		UPDATE AppEvent
+		set appEventEnable = 0
+		where appEventID = #{appEventID}
+    </update>
     <select id="getAppEventList" resultType="AppEventDTO">
         SELECT * FROM AppEvent
     </select>
@@ -23,6 +33,9 @@
     </select>
     <select id="getAppEventByAppID" parameterType="int" resultType="AppEventDTO">
         SELECT * FROM AppEvent WHERE appID = #{appID} ORDER BY appEventKey ASC
+    </select>
+    <select id="getAppEventByAppIDByEnable" parameterType="int" resultType="AppEventDTO">
+        SELECT * FROM AppEvent WHERE appID = #{appID} and appEventEnable = 1 ORDER BY appEventKey ASC 
     </select>
     <select id="getAppEventByEventID" parameterType="int" resultType="AppEventDTO">
         SELECT * FROM AppEvent WHERE appEventID = #{appEventID}

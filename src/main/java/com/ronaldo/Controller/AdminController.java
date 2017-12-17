@@ -3,6 +3,9 @@ package com.ronaldo.Controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -334,7 +337,17 @@ public class AdminController
 	private String setManagementAppEvent(Model model,int appID)
     {
 		model.addAttribute("app",apiService.getApp(appID));
-    	model.addAttribute("eventList",apiService.getAppEventList(appID));
+		List<AppEventDTO> appEventList = apiService.getAppEventList(appID);
+		for(int i=0;i<appEventList.size();i++)
+		{
+			if(appEventList.get(i).getAppEventEndTime().getTime() < System.currentTimeMillis() && appEventList.get(i).isAppEventEnable())// 시간지났고 enable이면.
+			{
+				apiService.disableAppEvent(appEventList.get(i).getAppEventID());
+				LOG.info("setManagementAppEvent(ALREADY_EVENT_END) - AppID : " + appID+" /eventKey : "+appEventList.get(i).getAppEventKey());
+				continue;
+			}
+		}
+    	model.addAttribute("eventList",appEventList);
     	return "managementappevent";
     }
 	private String setManagementUser(Model model)

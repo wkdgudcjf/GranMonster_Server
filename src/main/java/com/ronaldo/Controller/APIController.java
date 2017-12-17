@@ -3,6 +3,7 @@ package com.ronaldo.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +12,16 @@ import org.springframework.http.ResponseEntity;
 
 import com.ronaldo.service.ApiService;
 import com.ronaldo.vo.ReceiveAppListVO;
-import com.ronaldo.vo.ReceiveEventAwardVO;
+import com.ronaldo.vo.ReceiveEventRewardVO;
 import com.ronaldo.vo.ReceiveEventVO;
 import com.ronaldo.vo.ReceiveExchangeAPIVO;
 import com.ronaldo.vo.ReceiveExhaustVO;
 import com.ronaldo.vo.ReceivePayloadVO;
 import com.ronaldo.vo.ReceivePurchaseVO;
 import com.ronaldo.vo.ReceiveUserVO;
+
 import com.ronaldo.vo.ReturnAppListVO;
-import com.ronaldo.vo.ReturnEventAwardVO;
+import com.ronaldo.vo.ReturnEventRewardVO;
 import com.ronaldo.vo.ReturnEventVO;
 import com.ronaldo.vo.ReturnExchangeListVO;
 import com.ronaldo.vo.ReturnExhaustVO;
@@ -34,10 +36,10 @@ public class APIController {
 	private ApiService apiService;
 	
 	@RequestMapping(value = "/api/login", method = RequestMethod.POST)
-	public ResponseEntity<ReturnUserVO> login(@RequestBody ReceiveUserVO receiveUserVO)
+	public ResponseEntity<ReturnUserVO> login(@RequestBody ReceiveUserVO receiveUserVO)//@RequestBody ReceiveUserVO receiveUserVO)
 	{
 		ReturnUserVO returnUserVO = new ReturnUserVO();
-		
+
 		apiService.login(receiveUserVO,returnUserVO);
 		
 		return new ResponseEntity<>(returnUserVO, HttpStatus.OK);
@@ -45,9 +47,10 @@ public class APIController {
 	}
 
 	@RequestMapping(value = "/api/applist", method = RequestMethod.POST)
-	public ResponseEntity<ReturnAppListVO> applist(@RequestBody ReceiveAppListVO receiveAppListVO) {
+	public ResponseEntity<ReturnAppListVO> applist(@RequestBody ReceiveAppListVO receiveAppListVO) 
+	{
 		ReturnAppListVO appListDAO =  new ReturnAppListVO();
-
+		
 		apiService.appList(receiveAppListVO,appListDAO);
 		
 		return new ResponseEntity<>(appListDAO, HttpStatus.OK);
@@ -79,7 +82,7 @@ public class APIController {
 		
 		return new ResponseEntity<>(returnPurchaseVO, HttpStatus.OK);
 	}
-
+	
 	@RequestMapping(value = "/api/exhaust", method = RequestMethod.POST)
 	public ResponseEntity<ReturnExhaustVO> exhaust(@RequestBody ReceiveExhaustVO receiveExhaustVO) {
 		ReturnExhaustVO returnExhaustVO = new ReturnExhaustVO();
@@ -98,11 +101,11 @@ public class APIController {
 		return new ResponseEntity<>(returnEventVO, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/api/eventreward", method = RequestMethod.POST)
-	public ResponseEntity<ReturnEventAwardVO> eventreward(@RequestBody ReceiveEventAwardVO receiveEventAwardVO) {
-		ReturnEventAwardVO returnEventAwardVO = new ReturnEventAwardVO();
+	public ResponseEntity<ReturnEventRewardVO> eventreward(@RequestBody ReceiveEventRewardVO receiveEventRewardVO) {
+		ReturnEventRewardVO returnEventRewardVO = new ReturnEventRewardVO();
 		
-		apiService.eventAward(receiveEventAwardVO,returnEventAwardVO);
+		apiService.eventReward(receiveEventRewardVO,returnEventRewardVO);
 		
-		return new ResponseEntity<>(returnEventAwardVO, HttpStatus.OK);
+		return new ResponseEntity<>(returnEventRewardVO, HttpStatus.OK);
 	}
 }

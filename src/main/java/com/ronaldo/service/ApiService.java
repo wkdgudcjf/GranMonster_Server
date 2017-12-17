@@ -13,7 +13,7 @@ import com.ronaldo.vo.ReceiveAppEventVO;
 import com.ronaldo.vo.ReceiveAppListVO;
 import com.ronaldo.vo.ReceiveAppVO;
 import com.ronaldo.vo.ReceiveCompanyVO;
-import com.ronaldo.vo.ReceiveEventAwardVO;
+import com.ronaldo.vo.ReceiveEventRewardVO;
 import com.ronaldo.vo.ReceiveEventVO;
 import com.ronaldo.vo.ReceiveExchangeAPIVO;
 import com.ronaldo.vo.ReceiveExchangeVO;
@@ -22,7 +22,7 @@ import com.ronaldo.vo.ReceivePayloadVO;
 import com.ronaldo.vo.ReceivePurchaseVO;
 import com.ronaldo.vo.ReceiveUserVO;
 import com.ronaldo.vo.ReturnAppListVO;
-import com.ronaldo.vo.ReturnEventAwardVO;
+import com.ronaldo.vo.ReturnEventRewardVO;
 import com.ronaldo.vo.ReturnEventVO;
 import com.ronaldo.vo.ReturnExchangeListVO;
 import com.ronaldo.vo.ReturnExhaustVO;
@@ -69,10 +69,12 @@ public interface ApiService
 	public boolean minusBilling(UserDTO userDTO, int appID,int billingCoin,String billingType);
 	
 	public List<AppEventDTO> getAppEventList(int appID);
+	public List<AppEventDTO> getAppEventEnableList(int appID);
 	public AppEventDTO getAppEvent(int appEventID);
 	public AppEventDTO getAppEvent(int appID,String appEventKey);
 	public boolean registAppEvent(ReceiveAppEventVO receiveAppEventVO);
 	boolean modifyAppEvent(ReceiveAppEventVO receiveAppEventVO);	
+	boolean disableAppEvent(int appEventID);
 	
 	public boolean registUserEvent(int userID, int appEventID);
 	public UserEventDTO getUserEvent(int userID, int appEventID);
@@ -86,5 +88,5 @@ public interface ApiService
 	public void purchase(ReceivePurchaseVO receivePurchaseVO, ReturnPurchaseVO returnPurchaseVO);
 	public void exhaust(ReceiveExhaustVO receiveExhaustVO, ReturnExhaustVO returnExhaustVO);
 	public void event(ReceiveEventVO receiveEventVO, ReturnEventVO returnEventVO);
-	public void eventAward(ReceiveEventAwardVO receiveEventAwardVO, ReturnEventAwardVO returnEventAwardVO);
+	public void eventReward(ReceiveEventRewardVO receiveEventRewardVO, ReturnEventRewardVO returnEventRewardVO);
 }

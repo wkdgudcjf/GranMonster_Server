@@ -64,6 +64,7 @@
                     <th>보상</th>
                     <th>시작 시간</th>
                     <th>종료 시간</th>
+                    <th>달성 인원수</th>
                     <th>제한 인원수</th>
                   </tr>
                 </thead>
@@ -75,6 +76,7 @@
                     <th>Coin</th>
                     <th>StartTime</th>
                     <th>EndTime</th>
+                    <th>Count</th>
                     <th>Limit</th>
                   </tr>
                 </tfoot>
@@ -97,6 +99,7 @@
 				        <td>${item.appEventCoin}</td>
 				        <td>${item.appEventStartTime}</td>
 				        <td>${item.appEventEndTime}</td>
+				        <td>${item.appEventCount}</td>
 				        <td>${item.appEventLimit}</td>
 				    </tr>
 				    </c:forEach>
@@ -198,6 +201,10 @@
 	              <input type="datetime-local" name="appEventEndTime" class="form-control" id="modifyAppEventEndTime" aria-describedby="nameHelp" placeholder="종료 시점">
 	            </div>
 	            <div class="form-group">
+	              <label for="modifyAppEventCount">달성 인원수</label>
+	              <p id="modifyAppEventCount"></p>
+	            </div>
+	            <div class="form-group">
 	              <label for="modifyAppEventLimit">제한 인원수</label>
 	              <input type="text" name="appEventLimit" class="form-control" id="modifyAppEventLimit" aria-describedby="nameHelp" placeholder="제한 인원수">
 	            </div>
@@ -283,7 +290,8 @@
 			 var modifyAppEventContent = $('#modifyAppEventContent'),
 			 modifyAppEventCoin = $('#modifyAppEventCoin'),
 			 modifyAppEventKey = $('#modifyAppEventKey'),
-			 modifyAppEventLimit = $('#modifyAppEventLimit');
+			 modifyAppEventLimit = $('#modifyAppEventLimit'),
+			 modifyAppEventCount = $('#modifyAppEventCount').text();
 			 if (modifyAppEventContent.val().length == 0) {
 				 alert('이벤트 내용을 입력하세요.');
 				 return;
@@ -300,6 +308,11 @@
 				 alert('인원수를 입력하세요.');
 				 return;
 			 }
+			 if(modifyAppEventLimit.val() <= modifyAppEventCount)
+			 {
+				 alert('최대 인원수가 현재 인원수보다 작습니다.');
+				 return;
+		     }
 				$.ajax({
 					url:"/modifyappevent",
 					type: "POST",
@@ -343,6 +356,7 @@
 						 $('#modifyAppEventEndTime').val(afterenddate.slice(0,19));
 						 $('#modifyAppEventKey').val(data.appEventKey);
 						 $('#modifyAppEventLimit').val(data.appEventLimit);
+						 $("#modifyAppEventCount").text(data.appEventCount);
 			           	 if(data.appEventEnable)
 			        	{
 			        		 $("#modifyAppEventEnable").prop("checked", true)

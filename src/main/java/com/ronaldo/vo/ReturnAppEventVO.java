@@ -6,7 +6,6 @@ public class ReturnAppEventVO {
 	private String appEventKey;
 	private boolean appEventSuccessEnable;
 	private boolean appEventRewardEnable;
-	
 	public String getAppEventKey() {
 		return appEventKey;
 	}

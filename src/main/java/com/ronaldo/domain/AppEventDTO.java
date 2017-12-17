@@ -11,6 +11,7 @@ public class AppEventDTO {
 	private Timestamp appEventStartTime;
 	private Timestamp appEventEndTime;
 	private int appEventLimit;
+	private int appEventCount;
 	private boolean appEventEnable;
 	private String appEventSuccessEnable;
 	private String appEventRewardEnable;
@@ -37,6 +38,12 @@ public class AppEventDTO {
 	}
 	public void setAppEventLimit(int appEventLimit) {
 		this.appEventLimit = appEventLimit;
+	}
+	public int getAppEventCount() {
+		return appEventCount;
+	}
+	public void setAppEventCount(int appEventCount) {
+		this.appEventCount = appEventCount;
 	}
 	public int getAppEventID() {
 		return appEventID;

@@ -1,6 +1,6 @@
 package com.ronaldo.vo;
 
-public class ReceiveEventAwardVO {
+public class ReceiveEventRewardVO {
 	private String userKey;
 	private String appKey;
 	private String eventKey;
