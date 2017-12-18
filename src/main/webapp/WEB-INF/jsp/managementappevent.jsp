@@ -347,13 +347,13 @@
 					dataType  : 'json',
 			        success: function (data) {
 			        	 var startdate = new Date(data.appEventStartTime); 
-			        	 var enddate = new Date(data.appEventEndTime); 
-			        	 var afterstartdate = new Date(startdate.getTime() - (startdate.getTimezoneOffset() * 60000)).toJSON();
-			        	 var afterenddate = new Date(enddate.getTime() - (enddate.getTimezoneOffset() * 60000)).toJSON();
+			        	 var enddate = new Date(data.appEventEndTime);
+			        	 var beforestartdate = new Date(startdate.getTime() - (startdate.getTimezoneOffset() * 60000)).toJSON();
+			        	 var beforeenddate = new Date(enddate.getTime() - (enddate.getTimezoneOffset() * 60000)).toJSON();
 			        	 $("#modifyAppEventContent").val(data.appEventContent);
 			        	 $("#modifyAppEventCoin").val(data.appEventCoin);
-			        	 $('#modifyAppEventStartTime').val(afterstartdate.slice(0,19));
-						 $('#modifyAppEventEndTime').val(afterenddate.slice(0,19));
+			        	 $('#modifyAppEventStartTime').val(beforestartdate.slice(0,19));
+						 $('#modifyAppEventEndTime').val(beforeenddate.slice(0,19));
 						 $('#modifyAppEventKey').val(data.appEventKey);
 						 $('#modifyAppEventLimit').val(data.appEventLimit);
 						 $("#modifyAppEventCount").text(data.appEventCount);
