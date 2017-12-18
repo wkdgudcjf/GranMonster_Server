@@ -23,6 +23,7 @@
     
     <!-- Custom styles for this template -->
     <link href="css/sb-admin.css" rel="stylesheet">
+    
      <style type="text/css">
 		p {word-break:break-all;}
 	 </style>
@@ -86,10 +87,10 @@
 				        <td>
 				        <c:choose>
 						<c:when test="${item.appEventEnable==true}"> 
-						    <img src="/img/enable.png" style="max-width: 30px; max-height: 30px;"> 
+						    <img src="/image/enable.png" style="max-width: 30px; max-height: 30px;"> 
 						</c:when> 
 						<c:otherwise> 
-						    <img src="/img/disable.png" style="max-width: 30px; max-height: 30px;"> 
+						    <img src="/image/disable.png" style="max-width: 30px; max-height: 30px;"> 
 						</c:otherwise> 
 						</c:choose>
 						</td>
