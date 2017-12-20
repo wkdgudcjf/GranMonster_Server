@@ -59,6 +59,11 @@ public class AdminController
 		}
     	return setManagementApp(model);
     }
+	@RequestMapping(value = "/data", method = RequestMethod.GET)
+    public String data(Model model)
+	{
+		return "data";
+    }
 	@RequestMapping(value = "/managementuser", method = RequestMethod.GET)
     public String managementuser(Model model)
 	{

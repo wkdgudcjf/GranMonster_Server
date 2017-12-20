@@ -2,52 +2,39 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html>
 
-    <meta name="description" content="">
-    <meta name="author" content="">
-    
-    <title>그랑몬스터</title>
-	
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<jsp:include page="include/head.jsp" flush="false"/>
 
-    <!-- Custom fonts for this template -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
 
-    <!-- Plugin CSS -->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <jsp:include page="include/main_header.jsp" flush="false"/>
+  
+  <jsp:include page="include/left_column.jsp" flush="false"/>
 
-    <!-- Custom styles for this template -->
-    <link href="css/sb-admin.css" rel="stylesheet">
-  </head>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header" style="padding:20px;">
+      <h1>
+       	 유저 관리
+        <small>Management User</small>
+      </h1>
+    </section>
 
-  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
-    <div class="content-wrapper">
-      <div class="container-fluid">
-		<jsp:include page="navi.jsp" flush="false"/>
-        <!-- Breadcrumbs -->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <h4>유저 관리</h4>
-          </li>
-          <li class="breadcrumb-item active">Management User</li>
-        </ol>
-        
-        <!-- Tables -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fa fa-table"></i>
-            User List
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
-                <thead>
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">User List</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="mytable" class="table table-bordered table-striped">
+              	<thead>
                   <tr>
                     <th>활성여부</th>
                     <th>키</th>
@@ -90,40 +77,26 @@
                 </tbody>
               </table>
             </div>
+            <!-- /.box-body -->
           </div>
-          <div id="tableTime" class="card-footer small text-muted">
-            Updated yesterday at 11:59 PM
-          </div>
+          <!-- /.box -->
         </div>
-        
+        <!-- /.col -->
       </div>
-      <!-- /.container-fluid -->
-
-    <!-- /.content-wrapper -->
-	<jsp:include page="footer.jsp" flush="false"/>
-    </div>
-
-     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-
-    <!-- Custom scripts for this template -->
-    <script src="js/sb-admin.min.js"></script>
-    
-    <!-- Custom scripts for this template -->
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+  <jsp:include page="include/main_footer.jsp" flush="false"/>
+</div>
+<!-- ./wrapper -->
+<jsp:include page="include/plugin_js.jsp" flush="false"/>
+ <!-- Custom scripts for this template -->
 	<script type="text/javascript">
 	 $(document).ready(function(){
-		 var d = new Date();
-		 $('#navi_user').attr('class',"nav-item active");
-		 $('#tableTime').text('Updated ' + d.getFullYear()+'/'+(d.getMonth() + 1)+'/'+d.getDate()+' '+d.getHours()
-				 +':'+d.getMinutes()+':'+d.getSeconds());
+		 $('#navi_user').attr('class',"active");
 		});
 	 function goToUserInfo(userID){
 		 var form = document.createElement('form');
@@ -137,8 +110,7 @@
 		 form.setAttribute('action', "/managementuserinfo");
 		 document.body.appendChild(form);
 		 form.submit();
-		}
+	}
     </script>
-  </body>
-
+</body>
 </html>

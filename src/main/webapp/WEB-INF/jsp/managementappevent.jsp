@@ -2,62 +2,42 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html>
 
-    <meta name="description" content="">
-    <meta name="author" content="">
-    
-    <title>그랑몬스터</title>
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<jsp:include page="include/head.jsp" flush="false"/>
 
-    <!-- Custom fonts for this template -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
 
-    <!-- Plugin CSS -->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
-    
-    <!-- Custom styles for this template -->
-    <link href="css/sb-admin.css" rel="stylesheet">
-    
-     <style type="text/css">
-		p {word-break:break-all;}
-	 </style>
-  </head>
+  <jsp:include page="include/main_header.jsp" flush="false"/>
+  
+  <jsp:include page="include/left_column.jsp" flush="false"/>
 
-  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
-    <div class="content-wrapper">
-      <div class="container-fluid">
-		<jsp:include page="navi.jsp" flush="false"/>
-        <!-- Breadcrumbs -->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <h4>${app.appName} 이벤트 관리</h4>
-          </li>
-          <li class="breadcrumb-item active">Management Event</li>
-        </ol>
-        
-        <!-- 추가 -->
-        <div class="row">
-          <div class="col-xl-3 col-sm-4 mb-3">
-			   <Button type="button" class="btn btn-success" onclick="registAppEventModal()">이벤트 등록(Regist Event)</Button>
-          </div>
-        </div>
-        
-        <!--  Tables  -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fa fa-table"></i>
-            Event List
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
-                <thead>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header" style="padding:20px;">
+      <h1>
+       	 ${app.appName} 이벤트 관리
+        <small>Management Event</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><Button type="button" class="btn btn-block btn-success btn-flat" onclick="registAppEventModal()">이벤트 등록(Regist Event)</Button></li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Event List</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="mytable" class="table table-bordered table-striped">
+              	<thead>
                   <tr>
                     <th>활성여부</th>
                     <th>이벤트키</th>
@@ -107,28 +87,26 @@
                 </tbody>
               </table>
             </div>
+            <!-- /.box-body -->
           </div>
-          <div id="tableTime" class="card-footer small text-muted">
-            Updated yesterday at 11:59 PM
-          </div>
+          <!-- /.box -->
         </div>
-        
+        <!-- /.col -->
       </div>
-      <!-- /.container-fluid -->
-
-    <!-- /.content-wrapper -->
-	<jsp:include page="footer.jsp" flush="false"/>
-    </div>
-	
-	 <!-- RegistAppEvent Modal -->
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+  <jsp:include page="include/main_footer.jsp" flush="false"/>
+  
+    <!-- RegistAppEvent Modal -->
     <div class="modal fade" id="registAppEventModal" tabindex="-1" role="dialog" aria-labelledby="registAppEventModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="registAppEventModalLabel">Regist AppEvent</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+          <div class="modal-header" style="text-align: center;">
+            <h1 class="modal-title" id="registAppEventModalLabel">Regist AppEvent</h1>
           </div>
           <div class="modal-body">
           	  <form id="registappeventform">
@@ -172,11 +150,8 @@
     <div class="modal fade" id="modifyAppEventModal" tabindex="-1" role="dialog" aria-labelledby="modifyAppEventModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modifyAppModalLabel">Modify AppEvent</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+          <div class="modal-header" style="text-align: center;">
+            <h1 class="modal-title" id="modifyAppModalLabel">Modify AppEvent</h1>
           </div>
           <div class="modal-body">
           	  <form id="modifyappeventform">
@@ -227,57 +202,87 @@
         </div>
       </div>
     </div>
-     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-   
-    <!-- Custom scripts for this template -->
-    <script src="js/sb-admin.min.js"></script>
-    
-    <!-- Custom scripts for this template -->
+</div>
+<!-- ./wrapper -->
+<jsp:include page="include/plugin_js.jsp" flush="false"/>
+ <!-- Custom scripts for this template -->
 	<script type="text/javascript">
-	 	$(document).ready(function(){
-			 var d = new Date();
-			 $('#navi_app').attr('class',"nav-item active");
-			 $('#tableTime').text('Updated ' + d.getFullYear()+'/'+(d.getMonth() + 1)+'/'+d.getDate()+' '+d.getHours()
-					 +':'+d.getMinutes()+':'+d.getSeconds());
+	 $(document).ready(function(){
+		 $('#navi_app').attr('class',"active");
 		});
-	 	function registAppEvent(){
-			 var inputAppEventContent = $('#inputAppEventContent'),
-			 inputAppEventCoin = $('#inputAppEventCoin'),
-			 inputAppEventKey = $('#inputAppEventKey'),
-			 inputAppEventLimit = $('#inputAppEventLimit');
-			 if (inputAppEventContent.val().length == 0) {
-				 alert('이벤트 내용을 입력하세요.');
-				 return;
-			 }
-			 if (inputAppEventCoin.val().length == 0) {
-				 alert('보상을 입력하세요.');
-				 return;
-			 }
-			 if (inputAppEventKey.val().length == 0) {
-				 alert('이벤트키를 입력하세요.');
-				 return;
-			 }
-			 if (inputAppEventLimit.val().length == 0) {
-				 alert('인원수를 입력하세요.');
-				 return;
-			 }
+	 function registAppEvent(){
+		 var inputAppEventContent = $('#inputAppEventContent'),
+		 inputAppEventCoin = $('#inputAppEventCoin'),
+		 inputAppEventKey = $('#inputAppEventKey'),
+		 inputAppEventLimit = $('#inputAppEventLimit');
+		 if (inputAppEventContent.val().length == 0) {
+			 alert('이벤트 내용을 입력하세요.');
+			 return;
+		 }
+		 if (inputAppEventCoin.val().length == 0) {
+			 alert('보상을 입력하세요.');
+			 return;
+		 }
+		 if (inputAppEventKey.val().length == 0) {
+			 alert('이벤트키를 입력하세요.');
+			 return;
+		 }
+		 if (inputAppEventLimit.val().length == 0) {
+			 alert('인원수를 입력하세요.');
+			 return;
+		 }
+		$.ajax({
+			url:"/registappevent",
+			type: "POST",
+			data: new FormData($("#registappeventform")[0]),
+			enctype: 'multipart/form-data',
+	        processData: false,
+	        contentType: false,
+	        dataType : "text",
+	        cache: false,
+	        success: function () {
+	        	location.reload();
+	        },
+	        error:function(request,status,error){
+	        	alert(request.responseText);
+	        }
+		});
+	}
+	 function modifyAppEvent(){
+		 var modifyAppEventContent = $('#modifyAppEventContent'),
+		 modifyAppEventCoin = $('#modifyAppEventCoin'),
+		 modifyAppEventKey = $('#modifyAppEventKey'),
+		 modifyAppEventLimit = $('#modifyAppEventLimit'),
+		 modifyAppEventCount = $('#modifyAppEventCount').text();
+		 if (modifyAppEventContent.val().length == 0) {
+			 alert('이벤트 내용을 입력하세요.');
+			 return;
+		 }
+		 if (modifyAppEventCoin.val().length == 0) {
+			 alert('보상을 입력하세요.');
+			 return;
+		 }
+		 if (modifyAppEventKey.val().length == 0) {
+			 alert('이벤트키를 입력하세요.');
+			 return;
+		 }
+		 if (modifyAppEventLimit.val().length == 0) {
+			 alert('인원수를 입력하세요.');
+			 return;
+		 }
+		 if(modifyAppEventLimit.val() <= modifyAppEventCount)
+		 {
+			 alert('최대 인원수가 현재 인원수보다 작습니다.');
+			 return;
+	     }
 			$.ajax({
-				url:"/registappevent",
+				url:"/modifyappevent",
 				type: "POST",
-				data: new FormData($("#registappeventform")[0]),
+				data: new FormData($("#modifyappeventform")[0]),
 				enctype: 'multipart/form-data',
 		        processData: false,
-		        contentType: false,
 		        dataType : "text",
+		        contentType: false,
 		        cache: false,
 		        success: function () {
 		        	location.reload();
@@ -285,96 +290,51 @@
 		        error:function(request,status,error){
 		        	alert(request.responseText);
 		        }
-			});
-		}
-		 function modifyAppEvent(){
-			 var modifyAppEventContent = $('#modifyAppEventContent'),
-			 modifyAppEventCoin = $('#modifyAppEventCoin'),
-			 modifyAppEventKey = $('#modifyAppEventKey'),
-			 modifyAppEventLimit = $('#modifyAppEventLimit'),
-			 modifyAppEventCount = $('#modifyAppEventCount').text();
-			 if (modifyAppEventContent.val().length == 0) {
-				 alert('이벤트 내용을 입력하세요.');
-				 return;
-			 }
-			 if (modifyAppEventCoin.val().length == 0) {
-				 alert('보상을 입력하세요.');
-				 return;
-			 }
-			 if (modifyAppEventKey.val().length == 0) {
-				 alert('이벤트키를 입력하세요.');
-				 return;
-			 }
-			 if (modifyAppEventLimit.val().length == 0) {
-				 alert('인원수를 입력하세요.');
-				 return;
-			 }
-			 if(modifyAppEventLimit.val() <= modifyAppEventCount)
-			 {
-				 alert('최대 인원수가 현재 인원수보다 작습니다.');
-				 return;
-		     }
-				$.ajax({
-					url:"/modifyappevent",
-					type: "POST",
-					data: new FormData($("#modifyappeventform")[0]),
-					enctype: 'multipart/form-data',
-			        processData: false,
-			        dataType : "text",
-			        contentType: false,
-			        cache: false,
-			        success: function () {
-			        	location.reload();
-			        },
-			        error:function(request,status,error){
-			        	alert(request.responseText);
-			        }
-				})
-			 }
-		 function registAppEventModal(){
-			 var date = new Date();
-			 var afterdate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
-			 $('#inputAppEventStartTime').val(afterdate.slice(0,19));
-			 $('#inputAppEventEndTime').val(afterdate.slice(0,19));
-			 document.getElementById("inputAppEventStartTime").min = afterdate.slice(0,19);
-			 document.getElementById("inputAppEventEndTime").min = afterdate.slice(0,19);
-			 $("#registAppEventModal").modal('show');
+			})
 		 }
-		 function modifyAppEventModal(id){
-				$.ajax({
-					url:"/getappevent",
-					type: "POST",
-					data : {'appEventID':id},
-					dataType  : 'json',
-			        success: function (data) {
-			        	 var startdate = new Date(data.appEventStartTime); 
-			        	 var enddate = new Date(data.appEventEndTime);
-			        	 var beforestartdate = new Date(startdate.getTime() - (startdate.getTimezoneOffset() * 60000)).toJSON();
-			        	 var beforeenddate = new Date(enddate.getTime() - (enddate.getTimezoneOffset() * 60000)).toJSON();
-			        	 $("#modifyAppEventContent").val(data.appEventContent);
-			        	 $("#modifyAppEventCoin").val(data.appEventCoin);
-			        	 $('#modifyAppEventStartTime').val(beforestartdate.slice(0,19));
-						 $('#modifyAppEventEndTime').val(beforeenddate.slice(0,19));
-						 $('#modifyAppEventKey').val(data.appEventKey);
-						 $('#modifyAppEventLimit').val(data.appEventLimit);
-						 $("#modifyAppEventCount").text(data.appEventCount);
-			           	 if(data.appEventEnable)
-			        	{
-			        		 $("#modifyAppEventEnable").prop("checked", true)
-			        	}
-			        	 else
-			        	{
-			        		 $("#modifyAppEventDisable").prop("checked", true)
-			        	}
-			        	 $("#modifyAppEventID").val(data.appEventID);
-			        	 $("#modifyAppEventModal").modal('show');
-			        },
-			        error:function(request,status,error){
-			        	alert(request.responseText);
-			        }
-				})
-			}
+	 function registAppEventModal(){
+		 var date = new Date();
+		 var afterdate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
+		 $('#inputAppEventStartTime').val(afterdate.slice(0,19));
+		 $('#inputAppEventEndTime').val(afterdate.slice(0,19));
+		 document.getElementById("inputAppEventStartTime").min = afterdate.slice(0,19);
+		 document.getElementById("inputAppEventEndTime").min = afterdate.slice(0,19);
+		 $("#registAppEventModal").modal('show');
+	 }
+	 function modifyAppEventModal(id){
+			$.ajax({
+				url:"/getappevent",
+				type: "POST",
+				data : {'appEventID':id},
+				dataType  : 'json',
+		        success: function (data) {
+		        	 var startdate = new Date(data.appEventStartTime); 
+		        	 var enddate = new Date(data.appEventEndTime);
+		        	 var beforestartdate = new Date(startdate.getTime() - (startdate.getTimezoneOffset() * 60000)).toJSON();
+		        	 var beforeenddate = new Date(enddate.getTime() - (enddate.getTimezoneOffset() * 60000)).toJSON();
+		        	 $("#modifyAppEventContent").val(data.appEventContent);
+		        	 $("#modifyAppEventCoin").val(data.appEventCoin);
+		        	 $('#modifyAppEventStartTime').val(beforestartdate.slice(0,19));
+					 $('#modifyAppEventEndTime').val(beforeenddate.slice(0,19));
+					 $('#modifyAppEventKey').val(data.appEventKey);
+					 $('#modifyAppEventLimit').val(data.appEventLimit);
+					 $("#modifyAppEventCount").text(data.appEventCount);
+		           	 if(data.appEventEnable)
+		        	{
+		        		 $("#modifyAppEventEnable").prop("checked", true)
+		        	}
+		        	 else
+		        	{
+		        		 $("#modifyAppEventDisable").prop("checked", true)
+		        	}
+		        	 $("#modifyAppEventID").val(data.appEventID);
+		        	 $("#modifyAppEventModal").modal('show');
+		        },
+		        error:function(request,status,error){
+		        	alert(request.responseText);
+		        }
+			})
+		}
     </script>
-  </body>
-
+</body>
 </html>

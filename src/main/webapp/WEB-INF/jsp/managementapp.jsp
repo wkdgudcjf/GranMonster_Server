@@ -2,153 +2,125 @@
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<html>
 
-    <meta name="description" content="">
-    <meta name="author" content="">
-    
-    <title>그랑몬스터</title>
+<jsp:include page="include/head.jsp" flush="false"/>
+
+ <style type="text/css">
+    /* imaged preview */ 
+ 	.filebox input[type="file"] {
+	    position: absolute;
+	    width: 1px;
+	    height: 1px;
+	    padding: 0;
+	    margin: -1px;
+	    overflow: hidden;
+	    clip:rect(0,0,0,0);
+	    border: 0;
+	}
 	
-    <!-- Bootstrap core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	.filebox label {
+	    display: inline-block;
+	    padding: .5em .75em;
+	    color: #999;
+	    font-size: inherit;
+	    line-height: normal;
+	    vertical-align: middle;
+	    background-color: #fdfdfd;
+	    cursor: pointer;
+	    border: 1px solid #ebebeb;
+	    border-bottom-color: #e2e2e2;
+	    border-radius: .25em;
+	}
+	
+	/* named upload */
+	.filebox .upload-name {
+	    display: inline-block;
+	    padding: .5em .75em;
+	    font-size: inherit;
+	    font-family: inherit;
+	    line-height: normal;
+	    vertical-align: middle;
+	    background-color: #f5f5f5;
+	 	border: 1px solid #ebebeb;
+	 	border-bottom-color: #e2e2e2;
+	 	border-radius: .25em;
+	 	-webkit-appearance: none; /* 네이티브 외형 감추기 */
+	  	-moz-appearance: none;
+	  	appearance: none;
+	}
+	
+	/* imaged preview */
+	.filebox .upload-display {
+	    margin-bottom: 5px;
+	}
+	
+	@media(min-width: 768px) {
+	    .filebox .upload-display {
+	        display: inline-block;
+	        margin-right: 5px;
+	        margin-bottom: 0;
+	    }
+	}
+	
+	.filebox .upload-thumb-wrap {
+	    display: inline-block;
+	    width: 54px;
+	    padding: 2px;
+	    vertical-align: middle;
+	    border: 1px solid #ddd;
+	    border-radius: 5px;
+	    background-color: #fff;
+	}
+	
+	.filebox .upload-display img {
+	    display: block;
+	    max-width: 100%;
+	    width: 100% \9;
+	    height: auto;
+	}
+	
+	.filebox.bs3-primary label {
+	  	color: #fff;
+	  	background-color: #337ab7;
+	    border-color: #2e6da4;
+	    margin-top: 8px;
+	}
+ </style>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
 
-    <!-- Custom fonts for this template -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <jsp:include page="include/main_header.jsp" flush="false"/>
+  
+  <jsp:include page="include/left_column.jsp" flush="false"/>
 
-    <!-- Plugin CSS -->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header" style="padding:20px;">
+      <h1>
+       	 앱 관리
+        <small>Management App</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><Button type="button" class="btn btn-block btn-success btn-flat" data-toggle="modal" data-target="#registAppModal">앱 등록(Regist App)</Button></li>
+      </ol>
+    </section>
 
-    <!-- Custom styles for this template -->
-    <link href="css/sb-admin.css" rel="stylesheet">
-     <style type="text/css">
-     /* imaged preview */ 
-	 	.filebox input[type="file"] {
-		    position: absolute;
-		    width: 1px;
-		    height: 1px;
-		    padding: 0;
-		    margin: -1px;
-		    overflow: hidden;
-		    clip:rect(0,0,0,0);
-		    border: 0;
-		}
-		
-		.filebox label {
-		    display: inline-block;
-		    padding: .5em .75em;
-		    color: #999;
-		    font-size: inherit;
-		    line-height: normal;
-		    vertical-align: middle;
-		    background-color: #fdfdfd;
-		    cursor: pointer;
-		    border: 1px solid #ebebeb;
-		    border-bottom-color: #e2e2e2;
-		    border-radius: .25em;
-		}
-		
-		/* named upload */
-		.filebox .upload-name {
-		    display: inline-block;
-		    padding: .5em .75em;
-		    font-size: inherit;
-		    font-family: inherit;
-		    line-height: normal;
-		    vertical-align: middle;
-		    background-color: #f5f5f5;
-		  border: 1px solid #ebebeb;
-		  border-bottom-color: #e2e2e2;
-		  border-radius: .25em;
-		  -webkit-appearance: none; /* 네이티브 외형 감추기 */
-		  -moz-appearance: none;
-		  appearance: none;
-		}
-		
-		/* imaged preview */
-		.filebox .upload-display {
-		    margin-bottom: 5px;
-		}
-		
-		@media(min-width: 768px) {
-		    .filebox .upload-display {
-		        display: inline-block;
-		        margin-right: 5px;
-		        margin-bottom: 0;
-		    }
-		}
-		
-		.filebox .upload-thumb-wrap {
-		    display: inline-block;
-		    width: 54px;
-		    padding: 2px;
-		    vertical-align: middle;
-		    border: 1px solid #ddd;
-		    border-radius: 5px;
-		    background-color: #fff;
-		}
-		
-		.filebox .upload-display img {
-		    display: block;
-		    max-width: 100%;
-		    width: 100% \9;
-		    height: auto;
-		}
-		
-		.filebox.bs3-primary label {
-		  color: #fff;
-		  background-color: #337ab7;
-		    border-color: #2e6da4;
-		    margin-top: 8px;
-		}
-	 </style>
-  </head>
-
-  <body class="fixed-nav sticky-footer bg-dark" id="page-top">
-    <div class="content-wrapper">
-      <div class="container-fluid">
-		<jsp:include page="navi.jsp" flush="false"/>
-        <!-- Breadcrumbs -->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <h4>앱 관리</h4>
-          </li>
-          <li class="breadcrumb-item active">Management App</li>
-        </ol>
-        
-        <!-- 추가 -->
-        <div class="row">
-          <div class="col-xl-3 col-sm-4 mb-3">
-			   <Button type="button" class="btn btn-success" data-toggle="modal" data-target="#registAppModal">앱 등록(Regist App)</Button>
-          </div>
-        </div>
-        
-        <!--  Tables  -->
-        <div class="card mb-3">
-          <div class="card-header">
-            <i class="fa fa-table"></i>
-            App List
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0" style="table-layout:fixed;">
-              	<colgroup>
-					<col style="width:5%;">
-					<col style="width:10%;">
-					<col style="width:10%;">
-					<col style="width:20%;">
-					<col style="width:10%;">
-					<col style="width:10%;">
-					<col style="width:9%;">
-					<col style="width:13%;">
-					<col style="width:13%;">
-				</colgroup>
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">App List</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="mytable" class="table table-bordered table-striped">
                 <thead>
                   <tr>
-                    <th>활성여부</th>
+                    <th>활성</th>
                     <th>앱이름</th>
                     <th>회사명</th>
                     <th>마켓경로</th>
@@ -178,10 +150,10 @@
 				        <td>
 				        <c:choose>
 						<c:when test="${item.appEnable==true}"> 
-						    <img src="/image/enable.png" style="max-width: 30px; max-height: 30px;"> 
+						    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
 						</c:when> 
 						<c:otherwise> 
-						    <img src="/image/disable.png" style="max-width: 30px; max-height: 30px;"> 
+						    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
 						</c:otherwise>
 						</c:choose>
 						</td>
@@ -199,42 +171,35 @@
                 </tbody>
               </table>
             </div>
+            <!-- /.box-body -->
           </div>
-          <div id="tableTime" class="card-footer small text-muted">
-            Updated yesterday at 11:59 PM
-          </div>
+          <!-- /.box -->
         </div>
-        
+        <!-- /.col -->
       </div>
-      <!-- /.container-fluid -->
-
-    <!-- /.content-wrapper -->
-	<jsp:include page="footer.jsp" flush="false"/>
-    </div>
-	
-	 <!-- RegistApp Modal -->
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  
+  <jsp:include page="include/main_footer.jsp" flush="false"/>
+   <!-- RegistApp Modal -->
     <div class="modal fade" id="registAppModal" tabindex="-1" role="dialog" aria-labelledby="registAppModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="registAppModalLabel">Regist App</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+          <div class="modal-header" style="text-align: center;">
+            <h1 class="modal-title" id="registAppModalLabel">Regist App</h1>
           </div>
           <div class="modal-body">
           	  <form id="registappform">
 	            <div class="form-group">
-	              <div class="form-row">
-	                <div class="col-md-6">
-	                  <label for="inputAppName">앱 이름(고유)</label>
-	                  <input type="text" name="appName" class="form-control" id="inputAppName" aria-describedby="nameHelp" placeholder="앱이름">
-	                </div>
-	                <div class="col-md-6">
-	                  <label for="inputAppPackage">패키지명</label>
-	                  <input type="text" name="appPackage" class="form-control" id="inputAppPackage" aria-describedby="nameHelp" placeholder="패키지명">
-	                </div>
-	              </div>
+                  <label for="inputAppName">앱 이름(고유)</label>
+                  <input type="text" name="appName" class="form-control" id="inputAppName" aria-describedby="nameHelp" placeholder="앱이름">
+	            </div>
+	             <div class="form-group">
+	                <label for="inputAppPackage">패키지명</label>
+	                <input type="text" name="appPackage" class="form-control" id="inputAppPackage" aria-describedby="nameHelp" placeholder="패키지명">
 	            </div>
 	            <div class="form-group">
 	              <label for="inputAppURL">URL</label>
@@ -286,26 +251,19 @@
     <div class="modal fade" id="modifyAppModal" tabindex="-1" role="dialog" aria-labelledby="modifyAppModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modifyAppModalLabel">Modify App</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+          <div class="modal-header" style="text-align: center;">
+            <h1 class="modal-title" id="modifyAppModalLabel">Modify App</h1>
           </div>
           <div class="modal-body">
           	  <form id="modifyappform">
           	  <input type="hidden" id="modifyAppID" value="temp" name="appID">
 	            <div class="form-group">
-	              <div class="form-row">
-	                <div class="col-md-6">
-	                  <label for="modifyAppName">앱 이름(고유)</label>
-	                  <input type="text" name="appName" class="form-control" id="modifyAppName" aria-describedby="nameHelp" placeholder="앱이름">
-	                </div>
-	                <div class="col-md-6">
-	                  <label for="modifyAppPackage">패키지명</label>
-	                  <input type="text" name="appPackage" class="form-control" id="modifyAppPackage" aria-describedby="nameHelp" placeholder="패키지명">
-	                </div>
-	              </div>
+                  <label for="modifyAppName">앱 이름(고유)</label>
+                  <input type="text" name="appName" class="form-control" id="modifyAppName" aria-describedby="nameHelp" placeholder="앱이름">
+	            </div>
+	            <div class="form-group">
+                  <label for="modifyAppPackage">패키지명</label>
+                  <input type="text" name="appPackage" class="form-control" id="modifyAppPackage" aria-describedby="nameHelp" placeholder="패키지명">
 	            </div>
 	            <div class="form-group">
 	              <label for="appKey">고유키</label>
@@ -365,28 +323,13 @@
         </div>
       </div>
     </div>
-
-     <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- Plugin JavaScript -->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="vendor/chart.js/Chart.min.js"></script>
-    <script src="vendor/datatables/jquery.dataTables.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
-
-    <!-- Custom scripts for this template -->
-    <script src="js/sb-admin.min.js"></script>
-    
-    <!-- Custom scripts for this template -->
+</div>
+<!-- ./wrapper -->
+<jsp:include page="include/plugin_js.jsp" flush="false"/>
+ <!-- Custom scripts for this template -->
 	<script type="text/javascript">
 	 $(document).ready(function(){
-		 var d = new Date();
-		 $('#navi_app').attr('class',"nav-item active");
-		 $('#tableTime').text('Updated ' + d.getFullYear()+'/'+(d.getMonth() + 1)+'/'+d.getDate()+' '+d.getHours()
-				 +':'+d.getMinutes()+':'+d.getSeconds());
+		 $('#navi_app').attr('class',"active");
 		   var fileTarget = $('.filebox .upload-hidden');
 
 		    fileTarget.on('change', function(){
@@ -557,6 +500,5 @@
 			 form.submit();
 			}
     </script>
-  </body>
-
+</body>
 </html>

@@ -146,7 +146,7 @@
     <div id="loginbox" class="mainbox col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3"> 
         
         <div class="row" style="height:150px; text-align:center">                
-            <img src="/img/logo.png" style="display:inline-block; margin-top:70px">
+            <img src="/image/logo.png" style="display:inline-block; margin-top:70px">
         </div>
         
         <div class="panel panel-default" >
