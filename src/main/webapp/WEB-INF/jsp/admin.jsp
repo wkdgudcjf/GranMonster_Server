@@ -121,7 +121,7 @@
 
 <jsp:include page="include/plugin_js.jsp" flush="false"/>
 <!-- ChartJS -->
-<script src="bower_components/Chart.js/Chart.js"></script>
+<script src="bower_components_r/Chart.js/Chart.js"></script>
 <!-- page script -->
 <script>
 	$(document).ready(function(){
