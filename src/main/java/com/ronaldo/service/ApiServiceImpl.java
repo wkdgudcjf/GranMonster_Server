@@ -587,6 +587,12 @@ public class ApiServiceImpl implements ApiService
 		List<ReturnAppVO> returnAppVoList = new ArrayList<ReturnAppVO>();
 		List<AppDTO> appDTOList = getEnableAppList(true);
 		UserDTO userDTO = getUser(userKey);
+		if (userDTO == null)
+		{
+			returnAppListVO.setState(AppListEnum.NOT_EXIST_USERKEY);
+			LOG.info("appList(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
 		List<UserInAppDTO> userInAppList = getUserInAppByUserID(userDTO.getUserID());
 		List<UserEventDTO> userEventList = getUserEventList(userDTO.getUserID());
 		
@@ -664,6 +670,13 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("payload(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
+		UserDTO userDTO = getUser(userKey);
+		if (userDTO == null)
+		{
+			returnPayloadVO.setState(PayloadEnum.NOT_EXIST_USERKEY);
+			LOG.info("payload(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
 		String payload = setUserPayload(appKey, userKey);
 		if(payload.equals("fail"))
 		{
@@ -692,7 +705,13 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("exchange(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
-			
+		UserDTO userDTO = getUser(userKey);
+		if (userDTO == null)
+		{
+			exchangeListDAO.setState(ExchangeEnum.NOT_EXIST_USERKEY);
+			LOG.info("exchange(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}	
 		exchangeList = getEnableExchangeList(true);
 		returnExchangeVOList = new ArrayList<ReturnExchangeVO>();
 			
@@ -766,6 +785,12 @@ public class ApiServiceImpl implements ApiService
 		Long purchaseTimeMillis = productPurchase.getPurchaseTimeMillis();
 		System.out.println(purchaseTimeMillis);*/
 		UserDTO userDTO = getUser(userKey);
+		if (userDTO == null)
+		{
+			returnPurchaseVO.setState(PurchaseEnum.NOT_EXIST_USERKEY);
+			LOG.info("purchase(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}	
 		if(!addBilling(userDTO, appDTO.getAppID(), coin, price, "purchase"))
 		{
 			returnPurchaseVO.setState(PurchaseEnum.INVALID_BILLING);
@@ -799,6 +824,12 @@ public class ApiServiceImpl implements ApiService
 		}
 		
 		UserDTO userDTO = getUser(userKey);
+		if (userDTO == null)
+		{
+			returnExhaustVO.setState(ExhaustEnum.NOT_EXIST_USERKEY);
+			LOG.info("exhaust(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}	
 		if(userDTO.getUserCoin() < coin) // 코인이 더 적으면 false 리턴
 		{
 			returnExhaustVO.setState(ExhaustEnum.NOT_ENOUGH_COIN);
@@ -853,16 +884,23 @@ public class ApiServiceImpl implements ApiService
 		appEventDTO.getAppEventStartTime();
 		appEventDTO.getAppEventEndTime();
 		appEventDTO.getAppEventLimit();
-		int userID = getUser(userKey).getUserID();
 		
-		UserEventDTO userEventDTO = getUserEvent(userID,appEventDTO.getAppEventID());
+		UserDTO userDTO = getUser(userKey);
+		if (userDTO == null)
+		{
+			returnEventVO.setState(EventEnum.NOT_EXIST_USERKEY);
+			LOG.info("event(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}	
+
+		UserEventDTO userEventDTO = getUserEvent(userDTO.getUserID(),appEventDTO.getAppEventID());
 		if(userEventDTO!=null)
 		{
 			returnEventVO.setState(EventEnum.ALREADY_SUCCESS_EVENT); //  이미 이벤트 진행
 			LOG.info("event(ALREADY_SUCCESS_EVENT) AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
-		if(!registUserEvent(userID,appEventDTO.getAppEventID())) // userevent 등록
+		if(!registUserEvent(userDTO.getUserID(),appEventDTO.getAppEventID())) // userevent 등록
 		{
 			returnEventVO.setState(EventEnum.INVALID_EVENT); //등록실패
 			LOG.info("event(INVALID_EVENT) AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
@@ -916,7 +954,13 @@ public class ApiServiceImpl implements ApiService
 		}
 		
 		UserDTO userDTO = getUser(userKey);
-
+		if (userDTO == null)
+		{
+			returnEventRewardVO.setState(EventRewardEnum.NOT_EXIST_USERKEY);
+			LOG.info("eventReward(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
+		
 		UserEventDTO userEventDTO = getUserEvent(userDTO.getUserID(),appEventDTO.getAppEventID());
 		if(userEventDTO==null)
 		{
