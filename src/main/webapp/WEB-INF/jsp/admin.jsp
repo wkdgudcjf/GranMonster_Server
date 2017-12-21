@@ -121,7 +121,7 @@
 
 <jsp:include page="include/plugin_js.jsp" flush="false"/>
 <!-- ChartJS -->
-<script src="bower_components/Chart.js/Chart.js"></script>
+<script src="bower_components/chart.js/Chart.js"></script>
 <!-- page script -->
 <script>
 	$(document).ready(function(){
@@ -201,7 +201,7 @@
       //Boolean - Whether to fill the dataset with a color
       datasetFill             : true,
       //String - A legend template
-
+      legendTemplate          : '',
       //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
       maintainAspectRatio     : true,
       //Boolean - whether to make the chart responsive to window resizing
@@ -286,6 +286,8 @@
       // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
       maintainAspectRatio  : true,
       //String - A legend template
+      legendTemplate       : ''
+	    
     }
     //Create pie or douhnut chart
     // You can switch between pie and douhnut using the method below.
@@ -322,6 +324,7 @@
       //Number - Spacing between data sets within X values
       barDatasetSpacing       : 1,
       //String - A legend template
+      legendTemplate          : '',
       //Boolean - whether to make the chart responsive
       responsive              : true,
       maintainAspectRatio     : true

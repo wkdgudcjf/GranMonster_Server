@@ -31,7 +31,7 @@
             <div class="box-header">
               <h3 class="box-title">Billing List</h3>
             </div>
-            <!-- /.box-header -->
+            <!-- box-header -->
             <div class="box-body">
               <table id="mytable" class="table table-bordered table-striped">
               	<thead>
@@ -45,6 +45,14 @@
                   </tr>
                 </thead>
                 <tfoot>
+                <tr>
+                  <th>합계</th>
+                  <th></th>
+                  <th id="money-sum"></th>
+                  <th id="coin-sum"></th>
+                  <th></th>
+                  <th></th>
+                </tr>
                   <tr>
                     <th>User Key</th>
                     <th>App Name</th>
@@ -68,27 +76,44 @@
                 </tbody>
               </table>
             </div>
-            <!-- /.box-body -->
+            <!-- box-body -->
           </div>
-          <!-- /.box -->
+          <!-- box -->
         </div>
-        <!-- /.col -->
+        <!-- col -->
       </div>
-      <!-- /.row -->
+      <!-- row -->
     </section>
-    <!-- /.content -->
+    <!-- content -->
   </div>
-  <!-- /.content-wrapper -->
+  <!-- content-wrapper -->
   
   <jsp:include page="include/main_footer.jsp" flush="false"/>
 </div>
-<!-- ./wrapper -->
+<!-- wrapper -->
 <jsp:include page="include/plugin_js.jsp" flush="false"/>
  <!-- Custom scripts for this template -->
 	<script type="text/javascript">
 	 $(document).ready(function(){
 		 $('#navi_billing').attr('class',"active");
-		});
+         $('.content').on('keyup', 'input[type=search]', tableSum);
+         tableSum();
+      });
+
+	 function tableSum() {
+         var money = 0;
+         $('#mytable tbody tr td:nth-child(3)').each(function() {
+             money += parseInt($(this).text());
+         });
+
+         var coin = 0;
+         $('#mytable tbody tr td:nth-child(4)').each(function() {
+             coin += parseInt($(this).text());
+         });
+
+         $('#money-sum').text(money);
+         $('#coin-sum').text(coin);
+     }
     </script>
 </body>
 </html>
