@@ -290,10 +290,10 @@
                   </div>
 	            </div>
 	            <div class="form-group">
-	            <label for="modifyAppHBannerImage">가로형 배너 이미지 업로드(635x395)(부재시 기존이미지 사용)</label>
+	            <label for="modifyAppHBannerImage">가로형 배너 이미지 업로드(580x285)(부재시 기존이미지 사용)</label>
 	             <div class="filebox bs3-primary preview-image">
                       <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="modifyHAppBannerImage">이미지찾기</label> 
+                      <label for="modifyAppHBannerImage">이미지찾기</label> 
                     <input type="file" id="modifyAppHBannerImage" name="appHBannerImage" class="upload-hidden" accept="image/*"> 
                   </div>
 	            </div>
