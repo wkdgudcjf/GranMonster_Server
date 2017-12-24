@@ -243,7 +243,6 @@ public class AdminController
     public ResponseEntity<AppEventDTO> getAppEvent(@RequestParam("appEventID") int appEventID)
 	{
 		AppEventDTO appEventDTO = apiService.getAppEvent(appEventID);
-		LOG.info(""+appEventDTO.getAppEventStartTime());
         return new ResponseEntity<>(appEventDTO,HttpStatus.OK);
     }
 	@RequestMapping(value = "/registappevent", method = RequestMethod.POST)
@@ -405,7 +404,6 @@ public class AdminController
 				LOG.info("setManagementAppEvent(ALREADY_EVENT_END) - AppID : " + appID+" /eventKey : "+appEventList.get(i).getAppEventKey());
 				continue;
 			}
-			LOG.info(""+appEventList.get(i).getAppEventStartTime());
 		}
     	model.addAttribute("eventList",appEventList);
     	return "managementappevent";

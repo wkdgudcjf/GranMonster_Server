@@ -324,13 +324,8 @@
 				dataType  : 'json',
 		        success: function (data) {
 		        	 var date = moment();
-		        	 alert(date);
 		        	 var startdate = moment(data.appEventStartTime); 
-		        	 alert(data.appEventStartTime);
-		        	 alert(startdate);
 		        	 var enddate = moment(data.appEventEndTime);
-		        	 alert(data.appEventEndTime);
-		        	 alert(enddate);
 		        	 if(date>startdate)
 		        	 {
 		        		 date = startdate;
