@@ -326,8 +326,10 @@
 		        	 var date = new Date();
 		        	 alert(date);
 		        	 var startdate = new Date(data.appEventStartTime); 
+		        	 alert(data.appEventStartTime);
 		        	 alert(startdate);
 		        	 var enddate = new Date(data.appEventEndTime);
+		        	 alert(data.appEventEndTime);
 		        	 alert(enddate);
 		        	 if(date>startdate)
 		        	 {
