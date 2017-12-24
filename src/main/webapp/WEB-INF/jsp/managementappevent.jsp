@@ -324,8 +324,15 @@
 				dataType  : 'json',
 		        success: function (data) {
 		        	 var date = new Date();
+		        	 alert(date);
 		        	 var startdate = new Date(data.appEventStartTime); 
+		        	 alert(startdate);
 		        	 var enddate = new Date(data.appEventEndTime);
+		        	 alert(enddate);
+		        	 if(date>startdate)
+		        	 {
+		        		 date = startdate;
+		        	 }
 		        	 $("#modifyAppEventContent").val(data.appEventContent);
 		        	 $("#modifyAppEventCoin").val(data.appEventCoin);
 				    $("#modifyAppEventReservationTime").daterangepicker({
