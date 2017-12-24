@@ -304,7 +304,7 @@
 			})
 		 }
 	 function registAppEventModal(){
-		 var date = new Date();
+		 var date = moment();
 		    $("#inputAppEventReservationTime").daterangepicker({
 		        timePicker: true,
 		        timePickerIncrement: 1,
@@ -323,12 +323,12 @@
 				data : {'appEventID':id},
 				dataType  : 'json',
 		        success: function (data) {
-		        	 var date = new Date();
+		        	 var date = moment();
 		        	 alert(date);
-		        	 var startdate = new Date(data.appEventStartTime); 
+		        	 var startdate = moment(data.appEventStartTime); 
 		        	 alert(data.appEventStartTime);
 		        	 alert(startdate);
-		        	 var enddate = new Date(data.appEventEndTime);
+		        	 var enddate = moment(data.appEventEndTime);
 		        	 alert(data.appEventEndTime);
 		        	 alert(enddate);
 		        	 if(date>startdate)
