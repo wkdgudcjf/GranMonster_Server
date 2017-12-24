@@ -615,8 +615,10 @@ public class ApiServiceImpl implements ApiService
 			for(int j=0;j<appEventList.size();j++)
 			{
 				// 시작시간이 지금시간보다 느리면
-				LOG.info("now : "+System.currentTimeMillis());
-				LOG.info("start : "+appEventList.get(j).getAppEventStartTime().getTime());
+				Date date1 = new Date(System.currentTimeMillis());
+				Date date2 = new Date(appEventList.get(j).getAppEventStartTime().getTime());
+				LOG.info("now "+date1);
+				LOG.info("start "+date2);
 				if(appEventList.get(j).getAppEventEndTime().getTime() < System.currentTimeMillis())// 시간지났으면
 				{
 					disableAppEvent(appEventList.get(j).getAppEventID());
