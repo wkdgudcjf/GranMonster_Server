@@ -323,6 +323,7 @@
 				data : {'appEventID':id},
 				dataType  : 'json',
 		        success: function (data) {
+		        	 var date = new Date();
 		        	 var startdate = new Date(data.appEventStartTime); 
 		        	 var enddate = new Date(data.appEventEndTime);
 		        	 $("#modifyAppEventContent").val(data.appEventContent);
@@ -330,7 +331,7 @@
 				    $("#modifyAppEventReservationTime").daterangepicker({
 				        timePicker: true,
 				        timePickerIncrement: 1,
-				        minDate: startdate,
+				        minDate: date,
 				        startDate: startdate,
 				        endDate:enddate,
 				        locale: {
