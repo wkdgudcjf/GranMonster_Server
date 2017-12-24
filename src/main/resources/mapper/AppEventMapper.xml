@@ -32,10 +32,10 @@
         SELECT * FROM AppEvent WHERE appID = #{appID} and appEventKey = #{appEventKey}
     </select>
     <select id="getAppEventByAppID" parameterType="int" resultType="AppEventDTO">
-        SELECT * FROM AppEvent WHERE appID = #{appID} ORDER BY appEventKey ASC
+        SELECT * FROM AppEvent WHERE appID = #{appID}
     </select>
     <select id="getAppEventByAppIDByEnable" parameterType="int" resultType="AppEventDTO">
-        SELECT * FROM AppEvent WHERE appID = #{appID} and appEventEnable = 1 ORDER BY appEventKey ASC 
+        SELECT * FROM AppEvent WHERE appID = #{appID} and appEventEnable = 1
     </select>
     <select id="getAppEventByEventID" parameterType="int" resultType="AppEventDTO">
         SELECT * FROM AppEvent WHERE appEventID = #{appEventID}

@@ -29,7 +29,7 @@ import com.ronaldo.domain.CompanyDTO;
 import com.ronaldo.domain.ExchangeDTO;
 import com.ronaldo.domain.UserEventDTO;
 import com.ronaldo.domain.UserInAppDTO;
-import com.ronaldo.service.ApiService;
+import com.ronaldo.service.ApiServiceImpl;
 import com.ronaldo.service.AuthUserService;
 import com.ronaldo.vo.ReceiveAppEventVO;
 import com.ronaldo.vo.ReceiveAppVO;
@@ -47,7 +47,7 @@ public class AdminController
 	@Autowired
 	private AuthUserService userService;
 	@Autowired
-	private ApiService apiService;
+	private ApiServiceImpl apiService;
 	@Autowired
 	private SessionWire sessionWire;
 	
@@ -242,7 +242,9 @@ public class AdminController
 	@RequestMapping(value = "/getappevent", method = RequestMethod.POST)
     public ResponseEntity<AppEventDTO> getAppEvent(@RequestParam("appEventID") int appEventID)
 	{
-        return new ResponseEntity<>(apiService.getAppEvent(appEventID),HttpStatus.OK);
+		AppEventDTO appEventDTO = apiService.getAppEvent(appEventID);
+		LOG.info(""+appEventDTO.getAppEventStartTime());
+        return new ResponseEntity<>(appEventDTO,HttpStatus.OK);
     }
 	@RequestMapping(value = "/registappevent", method = RequestMethod.POST)
     public ResponseEntity<String> registappevent(@ModelAttribute ReceiveAppEventVO receiveAppEventVO)
@@ -403,6 +405,7 @@ public class AdminController
 				LOG.info("setManagementAppEvent(ALREADY_EVENT_END) - AppID : " + appID+" /eventKey : "+appEventList.get(i).getAppEventKey());
 				continue;
 			}
+			LOG.info(""+appEventList.get(i).getAppEventStartTime());
 		}
     	model.addAttribute("eventList",appEventList);
     	return "managementappevent";
