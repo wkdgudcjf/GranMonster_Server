@@ -5,7 +5,7 @@
 <html>
 
 <jsp:include page="include/head.jsp" flush="false"/>
-
+      
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -123,16 +123,21 @@
 	              <label for="inputAppEventKey">이벤트 키(고유)</label>
 	              <input type="text" name="appEventKey" class="form-control" id="inputAppEventKey" aria-describedby="nameHelp" placeholder="api 키">
 	            </div>
+	            
+	            <!-- Date and time range -->
+                <div class="form-group">
+                <label>이벤트 기간</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-clock-o"></i>
+                    </div>
+                    <input type="text" name="appEventReservationTime" class="form-control pull-right" id="inputAppEventReservationTime"/>
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              <!-- /.form group -->
 	            <div class="form-group">
-	              <label for="inputAppEventStartTime">시작 시점</label>
-	              <input type="datetime-local" name="appEventStartTime" class="form-control" id="inputAppEventStartTime" aria-describedby="nameHelp" placeholder="시작 시점">
-	            </div>
-	            <div class="form-group">
-	              <label for="inputAppEventEndTime">종료 시점</label>
-	              <input type="datetime-local" name="appEventEndTime" class="form-control" id="inputAppEventEndTime" aria-describedby="nameHelp" placeholder="종료 시점">
-	            </div>
-	            <div class="form-group">
-	              <label for="inputAppEventLimit">제한 인원수</label>
+	              <label for="inputAppEventLimit">제한 인원수(0은 무제한)</label>
 	              <input type="text" name="appEventLimit" class="form-control" id="inputAppEventLimit" aria-describedby="nameHelp" placeholder="제한 인원수">
 	            </div>
 	            <!-- 이벤트 기간 , 인원수 추가 고려. -->
@@ -168,20 +173,24 @@
 	              <label for="modifyAppEventKey">이벤트 키(고유)</label>
 	              <input type="text" name="appEventKey" class="form-control" id="modifyAppEventKey" aria-describedby="nameHelp" placeholder="api 키">
 	            </div>
-	            <div class="form-group">
-	              <label for="modifyAppEventStartTime">시작 시점</label>
-	              <input type="datetime-local" name="appEventStartTime" class="form-control" id="modifyAppEventStartTime" aria-describedby="nameHelp" placeholder="시작 시점">
-	            </div>
-	            <div class="form-group">
-	              <label for="modifyAppEventEndTime">종료 시점</label>
-	              <input type="datetime-local" name="appEventEndTime" class="form-control" id="modifyAppEventEndTime" aria-describedby="nameHelp" placeholder="종료 시점">
-	            </div>
+	            <!-- Date and time range -->
+                <div class="form-group">
+                <label>이벤트 기간</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-clock-o"></i>
+                    </div>
+                    <input type="text" name="appEventReservationTime" class="form-control pull-right" id="modifyAppEventReservationTime"/>
+                  </div>
+                  <!-- /.input group -->
+                </div>
+              <!-- /.form group -->
 	            <div class="form-group">
 	              <label for="modifyAppEventCount">달성 인원수</label>
 	              <p id="modifyAppEventCount"></p>
 	            </div>
 	            <div class="form-group">
-	              <label for="modifyAppEventLimit">제한 인원수</label>
+	              <label for="modifyAppEventLimit">제한 인원수(0은 무제한)</label>
 	              <input type="text" name="appEventLimit" class="form-control" id="modifyAppEventLimit" aria-describedby="nameHelp" placeholder="제한 인원수">
 	            </div>
 	            <div class="form-group">
@@ -205,11 +214,12 @@
 </div>
 <!-- ./wrapper -->
 <jsp:include page="include/plugin_js.jsp" flush="false"/>
+<!-- Page script -->
  <!-- Custom scripts for this template -->
 	<script type="text/javascript">
 	 $(document).ready(function(){
 		 $('#navi_app').attr('class',"active");
-		});
+	 });
 	 function registAppEvent(){
 		 var inputAppEventContent = $('#inputAppEventContent'),
 		 inputAppEventCoin = $('#inputAppEventCoin'),
@@ -270,9 +280,10 @@
 			 alert('인원수를 입력하세요.');
 			 return;
 		 }
-		 if(modifyAppEventLimit.val() <= modifyAppEventCount)
+		 var count = parseInt(modifyAppEventLimit.val(), 10);
+		 if(count <= modifyAppEventCount && count !=0)
 		 {
-			 alert('최대 인원수가 현재 인원수보다 작습니다.');
+			 alert('최대 인원수가 현재 인원수보다 작거나 같습니다.');
 			 return;
 	     }
 			$.ajax({
@@ -294,11 +305,15 @@
 		 }
 	 function registAppEventModal(){
 		 var date = new Date();
-		 var afterdate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toJSON();
-		 $('#inputAppEventStartTime').val(afterdate.slice(0,19));
-		 $('#inputAppEventEndTime').val(afterdate.slice(0,19));
-		 document.getElementById("inputAppEventStartTime").min = afterdate.slice(0,19);
-		 document.getElementById("inputAppEventEndTime").min = afterdate.slice(0,19);
+		    $("#inputAppEventReservationTime").daterangepicker({
+		        timePicker: true,
+		        timePickerIncrement: 1,
+		        minDate: date,
+		        startDate: date,
+		        locale: {
+		            format: 'YYYY-MM-DD HH:mm:ss'
+		        }
+		    });
 		 $("#registAppEventModal").modal('show');
 	 }
 	 function modifyAppEventModal(id){
@@ -310,12 +325,18 @@
 		        success: function (data) {
 		        	 var startdate = new Date(data.appEventStartTime); 
 		        	 var enddate = new Date(data.appEventEndTime);
-		        	 var beforestartdate = new Date(startdate.getTime() - (startdate.getTimezoneOffset() * 60000)).toJSON();
-		        	 var beforeenddate = new Date(enddate.getTime() - (enddate.getTimezoneOffset() * 60000)).toJSON();
 		        	 $("#modifyAppEventContent").val(data.appEventContent);
 		        	 $("#modifyAppEventCoin").val(data.appEventCoin);
-		        	 $('#modifyAppEventStartTime').val(beforestartdate.slice(0,19));
-					 $('#modifyAppEventEndTime').val(beforeenddate.slice(0,19));
+				    $("#modifyAppEventReservationTime").daterangepicker({
+				        timePicker: true,
+				        timePickerIncrement: 1,
+				        minDate: startdate,
+				        startDate: startdate,
+				        endDate:enddate,
+				        locale: {
+				            format: 'YYYY-MM-DD HH:mm:ss'
+				        }
+				    });
 					 $('#modifyAppEventKey').val(data.appEventKey);
 					 $('#modifyAppEventLimit').val(data.appEventLimit);
 					 $("#modifyAppEventCount").text(data.appEventCount);

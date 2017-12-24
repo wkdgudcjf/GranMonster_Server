@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -360,8 +361,8 @@ public class ApiServiceImpl implements ApiService
 		appEventDTO.setAppID(receiveAppEventVO.getAppID());
 		appEventDTO.setAppEventContent(receiveAppEventVO.getAppEventContent());
 		appEventDTO.setAppEventCoin(receiveAppEventVO.getAppEventCoin());
-		appEventDTO.setAppEventStartTime(Timestamp.valueOf(receiveAppEventVO.getAppEventStartTime().replace("T"," ")));
-		appEventDTO.setAppEventEndTime(Timestamp.valueOf(receiveAppEventVO.getAppEventEndTime().replace("T"," ")));
+		appEventDTO.setAppEventStartTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(0,19)));
+		appEventDTO.setAppEventEndTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(22,41)));
 		appEventDTO.setAppEventKey(receiveAppEventVO.getAppEventKey());
 		appEventDTO.setAppEventLimit(receiveAppEventVO.getAppEventLimit());
 		try
@@ -393,8 +394,8 @@ public class ApiServiceImpl implements ApiService
 		appEventDTO.setAppEventContent(receiveAppEventVO.getAppEventContent());
 		appEventDTO.setAppEventCoin(receiveAppEventVO.getAppEventCoin());
 		appEventDTO.setAppEventEnable(receiveAppEventVO.isAppEventEnable());
-		appEventDTO.setAppEventStartTime(Timestamp.valueOf(receiveAppEventVO.getAppEventStartTime().replace("T"," ")));
-		appEventDTO.setAppEventEndTime(Timestamp.valueOf(receiveAppEventVO.getAppEventEndTime().replace("T"," ")));
+		appEventDTO.setAppEventStartTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(0,19)));
+		appEventDTO.setAppEventEndTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(22,41)));
 		appEventDTO.setAppEventKey(receiveAppEventVO.getAppEventKey());
 		appEventDTO.setAppEventLimit(receiveAppEventVO.getAppEventLimit());
 		try
@@ -616,6 +617,7 @@ public class ApiServiceImpl implements ApiService
 				/*if() 여기서 앱이 시간 지났으면 그냥 바로 disable해버리고 continue..
 				  왜냐면 시간 지나면 걍 보상이건 뭐건 버림.
 				 */
+				// 시작시간이 지금시간보다 느리면
 				if(appEventList.get(j).getAppEventEndTime().getTime() < System.currentTimeMillis())// 시간지났으면
 				{
 					disableAppEvent(appEventList.get(j).getAppEventID());
@@ -998,7 +1000,7 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("eventReward(INVALID_EVENT_COUNT) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
-		if(appEventDTO.getAppEventCount()+1 >= appEventDTO.getAppEventLimit())
+		if(appEventDTO.getAppEventCount()+1 >= appEventDTO.getAppEventLimit() && appEventDTO.getAppEventLimit() != 0)
 		{
 			disableAppEvent(appEventDTO.getAppEventID());
 		}

@@ -3,6 +3,9 @@ package com.ronaldo.Controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -246,7 +249,7 @@ public class AdminController
 	{
         if(apiService.registAppEvent(receiveAppEventVO))
         {
-            return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_REGIST_SECCESS,HttpStatus.OK);
+           return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_REGIST_SECCESS,HttpStatus.OK);
         }
         return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_REGIST_FAIL,HttpStatus.BAD_REQUEST);
     }
@@ -396,6 +399,7 @@ public class AdminController
 			if(appEventList.get(i).getAppEventEndTime().getTime() < System.currentTimeMillis() && appEventList.get(i).isAppEventEnable())// 시간지났고 enable이면.
 			{
 				apiService.disableAppEvent(appEventList.get(i).getAppEventID());
+				appEventList.get(i).setAppEventEnable(false);
 				LOG.info("setManagementAppEvent(ALREADY_EVENT_END) - AppID : " + appID+" /eventKey : "+appEventList.get(i).getAppEventKey());
 				continue;
 			}

@@ -6,10 +6,10 @@ public class ReceiveAppEventVO {
 	private String appEventContent;
 	private String appEventKey;
 	private int appEventCoin;
-	private String appEventStartTime;
-	private String appEventEndTime;
+	private String appEventReservationTime;
 	private int appEventLimit;
 	private boolean appEventEnable;
+	
 	public int getAppEventID() {
 		return appEventID;
 	}
@@ -40,17 +40,11 @@ public class ReceiveAppEventVO {
 	public void setAppEventCoin(int appEventCoin) {
 		this.appEventCoin = appEventCoin;
 	}
-	public String getAppEventStartTime() {
-		return appEventStartTime;
+	public String getAppEventReservationTime() {
+		return appEventReservationTime;
 	}
-	public void setAppEventStartTime(String appEventStartTime) {
-		this.appEventStartTime = appEventStartTime;
-	}
-	public String getAppEventEndTime() {
-		return appEventEndTime;
-	}
-	public void setAppEventEndTime(String appEventEndTime) {
-		this.appEventEndTime = appEventEndTime;
+	public void setAppEventReservationTime(String appEventReservationTime) {
+		this.appEventReservationTime = appEventReservationTime;
 	}
 	public int getAppEventLimit() {
 		return appEventLimit;
