@@ -2,6 +2,9 @@ package com.ronaldo.domain;
 
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.ronaldo.config.Write_Formatting;
+
 public class AppEventDTO {
     private int appEventID;
     private int appID;
@@ -21,12 +24,14 @@ public class AppEventDTO {
 	public void setAppEventKey(String appEventKey) {
 		this.appEventKey = appEventKey;
 	}
+	@JsonSerialize(using=Write_Formatting.class)
 	public Timestamp getAppEventStartTime() {
 		return appEventStartTime;
 	}
 	public void setAppEventStartTime(Timestamp appEventStartTime) {
 		this.appEventStartTime = appEventStartTime;
 	}
+	@JsonSerialize(using=Write_Formatting.class)
 	public Timestamp getAppEventEndTime() {
 		return appEventEndTime;
 	}
