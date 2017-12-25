@@ -616,17 +616,6 @@ public class ApiServiceImpl implements ApiService
 			List<ReturnAppEventVO> returnEventList = new ArrayList<ReturnAppEventVO>();
 			for(int j=0;j<appEventList.size();j++)
 			{
-				// 시작시간이 지금시간보다 느리면
-				Date date1 = new Date(System.currentTimeMillis());
-				Date date2 = new Date(appEventList.get(j).getAppEventStartTime().getTime());
-				long t3 = Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTimeInMillis();
-				long t4 = Calendar.getInstance(TimeZone.getTimeZone("KST")).getTimeInMillis();
-				Date date3 = new Date(t3);
-				Date date4 = new Date(t4);
-				LOG.info("now "+date1);
-				LOG.info("start "+date2);
-				LOG.info("t3 "+date3);
-				LOG.info("t4 "+date4);
 				if(appEventList.get(j).getAppEventEndTime().getTime() < System.currentTimeMillis())// 시간지났으면
 				{
 					disableAppEvent(appEventList.get(j).getAppEventID());
