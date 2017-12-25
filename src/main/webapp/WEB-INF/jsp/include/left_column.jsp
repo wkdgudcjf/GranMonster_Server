@@ -37,6 +37,11 @@
             <i class="fa fa-credit-card"></i><span>그랑코인 관리</span>
           </a>
         </li>
+        <li id="navi_sdk">
+          <a href="/managementsdk">
+            <i class="fa fa-support"></i><span>SDK Guide</span>
+          </a>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->

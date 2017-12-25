@@ -62,10 +62,14 @@ public class AdminController
 		}
     	return setManagementApp(model);
     }
-	@RequestMapping(value = "/data", method = RequestMethod.GET)
-    public String data(Model model)
+	@RequestMapping(value = "/managementsdk", method = RequestMethod.GET)
+    public String managementsdk(Model model)
 	{
-		return "data";
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model);
     }
 	@RequestMapping(value = "/managementuser", method = RequestMethod.GET)
     public String managementuser(Model model)
@@ -462,4 +466,9 @@ public class AdminController
     	model.addAttribute("message", "Gran Monster");
     	return "redirect:/login";
     }
+	private String setManagementSDK(Model model) {
+		// TODO Auto-generated method stub
+		model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+    	return "managementsdk";
+	}
 }
