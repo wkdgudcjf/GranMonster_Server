@@ -7,7 +7,7 @@
         SELECT * FROM Exchange WHERE exchangeID = #{exchangeID}
     </select>
     <select id="getExchangeList" resultType="ExchangeDTO">
-        SELECT * FROM Exchange
+        SELECT * FROM Exchange ORDER BY exchangeEnable DESC
     </select>
     <select id="getEnableExchangeList"  parameterType="boolean" resultType="ExchangeDTO">
         SELECT * FROM Exchange WHERE exchangeEnable = #{exchangeEnable}

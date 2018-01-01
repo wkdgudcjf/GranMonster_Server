@@ -104,7 +104,7 @@
       </h1>
       <ol class="breadcrumb">
         <li>
-        <Button type="button" class="btn btn-block btn-success btn-flat" data-toggle="modal" data-target="#registExchangeModal">그랑코인 등록(Regist Grancoin)</Button>
+        <Button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#registExchangeModal">그랑코인 등록(Regist Grancoin)</Button>
         </li>
       </ol>
     </section>
@@ -200,11 +200,11 @@
 	           </div>
 	            <div class="form-group">
 	              <label for="modifyExchangeMoney">금액(고유)</label>
-	              <input type="text" name="exchangeMoney" class="form-control" id="modifyExchangeMoney" aria-describedby="nameHelp" placeholder="금액">
+	              <input type="number" name="exchangeMoney" class="form-control" id="modifyExchangeMoney" aria-describedby="nameHelp" placeholder="금액">
 	            </div>
 	             <div class="form-group">
 	              <label for="modifyExchangeCoin">코인(고유)</label>
-	              <input type="text" name="exchangeCoin" class="form-control" id="modifyExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
+	              <input type="number" name="exchangeCoin" class="form-control" id="modifyExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
 	            </div>
 	            <div class="form-group">
 		            <label for="modifyHExchangeImage">가로형 이미지 업로드(124x253)(부재시 기존이미지 사용)</label>
@@ -260,11 +260,11 @@
 		          </div>
 	          	  <div class="form-group">
 	            	<label for="inputExchangeMoney">금액(고유)</label>
-		            <input type="text" name="exchangeMoney" class="form-control" id="inputExchangeMoney" aria-describedby="nameHelp" placeholder="금액">
+		            <input type="number" name="exchangeMoney" class="form-control" id="inputExchangeMoney" aria-describedby="nameHelp" placeholder="금액">
 		          </div>
 		           <div class="form-group">
 		            <label for="inputExchangeCoin">코인(고유)</label>
-		            <input type="text" name="exchangeCoin" class="form-control" id="inputExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
+		            <input type="number" name="exchangeCoin" class="form-control" id="inputExchangeCoin" aria-describedby="nameHelp" placeholder="코인">
 		          </div>
 		          <div class="form-group">
 		            <label for="inputHExchangeImage">가로형 이미지 업로드(124x253)</label>
@@ -296,7 +296,8 @@
 <jsp:include page="include/plugin_js.jsp" flush="false"/>
  <!-- Custom scripts for this template -->
 	<script type="text/javascript">
-	 $(document).ready(function(){
+	 $(document).ready(function()
+	 {
 		 $('#navi_exchange').attr('class',"active");
 		   var fileTarget = $('.filebox .upload-hidden');
 

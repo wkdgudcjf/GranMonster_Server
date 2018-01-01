@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
 <html>
 
@@ -103,7 +104,7 @@
         <small>Management App</small>
       </h1>
       <ol class="breadcrumb">
-        <li><Button type="button" class="btn btn-block btn-success btn-flat" data-toggle="modal" data-target="#registAppModal">앱 등록(Regist App)</Button></li>
+        <li><Button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#registAppModal">앱 등록(Regist App)</Button></li>
       </ol>
     </section>
 
@@ -158,7 +159,7 @@
 						</c:choose>
 						</td>
 				         <td><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
-				         / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
+				        / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
 				        <td>${item.companyName}</td>
 				        <td><a href="${item.appURL}">${item.appURL}</a></td>
 				        <td>${item.appPackage}</td>

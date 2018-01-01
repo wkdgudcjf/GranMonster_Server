@@ -5,9 +5,9 @@
 <mapper namespace="com.ronaldo.mapper.AppEventMapper">
 	<insert id="registAppEvent" parameterType="AppEventDTO">
        	INSERT INTO AppEvent 
-       	(appID,appEventContent,appEventCoin,appEventStartTime,appEventEndTime, appEventKey, appEventLimit)
+       	(appID,appEventContent,appEventCoin,appEventStartTime,appEventEndTime, appEventKey, appEventLimit,appEventEnable)
        	VALUES
-       	(#{appID},#{appEventContent},#{appEventCoin},#{appEventStartTime},#{appEventEndTime},#{appEventKey},#{appEventLimit})
+       	(#{appID},#{appEventContent},#{appEventCoin},#{appEventStartTime},#{appEventEndTime},#{appEventKey},#{appEventLimit},#{appEventEnable})
     </insert>
     <update id="updateAppEvent" parameterType="AppEventDTO">
 		UPDATE AppEvent
@@ -29,10 +29,10 @@
         SELECT * FROM AppEvent
     </select>
      <select id="getAppEventByAppIDByEventKey" parameterType="AppEventDTO" resultType="AppEventDTO">
-        SELECT * FROM AppEvent WHERE appID = #{appID} and appEventKey = #{appEventKey}
+        SELECT * FROM AppEvent WHERE appID = #{appID} and appEventKey = #{appEventKey} ORDER BY appEventEnable DESC
     </select>
     <select id="getAppEventByAppID" parameterType="int" resultType="AppEventDTO">
-        SELECT * FROM AppEvent WHERE appID = #{appID}
+        SELECT * FROM AppEvent WHERE appID = #{appID} ORDER BY appEventEnable DESC
     </select>
     <select id="getAppEventByAppIDByEnable" parameterType="int" resultType="AppEventDTO">
         SELECT * FROM AppEvent WHERE appID = #{appID} and appEventEnable = 1

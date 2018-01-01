@@ -7,7 +7,7 @@
         SELECT * FROM Company WHERE companyID = #{companyID} 
     </select>
     <select id="getCompanyList" resultType="CompanyDTO">
-        SELECT * FROM Company
+        SELECT * FROM Company ORDER BY companyEnable DESC
     </select>
     <select id="getEnableCompanyList"  parameterType="boolean" resultType="CompanyDTO">
         SELECT * FROM Company WHERE companyEnable = #{companyEnable}

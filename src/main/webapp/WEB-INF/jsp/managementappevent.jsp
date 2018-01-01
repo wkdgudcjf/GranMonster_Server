@@ -5,7 +5,47 @@
 <html>
 
 <jsp:include page="include/head.jsp" flush="false"/>
-      
+<style type="text/css">
+    /* input file type */ 
+    .input-file {
+       display: inline-block;
+     } 
+    .input-file [type="file"] {
+       position: absolute; 
+       width: 1px;
+       height: 1px; 
+       padding: 0; 
+       margin: -1px; 
+       overflow: hidden; 
+       clip: rect(0, 0, 0, 0); 
+       border: 0 none; 
+     } 
+    .input-file .file-label {
+     	display: inline-block; 
+     	min-width: 53px; 
+     	height: 27px; 
+     	line-height: 24px; 
+     	padding: 0 10px; 
+     	border-radius: 2px; 
+     	font-size: 13px; 
+     	background-color: #333; 
+     	color: #fff; 
+     	text-align: center;
+      }
+     .input-file .file-name { 
+     	width: 300px; 
+     	background: #f5f5f5; 
+     	height: 27px; 
+     	line-height: 26px; 
+     	text-indent: 5px; 
+     	border: 1px solid #bbb;
+     	vertical-align: top;
+      }
+      /* 접근성 탭 포커스 스타일 */
+     .file-focus { 
+     	outline: 1px dotted #d2310e;
+     }
+ </style>      
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -16,16 +56,23 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header" style="padding:20px;">
+    <section class="content-header" style="padding:20px; margin-bottom:20px;">
       <h1>
        	 ${app.appName} 이벤트 관리
         <small>Management Event</small>
       </h1>
       <ol class="breadcrumb">
-        <li><Button type="button" class="btn btn-block btn-success btn-flat" onclick="registAppEventModal()">이벤트 등록(Regist Event)</Button></li>
+ 	    <li><Button type="button" class="btn btn-success btn-flat" onclick="excelDownload(${app.appID})">엑셀 다운로드</Button></li>
+      	<li><Button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#enrollAppEventExcelModal">엑셀 업로드</Button></li>
+        <li><Button type="button" class="btn btn-success btn-flat" onclick="registAppEventModal()">이벤트 등록(Regist Event)</Button></li>
       </ol>
     </section>
-
+	<div class="callout callout-warning">
+        <h4>Notice!</h4>
+        <p><b>※</b>이벤트가 활성화 되어도 시작시간이 되지 않으면 위젯에 노출이 되지 않습니다. </p>
+        <p><b>※</b>종료 시간이 되면 자동으로 이벤트가 자동 비활성화 됩니다. </p>
+        <p><b>※</b>이벤트 인원을 모두 달성하면 이벤트가 자동 비활성화 됩니다. </p>
+     </div>
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -117,7 +164,7 @@
 	            </div>
 	            <div class="form-group">
 	              <label for="inputAppEventCoin">보상코인</label>
-	              <input type="text" name="appEventCoin" class="form-control" id="inputAppEventCoin" aria-describedby="nameHelp" placeholder="보상 Coin">
+	              <input type="number" name="appEventCoin" class="form-control" id="inputAppEventCoin" aria-describedby="nameHelp" placeholder="보상 Coin">
 	            </div>
 	            <div class="form-group">
 	              <label for="inputAppEventKey">이벤트 키(고유)</label>
@@ -138,9 +185,18 @@
               <!-- /.form group -->
 	            <div class="form-group">
 	              <label for="inputAppEventLimit">제한 인원수(0은 무제한)</label>
-	              <input type="text" name="appEventLimit" class="form-control" id="inputAppEventLimit" aria-describedby="nameHelp" placeholder="제한 인원수">
+	              <input type="number" name="appEventLimit" class="form-control" id="inputAppEventLimit" aria-describedby="nameHelp" placeholder="제한 인원수">
 	            </div>
 	            <!-- 이벤트 기간 , 인원수 추가 고려. -->
+	            <div class="form-group">
+	              <label for="inputAppEventEnable">활성여부</label><br>
+	              <label class="radio-inline">
+			     	 <input type="radio" id="inputAppEventEnable" value="true" name="appEventEnable" checked="checked">활성
+				  </label>
+				  <label class="radio-inline">
+				     <input type="radio" id="inputAppEventDisable" value="false" name="appEventEnable">비활성
+				  </label>
+	            </div>
 	          </form>
           </div>
           <div class="modal-footer">
@@ -151,7 +207,7 @@
       </div>
     </div>
  
-   <!-- ModifyApp Modal -->
+   <!-- ModifyAppEvent Modal -->
     <div class="modal fade" id="modifyAppEventModal" tabindex="-1" role="dialog" aria-labelledby="modifyAppEventModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -160,6 +216,7 @@
           </div>
           <div class="modal-body">
           	  <form id="modifyappeventform">
+          	  <input type="hidden" id="appEventAppID" value="${app.appID}" name="appID">
           	  <input type="hidden" id="modifyAppEventID" value="temp" name="appEventID">
 	            <div class="form-group">
 	              <label for="modifyAppEventContent">내용</label>
@@ -167,7 +224,7 @@
 	            </div>
 	            <div class="form-group">
 	              <label for="modifyAppEventCoin">보상코인</label>
-	              <input type="text" name="appEventCoin" class="form-control" id="modifyAppEventCoin" aria-describedby="nameHelp" placeholder="보상 Coin">
+	              <input type="number" name="appEventCoin" class="form-control" id="modifyAppEventCoin" aria-describedby="nameHelp" placeholder="보상 Coin">
 	            </div>
 	            <div class="form-group">
 	              <label for="modifyAppEventKey">이벤트 키(고유)</label>
@@ -191,7 +248,7 @@
 	            </div>
 	            <div class="form-group">
 	              <label for="modifyAppEventLimit">제한 인원수(0은 무제한)</label>
-	              <input type="text" name="appEventLimit" class="form-control" id="modifyAppEventLimit" aria-describedby="nameHelp" placeholder="제한 인원수">
+	              <input type="number" name="appEventLimit" class="form-control" id="modifyAppEventLimit" aria-describedby="nameHelp" placeholder="제한 인원수">
 	            </div>
 	            <div class="form-group">
 	              <label for="modifyAppEventEnable">활성여부</label><br>
@@ -211,6 +268,34 @@
         </div>
       </div>
     </div>
+    
+    <!-- Excel Modal -->
+    <div class="modal fade" id="enrollAppEventExcelModal" tabindex="-1" role="dialog" aria-labelledby="enrollAppEventExcelModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="text-align: center;">
+            <h1 class="modal-title" id="enrollExcelModalLabel">Enroll AppEvent Excel</h1>
+          </div>
+          <div class="modal-body">
+          	  <form id="enrollappeventexcelform">
+          	  	<input type="hidden" id="enrollAppID" value="${app.appID}" name="enrollAppID">
+	            <div class="form-group">
+	           	  <div class="input-file"> 
+		            <input type="text" readonly="readonly" class="file-name" /> 
+		            <label for="enrollAppEventExcel" class="file-label">찾아보기</label>
+		            <input type="file" name="enrollAppEventExcel" id="enrollAppEventExcel" class="file-upload" />  
+		           </div>
+	            </div>
+	          </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="#" onclick="excelUploadAfter();">등록하기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
 </div>
 <!-- ./wrapper -->
 <jsp:include page="include/plugin_js.jsp" flush="false"/>
@@ -219,7 +304,37 @@
 	<script type="text/javascript">
 	 $(document).ready(function(){
 		 $('#navi_app').attr('class',"active");
+		 var $fileBox = null;
+		 $(function() 
+		 {
+			 init();
+		 })
+		 
+		 function init()
+		 { 
+			 $fileBox = $('.input-file');
+			 fileLoad();
+		 }
+		 function fileLoad()
+		 { 
+			 $.each($fileBox, function(idx){
+				 var $this = $fileBox.eq(idx),
+				 $btnUpload = $this.find('[type="file"]')
+				 ,$label = $this.find('.file-label');
+				 
+				 $btnUpload.on('change', function() {
+					 var $target = $(this),
+					 fileName = $target.val(),
+					 $fileText = $target.siblings('.file-name');
+					 $fileText.val(fileName);
+				})
+				$btnUpload.on('focusin focusout', function(e) {
+					e.type == 'focusin' ? $label.addClass('file-focus') : $label.removeClass('file-focus');
+				})
+			})
+		}
 	 });
+	
 	 function registAppEvent(){
 		 var inputAppEventContent = $('#inputAppEventContent'),
 		 inputAppEventCoin = $('#inputAppEventCoin'),
@@ -258,6 +373,7 @@
 	        }
 		});
 	}
+	 
 	 function modifyAppEvent(){
 		 var modifyAppEventContent = $('#modifyAppEventContent'),
 		 modifyAppEventCoin = $('#modifyAppEventCoin'),
@@ -311,11 +427,73 @@
 		        minDate: date,
 		        startDate: date,
 		        locale: {
-		            format: 'YYYY-MM-DD HH:mm:ss'
+		            format: 'YYYY-MM-DD HH:mm'
 		        }
 		    });
 		 $("#registAppEventModal").modal('show');
 	 }
+	 function excelDownload(appID){
+		 var form = document.createElement('form');
+		 var objs;
+		 objs = document.createElement('input');
+		 objs.setAttribute('type', 'hidden');
+		 objs.setAttribute('name' , 'appID');
+		 objs.setAttribute('value', appID);
+		 form.appendChild(objs);
+		 form.setAttribute('method', 'post');
+		 form.setAttribute('action', "/excelDownload-xlsx");
+		 document.body.appendChild(form);
+		 form.submit();
+	}
+
+	 function excelUploadAfter(){
+		if(checkForm()==false)
+		{
+			 return false;
+		}
+		$.ajax({
+			url:"/excelUpload",
+			type: "POST",
+			data: new FormData($("#enrollappeventexcelform")[0]),
+			enctype: 'multipart/form-data',
+	        processData: false,
+	        dataType : "text",
+	        contentType: false,
+	        cache: false,
+	        success: function () {
+	        	location.reload();
+	        },
+	        error:function(request,status,error){
+	        	alert(request.responseText);
+	        }
+		})
+	}
+	 function checkForm() 
+	 {   
+		if ($('#enrollAppEventExcel').val() == "") {   
+		   alert("파일을 업로드해주세요.");   
+		   return false;   
+		}  else if(!checkFileType($('#enrollAppEventExcel').val())) {   
+		   alert("xlsx 확장자 파일만 업로드 해주세요.");   
+		   return false;   
+		}
+		return true;
+	}   
+	function checkFileType(filePath)
+	{   
+		 var fileLen = filePath.length;   
+		 var fileFormat = filePath.substring(fileLen - 5);   
+		 fileFormatfileFormat = fileFormat.toLowerCase();   
+		  
+		 if (fileFormat == ".xlsx")
+		 { 
+			 return true;    
+		 } 
+		 else
+		 {   
+			 return false; 
+		 }   
+	 }   
 	 function modifyAppEventModal(id){
 			$.ajax({
 				url:"/getappevent",
@@ -339,7 +517,7 @@
 				        startDate: startdate,
 				        endDate:enddate,
 				        locale: {
-				            format: 'YYYY-MM-DD HH:mm:ss'
+				            format: 'YYYY-MM-DD HH:mm'
 				        }
 				    });
 					 $('#modifyAppEventKey').val(data.appEventKey);

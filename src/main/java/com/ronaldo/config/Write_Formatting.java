@@ -12,7 +12,7 @@ public class Write_Formatting extends JsonSerializer<Timestamp> {
 	@Override
 	public void serialize(Timestamp comment_date, com.fasterxml.jackson.core.JsonGenerator gen, SerializerProvider arg2)
 			throws IOException, JsonProcessingException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:SS");
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	    String formattedDate = formatter.format(comment_date);
 	    gen.writeString(formattedDate);
 	}

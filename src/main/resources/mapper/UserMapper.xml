@@ -10,7 +10,7 @@
      </insert>
      
     <select id="getUserList" resultType="UserDTO">
-        SELECT * FROM User
+        SELECT * FROM User ORDER BY userEnable DESC
     </select>
     
     <update id="updateUser" parameterType="UserDTO">

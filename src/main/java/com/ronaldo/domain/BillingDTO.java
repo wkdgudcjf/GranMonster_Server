@@ -13,7 +13,6 @@ public class BillingDTO {
     private String userKey;
 	private Timestamp billingDateTime;
 
-
 	public String getBillingType() {
 		return billingType;
 	}

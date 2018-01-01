@@ -3,9 +3,6 @@ package com.ronaldo.Controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -29,7 +26,7 @@ import com.ronaldo.domain.CompanyDTO;
 import com.ronaldo.domain.ExchangeDTO;
 import com.ronaldo.domain.UserEventDTO;
 import com.ronaldo.domain.UserInAppDTO;
-import com.ronaldo.service.ApiServiceImpl;
+import com.ronaldo.service.ApiService;
 import com.ronaldo.service.AuthUserService;
 import com.ronaldo.vo.ReceiveAppEventVO;
 import com.ronaldo.vo.ReceiveAppVO;
@@ -47,7 +44,7 @@ public class AdminController
 	@Autowired
 	private AuthUserService userService;
 	@Autowired
-	private ApiServiceImpl apiService;
+	private ApiService apiService;
 	@Autowired
 	private SessionWire sessionWire;
 	
@@ -130,6 +127,7 @@ public class AdminController
     public ResponseEntity<String> registApp(@ModelAttribute ReceiveAppVO receiveAppVO)
 	{
         try {
+        	// Need S3 File Server ... 
         	 // Get the file and save it uploads dir
         	 byte[] iconBytes = receiveAppVO.getAppIconImage().getBytes();
         	 String iconOriginalFileName = receiveAppVO.getAppIconImage().getOriginalFilename();
@@ -169,6 +167,7 @@ public class AdminController
     public ResponseEntity<String> modifyApp(@ModelAttribute ReceiveAppVO receiveAppVO)
 	{
         try {
+        	// Need S3 File Server ... 
         	 // Get the file and save it uploads dir
 			 AppDTO appDTO = apiService.getApp(receiveAppVO.getAppID());
 			 String imageIconPath = appDTO.getAppImageIconPath();
@@ -270,6 +269,7 @@ public class AdminController
 	@RequestMapping(value = "/registexchange", method = RequestMethod.POST)
     public ResponseEntity<String> registExchange(@ModelAttribute ReceiveExchangeVO receiveExchangeVO) 
 	{
+		// Need S3 File Server ... 
 		 try {
              byte[] HBytes = receiveExchangeVO.getExchangeHImage().getBytes();
         	 String HOriginalFileName = receiveExchangeVO.getExchangeHImage().getOriginalFilename();
@@ -301,6 +301,7 @@ public class AdminController
 	@RequestMapping(value = "/modifyexchange", method = RequestMethod.POST)
     public ResponseEntity<String> modifyExchange(@ModelAttribute ReceiveExchangeVO receiveExchangeVO)
 	{
+		// Need S3 File Server ... 
         try {
        	 // Get the file and save it uploads dir
         	ExchangeDTO exchangeDTO = apiService.getExchange(receiveExchangeVO.getExchangeID());
@@ -420,7 +421,7 @@ public class AdminController
     }
 	private String setManagementUserInfo(Model model,int userID)
     {
-		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다...
+		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		List<UserInAppDTO> userInAppList = apiService.getUserInAppByUserID(userID);
 		List<UserEventDTO> userEventList = apiService.getUserEventList(userID);
 		for(int i=0;i<userInAppList.size();i++)

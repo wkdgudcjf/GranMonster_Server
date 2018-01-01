@@ -23,7 +23,7 @@
       </h1>
       <ol class="breadcrumb">
         <li>
-         <Button type="button" class="btn btn-block btn-success btn-flat" data-toggle="modal" data-target="#registCompanyModal">회사 등록(Regist Company)</Button>
+         <Button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#registCompanyModal">회사 등록(Regist Company)</Button>
         </li>
       </ol>
     </section>

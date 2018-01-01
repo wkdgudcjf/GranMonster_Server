@@ -2,11 +2,8 @@ package com.ronaldo.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -359,17 +356,53 @@ public class ApiServiceImpl implements ApiService
 	}
 	@Override
 	public boolean registAppEvent(ReceiveAppEventVO receiveAppEventVO) {
+		List<AppEventDTO> list = getAppEventList(receiveAppEventVO.getAppID());
+		for(int i=0;i<list.size();i++)
+		{
+			if(list.get(i).getAppEventKey().compareTo(receiveAppEventVO.getAppEventKey())==0)
+			{
+				LOG.info("registAppEvent(ALREADY_EVENT_REGIST) - appID : "+receiveAppEventVO.getAppID()+" eventKey : "+receiveAppEventVO.getAppEventKey());
+				return false;
+			}
+		}
 		AppEventDTO appEventDTO = new AppEventDTO();
 		appEventDTO.setAppID(receiveAppEventVO.getAppID());
 		appEventDTO.setAppEventContent(receiveAppEventVO.getAppEventContent());
 		appEventDTO.setAppEventCoin(receiveAppEventVO.getAppEventCoin());
-		appEventDTO.setAppEventStartTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(0,19)));
-		appEventDTO.setAppEventEndTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(22,41)));
+		appEventDTO.setAppEventStartTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(0,16)+":00"));
+		appEventDTO.setAppEventEndTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(19,35)+":00"));
 		appEventDTO.setAppEventKey(receiveAppEventVO.getAppEventKey());
 		appEventDTO.setAppEventLimit(receiveAppEventVO.getAppEventLimit());
+		appEventDTO.setAppEventEnable(receiveAppEventVO.isAppEventEnable());
 		try
 		{
 			appEventMapper.registAppEvent(appEventDTO);
+			return true;
+		}
+		catch(Exception e)
+		{
+			LOG.info(e.getMessage());
+			return false;
+		}
+	}
+	@Override
+	public boolean registAppEventByExcel(AppEventDTO appEventDTO) {
+		try
+		{
+			appEventMapper.registAppEvent(appEventDTO);
+			return true;
+		}
+		catch(Exception e)
+		{
+			LOG.info(e.getMessage());
+			return false;
+		}
+	}
+	@Override
+	public boolean modifyAppEventByExcel(AppEventDTO appEventDTO) {
+		try
+		{
+			appEventMapper.updateAppEvent(appEventDTO);
 			return true;
 		}
 		catch(Exception e)
@@ -391,13 +424,22 @@ public class ApiServiceImpl implements ApiService
 	}
 	@Override
 	public boolean modifyAppEvent(ReceiveAppEventVO receiveAppEventVO) {
+		List<AppEventDTO> list = getAppEventList(receiveAppEventVO.getAppID());
+		for(int i=0;i<list.size();i++)
+		{
+			if(list.get(i).getAppEventKey().compareTo(receiveAppEventVO.getAppEventKey())==0)
+			{
+				LOG.info("modifyAppEvent(ALREADY_EVENT_REGIST) - appID : "+receiveAppEventVO.getAppID()+" eventKey : "+receiveAppEventVO.getAppEventKey());
+				return false;
+			}
+		}
 		AppEventDTO appEventDTO = new AppEventDTO();
 		appEventDTO.setAppEventID(receiveAppEventVO.getAppEventID());
 		appEventDTO.setAppEventContent(receiveAppEventVO.getAppEventContent());
 		appEventDTO.setAppEventCoin(receiveAppEventVO.getAppEventCoin());
 		appEventDTO.setAppEventEnable(receiveAppEventVO.isAppEventEnable());
-		appEventDTO.setAppEventStartTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(0,19)));
-		appEventDTO.setAppEventEndTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(22,41)));
+		appEventDTO.setAppEventStartTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(0,16)+":00"));
+		appEventDTO.setAppEventEndTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(19,35)+":00"));
 		appEventDTO.setAppEventKey(receiveAppEventVO.getAppEventKey());
 		appEventDTO.setAppEventLimit(receiveAppEventVO.getAppEventLimit());
 		try
@@ -534,6 +576,7 @@ public class ApiServiceImpl implements ApiService
 	@Override
 	public void login(ReceiveUserVO receiveUserVO, ReturnUserVO returnUserVO) 
 	{
+		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
 		defaultTransactionDefinition.setName("login");
 		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -547,7 +590,12 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("login(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
-		
+		if (userKey == null || userKey=="")
+		{
+			returnUserVO.setState(LoginEnum.USER_KEY_INVALID);
+			LOG.info("login(USER_KEY_INVALID) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null) // 모든 앱에서 처음 가입이면.
 		{
@@ -578,6 +626,7 @@ public class ApiServiceImpl implements ApiService
 	@Override
 	public void appList(ReceiveAppListVO receiveAppListVO, ReturnAppListVO returnAppListVO)
 	{
+		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		String appKey = receiveAppListVO.getAppKey();
 		String userKey = receiveAppListVO.getUserKey();
 		AppDTO appDTO = getApp(appKey);
@@ -666,6 +715,7 @@ public class ApiServiceImpl implements ApiService
 	@Override
 	public void payload(ReceivePayloadVO receivePayloadVO, ReturnPayloadVO returnPayloadVO)
 	{
+		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		String appKey = receivePayloadVO.getAppKey();
 		String userKey = receivePayloadVO.getUserKey();
 		AppDTO appDTO = getApp(appKey);
@@ -698,6 +748,7 @@ public class ApiServiceImpl implements ApiService
 	@Override
 	public void exchange(ReceiveExchangeAPIVO receiveExchangeAPIVO, ReturnExchangeListVO exchangeListDAO)
 	{
+		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		String appKey = receiveExchangeAPIVO.getAppKey();
 		String userKey = receiveExchangeAPIVO.getUserKey();
 		List<ExchangeDTO> exchangeList = null;
@@ -738,6 +789,7 @@ public class ApiServiceImpl implements ApiService
 	@Override
 	public void purchase(ReceivePurchaseVO receivePurchaseVO, ReturnPurchaseVO returnPurchaseVO) 
 	{
+		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		String appKey = receivePurchaseVO.getAppKey();
 		String userKey = receivePurchaseVO.getUserKey();
 		String payload = receivePurchaseVO.getPayload();
@@ -809,6 +861,7 @@ public class ApiServiceImpl implements ApiService
 	
 	@Override
 	public void exhaust(ReceiveExhaustVO receiveExhaustVO, ReturnExhaustVO returnExhaustVO) {
+		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		String appKey = receiveExhaustVO.getAppKey();
 		String userKey = receiveExhaustVO.getUserKey();
 		String payload = receiveExhaustVO.getPayload();
@@ -855,6 +908,7 @@ public class ApiServiceImpl implements ApiService
 	
 	@Override
 	public void event(ReceiveEventVO receiveEventVO, ReturnEventVO returnEventVO) {
+		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		String appKey = receiveEventVO.getAppKey();
 		String userKey = receiveEventVO.getUserKey();
 		String appEventKey = receiveEventVO.getEventKey();
@@ -917,6 +971,7 @@ public class ApiServiceImpl implements ApiService
 	//Sync...?
 	@Override
 	public synchronized void eventReward(ReceiveEventRewardVO receiveEventRewardVO, ReturnEventRewardVO returnEventRewardVO) {
+		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		String appKey = receiveEventRewardVO.getAppKey();
 		String userKey = receiveEventRewardVO.getUserKey();
 		String appEventKey = receiveEventRewardVO.getEventKey();

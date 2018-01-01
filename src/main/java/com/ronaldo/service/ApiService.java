@@ -75,6 +75,8 @@ public interface ApiService
 	public boolean registAppEvent(ReceiveAppEventVO receiveAppEventVO);
 	boolean modifyAppEvent(ReceiveAppEventVO receiveAppEventVO);	
 	boolean disableAppEvent(int appEventID);
+	public boolean registAppEventByExcel(AppEventDTO appEventDTO);
+	public boolean modifyAppEventByExcel(AppEventDTO appEventDTO);
 	
 	public boolean registUserEvent(int userID, int appEventID);
 	public UserEventDTO getUserEvent(int userID, int appEventID);
@@ -89,4 +91,5 @@ public interface ApiService
 	public void exhaust(ReceiveExhaustVO receiveExhaustVO, ReturnExhaustVO returnExhaustVO);
 	public void event(ReceiveEventVO receiveEventVO, ReturnEventVO returnEventVO);
 	public void eventReward(ReceiveEventRewardVO receiveEventRewardVO, ReturnEventRewardVO returnEventRewardVO);
+	
 }
