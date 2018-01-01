@@ -425,12 +425,16 @@ public class ApiServiceImpl implements ApiService
 	@Override
 	public boolean modifyAppEvent(ReceiveAppEventVO receiveAppEventVO) {
 		List<AppEventDTO> list = getAppEventList(receiveAppEventVO.getAppID());
-		for(int i=0;i<list.size();i++)
+		AppEventDTO aed = getAppEvent(receiveAppEventVO.getAppEventID());
+		if(aed.getAppEventKey().compareTo(receiveAppEventVO.getAppEventKey())!=0)
 		{
-			if(list.get(i).getAppEventKey().compareTo(receiveAppEventVO.getAppEventKey())==0)
+			for(int i=0;i<list.size();i++)
 			{
-				LOG.info("modifyAppEvent(ALREADY_EVENT_REGIST) - appID : "+receiveAppEventVO.getAppID()+" eventKey : "+receiveAppEventVO.getAppEventKey());
-				return false;
+				if(list.get(i).getAppEventKey().compareTo(receiveAppEventVO.getAppEventKey())==0)
+				{
+					LOG.info("modifyAppEvent(ALREADY_EVENT_REGIST) - appID : "+receiveAppEventVO.getAppID()+" eventKey : "+receiveAppEventVO.getAppEventKey());
+					return false;
+				}
 			}
 		}
 		AppEventDTO appEventDTO = new AppEventDTO();
