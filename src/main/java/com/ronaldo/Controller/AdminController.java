@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ronaldo.config.GranConfig;
 import com.ronaldo.config.SessionWire;
@@ -123,35 +124,56 @@ public class AdminController
 		}
     	return setManagementUserInfo(model,userID);
     }
+	class NestedImagePackage
+	{
+		byte[] imageBytes;
+		Path imagePath;
+		String fileName;
+		public byte[] getImageBytes() {
+			return imageBytes;
+		}
+		public void setImageBytes(byte[] imageBytes) {
+			this.imageBytes = imageBytes;
+		}
+		public Path getImagePath() {
+			return imagePath;
+		}
+		public void setImagePath(Path imagePath) {
+			this.imagePath = imagePath;
+		}
+		public String getFileName() {
+			return fileName;
+		}
+		public void setFileName(String fileName) {
+			this.fileName = fileName;
+		}
+	}
 	@RequestMapping(value = "/registapp", method = RequestMethod.POST)
     public ResponseEntity<String> registApp(@ModelAttribute ReceiveAppVO receiveAppVO)
 	{
         try {
         	// Need S3 File Server ... 
         	 // Get the file and save it uploads dir
-        	 byte[] iconBytes = receiveAppVO.getAppIconImage().getBytes();
-        	 String iconOriginalFileName = receiveAppVO.getAppIconImage().getOriginalFilename();
-             String iconOriginalFileExtension = iconOriginalFileName.substring(iconOriginalFileName.lastIndexOf("."));
-             String iconFileName = receiveAppVO.getAppName()+"_v1_icon"+iconOriginalFileExtension;
-             Path iconPath = Paths.get(context.getRealPath("image/appIcon/") + iconFileName);
-             
-             byte[] HbannerBytes = receiveAppVO.getAppHBannerImage().getBytes();
-        	 String HbannerOriginalFileName = receiveAppVO.getAppHBannerImage().getOriginalFilename();
-             String HbannerOriginalFileExtension = HbannerOriginalFileName.substring(HbannerOriginalFileName.lastIndexOf("."));
-             String HbannerFileName = receiveAppVO.getAppName()+"_v1_Hbanner"+HbannerOriginalFileExtension;
-             Path HbannerPath = Paths.get(context.getRealPath("image/appHBanner/") + HbannerFileName);
-             
-             byte[] VbannerBytes = receiveAppVO.getAppVBannerImage().getBytes();
-        	 String VbannerOriginalFileName = receiveAppVO.getAppVBannerImage().getOriginalFilename();
-             String VbannerOriginalFileExtension = VbannerOriginalFileName.substring(VbannerOriginalFileName.lastIndexOf("."));
-             String VbannerFileName = receiveAppVO.getAppName()+"_v1_Vbanner"+VbannerOriginalFileExtension;
-             Path VbannerPath = Paths.get(context.getRealPath("image/appVBanner/") + VbannerFileName);
-             
-             if(apiService.registApp(receiveAppVO,iconFileName,HbannerFileName,VbannerFileName))
+        	NestedImagePackage nestedImageIconPackage = getImagePath(receiveAppVO.getAppIconImage(),"image/appIcon/","_v1_icon",receiveAppVO.getAppName());
+        	NestedImagePackage nestedImageHBPackage1 = getImagePath(receiveAppVO.getAppHBannerImage1(),"image/appHBanner1/","_v1_Hbanner",receiveAppVO.getAppName());
+        	NestedImagePackage nestedImageVBPackage1 = getImagePath(receiveAppVO.getAppVBannerImage1(),"image/appVBanner1/","_v1_Vbanner",receiveAppVO.getAppName());
+        	NestedImagePackage nestedImageHBPackage2 = getImagePath(receiveAppVO.getAppHBannerImage2(),"image/appHBanner2/","_v1_Hbanner",receiveAppVO.getAppName());
+        	NestedImagePackage nestedImageVBPackage2 = getImagePath(receiveAppVO.getAppVBannerImage2(),"image/appVBanner2/","_v1_Vbanner",receiveAppVO.getAppName());
+        	NestedImagePackage nestedImageHBPackage3 = getImagePath(receiveAppVO.getAppHBannerImage3(),"image/appHBanner3/","_v1_Hbanner",receiveAppVO.getAppName());
+        	NestedImagePackage nestedImageVBPackage3 = getImagePath(receiveAppVO.getAppVBannerImage3(),"image/appVBanner3/","_v1_Vbanner",receiveAppVO.getAppName());
+        	
+             if(apiService.registApp(receiveAppVO,nestedImageIconPackage.getFileName(),nestedImageHBPackage1.getFileName()
+            		 ,nestedImageVBPackage1.getFileName(),nestedImageHBPackage2.getFileName()
+            		 ,nestedImageVBPackage2.getFileName(),nestedImageHBPackage3.getFileName()
+            		 ,nestedImageVBPackage3.getFileName()))
              {
-                 Files.write(iconPath, iconBytes);
-                 Files.write(HbannerPath, HbannerBytes);
-                 Files.write(VbannerPath, VbannerBytes);
+                 Files.write(nestedImageIconPackage.getImagePath(), nestedImageIconPackage.getImageBytes());
+                 Files.write(nestedImageHBPackage1.getImagePath(), nestedImageHBPackage1.getImageBytes());
+                 Files.write(nestedImageVBPackage1.getImagePath(), nestedImageVBPackage1.getImageBytes());
+                 Files.write(nestedImageHBPackage2.getImagePath(), nestedImageHBPackage2.getImageBytes());
+                 Files.write(nestedImageVBPackage2.getImagePath(), nestedImageVBPackage2.getImageBytes());
+                 Files.write(nestedImageHBPackage3.getImagePath(), nestedImageHBPackage3.getImageBytes());
+                 Files.write(nestedImageVBPackage3.getImagePath(), nestedImageVBPackage3.getImageBytes());
             	 return new ResponseEntity<>(GranConfig.RETURN_APP_REGIST_SECCESS,HttpStatus.OK);
              }
              else
@@ -163,6 +185,21 @@ public class AdminController
             return new ResponseEntity<>(GranConfig.RETURN_IMAGE_FAIL,HttpStatus.BAD_REQUEST);
         }
     }
+	private NestedImagePackage getImagePath(MultipartFile multipartFile,String path,String fileName,String appName) throws Exception
+	{
+		NestedImagePackage nestedImagePackage = new NestedImagePackage();
+		byte[] imageBytes = multipartFile.getBytes();
+		String imageOriginalFileName = multipartFile.getOriginalFilename();
+        String imageOriginalFileExtension = imageOriginalFileName.substring(imageOriginalFileName.lastIndexOf("."));
+        String imageFileName = appName+fileName+imageOriginalFileExtension;
+        Path imagePath = Paths.get(context.getRealPath(path) + imageFileName);
+        
+        nestedImagePackage.setFileName(imageFileName);
+        nestedImagePackage.setImageBytes(imageBytes);
+        nestedImagePackage.setImagePath(imagePath);
+        
+		return nestedImagePackage;
+	}
 	@RequestMapping(value = "/modifyapp", method = RequestMethod.POST)
     public ResponseEntity<String> modifyApp(@ModelAttribute ReceiveAppVO receiveAppVO)
 	{
@@ -171,60 +208,129 @@ public class AdminController
         	 // Get the file and save it uploads dir
 			 AppDTO appDTO = apiService.getApp(receiveAppVO.getAppID());
 			 String imageIconPath = appDTO.getAppImageIconPath();
-			 String imageHBannerPath = appDTO.getAppImageHBannerPath();
-			 String imageVBannerPath = appDTO.getAppImageVBannerPath();
+			 String imageHBannerPath1 = appDTO.getAppImageHBannerPath1();
+			 String imageVBannerPath1 = appDTO.getAppImageVBannerPath1();
+			 String imageHBannerPath2 = appDTO.getAppImageHBannerPath2();
+			 String imageVBannerPath2 = appDTO.getAppImageVBannerPath2();
+			 String imageHBannerPath3 = appDTO.getAppImageHBannerPath3();
+			 String imageVBannerPath3 = appDTO.getAppImageVBannerPath3();
+			 
 			 byte[] iconBytes = receiveAppVO.getAppIconImage().getBytes();
-			 byte[] HbannerBytes = receiveAppVO.getAppHBannerImage().getBytes();
-			 byte[] VbannerBytes = receiveAppVO.getAppVBannerImage().getBytes();
+			 byte[] HbannerBytes1 = receiveAppVO.getAppHBannerImage1().getBytes();
+			 byte[] VbannerBytes1 = receiveAppVO.getAppVBannerImage1().getBytes();
+			 byte[] HbannerBytes2 = receiveAppVO.getAppHBannerImage2().getBytes();
+			 byte[] VbannerBytes2 = receiveAppVO.getAppVBannerImage2().getBytes();
+			 byte[] HbannerBytes3 = receiveAppVO.getAppHBannerImage3().getBytes();
+			 byte[] VbannerBytes3 = receiveAppVO.getAppVBannerImage3().getBytes();
+			 
+			 NestedImagePackage nestedImageIconPackage = null;
+             NestedImagePackage nestedImageHBPackage1 = null;
+	         NestedImagePackage nestedImageVBPackage1 = null;
+	         NestedImagePackage nestedImageHBPackage2 = null;
+	         NestedImagePackage nestedImageVBPackage2 = null;
+	         NestedImagePackage nestedImageHBPackage3 = null;
+	         NestedImagePackage nestedImageVBPackage3 = null;
+	        	
 			 if(iconBytes.length != 0)
 			 {
-	        	 String iconOriginalFileName = receiveAppVO.getAppIconImage().getOriginalFilename();
-	             String iconOriginalFileExtension = iconOriginalFileName.substring(iconOriginalFileName.lastIndexOf("."));
 				 StringTokenizer stk = new StringTokenizer(imageIconPath,"_v");
 				 String str1 = stk.nextToken();
 				 String str2 = stk.nextToken();
 				 int ver = str2.charAt(0)-48;
 				 ver++;
-				 imageIconPath = receiveAppVO.getAppName()+"_v"+ver+"_icon"+iconOriginalFileExtension;
+				 nestedImageIconPackage = getImagePath(receiveAppVO.getAppIconImage(),"image/appIcon/","_v"+ver+"_icon",receiveAppVO.getAppName());
+				 imageIconPath = nestedImageIconPackage.getFileName();
 			 }
-			 if(HbannerBytes.length != 0)
+			 if(HbannerBytes1.length != 0)
 			 {
-				 String HbannerOriginalFileName = receiveAppVO.getAppHBannerImage().getOriginalFilename();
-	             String HbannerOriginalFileExtension = HbannerOriginalFileName.substring(HbannerOriginalFileName.lastIndexOf("."));
-				 StringTokenizer stk = new StringTokenizer(imageHBannerPath,"_v");
+				 StringTokenizer stk = new StringTokenizer(imageHBannerPath1,"_v");
 				 String str1 = stk.nextToken();
 				 String str2 = stk.nextToken();
 				 int ver = str2.charAt(0)-48;
 				 ver++;
-				 imageHBannerPath = receiveAppVO.getAppName()+"_v"+ver+"_Hbanner"+HbannerOriginalFileExtension;
+				 nestedImageHBPackage1 = getImagePath(receiveAppVO.getAppHBannerImage1(),"image/appHBanner1/","_v"+ver+"_Hbanner",receiveAppVO.getAppName());
+				 imageHBannerPath1 = nestedImageHBPackage1.getFileName();
 			 }
-			 if(VbannerBytes.length != 0)
+			 if(VbannerBytes1.length != 0)
 			 {
-				 String VbannerOriginalFileName = receiveAppVO.getAppVBannerImage().getOriginalFilename();
-	             String VbannerOriginalFileExtension = VbannerOriginalFileName.substring(VbannerOriginalFileName.lastIndexOf("."));
-				 StringTokenizer stk = new StringTokenizer(imageVBannerPath,"_v");
+				 StringTokenizer stk = new StringTokenizer(imageVBannerPath1,"_v");
 				 String str1 = stk.nextToken();
 				 String str2 = stk.nextToken();
 				 int ver = str2.charAt(0)-48;
 				 ver++;
-				 imageVBannerPath = receiveAppVO.getAppName()+"_v"+ver+"_Vbanner"+VbannerOriginalFileExtension;
+				 nestedImageVBPackage1 = getImagePath(receiveAppVO.getAppVBannerImage1(),"image/appVBanner1/","_v"+ver+"_Vbanner",receiveAppVO.getAppName());
+				 imageVBannerPath1 = nestedImageVBPackage1.getFileName();
 			 }
-			if(apiService.modifyApp(receiveAppVO, imageIconPath,imageHBannerPath,imageVBannerPath))
+			 if(HbannerBytes2.length != 0)
+			 {
+				 StringTokenizer stk = new StringTokenizer(imageHBannerPath2,"_v");
+				 String str1 = stk.nextToken();
+				 String str2 = stk.nextToken();
+				 int ver = str2.charAt(0)-48;
+				 ver++;
+				 nestedImageHBPackage2 = getImagePath(receiveAppVO.getAppHBannerImage2(),"image/appHBanner2/","_v"+ver+"_Hbanner",receiveAppVO.getAppName());
+				 imageHBannerPath2 = nestedImageHBPackage2.getFileName();
+			 }
+			 if(VbannerBytes2.length != 0)
+			 {
+				 StringTokenizer stk = new StringTokenizer(imageVBannerPath2,"_v");
+				 String str1 = stk.nextToken();
+				 String str2 = stk.nextToken();
+				 int ver = str2.charAt(0)-48;
+				 ver++;
+				 nestedImageVBPackage2 = getImagePath(receiveAppVO.getAppVBannerImage2(),"image/appVBanner2/","_v"+ver+"_Vbanner",receiveAppVO.getAppName());
+				 imageVBannerPath2 = nestedImageVBPackage2.getFileName();
+			 }
+			 if(HbannerBytes3.length != 0)
+			 {
+				 StringTokenizer stk = new StringTokenizer(imageHBannerPath3,"_v");
+				 String str1 = stk.nextToken();
+				 String str2 = stk.nextToken();
+				 int ver = str2.charAt(0)-48;
+				 ver++;
+				 nestedImageHBPackage3 = getImagePath(receiveAppVO.getAppHBannerImage3(),"image/appHBanner3/","_v"+ver+"_Hbanner",receiveAppVO.getAppName());
+				 imageHBannerPath3 = nestedImageHBPackage3.getFileName();
+			 }
+			 if(VbannerBytes3.length != 0)
+			 {
+				 StringTokenizer stk = new StringTokenizer(imageVBannerPath3,"_v");
+				 String str1 = stk.nextToken();
+				 String str2 = stk.nextToken();
+				 int ver = str2.charAt(0)-48;
+				 ver++;
+				 nestedImageVBPackage3 = getImagePath(receiveAppVO.getAppVBannerImage3(),"image/appVBanner3/","_v"+ver+"_Vbanner",receiveAppVO.getAppName());
+				 imageVBannerPath3 = nestedImageVBPackage3.getFileName();
+			 }
+			if(apiService.modifyApp(receiveAppVO, imageIconPath,imageHBannerPath1,imageVBannerPath1
+					,imageHBannerPath2,imageVBannerPath2,imageHBannerPath3,imageVBannerPath3))
 			{
 				if(iconBytes.length != 0)
 				{
-		            Path iconPath = Paths.get(context.getRealPath("image/appIcon/") + imageIconPath);
-				    Files.write(iconPath, iconBytes);
+					Files.write(nestedImageIconPackage.getImagePath(), nestedImageIconPackage.getImageBytes());
 				}
-				if(HbannerBytes.length != 0)
+				if(HbannerBytes1.length != 0)
 				{
-		            Path HbannerPath = Paths.get(context.getRealPath("image/appHBanner/") + imageHBannerPath);
-				    Files.write(HbannerPath, HbannerBytes);
+					 Files.write(nestedImageHBPackage1.getImagePath(), nestedImageHBPackage1.getImageBytes());
 				}
-				if(VbannerBytes.length != 0)
+				if(VbannerBytes1.length != 0)
 				{
-		            Path VbannerPath = Paths.get(context.getRealPath("image/appVBanner/") + imageVBannerPath);
-				    Files.write(VbannerPath, VbannerBytes);
+					Files.write(nestedImageVBPackage1.getImagePath(), nestedImageVBPackage1.getImageBytes());
+				}
+				if(HbannerBytes2.length != 0)
+				{
+					 Files.write(nestedImageHBPackage2.getImagePath(), nestedImageHBPackage2.getImageBytes());
+				}
+				if(VbannerBytes2.length != 0)
+				{
+					Files.write(nestedImageVBPackage2.getImagePath(), nestedImageVBPackage2.getImageBytes());
+				}
+				if(HbannerBytes3.length != 0)
+				{
+					 Files.write(nestedImageHBPackage3.getImagePath(), nestedImageHBPackage3.getImageBytes());
+				}
+				if(VbannerBytes3.length != 0)
+				{
+					Files.write(nestedImageVBPackage3.getImagePath(), nestedImageVBPackage3.getImageBytes());
 				}
 				return new ResponseEntity<>(GranConfig.RETURN_APP_MODIFY_SECCESS,HttpStatus.OK);
 			}

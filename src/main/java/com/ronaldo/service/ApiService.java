@@ -33,11 +33,15 @@ import com.ronaldo.domain.UserDTO;
 
 public interface ApiService
 {
-	public boolean registApp(ReceiveAppVO receiveAppVO, String appImageIconPath, String appImageHBannerPath,String appImageVBannerPath);
+	public boolean registApp(ReceiveAppVO receiveAppVO, String appImageIconPath, String appImageHBannerPath1,
+			String appImageVBannerPath1,String appImageHBannerPath2,String appImageVBannerPath2, 
+			String appImageHBannerPath3,String appImageVBannerPath3);
 	public List<AppDTO> getAppList();
 	public List<AppDTO> getEnableAppList(boolean appEnable);
 	public AppDTO getApp(int appID);
-	public boolean modifyApp(ReceiveAppVO receiveAppVO,String appImageIconPath,String appImageHBannerPath,String appImageVBannerPath);
+	public boolean modifyApp(ReceiveAppVO receiveAppVO,String appImageIconPath,String appImageHBannerPath1
+			,String appImageVBannerPath1,String appImageHBannerPath2,String appImageVBannerPath2,
+			String appImageHBannerPath3,String appImageVBannerPath3);
 	public AppDTO getApp(String appKey);
 	
 	public String setUserPayload(String appKey, String userKey);

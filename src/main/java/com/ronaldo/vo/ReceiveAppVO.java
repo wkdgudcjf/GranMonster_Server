@@ -10,8 +10,12 @@ public class ReceiveAppVO {
 	private int companyID;
 	private String appName;
 	private MultipartFile appIconImage;
-	private MultipartFile appHBannerImage;
-	private MultipartFile appVBannerImage;
+	private MultipartFile appHBannerImage1;
+	private MultipartFile appVBannerImage1;
+	private MultipartFile appHBannerImage2;
+	private MultipartFile appVBannerImage2;
+	private MultipartFile appHBannerImage3;
+	private MultipartFile appVBannerImage3;
 	public int getAppID() {
 		return appID;
 	}
@@ -54,16 +58,41 @@ public class ReceiveAppVO {
 	public void setAppIconImage(MultipartFile appIconImage) {
 		this.appIconImage = appIconImage;
 	}
-	public MultipartFile getAppHBannerImage() {
-		return appHBannerImage;
+	public MultipartFile getAppHBannerImage1() {
+		return appHBannerImage1;
 	}
-	public void setAppHBannerImage(MultipartFile appHBannerImage) {
-		this.appHBannerImage = appHBannerImage;
+	public void setAppHBannerImage1(MultipartFile appHBannerImage1) {
+		this.appHBannerImage1 = appHBannerImage1;
 	}
-	public MultipartFile getAppVBannerImage() {
-		return appVBannerImage;
+	public MultipartFile getAppVBannerImage1() {
+		return appVBannerImage1;
 	}
-	public void setAppVBannerImage(MultipartFile appVBannerImage) {
-		this.appVBannerImage = appVBannerImage;
+	public void setAppVBannerImage1(MultipartFile appVBannerImage1) {
+		this.appVBannerImage1 = appVBannerImage1;
 	}
+	public MultipartFile getAppHBannerImage2() {
+		return appHBannerImage2;
+	}
+	public void setAppHBannerImage2(MultipartFile appHBannerImage2) {
+		this.appHBannerImage2 = appHBannerImage2;
+	}
+	public MultipartFile getAppVBannerImage2() {
+		return appVBannerImage2;
+	}
+	public void setAppVBannerImage2(MultipartFile appVBannerImage2) {
+		this.appVBannerImage2 = appVBannerImage2;
+	}
+	public MultipartFile getAppHBannerImage3() {
+		return appHBannerImage3;
+	}
+	public void setAppHBannerImage3(MultipartFile appHBannerImage3) {
+		this.appHBannerImage3 = appHBannerImage3;
+	}
+	public MultipartFile getAppVBannerImage3() {
+		return appVBannerImage3;
+	}
+	public void setAppVBannerImage3(MultipartFile appVBannerImage3) {
+		this.appVBannerImage3 = appVBannerImage3;
+	}
+	
 }

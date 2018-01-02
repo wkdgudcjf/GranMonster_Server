@@ -17,9 +17,11 @@
     </select>
  	<insert id="registApp" parameterType="AppDTO" useGeneratedKeys="true" keyProperty="appID">
        	INSERT INTO App 
-       	(appName,companyID,appURL,appImageIconPath,appImageHBannerPath,appImageVBannerPath,appPackage) 
+       	(appName,companyID,appURL,appImageIconPath,appImageHBannerPath1,
+       	appImageVBannerPath1,appImageHBannerPath2,appImageVBannerPath2,appImageHBannerPath3,appImageVBannerPath3,appPackage) 
        	VALUES
-       	(#{appName},#{companyID},#{appURL},#{appImageIconPath},#{appImageHBannerPath},#{appImageVBannerPath},#{appPackage})
+       	(#{appName},#{companyID},#{appURL},#{appImageIconPath},#{appImageHBannerPath1},#{appImageVBannerPath1}
+       	,#{appImageHBannerPath2},#{appImageVBannerPath2},#{appImageHBannerPath3},#{appImageVBannerPath3},#{appPackage})
     </insert>
     <delete id="deleteApp" parameterType="int">
        DELETE FROM App WHERE appID = #{appID} 
@@ -27,8 +29,10 @@
     <update id="updateApp" parameterType="AppDTO">
 		UPDATE App
 		set appName = #{appName},companyID = #{companyID},appURL = #{appURL}
-		,appImageIconPath = #{appImageIconPath},appImageHBannerPath = #{appImageHBannerPath}
-		,appImageVBannerPath = #{appImageVBannerPath},appPackage = #{appPackage},appEnable = #{appEnable}
+		,appImageIconPath = #{appImageIconPath},appImageHBannerPath1 = #{appImageHBannerPath1}
+		,appImageVBannerPath1 = #{appImageVBannerPath1},appImageHBannerPath2 = #{appImageHBannerPath2}
+		,appImageVBannerPath2 = #{appImageVBannerPath2},appImageHBannerPath3 = #{appImageHBannerPath3}
+		,appImageVBannerPath3 = #{appImageVBannerPath3},appPackage = #{appPackage},appEnable = #{appEnable}
 		where appID = #{appID}
     </update> 
      <update id="modifyAppKey" parameterType="AppDTO">

@@ -165,8 +165,12 @@
 				        <td>${item.appPackage}</td>
 				        <td>${item.appDateTime}</td>
 				        <td><img src="image/appIcon/${item.appImageIconPath}"  style="max-width: 57px; max-height: 57px;"></td>
-				        <td><img src="image/appHBanner/${item.appImageHBannerPath}"  style="max-width: 100px; max-height: 150px;"></td>
-				        <td><img src="image/appVBanner/${item.appImageVBannerPath}"  style="max-width: 150px; max-height: 100px;"></td>
+				        <td><img src="image/appHBanner1/${item.appImageHBannerPath1}"  style="max-width: 100px; max-height: 150px;"
+				         onClick="imagePopup('image/appHBanner1/${item.appImageHBannerPath1}','image/appHBanner2/${item.appImageHBannerPath2}','image/appHBanner3/${item.appImageHBannerPath3}')">
+				         </td>
+				        <td><img src="image/appVBanner1/${item.appImageVBannerPath1}"  style="max-width: 150px; max-height: 100px;"
+				         onClick="imagePopup('image/appVBanner1/${item.appImageVBannerPath1}','image/appVBanner2/${item.appImageVBannerPath2}','image/appVBanner3/${item.appImageVBannerPath3}')">
+				        </td>
 				    </tr>
 				    </c:forEach>
                 </tbody>
@@ -185,6 +189,38 @@
   <!-- /.content-wrapper -->
   
   <jsp:include page="include/main_footer.jsp" flush="false"/>
+  
+  <!-- Image Modal -->
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header" style="text-align: center;">
+            <h1 class="modal-title" id="imageModalLabel">Image List</h1>
+          </div>
+          <div class="modal-body">
+                <!-- Form Element sizes -->
+	          <div class="box box-success">
+	            <div class="box-header with-border">
+	              <h3 class="box-title">이미지 정보</h3>
+	            </div>
+	            <div class="box-body">
+	              <img src="" id="image1" style="max-width: 300px; max-height: 300px;">
+	              <br><br>
+	              <img src="" id="image2" style="max-width: 300px; max-height: 300px;">
+	              <br><br>
+	              <img src="" id="image3" style="max-width: 300px; max-height: 300px;">
+	            </div>
+	            <!-- /.box-body -->
+	          </div>
+	          <!-- /.box -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
    <!-- RegistApp Modal -->
     <div class="modal fade" id="registAppModal" tabindex="-1" role="dialog" aria-labelledby="registAppModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -215,29 +251,81 @@
                  	  </select>
 		         </div>
 	            <div class="form-group">
-	            <label for="inputAppIconImage">아이콘 이미지 업로드(57x57)</label>
-	             <div class="filebox bs3-primary preview-image">
-                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="inputAppIconImage">이미지찾기</label> 
-                    <input type="file" id="inputAppIconImage" name="appIconImage" class="upload-hidden" accept="image/*"> 
-                  </div>
+		            <label for="inputAppIconImage">아이콘 이미지 업로드(57x57)</label>
+		             <div class="filebox bs3-primary preview-image">
+	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+	                      <label for="inputAppIconImage">이미지찾기</label> 
+	                    <input type="file" id="inputAppIconImage" name="appIconImage" class="upload-hidden" accept="image/*"> 
+	                  </div>
 	            </div>
-	            <div class="form-group">
-	            <label for="inputAppHBannerImage">가로형 배너 이미지 업로드(635x395)</label>
-	             <div class="filebox bs3-primary preview-image">
-                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="inputAppHBannerImage">이미지찾기</label> 
-                    <input type="file" id="inputAppHBannerImage" name="appHBannerImage" class="upload-hidden" accept="image/*"> 
-                  </div>
-	            </div>
-	            <div class="form-group">
-	            <label for="inputAppVBannerImage">세로형 배너 이미지 업로드(580x285)</label>
-	             <div class="filebox bs3-primary preview-image">
-                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="inputAppVBannerImage">이미지찾기</label> 
-                    <input type="file" id="inputAppVBannerImage" name="appVBannerImage" class="upload-hidden" accept="image/*"> 
-                  </div>
-	            </div>
+	            
+	            <!-- Form Element sizes -->
+		          <div class="box box-success">
+		            <div class="box-header with-border">
+		              <h3 class="box-title">가로형 배너 이미지 업로드(635x395)</h3>
+		            </div>
+		            <div class="box-body">
+		                <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+		                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+		                      <label for="inputAppHBannerImage1">이미지찾기</label> 
+		                    <input type="file" id="inputAppHBannerImage1" name="appHBannerImage1" class="upload-hidden" accept="image/*"> 
+		                  </div>
+		          	   </div>
+		              <br>
+		              <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+		                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+		                      <label for="inputAppHBannerImage2">이미지찾기</label> 
+		                    <input type="file" id="inputAppHBannerImage2" name="appHBannerImage2" class="upload-hidden" accept="image/*"> 
+		                  </div>
+		          	   </div>
+		              <br>
+		              <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+		                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+		                      <label for="inputAppHBannerImage3">이미지찾기</label> 
+		                    <input type="file" id="inputAppHBannerImage3" name="appHBannerImage3" class="upload-hidden" accept="image/*"> 
+		                  </div>
+		          	   </div>
+		            </div>
+		            <!-- /.box-body -->
+		          </div>
+		          <!-- /.box -->
+          
+          		<!-- Form Element sizes -->
+		          <div class="box box-success">
+		            <div class="box-header with-border">
+		              <h3 class="box-title">세로형 배너 이미지 업로드(580x285)</h3>
+		            </div>
+		            <div class="box-body">
+		                <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+	                      <label for="inputAppVBannerImage1">이미지찾기</label> 
+	                    <input type="file" id="inputAppVBannerImage1" name="appVBannerImage1" class="upload-hidden" accept="image/*"> 
+	                 	 </div>
+		          	   </div>
+		              <br>
+		              <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+	                      <label for="inputAppVBannerImage2">이미지찾기</label> 
+	                    <input type="file" id="inputAppVBannerImage2" name="appVBannerImage2" class="upload-hidden" accept="image/*"> 
+	                  	</div>
+		          	   </div>
+		              <br>
+		              <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+	                      <label for="inputAppVBannerImage3">이미지찾기</label> 
+	                    <input type="file" id="inputAppVBannerImage3" name="appVBannerImage3" class="upload-hidden" accept="image/*"> 
+	                  </div>
+		            </div>
+		            <!-- /.box-body -->
+		           </div>
+	              <!-- /.box -->
+	          </div>
 	          </form>
           </div>
           <div class="modal-footer">
@@ -290,22 +378,75 @@
                     <input type="file" id="modifyAppIconImage" name="appIconImage" class="upload-hidden" accept="image/*"> 
                   </div>
 	            </div>
-	            <div class="form-group">
-	            <label for="modifyAppHBannerImage">가로형 배너 이미지 업로드(580x285)(부재시 기존이미지 사용)</label>
-	             <div class="filebox bs3-primary preview-image">
-                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="modifyAppHBannerImage">이미지찾기</label> 
-                    <input type="file" id="modifyAppHBannerImage" name="appHBannerImage" class="upload-hidden" accept="image/*"> 
-                  </div>
-	            </div>
-	            <div class="form-group">
-	            <label for="modifyAppVBannerImage">세로형 배너 이미지 업로드(580x285)(부재시 기존이미지 사용)</label>
-	             <div class="filebox bs3-primary preview-image">
-                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="modifyAppVBannerImage">이미지찾기</label> 
-                    <input type="file" id="modifyAppVBannerImage" name="appVBannerImage" class="upload-hidden" accept="image/*"> 
-                  </div>
-	            </div>
+	            
+	            <!-- Form Element sizes -->
+		          <div class="box box-success">
+		            <div class="box-header with-border">
+		              <h3 class="box-title">가로형 배너 이미지 업로드(580x285)(부재시 기존이미지 사용)</h3>
+		            </div>
+		            <div class="box-body">
+		                <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+		                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+		                      <label for="modifyAppHBannerImage1">이미지찾기</label> 
+		                    <input type="file" id="modifyAppHBannerImage1" name="appHBannerImage1" class="upload-hidden" accept="image/*"> 
+		                  </div>
+		          	   </div>
+		              <br>
+		              <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+		                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+		                      <label for="modifyAppHBannerImage2">이미지찾기</label> 
+		                    <input type="file" id="modifyAppHBannerImage2" name="appHBannerImage2" class="upload-hidden" accept="image/*"> 
+		                  </div>
+		          	   </div>
+		              <br>
+		              <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+		                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+		                      <label for="modifyAppHBannerImage3">이미지찾기</label> 
+		                    <input type="file" id="modifyAppHBannerImage3" name="appHBannerImage3" class="upload-hidden" accept="image/*"> 
+		                  </div>
+		          	   </div>
+		            </div>
+		            <!-- /.box-body -->
+		          </div>
+		          <!-- /.box -->
+		          
+          		<!-- Form Element sizes -->
+		          <div class="box box-success">
+		            <div class="box-header with-border">
+		              <h3 class="box-title">세로형 배너 이미지 업로드(580x285)(부재시 기존이미지 사용)</h3>
+		            </div>
+		            <div class="box-body">
+		                <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+	                      <label for="modifyAppVBannerImage1">이미지찾기</label> 
+	                    <input type="file" id="modifyAppVBannerImage1" name="appVBannerImage1" class="upload-hidden" accept="image/*"> 
+	                 	 </div>
+		          	   </div>
+		              <br>
+		              <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+	                      <label for="modifyAppVBannerImage2">이미지찾기</label> 
+	                    <input type="file" id="modifyAppVBannerImage2" name="appVBannerImage2" class="upload-hidden" accept="image/*"> 
+	                  	</div>
+		          	   </div>
+		              <br>
+		              <div class="form-group" style="margin-bottom: 0px;">
+			             <div class="filebox bs3-primary preview-image">
+	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
+	                      <label for="modifyAppVBannerImage3">이미지찾기</label> 
+	                    <input type="file" id="modifyAppVBannerImage3" name="appVBannerImage3" class="upload-hidden" accept="image/*"> 
+	                  </div>
+		            </div>
+		            <!-- /.box-body -->
+		           </div>
+	              <!-- /.box -->
+	          </div>
+	           
 	            <div class="form-group">
 	              <label for="modifyEnable">활성여부</label><br>
 	              <label class="radio-inline">
@@ -382,8 +523,12 @@
 			 inputAppPackage = $('#inputAppPackage'),
 			 inputAppURL = $('#inputAppURL'),
 			 inputAppIconImage = $('#inputAppIconImage');
-			 inputAppHBannerImage = $('#inputAppHBannerImage');
-			 inputAppVBannerImage = $('#inputAppVBannerImage');
+			 inputAppHBannerImage1 = $('#inputAppHBannerImage1');
+			 inputAppVBannerImage1 = $('#inputAppVBannerImage1');
+			 inputAppHBannerImage2 = $('#inputAppHBannerImage2');
+			 inputAppVBannerImage2 = $('#inputAppVBannerImage2');
+			 inputAppHBannerImage3 = $('#inputAppHBannerImage3');
+			 inputAppVBannerImage3 = $('#inputAppVBannerImage3');
 			 if (inputAppName.val().length == 0) {
 				 alert('앱 이름을 입력하세요.');
 				 return;
@@ -400,12 +545,28 @@
 				 alert('아이콘 이미지를 선택하세요.');
 				 return;
 			 }
-			 if (inputAppHBannerImage.val().length == 0) {
-				 alert('가로형 배너 이미지를 선택하세요.');
+			 if (inputAppHBannerImage1.val().length == 0) {
+				 alert('가로형 배너 이미지를 선택하세요. - 1');
 				 return;
 			 }
-			 if (inputAppVBannerImage.val().length == 0) {
-				 alert('세로형 배너 이미지를 선택하세요.');
+			 if (inputAppVBannerImage1.val().length == 0) {
+				 alert('세로형 배너 이미지를 선택하세요. - 1');
+				 return;
+			 }
+			 if (inputAppHBannerImage2.val().length == 0) {
+				 alert('가로형 배너 이미지를 선택하세요. - 2');
+				 return;
+			 }
+			 if (inputAppVBannerImage2.val().length == 0) {
+				 alert('세로형 배너 이미지를 선택하세요. - 2');
+				 return;
+			 }
+			 if (inputAppHBannerImage3.val().length == 0) {
+				 alert('가로형 배너 이미지를 선택하세요. - 3');
+				 return;
+			 }
+			 if (inputAppVBannerImage3.val().length == 0) {
+				 alert('세로형 배너 이미지를 선택하세요. - 3');
 				 return;
 			 }
 			$.ajax({
@@ -500,6 +661,12 @@
 			 document.body.appendChild(form);
 			 form.submit();
 			}
+		 function imagePopup(image1,image2,image3){
+		     $("#image1").attr("src",image1);
+		     $("#image2").attr("src",image2);
+		     $("#image3").attr("src",image3);
+			 $("#imageModal").modal('show');
+		 }
     </script>
 </body>
 </html>

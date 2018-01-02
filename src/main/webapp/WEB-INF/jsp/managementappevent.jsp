@@ -270,7 +270,7 @@
     </div>
     
     <!-- Excel Modal -->
-    <div class="modal fade" id="enrollAppEventExcelModal" tabindex="-1" role="dialog" aria-labelledby="enrollAppEventExcelModal" aria-hidden="true">
+    <div class="modal fade" id="enrollAppEventExcelModal" tabindex="-1" role="dialog" aria-labelledby="enrollExcelModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header" style="text-align: center;">

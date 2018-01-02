@@ -109,7 +109,9 @@ public class ApiServiceImpl implements ApiService
 		this.passwordEncoder = passwordEncoder;
 	}
 	@Override
-	public boolean registApp(ReceiveAppVO receiveAppVO, String appImageIconPath,String appImageHBannerPath,String appImageVBannerPath) {
+	public boolean registApp(ReceiveAppVO receiveAppVO, String appImageIconPath,String appImageHBannerPath1,
+			String appImageVBannerPath1,String appImageHBannerPath2,String appImageVBannerPath2, 
+			String appImageHBannerPath3,String appImageVBannerPath3) {
 		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
 		defaultTransactionDefinition.setName("registapp");
 		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -118,8 +120,12 @@ public class ApiServiceImpl implements ApiService
 		appDTO.setAppName(receiveAppVO.getAppName());
 		appDTO.setCompanyID(receiveAppVO.getCompanyID());
 		appDTO.setAppImageIconPath(appImageIconPath);
-		appDTO.setAppImageHBannerPath(appImageHBannerPath);
-		appDTO.setAppImageVBannerPath(appImageVBannerPath);
+		appDTO.setAppImageHBannerPath1(appImageHBannerPath1);
+		appDTO.setAppImageVBannerPath1(appImageVBannerPath1);
+		appDTO.setAppImageHBannerPath2(appImageHBannerPath2);
+		appDTO.setAppImageVBannerPath2(appImageVBannerPath2);
+		appDTO.setAppImageHBannerPath3(appImageHBannerPath3);
+		appDTO.setAppImageVBannerPath3(appImageVBannerPath3);
 		appDTO.setAppURL(receiveAppVO.getAppURL());
 		appDTO.setAppPackage(receiveAppVO.getAppPackage());
 		try
@@ -138,15 +144,21 @@ public class ApiServiceImpl implements ApiService
 		}
 	}
 	@Override
-	public boolean modifyApp(ReceiveAppVO receiveAppVO,String appImageIconPath,String appImageHBannerPath,String appImageVBannerPath)
+	public boolean modifyApp(ReceiveAppVO receiveAppVO,String appImageIconPath, String appImageHBannerPath1,
+			String appImageVBannerPath1,String appImageHBannerPath2,String appImageVBannerPath2, 
+			String appImageHBannerPath3,String appImageVBannerPath3)
 	{
 		AppDTO appDTO = new AppDTO();
 		appDTO.setAppID(receiveAppVO.getAppID());
 		appDTO.setAppName(receiveAppVO.getAppName());
 		appDTO.setCompanyID(receiveAppVO.getCompanyID());
 		appDTO.setAppImageIconPath(appImageIconPath);
-		appDTO.setAppImageHBannerPath(appImageHBannerPath);
-		appDTO.setAppImageVBannerPath(appImageVBannerPath);
+		appDTO.setAppImageHBannerPath1(appImageHBannerPath1);
+		appDTO.setAppImageVBannerPath1(appImageVBannerPath1);
+		appDTO.setAppImageHBannerPath2(appImageHBannerPath2);
+		appDTO.setAppImageVBannerPath2(appImageVBannerPath2);
+		appDTO.setAppImageHBannerPath3(appImageHBannerPath3);
+		appDTO.setAppImageVBannerPath3(appImageVBannerPath3);
 		appDTO.setAppURL(receiveAppVO.getAppURL());
 		appDTO.setAppPackage(receiveAppVO.getAppPackage());
 		appDTO.setAppEnable(receiveAppVO.isAppEnable());
@@ -657,8 +669,12 @@ public class ApiServiceImpl implements ApiService
 			ReturnAppVO returnAppVO = new ReturnAppVO();
 			returnAppVO.setAppKey(appDTOList.get(i).getAppKey());
 			returnAppVO.setAppImageIconPath(appDTOList.get(i).getAppImageIconPath());
-			returnAppVO.setAppImageHBannerPath(appDTOList.get(i).getAppImageHBannerPath());
-			returnAppVO.setAppImageVBannerPath(appDTOList.get(i).getAppImageVBannerPath());
+			returnAppVO.setAppImageHBannerPath1(appDTOList.get(i).getAppImageHBannerPath1());
+			returnAppVO.setAppImageVBannerPath1(appDTOList.get(i).getAppImageVBannerPath1());
+			returnAppVO.setAppImageHBannerPath2(appDTOList.get(i).getAppImageHBannerPath2());
+			returnAppVO.setAppImageVBannerPath2(appDTOList.get(i).getAppImageVBannerPath2());
+			returnAppVO.setAppImageHBannerPath3(appDTOList.get(i).getAppImageHBannerPath3());
+			returnAppVO.setAppImageVBannerPath3(appDTOList.get(i).getAppImageVBannerPath3());
 			returnAppVO.setAppName(appDTOList.get(i).getAppName());
 			returnAppVO.setAppPackage(appDTOList.get(i).getAppPackage());
 			returnAppVO.setAppURL(appDTOList.get(i).getAppURL());

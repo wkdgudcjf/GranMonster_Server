@@ -10,8 +10,12 @@ public class AppDTO {
 	private int companyID;
 	private String appURL;
 	private String appImageIconPath;
-	private String appImageHBannerPath;
-	private String appImageVBannerPath;
+	private String appImageHBannerPath1;
+	private String appImageVBannerPath1;
+	private String appImageHBannerPath2;
+	private String appImageVBannerPath2;
+	private String appImageHBannerPath3;
+	private String appImageVBannerPath3;
 	private String appPackage;
 	private String companyName;
 	private Timestamp appDateTime;
@@ -63,17 +67,41 @@ public class AppDTO {
 	public void setAppImageIconPath(String appImageIconPath) {
 		this.appImageIconPath = appImageIconPath;
 	}
-	public String getAppImageHBannerPath() {
-		return appImageHBannerPath;
+	public String getAppImageHBannerPath1() {
+		return appImageHBannerPath1;
 	}
-	public void setAppImageHBannerPath(String appImageHBannerPath) {
-		this.appImageHBannerPath = appImageHBannerPath;
+	public void setAppImageHBannerPath1(String appImageHBannerPath1) {
+		this.appImageHBannerPath1 = appImageHBannerPath1;
 	}
-	public String getAppImageVBannerPath() {
-		return appImageVBannerPath;
+	public String getAppImageVBannerPath1() {
+		return appImageVBannerPath1;
 	}
-	public void setAppImageVBannerPath(String appImageVBannerPath) {
-		this.appImageVBannerPath = appImageVBannerPath;
+	public void setAppImageVBannerPath1(String appImageVBannerPath1) {
+		this.appImageVBannerPath1 = appImageVBannerPath1;
+	}
+	public String getAppImageHBannerPath2() {
+		return appImageHBannerPath2;
+	}
+	public void setAppImageHBannerPath2(String appImageHBannerPath2) {
+		this.appImageHBannerPath2 = appImageHBannerPath2;
+	}
+	public String getAppImageVBannerPath2() {
+		return appImageVBannerPath2;
+	}
+	public void setAppImageVBannerPath2(String appImageVBannerPath2) {
+		this.appImageVBannerPath2 = appImageVBannerPath2;
+	}
+	public String getAppImageHBannerPath3() {
+		return appImageHBannerPath3;
+	}
+	public void setAppImageHBannerPath3(String appImageHBannerPath3) {
+		this.appImageHBannerPath3 = appImageHBannerPath3;
+	}
+	public String getAppImageVBannerPath3() {
+		return appImageVBannerPath3;
+	}
+	public void setAppImageVBannerPath3(String appImageVBannerPath3) {
+		this.appImageVBannerPath3 = appImageVBannerPath3;
 	}
 	public String getAppPackage() {
 		return appPackage;
