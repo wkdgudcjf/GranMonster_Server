@@ -116,6 +116,12 @@ public class UploadExcelController {
 								LOG.info("getAppEventLimit - limit count");
 								return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_LIMIT_EXCEL,HttpStatus.BAD_REQUEST);
 							}
+							if(excelList.get(i).getAppEventStartTime().getTime() > excelList.get(i).getAppEventEndTime().getTime())
+							{
+								dataSourceTransactionManager.rollback(transactionStatus);
+								LOG.info("getAppEventLimit - start time > end time");
+								return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_START_EXCEL,HttpStatus.BAD_REQUEST);
+							}
 							AppEventDTO appEventDTO = eventList.get(j);
 							appEventDTO.setAppID(appID);
 							appEventDTO.setAppEventID(eventID);
