@@ -57,7 +57,7 @@ public class UploadExcelController {
 					if(excelList.get(i).getAppEventKey().compareTo(excelList.get(j).getAppEventKey())==0)
 					{
 						LOG.info("ExcelUpload - Exist same Event Key : "+excelList.get(i).getAppEventKey());
-						return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_REGIST_FAIL_EXCEL,HttpStatus.BAD_REQUEST);
+						return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_SAME_KEY_EXCEL,HttpStatus.BAD_REQUEST);
 					}
 				}
 			}
@@ -72,7 +72,13 @@ public class UploadExcelController {
 					{
 						dataSourceTransactionManager.rollback(transactionStatus);
 						LOG.info("getAppEventLimit - limit count");
-						return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_REGIST_FAIL_EXCEL,HttpStatus.BAD_REQUEST);
+						return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_LIMIT_EXCEL,HttpStatus.BAD_REQUEST);
+					}
+					if(excelList.get(i).getAppEventStartTime().getTime() > excelList.get(i).getAppEventEndTime().getTime())
+					{
+						dataSourceTransactionManager.rollback(transactionStatus);
+						LOG.info("getAppEventLimit - start time > end time");
+						return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_START_EXCEL,HttpStatus.BAD_REQUEST);
 					}
 					AppEventDTO appEventDTO = new AppEventDTO();
 					appEventDTO.setAppID(appID);
@@ -82,6 +88,7 @@ public class UploadExcelController {
 					{
 						enable = true;
 					}
+					
 					appEventDTO.setAppEventEnable(enable);
 					appEventDTO.setAppEventKey(excelList.get(i).getAppEventKey());
 					appEventDTO.setAppEventContent(excelList.get(i).getAppEventContent());
@@ -107,7 +114,7 @@ public class UploadExcelController {
 							{
 								dataSourceTransactionManager.rollback(transactionStatus);
 								LOG.info("getAppEventLimit - limit count");
-								return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_REGIST_FAIL_EXCEL,HttpStatus.BAD_REQUEST);
+								return new ResponseEntity<>(GranConfig.RETURN_APP_EVENT_LIMIT_EXCEL,HttpStatus.BAD_REQUEST);
 							}
 							AppEventDTO appEventDTO = eventList.get(j);
 							appEventDTO.setAppID(appID);
