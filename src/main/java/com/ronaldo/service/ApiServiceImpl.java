@@ -593,10 +593,6 @@ public class ApiServiceImpl implements ApiService
 	public void login(ReceiveUserVO receiveUserVO, ReturnUserVO returnUserVO) 
 	{
 		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
-		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
-		defaultTransactionDefinition.setName("login");
-		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
-		TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(defaultTransactionDefinition);
 		String appKey = receiveUserVO.getAppKey();
 		String userKey = receiveUserVO.getUserKey();
 		AppDTO appDTO = getApp(appKey);
@@ -612,6 +608,10 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("login(USER_KEY_INVALID) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
+		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
+		defaultTransactionDefinition.setName("login");
+		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+		TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(defaultTransactionDefinition);
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null) // 모든 앱에서 처음 가입이면.
 		{
@@ -619,6 +619,7 @@ public class ApiServiceImpl implements ApiService
 			{
 				returnUserVO.setState(LoginEnum.USER_KEY_INVALID);
 				LOG.info("login(USER_KEY_INVALID) - AppKey : " + appKey+" / UserKey : "+userKey);
+				dataSourceTransactionManager.rollback(transactionStatus);
 				return;
 			}
 			userDTO = getUser(userKey);
@@ -1062,6 +1063,7 @@ public class ApiServiceImpl implements ApiService
 		{
 			returnEventRewardVO.setState(EventRewardEnum.INVALID_USER); // 유저 정보 에러
 			LOG.info("eventReward(INVALID_USER) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			dataSourceTransactionManager.rollback(transactionStatus);
 			return;
 		}
 		if(!addBilling(userDTO, appDTO.getAppID(), appEventDTO.getAppEventCoin(), 0, appEventDTO.getAppEventContent()))
@@ -1069,6 +1071,7 @@ public class ApiServiceImpl implements ApiService
 			dataSourceTransactionManager.rollback(transactionStatus);
 			returnEventRewardVO.setState(EventRewardEnum.INVALID_BILLING); // 영수증 에러
 			LOG.info("eventReward(INVALID_BILLING) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			dataSourceTransactionManager.rollback(transactionStatus);
 			return;
 		}
 		if(!modifyEventCount(appEventDTO.getAppEventID(),appEventDTO.getAppEventCount()+1))
