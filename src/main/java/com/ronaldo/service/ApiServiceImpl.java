@@ -1018,7 +1018,8 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("eventReward(ALREADY_EVENT_END) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
-		if(appEventDTO.getAppEventCount() >= appEventDTO.getAppEventLimit())
+		
+		if(appEventDTO.getAppEventCount() >= appEventDTO.getAppEventLimit() && appEventDTO.getAppEventLimit()!=0)
 		{
 			// 여기서 앱이 제한인원 이면 그냥 바로 disable 해버리고 리턴.
 			disableAppEvent(appEventDTO.getAppEventID());
