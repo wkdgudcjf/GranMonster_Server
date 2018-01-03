@@ -382,7 +382,7 @@
 	            <!-- Form Element sizes -->
 		          <div class="box box-success">
 		            <div class="box-header with-border">
-		              <h3 class="box-title">가로형 배너 이미지 업로드(580x285)(부재시 기존이미지 사용)</h3>
+		              <h3 class="box-title">가로형 배너 이미지 업로드(635x395)(부재시 기존이미지 사용)</h3>
 		            </div>
 		            <div class="box-body">
 		                <div class="form-group" style="margin-bottom: 0px;">
