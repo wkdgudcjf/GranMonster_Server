@@ -869,7 +869,7 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("purchase(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}	
-		if(!addBilling(userDTO, appDTO.getAppID(), coin, price, "purchase"))
+		if(!addBilling(userDTO, appDTO.getAppID(), coin, price, "그랑코인 결제"))
 		{
 			returnPurchaseVO.setState(PurchaseEnum.INVALID_BILLING);
 			LOG.info("purchase(INVALID_BILLING) - AppKey : " + appKey+" / UserKey : "+userKey);
@@ -916,7 +916,7 @@ public class ApiServiceImpl implements ApiService
 			return;
 		}
 		
-		if(!minusBilling(userDTO, appDTO.getAppID(), coin, "exhaust"))
+		if(!minusBilling(userDTO, appDTO.getAppID(), coin, "그랑코인 사용"))
 		{
 			returnExhaustVO.setState(ExhaustEnum.INVALID_BILLING);
 			LOG.info("exhaust(INVALID_BILLING) - AppKey : " + appKey+" / UserKey : "+userKey);
