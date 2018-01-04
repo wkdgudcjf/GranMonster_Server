@@ -68,7 +68,7 @@ public class UploadExcelController {
 			{
 				if(excelList.get(i).getAppEventID()==0) // 새로 등록
 				{
-					if(excelList.get(i).getAppEventLimit() < excelList.get(i).getAppEventCount())
+					if(excelList.get(i).getAppEventLimit() < excelList.get(i).getAppEventCount() && excelList.get(i).getAppEventLimit()!=0)
 					{
 						dataSourceTransactionManager.rollback(transactionStatus);
 						LOG.info("getAppEventLimit - limit count");
