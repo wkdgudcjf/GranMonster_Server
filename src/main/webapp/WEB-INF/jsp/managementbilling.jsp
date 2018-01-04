@@ -96,7 +96,8 @@
 	<script type="text/javascript">
 	 $(document).ready(function(){
 		 $('#navi_billing').attr('class',"active");
-         $('.content').on('keyup', 'input[type=search]', tableSum);
+         $(".content").on("keyup", "input[type=search]", tableSum);
+        // $(".content").on("change", "li[class=paginate_button]", tableSum);
          tableSum();
       });
 

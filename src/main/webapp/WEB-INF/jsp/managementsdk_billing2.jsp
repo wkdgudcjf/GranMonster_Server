@@ -17,15 +17,10 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header" style="padding:20px;">
-      <h1>
-       	 SDK 사용법
-        <small>SDK Guide</small>
+       <h1>
+       	 4.2 코인 사용하기
+        <small>4.2 Used Coin</small>
       </h1>
-      <ol class="breadcrumb">
-        <li>
-         <Button type="button" class="btn btn-block btn-success btn-flat" data-toggle="modal" data-target="#registCompanyModal">SDK 다운로드</Button>
-        </li>
-      </ol>
     </section>
 
     <!-- Main content -->
@@ -48,6 +43,7 @@
 <script type="text/javascript">
 	window.onload = function(){
 		 $('#navi_sdk').attr('class',"treeview menu-open active");
+		 $('#managementsdk_billing').attr('class',"treeview menu-open");
 	};
 </script>
 </body>

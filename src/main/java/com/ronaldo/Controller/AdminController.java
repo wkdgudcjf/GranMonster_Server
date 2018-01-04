@@ -67,8 +67,108 @@ public class AdminController
 		{
     		return setRedirectLogin(model);
 		}
-    	return setManagementSDK(model);
+    	return setManagementSDK(model,"managementsdk");
     }
+	@RequestMapping(value = "/managementsdk_billing1", method = RequestMethod.GET)
+    public String managementsdk_billing1(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_billing1");
+    }
+	@RequestMapping(value = "/managementsdk_billing2", method = RequestMethod.GET)
+    public String managementsdk_billing2(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_billing2");
+    }
+	@RequestMapping(value = "/managementsdk_billing3", method = RequestMethod.GET)
+    public String managementsdk_billing3(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_billing3");
+    }
+	@RequestMapping(value = "/managementsdk_widget1", method = RequestMethod.GET)
+    public String managementsdk_widget1(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_widget1");
+    }
+	@RequestMapping(value = "/managementsdk_widget2", method = RequestMethod.GET)
+    public String managementsdk_widget2(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_widget2");
+    }
+	@RequestMapping(value = "/managementsdk_login1", method = RequestMethod.GET)
+    public String managementsdk_login1(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_login1");
+    }
+	@RequestMapping(value = "/managementsdk_login2", method = RequestMethod.GET)
+    public String managementsdk_login2(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_login2");
+    }
+	@RequestMapping(value = "/managementsdk_login3", method = RequestMethod.GET)
+    public String managementsdk_login3(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_login3");
+    }
+	@RequestMapping(value = "/managementsdk_event1", method = RequestMethod.GET)
+    public String managementsdk_event1(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_event1");
+    }
+	@RequestMapping(value = "/managementsdk_event2", method = RequestMethod.GET)
+    public String managementsdk_event2(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_event2");
+    }
+	@RequestMapping(value = "/managementsdk_event3", method = RequestMethod.GET)
+    public String managementsdk_event3(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_event3");
+    }
+	
 	@RequestMapping(value = "/managementuser", method = RequestMethod.GET)
     public String managementuser(Model model)
 	{
@@ -573,9 +673,8 @@ public class AdminController
     	model.addAttribute("message", "Gran Monster");
     	return "redirect:/login";
     }
-	private String setManagementSDK(Model model) {
-		// TODO Auto-generated method stub
+	private String setManagementSDK(Model model,String Site) {
 		model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-    	return "managementsdk";
+    	return Site;
 	}
 }

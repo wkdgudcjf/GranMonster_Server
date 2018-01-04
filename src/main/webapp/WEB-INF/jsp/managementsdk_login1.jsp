@@ -18,14 +18,9 @@
     <!-- Content Header (Page header) -->
     <section class="content-header" style="padding:20px;">
       <h1>
-       	 SDK 사용법
-        <small>SDK Guide</small>
+       	 2.1 로그인 처리
+        <small>2.1 Login Process</small>
       </h1>
-      <ol class="breadcrumb">
-        <li>
-         <Button type="button" class="btn btn-block btn-success btn-flat" data-toggle="modal" data-target="#registCompanyModal">SDK 다운로드</Button>
-        </li>
-      </ol>
     </section>
 
     <!-- Main content -->
@@ -48,6 +43,7 @@
 <script type="text/javascript">
 	window.onload = function(){
 		 $('#navi_sdk').attr('class',"treeview menu-open active");
+		 $('#managementsdk_login').attr('class',"treeview menu-open");
 	};
 </script>
 </body>
