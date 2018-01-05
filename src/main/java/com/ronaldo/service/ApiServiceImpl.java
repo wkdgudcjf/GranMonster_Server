@@ -655,6 +655,16 @@ public class ApiServiceImpl implements ApiService
 		}
 		List<ReturnAppVO> returnAppVoList = new ArrayList<ReturnAppVO>();
 		List<AppDTO> appDTOList = getEnableAppList(true);
+		for (int i = 0; i < appDTOList.size(); i++) 
+		{
+			if(appDTOList.get(i).getAppKey().compareTo(appKey)==0)
+			{
+				AppDTO appDto = appDTOList.get(i);
+				appDTOList.remove(i);
+				appDTOList.add(0, appDto);
+				break;
+			}
+		}
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
@@ -961,9 +971,6 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("event(NOT_ENABLE_EVENT) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
-		appEventDTO.getAppEventStartTime();
-		appEventDTO.getAppEventEndTime();
-		appEventDTO.getAppEventLimit();
 		
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)

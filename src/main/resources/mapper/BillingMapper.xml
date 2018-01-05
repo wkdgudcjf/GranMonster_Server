@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ronaldo.mapper.BillingMapper">
     <select id="getBillingList"  resultType="BillingDTO">
-        SELECT * FROM Billing natural join User natural join App
+        SELECT * FROM Billing natural join User natural join App ORDER BY billingDateTime desc
     </select>
 	
 	<insert id="registBilling" parameterType="BillingDTO">
