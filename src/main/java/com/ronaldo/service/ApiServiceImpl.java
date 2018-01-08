@@ -386,6 +386,7 @@ public class ApiServiceImpl implements ApiService
 		appEventDTO.setAppEventKey(receiveAppEventVO.getAppEventKey());
 		appEventDTO.setAppEventLimit(receiveAppEventVO.getAppEventLimit());
 		appEventDTO.setAppEventEnable(receiveAppEventVO.isAppEventEnable());
+		appEventDTO.setAppEventOneoff(receiveAppEventVO.isAppEventOneoff());
 		try
 		{
 			appEventMapper.registAppEvent(appEventDTO);
@@ -458,6 +459,7 @@ public class ApiServiceImpl implements ApiService
 		appEventDTO.setAppEventEndTime(Timestamp.valueOf(receiveAppEventVO.getAppEventReservationTime().substring(19,35)+":00"));
 		appEventDTO.setAppEventKey(receiveAppEventVO.getAppEventKey());
 		appEventDTO.setAppEventLimit(receiveAppEventVO.getAppEventLimit());
+		appEventDTO.setAppEventOneoff(receiveAppEventVO.isAppEventOneoff());
 		try
 		{
 			appEventMapper.updateAppEvent(appEventDTO);
@@ -1093,6 +1095,10 @@ public class ApiServiceImpl implements ApiService
 		{
 			disableAppEvent(appEventDTO.getAppEventID());
 		}
+		if(!appEventDTO.isAppEventOneoff()) // 1회성이 아니라면
+		{
+			deleteEvent(userEventDTO.getUserEventID());
+		}
 		dataSourceTransactionManager.commit(transactionStatus);
 		
 		returnEventRewardVO.setCoin(userDTO.getUserCoin());
@@ -1100,6 +1106,10 @@ public class ApiServiceImpl implements ApiService
 		return;
 	}
 	
+	private void deleteEvent(int userEventID) {
+		// TODO Auto-generated method stub
+		userEventMapper.deleteUserEvent(userEventID);
+	}
 	private boolean modifyEventCount(int appEventID, int appEventCount) {
 		AppEventDTO appEventDTO = new AppEventDTO();
 		appEventDTO.setAppEventID(appEventID);

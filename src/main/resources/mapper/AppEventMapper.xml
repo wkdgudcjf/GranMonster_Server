@@ -5,13 +5,13 @@
 <mapper namespace="com.ronaldo.mapper.AppEventMapper">
 	<insert id="registAppEvent" parameterType="AppEventDTO">
        	INSERT INTO AppEvent 
-       	(appID,appEventContent,appEventCoin,appEventStartTime,appEventEndTime, appEventKey, appEventLimit,appEventEnable)
+       	(appID,appEventContent,appEventCoin,appEventStartTime,appEventEndTime, appEventKey, appEventLimit,appEventEnable,appEventOneoff)
        	VALUES
-       	(#{appID},#{appEventContent},#{appEventCoin},#{appEventStartTime},#{appEventEndTime},#{appEventKey},#{appEventLimit},#{appEventEnable})
+       	(#{appID},#{appEventContent},#{appEventCoin},#{appEventStartTime},#{appEventEndTime},#{appEventKey},#{appEventLimit},#{appEventEnable},#{appEventOneoff})
     </insert>
     <update id="updateAppEvent" parameterType="AppEventDTO">
 		UPDATE AppEvent
-		set appEventContent = #{appEventContent},appEventEnable = #{appEventEnable},appEventCoin = #{appEventCoin}
+		set appEventContent = #{appEventContent},appEventEnable = #{appEventEnable},appEventOneoff = #{appEventOneoff},appEventCoin = #{appEventCoin}
 		,appEventStartTime = #{appEventStartTime},appEventEndTime = #{appEventEndTime},appEventKey = #{appEventKey},appEventLimit = #{appEventLimit}
 		where appEventID = #{appEventID}
     </update>

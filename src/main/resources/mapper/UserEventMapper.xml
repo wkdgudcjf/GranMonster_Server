@@ -17,7 +17,10 @@
     <select id="getUserEventList" parameterType="int" resultType="UserEventDTO">
         SELECT * FROM UserEvent WHERE userID = #{userID}
     </select>
-       <select id="getUserEvent" parameterType="UserEventDTO" resultType="UserEventDTO">
+    <delete id="deleteUserEvent" parameterType="int">
+        DELETE FROM UserEvent WHERE userEventID = #{userEventID}
+    </delete>
+    <select id="getUserEvent" parameterType="UserEventDTO" resultType="UserEventDTO">
         SELECT * FROM UserEvent WHERE userID = #{userID} and appEventID = #{appEventID}
     </select>
 </mapper>

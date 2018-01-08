@@ -88,7 +88,12 @@ public class UploadExcelController {
 					{
 						enable = true;
 					}
-					
+					String oneOffStr = excelList.get(i).getAppEventOffsets();
+					boolean enableOneoff = false;
+					if(oneOffStr.compareTo("O")==0)
+					{
+						enableOneoff = true;
+					}
 					appEventDTO.setAppEventEnable(enable);
 					appEventDTO.setAppEventKey(excelList.get(i).getAppEventKey());
 					appEventDTO.setAppEventContent(excelList.get(i).getAppEventContent());
@@ -96,6 +101,7 @@ public class UploadExcelController {
 					appEventDTO.setAppEventStartTime(Timestamp.valueOf(sdf.format(excelList.get(i).getAppEventStartTime())+":00"));
 					appEventDTO.setAppEventEndTime(Timestamp.valueOf(sdf.format(excelList.get(i).getAppEventEndTime())+":00"));
 					appEventDTO.setAppEventLimit(excelList.get(i).getAppEventLimit());
+					appEventDTO.setAppEventOneoff(enableOneoff);
 					if(apiService.registAppEventByExcel(appEventDTO)==false)
 					{
 						dataSourceTransactionManager.rollback(transactionStatus);
@@ -131,6 +137,12 @@ public class UploadExcelController {
 							{
 								enable = true;
 							}
+							String oneOffStr = excelList.get(i).getAppEventOffsets();
+							boolean enableOneoff = false;
+							if(oneOffStr.compareTo("O")==0)
+							{
+								enableOneoff = true;
+							}
 							appEventDTO.setAppEventEnable(enable);
 							appEventDTO.setAppEventKey(excelList.get(i).getAppEventKey());
 							appEventDTO.setAppEventContent(excelList.get(i).getAppEventContent());
@@ -138,6 +150,7 @@ public class UploadExcelController {
 							appEventDTO.setAppEventStartTime(Timestamp.valueOf(sdf.format(excelList.get(i).getAppEventStartTime())+":00"));
 							appEventDTO.setAppEventEndTime(Timestamp.valueOf(sdf.format(excelList.get(i).getAppEventEndTime())+":00"));
 							appEventDTO.setAppEventLimit(excelList.get(i).getAppEventLimit());
+							appEventDTO.setAppEventOneoff(enableOneoff);
 							if(apiService.modifyAppEventByExcel(appEventDTO)==false)
 							{
 								dataSourceTransactionManager.rollback(transactionStatus);

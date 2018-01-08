@@ -9,7 +9,14 @@ public class ReceiveAppEventVO {
 	private String appEventReservationTime;
 	private int appEventLimit;
 	private boolean appEventEnable;
+	private boolean appEventOneoff;
 	
+	public boolean isAppEventOneoff() {
+		return appEventOneoff;
+	}
+	public void setAppEventOneoff(boolean appEventOneoff) {
+		this.appEventOneoff = appEventOneoff;
+	}
 	public int getAppEventID() {
 		return appEventID;
 	}

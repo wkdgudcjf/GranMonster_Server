@@ -53,7 +53,7 @@ public class DownloadExcelController {
     	AppDTO appDTO = apiService.getApp(appID);
     	List<AppEventDTO> appEventList = apiService.getAppEventList(appID);
     	model.addAttribute(ExcelConfig.FILE_NAME, appDTO.getAppName()+"_event");
-    	model.addAttribute(ExcelConfig.HEAD,Arrays.asList("고유 ID(변경X) / 추가(0)","활성여부(O/X)","이벤트키","내용","보상코인(숫자)","시작 시간","종료 시간","달성 인원수(변경X)","제한 인원수(숫자)"));
+    	model.addAttribute(ExcelConfig.HEAD,Arrays.asList("고유 ID(변경X) / 추가(0)","활성여부(O/X)","이벤트키","내용","보상코인(숫자)","시작 시간","종료 시간","달성 인원수(변경X)","제한 인원수(숫자)","일회성 여부"));
     	model.addAttribute(ExcelConfig.BODY,appEventList);
     }
 }

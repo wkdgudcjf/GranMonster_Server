@@ -185,6 +185,11 @@ public class ExcelCommonUtil {
         			cell.setCellType(CellType.NUMERIC);
         			cell.setCellStyle(style);
         			break;
+        		case 9:
+        			cell.setCellValue(appEventDTO.isAppEventOneoff()?"O":"X");
+        			cell.setCellType(CellType.STRING);
+        			cell.setCellStyle(style);
+        			break;
         	}
         }
     }

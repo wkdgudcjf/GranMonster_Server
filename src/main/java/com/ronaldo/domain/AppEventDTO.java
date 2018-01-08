@@ -15,9 +15,23 @@ public class AppEventDTO {
 	private Timestamp appEventEndTime;
 	private int appEventLimit;
 	private int appEventCount;
+	private boolean appEventOneoff;
 	private boolean appEventEnable;
+	private String appEventOneoffs;
 	private String appEventSuccessEnable;
 	private String appEventRewardEnable;
+	public String getAppEventOneoffs() {
+		return appEventOneoffs;
+	}
+	public void setAppEventOneoffs(String appEventOneoffs) {
+		this.appEventOneoffs = appEventOneoffs;
+	}
+	public boolean isAppEventOneoff() {
+		return appEventOneoff;
+	}
+	public void setAppEventOneoff(boolean appEventOneoff) {
+		this.appEventOneoff = appEventOneoff;
+	}
 	public String getAppEventKey() {
 		return appEventKey;
 	}

@@ -15,7 +15,7 @@ public class ReceviceAppEventExcelVO implements Serializable {
 	private Date appEventEndTime;
 	private int appEventCount;
 	private int appEventLimit;
-	
+	private String appEventOffsets;
 	public static ReceviceAppEventExcelVO rowOf(Row row) {
 		ReceviceAppEventExcelVO product = new ReceviceAppEventExcelVO();
 		product.setAppEventID((int)row.getCell(0).getNumericCellValue());
@@ -27,8 +27,17 @@ public class ReceviceAppEventExcelVO implements Serializable {
         product.setAppEventEndTime(row.getCell(6).getDateCellValue());
         product.setAppEventCount((int)row.getCell(7).getNumericCellValue());
         product.setAppEventLimit((int)row.getCell(8).getNumericCellValue());
+        product.setAppEventOffsets(row.getCell(9).getStringCellValue());
         return product;
     }
+
+	public String getAppEventOffsets() {
+		return appEventOffsets;
+	}
+
+	public void setAppEventOffsets(String appEventOffsets) {
+		this.appEventOffsets = appEventOffsets;
+	}
 
 	public int getAppEventID() {
 		return appEventID;

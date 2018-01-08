@@ -608,6 +608,7 @@ public class AdminController
 		List<AppEventDTO> appEventList = apiService.getAppEventList(appID);
 		for(int i=0;i<appEventList.size();i++)
 		{
+			appEventList.get(i).setAppEventOneoffs(appEventList.get(i).isAppEventOneoff()?"O":"X");
 			if(appEventList.get(i).getAppEventEndTime().getTime() < System.currentTimeMillis() && appEventList.get(i).isAppEventEnable())// 시간지났고 enable이면.
 			{
 				apiService.disableAppEvent(appEventList.get(i).getAppEventID());

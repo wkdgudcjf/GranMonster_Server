@@ -25,7 +25,7 @@ public class GranConfig
 	public static final String RETURN_COMPANY_MODIFY_SECCESS = "Company Modify Success!";
 	public static final String RETURN_COMPANY_MODIFY_FAIL = "Already registed";
 
-	public static final int EVENT_CELL_NUMBER = 9;
+	public static final int EVENT_CELL_NUMBER = 10;
 
 	public static final String RETURN_APP_EVENT_SAME_KEY_EXCEL = "Exist same key";
 	public static final String RETURN_APP_EVENT_LIMIT_EXCEL = "Current count > Limit count";

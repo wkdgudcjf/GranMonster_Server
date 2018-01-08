@@ -94,6 +94,7 @@
                     <th>종료 시간</th>
                     <th>달성 인원수</th>
                     <th>제한 인원수</th>
+                    <th>일회성 여부</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -106,6 +107,7 @@
                     <th>EndTime</th>
                     <th>Count</th>
                     <th>Limit</th>
+                    <th>One off</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -129,6 +131,7 @@
 				        <td>${item.appEventEndTime}</td>
 				        <td>${item.appEventCount}</td>
 				        <td>${item.appEventLimit}</td>
+				        <td>${item.appEventOneoffs}</td>
 				    </tr>
 				    </c:forEach>
                 </tbody>
@@ -189,12 +192,22 @@
 	            </div>
 	            <!-- 이벤트 기간 , 인원수 추가 고려. -->
 	            <div class="form-group">
-	              <label for="inputAppEventEnable">활성여부</label><br>
+	              <label for="inputAppEventEnable">활성 여부</label><br>
 	              <label class="radio-inline">
 			     	 <input type="radio" id="inputAppEventEnable" value="true" name="appEventEnable" checked="checked">활성
 				  </label>
 				  <label class="radio-inline">
 				     <input type="radio" id="inputAppEventDisable" value="false" name="appEventEnable">비활성
+				  </label>
+	            </div>
+	            <!-- 이벤트 기간 , 인원수 추가 고려. -->
+	            <div class="form-group">
+	              <label for="inputAppEventOneoff">일회성 여부</label><br>
+	              <label class="radio-inline">
+			     	 <input type="radio" id="inputAppEventOneoff" value="true" name="appEventOneoff" checked="checked">일회성
+				  </label>
+				  <label class="radio-inline">
+				     <input type="radio" id="inputAppEventDisOneoff" value="false" name="appEventOneoff">비일회성
 				  </label>
 	            </div>
 	          </form>
@@ -257,6 +270,15 @@
 				  </label>
 				  <label class="radio-inline">
 				     <input type="radio" id="modifyAppEventDisable" value="false" name="appEventEnable">비활성
+				  </label>
+	            </div>
+	            <div class="form-group">
+	              <label for="modifyAppEventOneoff">일회성 여부</label><br>
+	              <label class="radio-inline">
+			     	 <input type="radio" id="modifyAppEventOneoff" value="true" name="appEventOneoff">일회성
+				  </label>
+				  <label class="radio-inline">
+				     <input type="radio" id="modifyAppEventDisOneoff" value="false" name="appEventOneoff">비일회성
 				  </label>
 	            </div>
 	          </form>
@@ -530,6 +552,14 @@
 		        	 else
 		        	{
 		        		 $("#modifyAppEventDisable").prop("checked", true)
+		        	}
+		           	 if(data.appEventOneoff)
+		        	{
+		        		 $("#modifyAppEventOneoff").prop("checked", true)
+		        	}
+		        	 else
+		        	{
+		        		 $("#modifyAppEventDisOneoff").prop("checked", true)
 		        	}
 		        	 $("#modifyAppEventID").val(data.appEventID);
 		        	 $("#modifyAppEventModal").modal('show');
