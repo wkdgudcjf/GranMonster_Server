@@ -5,8 +5,11 @@ import org.springframework.web.multipart.MultipartFile;
 public class ReceiveAppVO {
 	private int appID;
 	private boolean appEnable;
-	private String appPackage;
-	private String appURL;
+	private boolean appVisible;
+	private String appAndroidPackage;
+	private String appAndroidURL;
+	private String appIPhonePackage;
+	private String appIPhoneURL;
 	private int companyID;
 	private String appName;
 	private MultipartFile appIconImage;
@@ -22,23 +25,41 @@ public class ReceiveAppVO {
 	public void setAppID(int appID) {
 		this.appID = appID;
 	}
+	public boolean isAppVisible() {
+		return appVisible;
+	}
+	public void setAppVisible(boolean appVisible) {
+		this.appVisible = appVisible;
+	}
 	public boolean isAppEnable() {
 		return appEnable;
 	}
 	public void setAppEnable(boolean appEnable) {
 		this.appEnable = appEnable;
 	}
-	public String getAppPackage() {
-		return appPackage;
+	public String getAppAndroidPackage() {
+		return appAndroidPackage;
 	}
-	public void setAppPackage(String appPackage) {
-		this.appPackage = appPackage;
+	public void setAppAndroidPackage(String appAndroidPackage) {
+		this.appAndroidPackage = appAndroidPackage;
 	}
-	public String getAppURL() {
-		return appURL;
+	public String getAppAndroidURL() {
+		return appAndroidURL;
 	}
-	public void setAppURL(String appURL) {
-		this.appURL = appURL;
+	public void setAppAndroidURL(String appAndroidURL) {
+		this.appAndroidURL = appAndroidURL;
+	}
+	public String getAppIPhonePackage() {
+		return appIPhonePackage;
+	}
+	public void setAppIPhonePackage(String appIPhonePackage) {
+		this.appIPhonePackage = appIPhonePackage;
+	}
+	public String getAppIPhoneURL() {
+		return appIPhoneURL;
+	}
+	public void setAppIPhoneURL(String appIPhoneURL) {
+		this.appIPhoneURL = appIPhoneURL;
 	}
 	public int getCompanyID() {
 		return companyID;

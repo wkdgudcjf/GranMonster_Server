@@ -8,7 +8,8 @@ public class AppDTO {
     private String appKey;
 	private String appName;
 	private int companyID;
-	private String appURL;
+	private String appAndroidURL;
+	private String appIPhoneURL;
 	private String appImageIconPath;
 	private String appImageHBannerPath1;
 	private String appImageVBannerPath1;
@@ -16,10 +17,12 @@ public class AppDTO {
 	private String appImageVBannerPath2;
 	private String appImageHBannerPath3;
 	private String appImageVBannerPath3;
-	private String appPackage;
+	private String appAndroidPackage;
+	private String appIPhonePackage;
 	private String companyName;
 	private Timestamp appDateTime;
 	private boolean appEnable;
+	private boolean appVisible;
 	private List<AppEventDTO> appEventList;
 	
     public List<AppEventDTO> getAppEventList() {
@@ -27,6 +30,37 @@ public class AppDTO {
 	}
 	public void setAppEventList(List<AppEventDTO> appEventList) {
 		this.appEventList = appEventList;
+	}
+	
+	public String getAppAndroidURL() {
+		return appAndroidURL;
+	}
+	public void setAppAndroidURL(String appAndroidURL) {
+		this.appAndroidURL = appAndroidURL;
+	}
+	public String getAppIPhoneURL() {
+		return appIPhoneURL;
+	}
+	public void setAppIPhoneURL(String appIPhoneURL) {
+		this.appIPhoneURL = appIPhoneURL;
+	}
+	public String getAppAndroidPackage() {
+		return appAndroidPackage;
+	}
+	public void setAppAndroidPackage(String appAndroidPackage) {
+		this.appAndroidPackage = appAndroidPackage;
+	}
+	public String getAppIPhonePackage() {
+		return appIPhonePackage;
+	}
+	public void setAppIPhonePackage(String appIPhonePackage) {
+		this.appIPhonePackage = appIPhonePackage;
+	}
+	public boolean isAppVisible() {
+		return appVisible;
+	}
+	public void setAppVisible(boolean appVisible) {
+		this.appVisible = appVisible;
 	}
 	public String getAppKey() {
 		return appKey;
@@ -54,12 +88,6 @@ public class AppDTO {
 	}
 	public int getAppID() {
 		return appID;
-	}
-	public String getAppURL() {
-		return appURL;
-	}
-	public void setAppURL(String appURL) {
-		this.appURL = appURL;
 	}
 	public String getAppImageIconPath() {
 		return appImageIconPath;
@@ -102,12 +130,6 @@ public class AppDTO {
 	}
 	public void setAppImageVBannerPath3(String appImageVBannerPath3) {
 		this.appImageVBannerPath3 = appImageVBannerPath3;
-	}
-	public String getAppPackage() {
-		return appPackage;
-	}
-	public void setAppPackage(String appPackage) {
-		this.appPackage = appPackage;
 	}
 	public void setAppID(int appID) {
 		this.appID = appID;

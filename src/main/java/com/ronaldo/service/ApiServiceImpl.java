@@ -25,7 +25,7 @@ import com.ronaldo.config.ErrorCodeConfig.ExhaustEnum;
 import com.ronaldo.config.ErrorCodeConfig.LoginEnum;
 import com.ronaldo.config.ErrorCodeConfig.PayloadEnum;
 import com.ronaldo.config.ErrorCodeConfig.PurchaseEnum;
-
+import com.ronaldo.config.GranConfig.AppTypeEnum;
 import com.ronaldo.domain.AppEventDTO;
 import com.ronaldo.domain.AppDTO;
 import com.ronaldo.domain.BillingDTO;
@@ -126,8 +126,10 @@ public class ApiServiceImpl implements ApiService
 		appDTO.setAppImageVBannerPath2(appImageVBannerPath2);
 		appDTO.setAppImageHBannerPath3(appImageHBannerPath3);
 		appDTO.setAppImageVBannerPath3(appImageVBannerPath3);
-		appDTO.setAppURL(receiveAppVO.getAppURL());
-		appDTO.setAppPackage(receiveAppVO.getAppPackage());
+		appDTO.setAppAndroidURL(receiveAppVO.getAppAndroidURL());
+		appDTO.setAppAndroidPackage(receiveAppVO.getAppAndroidPackage());
+		appDTO.setAppIPhoneURL(receiveAppVO.getAppIPhoneURL());
+		appDTO.setAppIPhonePackage(receiveAppVO.getAppIPhonePackage());
 		try
 		{
 			appMapper.registApp(appDTO);
@@ -159,9 +161,12 @@ public class ApiServiceImpl implements ApiService
 		appDTO.setAppImageVBannerPath2(appImageVBannerPath2);
 		appDTO.setAppImageHBannerPath3(appImageHBannerPath3);
 		appDTO.setAppImageVBannerPath3(appImageVBannerPath3);
-		appDTO.setAppURL(receiveAppVO.getAppURL());
-		appDTO.setAppPackage(receiveAppVO.getAppPackage());
+		appDTO.setAppAndroidURL(receiveAppVO.getAppAndroidURL());
+		appDTO.setAppAndroidPackage(receiveAppVO.getAppAndroidPackage());
+		appDTO.setAppIPhoneURL(receiveAppVO.getAppIPhoneURL());
+		appDTO.setAppIPhonePackage(receiveAppVO.getAppIPhonePackage());
 		appDTO.setAppEnable(receiveAppVO.isAppEnable());
+		appDTO.setAppVisible(receiveAppVO.isAppVisible());
 		try
 		{
 			appMapper.updateApp(appDTO);
@@ -648,6 +653,7 @@ public class ApiServiceImpl implements ApiService
 		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		String appKey = receiveAppListVO.getAppKey();
 		String userKey = receiveAppListVO.getUserKey();
+		AppTypeEnum appTypeEnum = receiveAppListVO.getAppTypeEnum();
 		AppDTO appDTO = getApp(appKey);
 		if (appDTO == null)
 		{
@@ -689,8 +695,24 @@ public class ApiServiceImpl implements ApiService
 			returnAppVO.setAppImageHBannerPath3(appDTOList.get(i).getAppImageHBannerPath3());
 			returnAppVO.setAppImageVBannerPath3(appDTOList.get(i).getAppImageVBannerPath3());
 			returnAppVO.setAppName(appDTOList.get(i).getAppName());
-			returnAppVO.setAppPackage(appDTOList.get(i).getAppPackage());
-			returnAppVO.setAppURL(appDTOList.get(i).getAppURL());
+			if(appTypeEnum==AppTypeEnum.ANDROID)
+			{
+				if(appDTOList.get(i).getAppAndroidPackage() == null)
+				{
+					continue;
+				}
+				returnAppVO.setAppPackage(appDTOList.get(i).getAppAndroidPackage());
+				returnAppVO.setAppURL(appDTOList.get(i).getAppAndroidURL());
+			}
+			else
+			{
+				if(appDTOList.get(i).getAppIPhonePackage() == null)
+				{
+					continue;
+				}
+				returnAppVO.setAppPackage(appDTOList.get(i).getAppIPhonePackage());
+				returnAppVO.setAppURL(appDTOList.get(i).getAppIPhoneURL());
+			}
 			returnAppVO.setAppInstall(false);
 			// event 확인하기 (userKey로)
 			List<AppEventDTO> appEventList = getAppEventEnableList(appDTOList.get(i).getAppID());

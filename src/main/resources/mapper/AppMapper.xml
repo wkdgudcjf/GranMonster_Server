@@ -17,22 +17,25 @@
     </select>
  	<insert id="registApp" parameterType="AppDTO" useGeneratedKeys="true" keyProperty="appID">
        	INSERT INTO App 
-       	(appName,companyID,appURL,appImageIconPath,appImageHBannerPath1,
-       	appImageVBannerPath1,appImageHBannerPath2,appImageVBannerPath2,appImageHBannerPath3,appImageVBannerPath3,appPackage) 
+       	(appName,companyID,appAndroidURL,appImageIconPath,appImageHBannerPath1,
+       	appImageVBannerPath1,appImageHBannerPath2,appImageVBannerPath2,appImageHBannerPath3,appImageVBannerPath3,appAndroidPackage
+       	,appIPhoneURL,appIPhonePackage) 
        	VALUES
-       	(#{appName},#{companyID},#{appURL},#{appImageIconPath},#{appImageHBannerPath1},#{appImageVBannerPath1}
-       	,#{appImageHBannerPath2},#{appImageVBannerPath2},#{appImageHBannerPath3},#{appImageVBannerPath3},#{appPackage})
+       	(#{appName},#{companyID},#{appAndroidURL},#{appImageIconPath},#{appImageHBannerPath1},#{appImageVBannerPath1}
+       	,#{appImageHBannerPath2},#{appImageVBannerPath2},#{appImageHBannerPath3},#{appImageVBannerPath3},#{appAndroidPackage}
+       	,#{appIPhoneURL},#{appIPhonePackage})
     </insert>
     <delete id="deleteApp" parameterType="int">
        DELETE FROM App WHERE appID = #{appID} 
     </delete>
     <update id="updateApp" parameterType="AppDTO">
 		UPDATE App
-		set appName = #{appName},companyID = #{companyID},appURL = #{appURL}
+		set appName = #{appName},companyID = #{companyID},appAndroidURL = #{appAndroidURL}
 		,appImageIconPath = #{appImageIconPath},appImageHBannerPath1 = #{appImageHBannerPath1}
 		,appImageVBannerPath1 = #{appImageVBannerPath1},appImageHBannerPath2 = #{appImageHBannerPath2}
 		,appImageVBannerPath2 = #{appImageVBannerPath2},appImageHBannerPath3 = #{appImageHBannerPath3}
-		,appImageVBannerPath3 = #{appImageVBannerPath3},appPackage = #{appPackage},appEnable = #{appEnable}
+		,appImageVBannerPath3 = #{appImageVBannerPath3},appAndroidPackage = #{appAndroidPackage},appEnable = #{appEnable}
+		,appIPhoneURL = #{appIPhoneURL},appIPhonePackage = #{appIPhonePackage}
 		where appID = #{appID}
     </update> 
      <update id="modifyAppKey" parameterType="AppDTO">

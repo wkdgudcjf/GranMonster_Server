@@ -30,4 +30,10 @@ public class GranConfig
 	public static final String RETURN_APP_EVENT_SAME_KEY_EXCEL = "Exist same key";
 	public static final String RETURN_APP_EVENT_LIMIT_EXCEL = "Current count > Limit count";
 	public static final String RETURN_APP_EVENT_START_EXCEL = "Start time > End time";
+	
+	public enum AppTypeEnum
+	{
+		ANDROID,
+		IPHONE;
+	}
 }
