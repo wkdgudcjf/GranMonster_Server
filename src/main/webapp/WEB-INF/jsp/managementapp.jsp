@@ -150,7 +150,7 @@
                 <tbody>
                   <c:forEach var="item" items="${applist}">
 	                <tr>
-				        <td>
+				        <td rowspan=2>
 				        <c:choose>
 						<c:when test="${item.appEnable==true}"> 
 						    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
@@ -160,7 +160,7 @@
 						</c:otherwise>
 						</c:choose>
 						</td>
-						 <td>
+						<td rowspan=2>
 				        <c:choose>
 						<c:when test="${item.appVisible==true}"> 
 						    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
@@ -170,19 +170,23 @@
 						</c:otherwise>
 						</c:choose>
 						</td>
-				         <td><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
+				         <td rowspan=2><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
 				        / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
-				        <td>${item.companyName}</td>
-				        <td><a href="${item.appAndroidURL}">${item.appAndroidURL}</a></td>
-				        <td>${item.appAndroidPackage}</td>
-				        <td>${item.appDateTime}</td>
-				        <td><img src="image/appIcon/${item.appImageIconPath}"  style="max-width: 57px; max-height: 57px;"></td>
-				        <td><img src="image/appHBanner1/${item.appImageHBannerPath1}"  style="max-width: 100px; max-height: 150px;"
+				        <td rowspan=2>${item.companyName}</td>
+				        <td>Android - <a href="${item.appAndroidURL}">${item.appAndroidURL}</a></td>
+				        <td>Android - ${item.appAndroidPackage}</td>
+				        <td rowspan=2>${item.appDateTime}</td>
+				        <td rowspan=2><img src="image/appIcon/${item.appImageIconPath}"  style="max-width: 57px; max-height: 57px;"></td>
+				        <td rowspan=2><img src="image/appHBanner1/${item.appImageHBannerPath1}"  style="max-width: 100px; max-height: 150px;"
 				         onClick="imagePopup('image/appHBanner1/${item.appImageHBannerPath1}','image/appHBanner2/${item.appImageHBannerPath2}','image/appHBanner3/${item.appImageHBannerPath3}')">
 				         </td>
-				        <td><img src="image/appVBanner1/${item.appImageVBannerPath1}"  style="max-width: 150px; max-height: 100px;"
+				        <td rowspan=2><img src="image/appVBanner1/${item.appImageVBannerPath1}"  style="max-width: 150px; max-height: 100px;"
 				         onClick="imagePopup('image/appVBanner1/${item.appImageVBannerPath1}','image/appVBanner2/${item.appImageVBannerPath2}','image/appVBanner3/${item.appImageVBannerPath3}')">
 				        </td>
+				    </tr>
+				    <tr>
+				        <td>IOS - <a href="${item.appIOSURL}">${item.appIOSURL}</a></td>
+				        <td>IOS - ${item.appIOSPackage}</td>
 				    </tr>
 				    </c:forEach>
                 </tbody>
@@ -255,12 +259,12 @@
 	              <input type="text" name="appAndroidURL" class="form-control" id="inputAppAndroidURL" aria-describedby="nameHelp" placeholder="Android URL">
 	            </div>
 	            <div class="form-group">
-                  <label for="inputAppIPhonePackage">IPhone 패키지명</label>
-                  <input type="text" name="appIPhonePackage" class="form-control" id="inputAppIPhonePackage" aria-describedby="nameHelp" placeholder="IPhone 패키지명">
+                  <label for="inputAppIOSPackage">IOS 패키지명</label>
+                  <input type="text" name="appIOSPackage" class="form-control" id="inputAppIOSPackage" aria-describedby="nameHelp" placeholder="IOS 패키지명">
 	            </div>
 	            <div class="form-group">
-	              <label for="inputAppIPhoneURL">IPhone URL</label>
-	              <input type="text" name="appIPhoneURL" class="form-control" id="inputAppIPhoneURL" aria-describedby="nameHelp" placeholder="IPhone URL">
+	              <label for="inputAppIOSURL">IOS URL</label>
+	              <input type="text" name="appIOSURL" class="form-control" id="inputAppIOSURL" aria-describedby="nameHelp" placeholder="IOS URL">
 	            </div>
 	             <div class="form-group">
 	             	<label for="inputCompany">회사 선택</label>
@@ -379,12 +383,12 @@
 	              <input type="text" name="appAndroidURL" class="form-control" id="modifyAppAndroidURL" aria-describedby="nameHelp" placeholder="Android URL">
 	            </div>
 	            <div class="form-group">
-                  <label for="modifyAppIPhonePackage">IPhone 패키지명</label>
-                  <input type="text" name="appIPhonePackage" class="form-control" id="modifyAppIPhonePackage" aria-describedby="nameHelp" placeholder="IPhone 패키지명">
+                  <label for="modifyAppIOSPackage">IOS 패키지명</label>
+                  <input type="text" name="appIOSPackage" class="form-control" id="modifyAppIOSPackage" aria-describedby="nameHelp" placeholder="IOS 패키지명">
 	            </div>
 	            <div class="form-group">
-	              <label for="modifyAppIPhoneURL">IPhone URL</label>
-	              <input type="text" name="appIPhoneURL" class="form-control" id="modifyAppIPhoneURL" aria-describedby="nameHelp" placeholder="IPhone URL">
+	              <label for="modifyAppIOSURL">IOS URL</label>
+	              <input type="text" name="appIOSURL" class="form-control" id="modifyAppIOSURL" aria-describedby="nameHelp" placeholder="IOS URL">
 	            </div>
 	            <div class="form-group">
 	              <label for="appKey">고유키</label>
@@ -491,7 +495,7 @@
 			     	 <input type="radio" id="modifyAppVisible" value="true" name="appVisible">노출
 				  </label>
 				  <label class="radio-inline">
-				     <input type="radio" id="modifyAppUnVisible" value="false" name="appVisible">비노출
+				     <input type="radio" id="modifyAppInVisible" value="false" name="appVisible">비노출
 				  </label>
 	            </div>
 	          </form>
@@ -560,8 +564,8 @@
 			 var inputAppName = $('#inputAppName'),
 			 inputAppAndroidPackage = $('#inputAppAndroidPackage'),
 			 inputAppAndroidURL = $('#inputAppAndroidURL'),
-			 inputAppIPhonePackage = $('#inputAppIPhonePackage'),
-			 inputAppIPhoneURL = $('#inputAppIPhoneURL'),
+			 inputAppIOSPackage = $('#inputAppIOSPackage'),
+			 inputAppIOSURL = $('#inputAppIOSURL'),
 			 inputAppIconImage = $('#inputAppIconImage');
 			 inputAppHBannerImage1 = $('#inputAppHBannerImage1');
 			 inputAppVBannerImage1 = $('#inputAppVBannerImage1');
@@ -583,21 +587,21 @@
 				 alert('Android URL을 입력하세요.');
 				 return;
 		 	 }
-			 if (inputAppIPhonePackage.val().length == 0 && inputAppIPhoneURL.val().length != 0 )
+			 if (inputAppIOSPackage.val().length == 0 && inputAppIOSURL.val().length != 0 )
 		 	 {
-				 alert('IPhone Package를 입력하세요.');
+				 alert('IOS Package를 입력하세요.');
 				 return;
 		 	 }
-			 if (inputAppIPhonePackage.val().length != 0 && inputAppIPhoneURL.val().length == 0 )
+			 if (inputAppIOSPackage.val().length != 0 && inputAppIOSURL.val().length == 0 )
 		 	 {
-				 alert('IPhone URL을 입력하세요.');
+				 alert('IOS URL을 입력하세요.');
 				 return;
 		 	 }
-			 if (inputAppAndroidPackage.val().length == 0 && inputAppIPhonePackage.val().length == 0) {
+			 if (inputAppAndroidPackage.val().length == 0 && inputAppIOSPackage.val().length == 0) {
 				 alert('패키지명을 하나 이상 입력하세요.');
 				 return;
 			 }
-			 if (inputAppAndroidURL.val().length == 0  && inputAppIPhoneURL.val().length == 0) {
+			 if (inputAppAndroidURL.val().length == 0  && inputAppIOSURL.val().length == 0) {
 				 alert('URL을 하나 이상 입력하세요.');
 				 return;
 			 }
@@ -650,8 +654,8 @@
 			 var modifyAppName = $('#modifyAppName'),
 			 modifyAppAndroidPackage = $('#modifyAppAndroidPackage'),
 			 modifyAppAndroidURL = $('#modifyAppAndroidURL'),
-			 modifyAppIPhonePackage = $('#modifyAppIPhonePackage'),
-			 modifyAppIPhoneURL = $('#modifyAppIPhoneURL');
+			 modifyAppIOSPackage = $('#modifyAppIOSPackage'),
+			 modifyAppIOSURL = $('#modifyAppIOSURL');
 			 if (modifyAppName.val().length == 0) {
 				 alert('앱 이름을 입력하세요.');
 				 return;
@@ -666,21 +670,21 @@
 				 alert('Android URL을 입력하세요.');
 				 return;
 		 	 }
-			 if (modifyAppIPhonePackage.val().length == 0 && modifyAppIPhoneURL.val().length != 0 )
+			 if (modifyAppIOSePackage.val().length == 0 && modifyAppIOSURL.val().length != 0 )
 		 	 {
-				 alert('IPhone Package를 입력하세요.');
+				 alert('IOS Package를 입력하세요.');
 				 return;
 		 	 }
-			 if (modifyAppIPhonePackage.val().length != 0 && modifyAppIPhoneURL.val().length == 0 )
+			 if (modifyAppIOSPackage.val().length != 0 && modifyAppIOSURL.val().length == 0 )
 		 	 {
-				 alert('IPhone URL을 입력하세요.');
+				 alert('IOS URL을 입력하세요.');
 				 return;
 		 	 }
-			 if (modifyAppAndroidPackage.val().length == 0 && modifyAppIPhonePackage.val().length == 0) {
+			 if (modifyAppAndroidPackage.val().length == 0 && modifyAppIOSPackage.val().length == 0) {
 				 alert('패키지명을 하나 이상 입력하세요.');
 				 return;
 			 }
-			 if (modifyAppAndroidURL.val().length == 0  && modifyAppIPhoneURL.val().length == 0) {
+			 if (modifyAppAndroidURL.val().length == 0  && modifyAppIOSURL.val().length == 0) {
 				 alert('URL을 하나 이상 입력하세요.');
 				 return;
 			 }
@@ -711,8 +715,8 @@
 			        	 $("#modifyAppName").val(data.appName);
 			        	 $("#modifyAppAndroidPackage").val(data.appAndroidPackage);
 			        	 $("#modifyAppAndroidURL").val(data.appAndroidURL);
-			        	 $("#modifyAppIPhonePackage").val(data.appIPhonePackage);
-			        	 $("#modifyAppIPhoneURL").val(data.appIPhoneURL);
+			        	 $("#modifyAppIOSPackage").val(data.appIOSPackage);
+			        	 $("#modifyAppIOSURL").val(data.appIOSURL);
 			        	 $("#appKey").text(data.appKey);
 			        	 $("#modify_"+data.companyID).prop("selected", true);
 			           	 if(data.appEnable)
@@ -729,7 +733,7 @@
 			        	}
 			        	 else
 			        	{
-			        		 $("#modifyAppUnVisible").prop("checked", true)
+			        		 $("#modifyAppInVisible").prop("checked", true)
 			        	}
 			        	 $("#modifyAppID").val(data.appID);
 			        	 $("#modifyAppModal").modal('show');

@@ -21,6 +21,7 @@ import com.ronaldo.vo.ReceiveExhaustVO;
 import com.ronaldo.vo.ReceivePayloadVO;
 import com.ronaldo.vo.ReceivePurchaseVO;
 import com.ronaldo.vo.ReceiveUserVO;
+import com.ronaldo.vo.ReceiveVisibleVO;
 import com.ronaldo.vo.ReturnAppListVO;
 import com.ronaldo.vo.ReturnEventRewardVO;
 import com.ronaldo.vo.ReturnEventVO;
@@ -29,6 +30,7 @@ import com.ronaldo.vo.ReturnExhaustVO;
 import com.ronaldo.vo.ReturnPayloadVO;
 import com.ronaldo.vo.ReturnPurchaseVO;
 import com.ronaldo.vo.ReturnUserVO;
+import com.ronaldo.vo.ReturnVisibleVO;
 import com.ronaldo.domain.UserDTO;
 
 public interface ApiService
@@ -95,5 +97,6 @@ public interface ApiService
 	public void exhaust(ReceiveExhaustVO receiveExhaustVO, ReturnExhaustVO returnExhaustVO);
 	public void event(ReceiveEventVO receiveEventVO, ReturnEventVO returnEventVO);
 	public void eventReward(ReceiveEventRewardVO receiveEventRewardVO, ReturnEventRewardVO returnEventRewardVO);
+	public void visible(ReceiveVisibleVO receiveVisibleVO, ReturnVisibleVO returnVisibleVO);
 	
 }

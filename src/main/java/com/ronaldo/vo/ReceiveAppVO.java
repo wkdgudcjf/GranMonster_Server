@@ -8,8 +8,8 @@ public class ReceiveAppVO {
 	private boolean appVisible;
 	private String appAndroidPackage;
 	private String appAndroidURL;
-	private String appIPhonePackage;
-	private String appIPhoneURL;
+	private String appIOSPackage;
+	private String appIOSURL;
 	private int companyID;
 	private String appName;
 	private MultipartFile appIconImage;
@@ -49,17 +49,17 @@ public class ReceiveAppVO {
 	public void setAppAndroidURL(String appAndroidURL) {
 		this.appAndroidURL = appAndroidURL;
 	}
-	public String getAppIPhonePackage() {
-		return appIPhonePackage;
+	public String getAppIOSPackage() {
+		return appIOSPackage;
 	}
-	public void setAppIPhonePackage(String appIPhonePackage) {
-		this.appIPhonePackage = appIPhonePackage;
+	public void setAppIOSPackage(String appIOSPackage) {
+		this.appIOSPackage = appIOSPackage;
 	}
-	public String getAppIPhoneURL() {
-		return appIPhoneURL;
+	public String getAppIOSURL() {
+		return appIOSURL;
 	}
-	public void setAppIPhoneURL(String appIPhoneURL) {
-		this.appIPhoneURL = appIPhoneURL;
+	public void setAppIOSURL(String appIOSURL) {
+		this.appIOSURL = appIOSURL;
 	}
 	public int getCompanyID() {
 		return companyID;

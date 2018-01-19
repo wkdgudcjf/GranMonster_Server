@@ -25,6 +25,7 @@ import com.ronaldo.config.ErrorCodeConfig.ExhaustEnum;
 import com.ronaldo.config.ErrorCodeConfig.LoginEnum;
 import com.ronaldo.config.ErrorCodeConfig.PayloadEnum;
 import com.ronaldo.config.ErrorCodeConfig.PurchaseEnum;
+import com.ronaldo.config.ErrorCodeConfig.VisibleEnum;
 import com.ronaldo.config.GranConfig.AppTypeEnum;
 import com.ronaldo.domain.AppEventDTO;
 import com.ronaldo.domain.AppDTO;
@@ -56,7 +57,7 @@ import com.ronaldo.vo.ReceiveExhaustVO;
 import com.ronaldo.vo.ReceivePayloadVO;
 import com.ronaldo.vo.ReceivePurchaseVO;
 import com.ronaldo.vo.ReceiveUserVO;
-
+import com.ronaldo.vo.ReceiveVisibleVO;
 import com.ronaldo.vo.ReturnAppEventVO;
 import com.ronaldo.vo.ReturnAppListVO;
 import com.ronaldo.vo.ReturnAppVO;
@@ -68,6 +69,7 @@ import com.ronaldo.vo.ReturnExhaustVO;
 import com.ronaldo.vo.ReturnPayloadVO;
 import com.ronaldo.vo.ReturnPurchaseVO;
 import com.ronaldo.vo.ReturnUserVO;
+import com.ronaldo.vo.ReturnVisibleVO;
 
 @Service
 public class ApiServiceImpl implements ApiService
@@ -128,8 +130,8 @@ public class ApiServiceImpl implements ApiService
 		appDTO.setAppImageVBannerPath3(appImageVBannerPath3);
 		appDTO.setAppAndroidURL(receiveAppVO.getAppAndroidURL());
 		appDTO.setAppAndroidPackage(receiveAppVO.getAppAndroidPackage());
-		appDTO.setAppIPhoneURL(receiveAppVO.getAppIPhoneURL());
-		appDTO.setAppIPhonePackage(receiveAppVO.getAppIPhonePackage());
+		appDTO.setAppIOSURL(receiveAppVO.getAppIOSURL());
+		appDTO.setAppIOSPackage(receiveAppVO.getAppIOSPackage());
 		try
 		{
 			appMapper.registApp(appDTO);
@@ -163,8 +165,8 @@ public class ApiServiceImpl implements ApiService
 		appDTO.setAppImageVBannerPath3(appImageVBannerPath3);
 		appDTO.setAppAndroidURL(receiveAppVO.getAppAndroidURL());
 		appDTO.setAppAndroidPackage(receiveAppVO.getAppAndroidPackage());
-		appDTO.setAppIPhoneURL(receiveAppVO.getAppIPhoneURL());
-		appDTO.setAppIPhonePackage(receiveAppVO.getAppIPhonePackage());
+		appDTO.setAppIOSURL(receiveAppVO.getAppIOSURL());
+		appDTO.setAppIOSPackage(receiveAppVO.getAppIOSPackage());
 		appDTO.setAppEnable(receiveAppVO.isAppEnable());
 		appDTO.setAppVisible(receiveAppVO.isAppVisible());
 		try
@@ -236,7 +238,7 @@ public class ApiServiceImpl implements ApiService
 	public List<CompanyDTO> getCompanyList() {
 		return companyMapper.getCompanyList();
 	}
-
+	
 	@Override
 	public boolean registUser(String userKey) {
 		UserDTO userDTO = new UserDTO();
@@ -706,12 +708,12 @@ public class ApiServiceImpl implements ApiService
 			}
 			else
 			{
-				if(appDTOList.get(i).getAppIPhonePackage() == null)
+				if(appDTOList.get(i).getAppIOSPackage() == null)
 				{
 					continue;
 				}
-				returnAppVO.setAppPackage(appDTOList.get(i).getAppIPhonePackage());
-				returnAppVO.setAppURL(appDTOList.get(i).getAppIPhoneURL());
+				returnAppVO.setAppPackage(appDTOList.get(i).getAppIOSPackage());
+				returnAppVO.setAppURL(appDTOList.get(i).getAppIOSURL());
 			}
 			returnAppVO.setAppInstall(false);
 			// event 확인하기 (userKey로)
@@ -960,7 +962,35 @@ public class ApiServiceImpl implements ApiService
 		returnExhaustVO.setCoin(userDTO.getUserCoin());
 		return;
 	}
-	
+	@Override
+	public void visible(ReceiveVisibleVO receiveVisibleVO, ReturnVisibleVO returnVisibleVO) {
+		String appKey = receiveVisibleVO.getAppKey();
+		String userKey = receiveVisibleVO.getUserKey();
+		AppDTO appDTO = getApp(appKey);
+		if (appDTO == null) {
+			returnVisibleVO.setState(VisibleEnum.NOT_EXIST_APPKEY);
+			LOG.info("visible(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
+
+		UserDTO userDTO = getUser(userKey);
+		if (userDTO == null)
+		{
+			returnVisibleVO.setState(VisibleEnum.NOT_EXIST_USERKEY);
+			LOG.info("visible(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
+		
+		if(appDTO.isAppVisible())
+		{
+			returnVisibleVO.setState(VisibleEnum.VISIBLE);
+		}
+		else
+		{
+			returnVisibleVO.setState(VisibleEnum.INVISIBLE);
+		}
+		return;
+	}
 	@Override
 	public void event(ReceiveEventVO receiveEventVO, ReturnEventVO returnEventVO) {
 		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
@@ -1160,4 +1190,5 @@ public class ApiServiceImpl implements ApiService
 			return false;
 		}
 	}
+	
 }

@@ -79,4 +79,12 @@ public class ErrorCodeConfig
 		INVALID_EVENT_COUNT,
 		SUCCESS;
 	}
+	public enum VisibleEnum
+	{
+		UNKNOWN,
+		VISIBLE,
+		INVISIBLE,
+		NOT_EXIST_APPKEY,
+		NOT_EXIST_USERKEY;		
+	}
 }

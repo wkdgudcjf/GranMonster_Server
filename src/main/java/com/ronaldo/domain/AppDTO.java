@@ -9,7 +9,7 @@ public class AppDTO {
 	private String appName;
 	private int companyID;
 	private String appAndroidURL;
-	private String appIPhoneURL;
+	private String appIOSURL;
 	private String appImageIconPath;
 	private String appImageHBannerPath1;
 	private String appImageVBannerPath1;
@@ -18,7 +18,7 @@ public class AppDTO {
 	private String appImageHBannerPath3;
 	private String appImageVBannerPath3;
 	private String appAndroidPackage;
-	private String appIPhonePackage;
+	private String appIOSPackage;
 	private String companyName;
 	private Timestamp appDateTime;
 	private boolean appEnable;
@@ -38,11 +38,11 @@ public class AppDTO {
 	public void setAppAndroidURL(String appAndroidURL) {
 		this.appAndroidURL = appAndroidURL;
 	}
-	public String getAppIPhoneURL() {
-		return appIPhoneURL;
+	public String getAppIOSURL() {
+		return appIOSURL;
 	}
-	public void setAppIPhoneURL(String appIPhoneURL) {
-		this.appIPhoneURL = appIPhoneURL;
+	public void setAppIOSURL(String appIOSURL) {
+		this.appIOSURL = appIOSURL;
 	}
 	public String getAppAndroidPackage() {
 		return appAndroidPackage;
@@ -50,11 +50,11 @@ public class AppDTO {
 	public void setAppAndroidPackage(String appAndroidPackage) {
 		this.appAndroidPackage = appAndroidPackage;
 	}
-	public String getAppIPhonePackage() {
-		return appIPhonePackage;
+	public String getAppIOSPackage() {
+		return appIOSPackage;
 	}
-	public void setAppIPhonePackage(String appIPhonePackage) {
-		this.appIPhonePackage = appIPhonePackage;
+	public void setAppIOSPackage(String appIOSPackage) {
+		this.appIOSPackage = appIOSPackage;
 	}
 	public boolean isAppVisible() {
 		return appVisible;

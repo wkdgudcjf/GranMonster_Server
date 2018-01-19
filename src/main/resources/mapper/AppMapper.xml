@@ -19,11 +19,11 @@
        	INSERT INTO App 
        	(appName,companyID,appAndroidURL,appImageIconPath,appImageHBannerPath1,
        	appImageVBannerPath1,appImageHBannerPath2,appImageVBannerPath2,appImageHBannerPath3,appImageVBannerPath3,appAndroidPackage
-       	,appIPhoneURL,appIPhonePackage) 
+       	,appIOSURL,appIOSPackage) 
        	VALUES
        	(#{appName},#{companyID},#{appAndroidURL},#{appImageIconPath},#{appImageHBannerPath1},#{appImageVBannerPath1}
        	,#{appImageHBannerPath2},#{appImageVBannerPath2},#{appImageHBannerPath3},#{appImageVBannerPath3},#{appAndroidPackage}
-       	,#{appIPhoneURL},#{appIPhonePackage})
+       	,#{appIOSURL},#{appIOSPackage})
     </insert>
     <delete id="deleteApp" parameterType="int">
        DELETE FROM App WHERE appID = #{appID} 
@@ -35,7 +35,7 @@
 		,appImageVBannerPath1 = #{appImageVBannerPath1},appImageHBannerPath2 = #{appImageHBannerPath2}
 		,appImageVBannerPath2 = #{appImageVBannerPath2},appImageHBannerPath3 = #{appImageHBannerPath3}
 		,appImageVBannerPath3 = #{appImageVBannerPath3},appAndroidPackage = #{appAndroidPackage},appEnable = #{appEnable}
-		,appIPhoneURL = #{appIPhoneURL},appIPhonePackage = #{appIPhonePackage}
+		,appIOSURL = #{appIOSURL},appIOSPackage = #{appIOSPackage}
 		where appID = #{appID}
     </update> 
      <update id="modifyAppKey" parameterType="AppDTO">

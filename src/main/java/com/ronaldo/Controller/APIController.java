@@ -18,7 +18,7 @@ import com.ronaldo.vo.ReceiveExhaustVO;
 import com.ronaldo.vo.ReceivePayloadVO;
 import com.ronaldo.vo.ReceivePurchaseVO;
 import com.ronaldo.vo.ReceiveUserVO;
-
+import com.ronaldo.vo.ReceiveVisibleVO;
 import com.ronaldo.vo.ReturnAppListVO;
 import com.ronaldo.vo.ReturnEventRewardVO;
 import com.ronaldo.vo.ReturnEventVO;
@@ -27,6 +27,7 @@ import com.ronaldo.vo.ReturnExhaustVO;
 import com.ronaldo.vo.ReturnPayloadVO;
 import com.ronaldo.vo.ReturnPurchaseVO;
 import com.ronaldo.vo.ReturnUserVO;
+import com.ronaldo.vo.ReturnVisibleVO;
 
 @RestController
 public class APIController {
@@ -35,7 +36,7 @@ public class APIController {
 	private ApiService apiService;
 	
 	@RequestMapping(value = "/api/login", method = RequestMethod.POST)
-	public ResponseEntity<ReturnUserVO> login(@RequestBody ReceiveUserVO receiveUserVO)//@RequestBody ReceiveUserVO receiveUserVO)
+	public ResponseEntity<ReturnUserVO> login(@RequestBody ReceiveUserVO receiveUserVO)
 	{
 		ReturnUserVO returnUserVO = new ReturnUserVO();
 
@@ -45,6 +46,17 @@ public class APIController {
 		// Only OK. Because state... hmm.. anyway communication ok..
 	}
 
+	@RequestMapping(value = "/api/visible", method = RequestMethod.POST)
+	public ResponseEntity<ReturnVisibleVO> visible(@RequestBody ReceiveVisibleVO receiveVisibleVO)
+	{
+		ReturnVisibleVO returnVisibleVO = new ReturnVisibleVO();
+
+		apiService.visible(receiveVisibleVO,returnVisibleVO);
+		
+		return new ResponseEntity<>(returnVisibleVO, HttpStatus.OK);
+		// Only OK. Because state... hmm.. anyway communication ok..
+	}
+	
 	@RequestMapping(value = "/api/applist", method = RequestMethod.POST)
 	public ResponseEntity<ReturnAppListVO> applist(@RequestBody ReceiveAppListVO receiveAppListVO) 
 	{
