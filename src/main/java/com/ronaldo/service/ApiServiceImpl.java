@@ -699,7 +699,7 @@ public class ApiServiceImpl implements ApiService
 			returnAppVO.setAppName(appDTOList.get(i).getAppName());
 			if(appTypeEnum==AppTypeEnum.ANDROID)
 			{
-				if(appDTOList.get(i).getAppAndroidPackage() == null)
+				if(appDTOList.get(i).getAppAndroidPackage() == null || appDTOList.get(i).getAppAndroidPackage().equals(""))
 				{
 					continue;
 				}
@@ -708,7 +708,7 @@ public class ApiServiceImpl implements ApiService
 			}
 			else
 			{
-				if(appDTOList.get(i).getAppIOSPackage() == null)
+				if(appDTOList.get(i).getAppIOSPackage() == null || appDTOList.get(i).getAppIOSPackage().equals(""))
 				{
 					continue;
 				}

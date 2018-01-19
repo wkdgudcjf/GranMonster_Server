@@ -35,7 +35,7 @@
 		,appImageVBannerPath1 = #{appImageVBannerPath1},appImageHBannerPath2 = #{appImageHBannerPath2}
 		,appImageVBannerPath2 = #{appImageVBannerPath2},appImageHBannerPath3 = #{appImageHBannerPath3}
 		,appImageVBannerPath3 = #{appImageVBannerPath3},appAndroidPackage = #{appAndroidPackage},appEnable = #{appEnable}
-		,appIOSURL = #{appIOSURL},appIOSPackage = #{appIOSPackage}
+		,appVisible = #{appVisible},appIOSURL = #{appIOSURL},appIOSPackage = #{appIOSPackage}
 		where appID = #{appID}
     </update> 
      <update id="modifyAppKey" parameterType="AppDTO">
