@@ -10,7 +10,7 @@
         SELECT * FROM App natural join Company WHERE appKey = #{appKey}
     </select>
     <select id="getAppList" resultType="AppDTO">
-        SELECT * FROM App natural join Company ORDER BY appEnable DESC
+        SELECT * FROM App natural join Company ORDER BY appEnable DESC, appName ASC 
     </select>
     <select id="getEnableAppList"  parameterType="boolean" resultType="AppDTO">
         SELECT * FROM App natural join Company WHERE appEnable = #{appEnable}
