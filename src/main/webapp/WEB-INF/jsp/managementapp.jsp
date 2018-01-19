@@ -670,7 +670,7 @@
 				 alert('Android URL을 입력하세요.');
 				 return;
 		 	 }
-			 if (modifyAppIOSePackage.val().length == 0 && modifyAppIOSURL.val().length != 0 )
+			 if (modifyAppIOSPackage.val().length == 0 && modifyAppIOSURL.val().length != 0 )
 		 	 {
 				 alert('IOS Package를 입력하세요.');
 				 return;
