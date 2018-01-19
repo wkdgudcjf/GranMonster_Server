@@ -56,7 +56,10 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header" style="padding:20px; margin-bottom:20px;">
+    <section class="content-header" 
+   		style="padding:20px; 
+        background-color:#fff;
+        margin-bottom:20px;">
       <h1>
        	 ${app.appName} 이벤트 관리
         <small>Management Event</small>

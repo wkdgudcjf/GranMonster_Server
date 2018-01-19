@@ -13,7 +13,7 @@
         SELECT * FROM App natural join Company ORDER BY appEnable DESC, appName ASC 
     </select>
     <select id="getEnableAppList"  parameterType="boolean" resultType="AppDTO">
-        SELECT * FROM App natural join Company WHERE appEnable = #{appEnable}
+        SELECT * FROM App natural join Company WHERE appEnable = #{appEnable} ORDER BY appName ASC
     </select>
  	<insert id="registApp" parameterType="AppDTO" useGeneratedKeys="true" keyProperty="appID">
        	INSERT INTO App 

@@ -16,7 +16,9 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header" style="padding:20px;">
+     <section class="content-header" 
+   		style="padding:20px; 
+    	background-color:#fff;">
       <h1>
        	 3.1 위젯 열기
         <small>3.1 Widget Open</small>

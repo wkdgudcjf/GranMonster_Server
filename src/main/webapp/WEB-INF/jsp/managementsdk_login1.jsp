@@ -16,7 +16,9 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header" style="padding:20px;">
+     <section class="content-header" 
+   		style="padding:20px; 
+    	background-color:#fff;">
       <h1>
        	 2.1 로그인 처리
         <small>2.1 Login Process</small>

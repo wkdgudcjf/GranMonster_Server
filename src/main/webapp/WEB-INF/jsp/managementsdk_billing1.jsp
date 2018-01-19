@@ -16,7 +16,9 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header" style="padding:20px;">
+     <section class="content-header" 
+   		style="padding:20px; 
+    	background-color:#fff;">
       <h1>
        	 4.1 결제 위젯 열기
         <small>4.1 Billing Widget Open</small>

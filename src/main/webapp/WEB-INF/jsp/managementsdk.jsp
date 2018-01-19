@@ -16,7 +16,9 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header" style="padding:20px;">
+    <section class="content-header" 
+   		style="padding:20px; 
+    	background-color:#fff;">
       <h1>
        	 SDK 사용법
         <small>SDK Guide</small>
@@ -27,13 +29,66 @@
         </li>
       </ol>
     </section>
-
     <!-- Main content -->
     <section class="content">
 		<pre><code>
 			private String setManagementSDK(Model model) {
 				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    	return "managementsdk";
+		    		return "managementsdk";
+			}
+		</code></pre>
+		<pre><code>
+			private String setManagementSDK(Model model) {
+				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+		    		return "managementsdk";
+			}
+		</code></pre>
+		<pre><code>
+			private String setManagementSDK(Model model) {
+				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+		    		return "managementsdk";
+			}
+		</code></pre>
+		<pre><code>
+			private String setManagementSDK(Model model) {
+				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+		    		return "managementsdk";
+			}
+		</code></pre>
+		<pre><code>
+			private String setManagementSDK(Model model) {
+				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+		    		return "managementsdk";
+			}
+		</code></pre>
+		<pre><code>
+			private String setManagementSDK(Model model) {
+				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+		    		return "managementsdk";
+			}
+		</code></pre>
+		<pre><code>
+			private String setManagementSDK(Model model) {
+				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+		    		return "managementsdk";
+			}
+		</code></pre>
+		<pre><code>
+			private String setManagementSDK(Model model) {
+				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+		    		return "managementsdk";
+			}
+		</code></pre>
+		<pre><code>
+			private String setManagementSDK(Model model) {
+				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+		    		return "managementsdk";
+			}
+		</code></pre>
+		<pre><code>
+			private String setManagementSDK(Model model) {
+				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+		    		return "managementsdk";
 			}
 		</code></pre>
     </section>
