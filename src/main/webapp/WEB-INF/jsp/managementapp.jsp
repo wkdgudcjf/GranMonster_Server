@@ -172,7 +172,7 @@
 						</c:otherwise>
 						</c:choose>
 						</td>
-				         <td rowspan=2><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
+				        <td rowspan=2><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
 				        / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
 				        <td rowspan=2>${item.companyName}</td>
 				        <td>Android - <a href="${item.appAndroidURL}">${item.appAndroidURL}</a></td>
