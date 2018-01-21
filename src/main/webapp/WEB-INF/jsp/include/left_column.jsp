@@ -46,8 +46,12 @@
           </a>
           <ul class="treeview-menu">
             <li>
-            	<a href="/managementsdk"><i class="fa fa-circle-o"></i> 1. SDK 다운로드</a></li>
-            <li class="treeview">
+            	<a href="/managementsdk"><i class="fa fa-circle-o"></i> 1. SDK 다운로드</a>
+            </li>
+             <li>
+            	<a href="/managementsdk_login1"><i class="fa fa-circle-o"></i> 2. 로그인 연동</a>
+            </li>
+     <!--   <li class="treeview">
               <a href="#"><i class="fa fa-circle-o"></i> 2. 로그인 연동
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
@@ -58,7 +62,7 @@
                 <li><a href="/managementsdk_login2"><i class="fa fa-circle-o"></i> 2-2. Key 저장하기</a></li>
                 <li><a href="/managementsdk_login3"><i class="fa fa-circle-o"></i> 2-3. 예외 처리</a></li>
               </ul>
-            </li>
+            </li>--> 
             <li class="treeview">
               <a href="#"><i class="fa fa-circle-o"></i> 3. 위젯 연동
                 <span class="pull-right-container">
@@ -66,8 +70,8 @@
                 </span>
               </a>
               <ul class="treeview-menu" id="managementsdk_widget">
-                <li><a href="/managementsdk_widget1"><i class="fa fa-circle-o"></i> 3-1. 위젯 열기</a></li>
-                <li><a href="/managementsdk_widget2"><i class="fa fa-circle-o"></i> 3-2. 예외 처리</a></li>
+                <li><a href="/managementsdk_widget1"><i class="fa fa-circle-o"></i> 3-1. 위젯 다이얼로그</a></li>
+                <li><a href="/managementsdk_widget2"><i class="fa fa-circle-o"></i> 3-2. 위젯 플로팅 버튼</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -77,12 +81,15 @@
                 </span>
               </a>
               <ul class="treeview-menu" id="managementsdk_billing">
-                <li><a href="/managementsdk_billing1"><i class="fa fa-circle-o"></i> 4-1. 결제 위젯 열기 </a></li>
-                <li><a href="/managementsdk_billing2"><i class="fa fa-circle-o"></i> 4-2. 코인 사용하기</a></li>
-                <li><a href="/managementsdk_billing3"><i class="fa fa-circle-o"></i> 4-3. 예외 처리</a></li>
+                <li><a href="/managementsdk_billing1"><i class="fa fa-circle-o"></i> 4-1. 연동 방법 </a></li>
+                <li><a href="/managementsdk_billing2"><i class="fa fa-circle-o"></i> 4-2. Gran샵 다이얼로그</a></li>
+                <li><a href="/managementsdk_billing3"><i class="fa fa-circle-o"></i> 4-3. Gran샵 플로팅 버튼</a></li>
               </ul>
             </li>
-            <li class="treeview">
+             <li>
+            	<a href="/managementsdk_event1"><i class="fa fa-circle-o"></i> 5. 이벤트 연동</a>
+            </li>
+<!--            <li class="treeview">
               <a href="#"><i class="fa fa-circle-o"></i> 5. 이벤트 연동
                 <span class="pull-right-container">
                   <i class="fa fa-angle-left pull-right"></i>
@@ -93,7 +100,7 @@
                 <li><a href="/managementsdk_event2"><i class="fa fa-circle-o"></i> 5-2. 이벤트 처리</a></li>
                 <li><a href="/managementsdk_event3"><i class="fa fa-circle-o"></i> 5-3. 예외 처리</a></li>
               </ul>
-            </li>
+            </li> -->
           </ul>
         </li>
         

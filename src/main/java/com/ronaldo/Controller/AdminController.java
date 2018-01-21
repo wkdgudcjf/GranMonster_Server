@@ -1,5 +1,6 @@
 package com.ronaldo.Controller;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,7 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 
+import com.ronaldo.Component.DownloadFileView;
+import com.ronaldo.Component.ExcelXlsxView;
 import com.ronaldo.config.GranConfig;
 import com.ronaldo.config.SessionWire;
 import com.ronaldo.domain.AppEventDTO;
@@ -248,6 +253,16 @@ public class AdminController
 			this.fileName = fileName;
 		}
 	}
+	@RequestMapping(value = "/downloadSDK", method = RequestMethod.POST)
+    public View downLoadFile() {
+        String fullPath = context.getRealPath("sdk/Granmonster_SDK.unitypackage");
+        File downloadFile = new File(fullPath);
+        DownloadFileView downloadFileView = new DownloadFileView();
+        downloadFileView.downloadFileName = "Granmonster_SDK.unitypackage";
+        downloadFileView.file = downloadFile;
+        return downloadFileView;
+    }
+
 	@RequestMapping(value = "/registapp", method = RequestMethod.POST)
     public ResponseEntity<String> registApp(@ModelAttribute ReceiveAppVO receiveAppVO)
 	{

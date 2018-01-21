@@ -5,21 +5,7 @@
 <html>
 
 <jsp:include page="include/head.jsp" flush="false"/>
-<style type="text/css">
-    #layer_QuickMenu
-    {
-        width:230px;
-        color: #555;
-        font-size:13px;
-        position:fixed;
-        z-index:999;
-        bottom:0px;
-        left:0px;
-        -webkit-box-shadow: 0 1px 2px 0 #777;
-        box-shadow: 0 1px 2px 0 #777;
-        background-color:#fff;
-    }
-</style>
+
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -34,116 +20,31 @@
    		style="padding:20px; 
     	background-color:#fff;">
       <h1>
-       	 SDK 사용법
+       	 1. SDK 사용법
         <small>SDK Guide</small>
       </h1>
       <ol class="breadcrumb">
         <li>
-         <Button type="button" class="btn btn-block btn-success btn-flat" data-toggle="modal" data-target="#registCompanyModal">SDK 다운로드</Button>
+
+         <Button type="button" class="btn btn-block btn-success btn-flat" onClick="downloadSDK()">SDK 다운로드</Button>
         </li>
       </ol>
       <br/>
-      <h5>1. <a href="#ex1">ex1로 이동.</a></h5>
-      <h5>2. <a href="#ex2">ex2로 이동.</a></h5>
-      <h5>3. <a href="#ex3">ex3로 이동.</a></h5>
+      <h5>A. <a href="#sdk_import">Import 하기</a></h5>
     </section>
     <!-- Main content -->
     <section class="content">
-    <div id="ex1">
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
+    <div id="sdk_import">
+    <h1>A. Import 하기</h1>
+    <br/>
+	<h5> <b> SDK를 다운받은 후 압축을 풀고 Package파일을 더블클릭합니다.</b></h5>
+	<br/>
+	<div style="text-align:center;">
+		<img src="/sdk_image/sdk_import.png" style="max-width: 1000px; max-height: 1000px;">
+		<h3>그림 - Unity Import 화면</h3>
 	</div>
-	<div id="ex2">
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-	</div>
-	<div id="ex3">
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
-		<pre><code>
-			private String setManagementSDK(Model model) {
-				model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-		    		return "managementsdk";
-			}
-		</code></pre>
+	<br/>
+	<h5> <b>위와 같이 Import버튼을 클릭하면 SDK Import가 완료됩니다.</b></h5>
 	</div>
     </section>
     <!-- /.content -->
@@ -156,9 +57,7 @@
        <h3 class="box-title">Quick Menu</h3>
      </div>
      <div class="box-body">
-       <h5>1. <a href="#ex1">ex1로 이동.</a></h5>
-       <h5>2. <a href="#ex2">ex2로 이동.</a></h5>
-       <h5>3. <a href="#ex3">ex3로 이동.</a></h5>
+       <h5>A. <a href="#sdk_import">Import 하기</a></h5>
      </div>
      <!-- /.box-body -->
    </div>
@@ -172,6 +71,18 @@
 	window.onload = function(){
 		 $('#navi_sdk').attr('class',"treeview menu-open active");
 	};
+	function downloadSDK()
+	{
+		 var form = document.createElement('form');
+		 var objs;
+		 objs = document.createElement('input');
+		 objs.setAttribute('type', 'hidden');
+		 form.appendChild(objs);
+		 form.setAttribute('method', 'post');
+		 form.setAttribute('action', "/downloadSDK");
+		 document.body.appendChild(form);
+		 form.submit();
+	}
 </script>
 </body>
 </html>

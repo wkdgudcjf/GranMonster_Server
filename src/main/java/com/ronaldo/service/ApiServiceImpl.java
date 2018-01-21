@@ -850,6 +850,7 @@ public class ApiServiceImpl implements ApiService
 		String appKey = receivePurchaseVO.getAppKey();
 		String userKey = receivePurchaseVO.getUserKey();
 		String payload = receivePurchaseVO.getPayload();
+	    AppTypeEnum appTypeEnum = receivePurchaseVO.getAppTypeEnum();
 		int coin = receivePurchaseVO.getCoin();
 		int price = receivePurchaseVO.getPrice();
 		

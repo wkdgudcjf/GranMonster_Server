@@ -1,5 +1,7 @@
 package com.ronaldo.vo;
 
+import com.ronaldo.config.GranConfig.AppTypeEnum;
+
 public class ReceivePurchaseVO {
 	private String userKey;
 	private String appKey;
@@ -8,6 +10,7 @@ public class ReceivePurchaseVO {
 	private String payload;
 	private String productId;
 	private String purchaseToken;
+    private AppTypeEnum appTypeEnum;
 	public String getUserKey() {
 		return userKey;
 	}
@@ -50,5 +53,10 @@ public class ReceivePurchaseVO {
 	public void setPurchaseToken(String purchaseToken) {
 		this.purchaseToken = purchaseToken;
 	}
-	
+	public AppTypeEnum getAppTypeEnum() {
+		return appTypeEnum;
+	}
+	public void setAppTypeEnum(AppTypeEnum appTypeEnum) {
+		this.appTypeEnum = appTypeEnum;
+	}
 }

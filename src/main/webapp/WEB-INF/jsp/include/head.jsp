@@ -35,4 +35,20 @@
   <!-- Google Font -->
   <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        
+<style type="text/css">
+  #layer_QuickMenu
+  {
+      width:230px;
+      color: #555;
+      font-size:13px;
+      position:fixed;
+      z-index:999;
+      bottom:0px;
+      left:0px;
+      -webkit-box-shadow: 0 1px 2px 0 #777;
+      box-shadow: 0 1px 2px 0 #777;
+      background-color:#fff;
+  }
+</style>
 </head>

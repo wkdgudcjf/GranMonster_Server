@@ -1,8 +1,11 @@
 package com.ronaldo.vo;
 
+import com.ronaldo.config.GranConfig.AppTypeEnum;
+
 public class ReceiveExchangeAPIVO {
     private String userKey;
     private String appKey;
+    
 	public String getUserKey() {
 		return userKey;
 	}
