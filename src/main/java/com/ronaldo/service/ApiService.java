@@ -3,6 +3,7 @@ package com.ronaldo.service;
 import java.util.List;
 
 import com.ronaldo.domain.AppEventDTO;
+import com.ronaldo.config.GranConfig.AppTypeEnum;
 import com.ronaldo.domain.AppDTO;
 import com.ronaldo.domain.BillingDTO;
 import com.ronaldo.domain.CompanyDTO;
@@ -60,7 +61,7 @@ public interface ApiService
 	boolean registExchange(ReceiveExchangeVO receiveExchangeVO, String HFileName,String VFileName);
 	public List<ExchangeDTO> getEnableExchangeList(boolean exchangeEnable);
 	
-	public boolean registUser(String userKey);
+	public boolean registUser(String userKey,AppTypeEnum appTypeEnum);
 	public boolean registUserInApp(int userID,int appID);
 	public List<UserDTO> getUserList();
 	public UserDTO getUser(String userKey);

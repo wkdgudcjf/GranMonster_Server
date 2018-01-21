@@ -240,12 +240,13 @@ public class ApiServiceImpl implements ApiService
 	}
 	
 	@Override
-	public boolean registUser(String userKey) {
+	public boolean registUser(String userKey,AppTypeEnum appTypeEnum) {
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUserKey(userKey);
 		userDTO.setUserEmail("none");
 		userDTO.setUserPassword("none");
 		userDTO.setUserMoney(0);
+		userDTO.setUserType(appTypeEnum==AppTypeEnum.ANDROID?true:false);
 		userDTO.setUserCoin(0);
 		try
 		{
@@ -604,6 +605,7 @@ public class ApiServiceImpl implements ApiService
 		// DTO -> VO 변경 필요... table과 너무 안맞게 되어있다... 브라우저 VO 따로 설계 / DTO db insert용으로만 바꾸기 모든 Select VO로 Return.
 		String appKey = receiveUserVO.getAppKey();
 		String userKey = receiveUserVO.getUserKey();
+		AppTypeEnum appTypeEnum = receiveUserVO.getAppTypeEnum();
 		AppDTO appDTO = getApp(appKey);
 		if (appDTO == null)
 		{
@@ -624,7 +626,7 @@ public class ApiServiceImpl implements ApiService
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null) // 모든 앱에서 처음 가입이면.
 		{
-			if (!registUser(userKey)) // 일단 유저 등록시키고.
+			if (!registUser(userKey,appTypeEnum)) // 일단 유저 등록시키고.
 			{
 				returnUserVO.setState(LoginEnum.USER_KEY_INVALID);
 				LOG.info("login(USER_KEY_INVALID) - AppKey : " + appKey+" / UserKey : "+userKey);

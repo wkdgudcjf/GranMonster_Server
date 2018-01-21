@@ -30,6 +30,7 @@ import com.ronaldo.domain.AppEventDTO;
 import com.ronaldo.domain.AppDTO;
 import com.ronaldo.domain.CompanyDTO;
 import com.ronaldo.domain.ExchangeDTO;
+import com.ronaldo.domain.UserDTO;
 import com.ronaldo.domain.UserEventDTO;
 import com.ronaldo.domain.UserInAppDTO;
 import com.ronaldo.service.ApiService;
@@ -638,7 +639,19 @@ public class AdminController
 	private String setManagementUser(Model model)
     {
     	model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-    	model.addAttribute("userlist",apiService.getUserList());
+    	List<UserDTO> userDTOList = apiService.getUserList();
+    	for(int i=0;i<userDTOList.size();i++)
+    	{
+    		if(userDTOList.get(i).isUserType() == true)
+    		{
+    			userDTOList.get(i).setUserTypeString("Android");
+    		}
+    		else
+    		{
+    			userDTOList.get(i).setUserTypeString("IOS");
+    		}
+    	}
+    	model.addAttribute("userlist",userDTOList);
     	return "managementuser";
     }
 	private String setManagementUserInfo(Model model,int userID)

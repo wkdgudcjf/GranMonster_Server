@@ -5,8 +5,8 @@
 <mapper namespace="com.ronaldo.mapper.UserMapper">
 
  	<insert id="registUser" parameterType="UserDTO" useGeneratedKeys="true" keyProperty="userID">
-      	INSERT INTO User (userEmail,userKey,userPassword,userCoin,userMoney) 
-      	VALUES (#{userEmail},#{userKey},#{userPassword},#{userCoin},#{userMoney})
+      	INSERT INTO User (userEmail,userKey,userPassword,userCoin,userMoney,userType)
+      	VALUES (#{userEmail},#{userKey},#{userPassword},#{userCoin},#{userMoney},#{userType})
      </insert>
      
     <select id="getUserList" resultType="UserDTO">

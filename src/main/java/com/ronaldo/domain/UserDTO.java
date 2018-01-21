@@ -11,7 +11,22 @@ public class UserDTO {
     private int userMoney;
     private Timestamp userDateTime;
     private boolean userEnable;
+    private boolean userType; // true == Android , false == IOS
+    private String userTypeString;
     private String userPayload;
+    
+	public String getUserTypeString() {
+		return userTypeString;
+	}
+	public void setUserTypeString(String userTypeString) {
+		this.userTypeString = userTypeString;
+	}
+	public boolean isUserType() {
+		return userType;
+	}
+	public void setUserType(boolean userType) {
+		this.userType = userType;
+	}
 	public boolean isUserEnable() {
 		return userEnable;
 	}

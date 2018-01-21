@@ -23,13 +23,14 @@
        	 3.2 위젯 플로팅 버튼
         <small> Widget Floating Button</small>
       </h1>
-      <h5>A. <a href="#sdk_widget2_floating">widget 호출</a></h5>
-      <h5>B. <a href="#sdk_widget2_sourcecode">소스코드</a></h5>
+      <h5>A. <a href="#sdk_widget_button_floating">widget 호출</a></h5>
+      <h5>B. <a href="#sdk_widget_button_sourcecode">소스코드</a></h5>
+      <h5>C. <a href="#sdk_widget_button_notice">notice</a></h5>
     </section>
 
     <!-- Main content -->
     <section class="content">
-		<div id="sdk_widget2_floating">
+		<div id="sdk_widget_button_floating">
 	    <h1>A. widget 호출.</h1>
 	    <br/>
 			<div style="text-align:center;">
@@ -63,7 +64,7 @@
 		     <!-- /.box-body -->
 	   </div>
 		</div>
-		<div id="sdk_widget2_sourcecode">
+		<div id="sdk_widget_button_sourcecode">
 		 <h1>B. 소스코드</h1>
 		<pre><code>
 using UnityEngine;
@@ -92,6 +93,16 @@ public class WidgetTestManager : MonoBehaviour {
 	   }
 }
 		</code></pre>
+		<br/>
+		<div id="sdk_widget_button_notice">
+			 <h1>C. notice</h1>
+			<div class="callout callout-warning">
+		        <h4>Notice!</h4>
+		        <p><b>※</b> 그랑코인 샵 플로팅 버튼의 경우 Canvas에서 동작하게 구현되었습니다.</p>
+		        <p>NGUI와 같이 Canvas를 사용하지 않는 3rd Party 라이브러리를 사용하는 경우 별도로 Canvas 오브젝트를 생성하여 준 뒤 버튼의 부모 컴포넌트로 지정해야 합니다. </p>
+		     </div>
+    	 </div>
+    	 <br/>
      </div>
     </section>
     <!-- /.content -->
@@ -104,8 +115,9 @@ public class WidgetTestManager : MonoBehaviour {
        <h3 class="box-title">Quick Menu</h3>
      </div>
      <div class="box-body">
-       <h5>A. <a href="#sdk_widget2_floating">widget 호출.</a></h5>
-       <h5>B. <a href="#sdk_widget2_sourcecode">소스코드.</a></h5>
+       <h5>A. <a href="#sdk_widget_button_floating">widget 호출</a></h5>
+       <h5>B. <a href="#sdk_widget_button_sourcecode">소스코드</a></h5>
+       <h5>C. <a href="#sdk_widget_button_notice">notice</a></h5>
      </div>
      <!-- /.box-body -->
    </div>

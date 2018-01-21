@@ -39,6 +39,7 @@
               	<thead>
                   <tr>
                     <th>활성여부</th>
+                    <th>타입</th>
                     <th>키</th>
                     <th>이메일</th>
                     <th>비밀번호</th>
@@ -49,6 +50,7 @@
                 <tfoot>
                   <tr>
                     <th>Enable</th>
+                    <th>type</th>
                     <th>Key</th>
                     <th>email</th>
                     <th>password</th>
@@ -69,7 +71,8 @@
 						</c:otherwise> 
 						</c:choose>
 						</td>
-				         <td><a href="#" onclick="goToUserInfo(${item.userID});">${item.userKey}</a></td>
+						<td>${item.userTypeString}</td>
+				        <td><a href="#" onclick="goToUserInfo(${item.userID});">${item.userKey}</a></td>
 				        <td>${item.userEmail}</td>
 				        <td>${item.userPassword}</td>
 				        <td>${item.userMoney}</td>
