@@ -46,6 +46,7 @@
                     <th>비밀번호</th>
                     <th>금액(￦)</th>
                     <th>그랑코인</th>
+                    <th>최초가입일</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -57,6 +58,7 @@
                     <th>password</th>
                     <th>money(￦)</th>
                     <th>Gran Coin</th>
+                    <th>First Login</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -78,6 +80,7 @@
 				        <td>${item.userPassword}</td>
 				        <td><fmt:formatNumber value="${item.userMoney}" pattern="#,###"/></td>
 				        <td>${item.userCoin}</td>
+				        <td>${item.userDateTime}</td>
 				    </tr>
 			    </c:forEach>
                 </tbody>

@@ -617,7 +617,7 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("login(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
-		if (userKey == null || userKey=="")
+		if (userKey == null || userKey.equals(""))
 		{
 			returnUserVO.setState(LoginEnum.USER_KEY_INVALID);
 			LOG.info("login(USER_KEY_INVALID) - AppKey : " + appKey+" / UserKey : "+userKey);
