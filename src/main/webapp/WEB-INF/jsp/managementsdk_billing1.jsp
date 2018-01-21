@@ -39,7 +39,7 @@
 			<h5> <b> 그랑몬스터 SDK는 Unity IAP 모듈에 기초하여 그 기능이 구현되었습니다.</b></h5>
 			<h5> <b>구매 프로세스에 대해서 설명하자면, 먼저 기존의 Unity IAP 구매 프로세스와 같이 유저가 선택한 상품에 대한 구매 요청을 Google Store 또는 Apple Store 서버에 보냅니다.</b></h5>
 			<h5> <b>결제 서버가 영수증이 포함된 결제 데이터를 보내줬을 경우 이 데이터를 기초로 다시 그랑몬스터 서버에 결제 요청을 합니다. </b></h5>
-			<h5> <b>그랑몬스터 서버는 다시 이 데이터를 가지고 그랑몬스터 서버만의 개별 구매 프로세스를 진행 후 최종 완료 통보를 클라이언트에게 하고 결제 프로스는 완전히 종료됩니다.</b></h5>
+			<h5> <b>그랑몬스터 서버는 다시 이 데이터를 가지고 그랑몬스터 서버만의 개별 구매 프로세스를 진행 후 최종 완료 통보를 클라이언트에게 하고 결제 프로세스는 완전히 종료됩니다.</b></h5>
 			<h5> <b>결론적으로 말하자면 그랑몬스터 SDK를 사용하는 개발자의 경우에는 다음과 같은 작업을 진행하면 됩니다.</b></h5>
 			<br/>
 			<div style="text-align:center;">
@@ -47,7 +47,7 @@
 				<h3>그림 - 결제 모듈 연동</h3>
 			</div>
 			<br/>
-			<div class="box box-success">
+			<div class="box box-primary">
 			     <div class="box-header with-border">
 			       <h5 class="box-title">Explane</h5>
 			     </div>
@@ -89,7 +89,7 @@ public void InitializePurchasing(List &lt;GrancoinShopManager.Exchange&gt; excha
 				<h3>그림 - 구매 진행 로직</h3>
 			</div>
 			<br/>
-			<div class="box box-success">
+			<div class="box box-primary">
 			     <div class="box-header with-border">
 			       <h5 class="box-title">Explane</h5>
 			     </div>
@@ -145,7 +145,7 @@ public void ProcessPurchase(GrancoinShopManager.Exchange exchange, string payloa
 				<h3>그림 - 그랑코인 연동</h3>
 			</div>
 			<br/>
-			<div class="box box-success">
+			<div class="box box-primary">
 			    <div class="box-header with-border">
 			       <h5 class="box-title">Explane</h5>
 			    </div>
@@ -225,7 +225,7 @@ public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs arguments)
    <!-- /.content-wrapper -->
   <div id="layer_QuickMenu">
         <!-- Form Element sizes -->
-   <div class="box box-success" style="margin:0px;">
+   <div class="box box-primary" style="margin:0px;">
      <div class="box-header with-border">
        <h3 class="box-title">Quick Menu</h3>
      </div>

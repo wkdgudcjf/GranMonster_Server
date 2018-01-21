@@ -41,7 +41,7 @@
 				<h3>그림 - Login Callback 함수</h3>
 			</div>
 			<br/>
-			<div class="box box-success">
+			<div class="box box-primary">
 			     <div class="box-header with-border">
 			       <h5 class="box-title">Explane</h5>
 			     </div>

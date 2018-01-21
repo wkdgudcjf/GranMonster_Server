@@ -42,7 +42,7 @@
 				<h3>그림 - 결제 모듈 연동</h3>
 			</div>
 			<br/>
-			<div class="box box-success">
+			<div class="box box-primary">
 			     <div class="box-header with-border">
 			       <h5 class="box-title">Explane</h5>
 			     </div>
@@ -120,7 +120,7 @@ public class ShopTestManager : MonoBehaviour {
   <!-- /.content-wrapper -->
   <div id="layer_QuickMenu">
   <!-- Form Element sizes -->
-   <div class="box box-success" style="margin:0px;">
+   <div class="box box-primary" style="margin:0px;">
      <div class="box-header with-border">
        <h3 class="box-title">Quick Menu</h3>
      </div>
