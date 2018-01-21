@@ -219,14 +219,6 @@ public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs arguments)
 			</code></pre>
 	</div>
 	<br/>
-	<div id="sdk_billing_notice">
-		 <h1>G. notice</h1>
-		<div class="callout callout-warning">
-	        <h4>Notice!</h4>
-	        <p><b>※</b> AppKey는 어플리케이션 소스 내에 따로 저장해 놓는 것이 좋습니다.</p>
-	        <p><b>※</b> 만약 매번 Google Login이나 IPhone Login을 하지 않으려면 발급받은 UserKey를 따로 저장하여 그랑 몬스터 로그인에 사용하시면 됩니다. </p>
-	     </div>
-     </div>
     </section>
     <!-- /.content -->
   </div>
