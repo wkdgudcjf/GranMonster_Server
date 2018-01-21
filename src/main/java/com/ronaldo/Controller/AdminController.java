@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -27,6 +28,7 @@ import com.ronaldo.Component.ExcelXlsxView;
 import com.ronaldo.config.GranConfig;
 import com.ronaldo.config.SessionWire;
 import com.ronaldo.domain.AppEventDTO;
+import com.ronaldo.domain.BillingDTO;
 import com.ronaldo.domain.AppDTO;
 import com.ronaldo.domain.CompanyDTO;
 import com.ronaldo.domain.ExchangeDTO;
@@ -35,6 +37,7 @@ import com.ronaldo.domain.UserEventDTO;
 import com.ronaldo.domain.UserInAppDTO;
 import com.ronaldo.service.ApiService;
 import com.ronaldo.service.AuthUserService;
+import com.ronaldo.vo.DashBoardVO;
 import com.ronaldo.vo.ReceiveAppEventVO;
 import com.ronaldo.vo.ReceiveAppVO;
 import com.ronaldo.vo.ReceiveCompanyVO;
@@ -75,104 +78,68 @@ public class AdminController
 		}
     	return setManagementSDK(model,"managementsdk");
     }
-	@RequestMapping(value = "/managementsdk_billing1", method = RequestMethod.GET)
-    public String managementsdk_billing1(Model model)
+	@RequestMapping(value = "/managementsdk_billing", method = RequestMethod.GET)
+    public String managementsdk_billing(Model model)
 	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
 		}
-    	return setManagementSDK(model,"managementsdk_billing1");
+    	return setManagementSDK(model,"managementsdk_billing");
     }
-	@RequestMapping(value = "/managementsdk_billing2", method = RequestMethod.GET)
-    public String managementsdk_billing2(Model model)
+	@RequestMapping(value = "/managementsdk_billing_dialog", method = RequestMethod.GET)
+    public String managementsdk_billing_dialog(Model model)
 	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
 		}
-    	return setManagementSDK(model,"managementsdk_billing2");
+    	return setManagementSDK(model,"managementsdk_billing_dialog");
     }
-	@RequestMapping(value = "/managementsdk_billing3", method = RequestMethod.GET)
-    public String managementsdk_billing3(Model model)
+	@RequestMapping(value = "/managementsdk_billing_button", method = RequestMethod.GET)
+    public String managementsdk_billing_button(Model model)
 	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
 		}
-    	return setManagementSDK(model,"managementsdk_billing3");
+    	return setManagementSDK(model,"managementsdk_billing_button");
     }
-	@RequestMapping(value = "/managementsdk_widget1", method = RequestMethod.GET)
-    public String managementsdk_widget1(Model model)
+	@RequestMapping(value = "/managementsdk_widget_dialog", method = RequestMethod.GET)
+    public String managementsdk_widget_dialog(Model model)
 	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
 		}
-    	return setManagementSDK(model,"managementsdk_widget1");
+    	return setManagementSDK(model,"managementsdk_widget_dialog");
     }
-	@RequestMapping(value = "/managementsdk_widget2", method = RequestMethod.GET)
-    public String managementsdk_widget2(Model model)
+	@RequestMapping(value = "/managementsdk_widget_button", method = RequestMethod.GET)
+    public String managementsdk_widget_button(Model model)
 	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
 		}
-    	return setManagementSDK(model,"managementsdk_widget2");
+    	return setManagementSDK(model,"managementsdk_widget_button");
     }
-	@RequestMapping(value = "/managementsdk_login1", method = RequestMethod.GET)
-    public String managementsdk_login1(Model model)
+	@RequestMapping(value = "/managementsdk_login", method = RequestMethod.GET)
+    public String managementsdk_login(Model model)
 	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
 		}
-    	return setManagementSDK(model,"managementsdk_login1");
+    	return setManagementSDK(model,"managementsdk_login");
     }
-	@RequestMapping(value = "/managementsdk_login2", method = RequestMethod.GET)
-    public String managementsdk_login2(Model model)
+	@RequestMapping(value = "/managementsdk_event", method = RequestMethod.GET)
+    public String managementsdk_event(Model model)
 	{
     	if(sessionWire.getId()==null)
 		{
     		return setRedirectLogin(model);
 		}
-    	return setManagementSDK(model,"managementsdk_login2");
-    }
-	@RequestMapping(value = "/managementsdk_login3", method = RequestMethod.GET)
-    public String managementsdk_login3(Model model)
-	{
-    	if(sessionWire.getId()==null)
-		{
-    		return setRedirectLogin(model);
-		}
-    	return setManagementSDK(model,"managementsdk_login3");
-    }
-	@RequestMapping(value = "/managementsdk_event1", method = RequestMethod.GET)
-    public String managementsdk_event1(Model model)
-	{
-    	if(sessionWire.getId()==null)
-		{
-    		return setRedirectLogin(model);
-		}
-    	return setManagementSDK(model,"managementsdk_event1");
-    }
-	@RequestMapping(value = "/managementsdk_event2", method = RequestMethod.GET)
-    public String managementsdk_event2(Model model)
-	{
-    	if(sessionWire.getId()==null)
-		{
-    		return setRedirectLogin(model);
-		}
-    	return setManagementSDK(model,"managementsdk_event2");
-    }
-	@RequestMapping(value = "/managementsdk_event3", method = RequestMethod.GET)
-    public String managementsdk_event3(Model model)
-	{
-    	if(sessionWire.getId()==null)
-		{
-    		return setRedirectLogin(model);
-		}
-    	return setManagementSDK(model,"managementsdk_event3");
+    	return setManagementSDK(model,"managementsdk_event");
     }
 	
 	@RequestMapping(value = "/managementuser", method = RequestMethod.GET)
@@ -470,6 +437,38 @@ public class AdminController
 		AppEventDTO appEventDTO = apiService.getAppEvent(appEventID);
         return new ResponseEntity<>(appEventDTO,HttpStatus.OK);
     }
+	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
+    public ResponseEntity<List<DashBoardVO>> dashboard(@RequestParam("searchTime") String searchTime)
+	{
+		if(searchTime==null || searchTime.equals(""))
+		{
+			
+		}
+		ArrayList<DashBoardVO> list = new ArrayList<DashBoardVO>();
+		DashBoardVO test = new DashBoardVO();
+		test.setAppName("test1");
+		test.setDailyAcquisition(1);
+		test.setDailyInstallation(2);
+		test.setDailySales(3);
+		test.setDailyUsage(4);
+		test.setEntireAcquisition(10);
+		test.setEntireInstallation(6);
+		test.setEntireSales(15);
+		test.setEntireUsage(23);
+		list.add(test);
+		DashBoardVO test2 = new DashBoardVO();
+		test2.setAppName("test2");
+		test2.setDailyAcquisition(4);
+		test2.setDailyInstallation(35);
+		test2.setDailySales(45);
+		test2.setDailyUsage(45);
+		test2.setEntireAcquisition(10);
+		test2.setEntireInstallation(66);
+		test2.setEntireSales(145);
+		test2.setEntireUsage(263);
+		list.add(test2);
+        return new ResponseEntity<>(list,HttpStatus.OK);
+    }
 	@RequestMapping(value = "/registappevent", method = RequestMethod.POST)
     public ResponseEntity<String> registappevent(@ModelAttribute ReceiveAppEventVO receiveAppEventVO)
 	{
@@ -688,7 +687,19 @@ public class AdminController
 	private String setManagementBilling(Model model)
     {
     	model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
-    	model.addAttribute("billinglist",apiService.getBillingList());
+    	List<BillingDTO> billingList = apiService.getBillingList();
+    	for(int i=0;i<billingList.size();i++)
+    	{
+    		if(billingList.get(i).isAppType() == true)
+    		{
+    			billingList.get(i).setAppTypeString("Android");
+    		}
+    		else
+    		{
+    			billingList.get(i).setAppTypeString("IOS");
+    		}
+    	}
+    	model.addAttribute("billinglist",billingList);
     	return "managementbilling";
     }
 	private String setManagementExchange(Model model)

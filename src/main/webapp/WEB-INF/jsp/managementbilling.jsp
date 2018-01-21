@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 
@@ -40,10 +41,11 @@
                   <tr>
                     <th>유저 키</th>
                     <th>앱 이름</th>
-                    <th>금액</th>
+                    <th>금액(￦)</th>
                     <th>그랑코인</th>
                     <th>날짜</th>
                     <th>타입</th>
+                    <th>플랫폼</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -58,10 +60,11 @@
                   <tr>
                     <th>User Key</th>
                     <th>App Name</th>
-                    <th>Money</th>
+                    <th>Money(￦)</th>
                     <th>Gran Coin</th>
                     <th>Date</th>
                     <th>Type</th>
+                    <th>Platform</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -69,10 +72,11 @@
                 <tr>
 			        <td>${item.userKey}</td>
 			        <td>${item.appName}</td>
-			        <td>${item.billingMoney}</td>
+			        <td><fmt:formatNumber value="${item.billingMoney}" pattern="#,###"/></td>
 			        <td>${item.billingCoin}</td>
 			        <td>${item.billingDateTime}</td>
 			        <td>${item.billingType}</td>
+			        <td>${item.appTypeString}</td>
 			    </tr>
 			    </c:forEach>
                 </tbody>

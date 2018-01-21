@@ -109,7 +109,7 @@
         <li><Button type="button" class="btn btn-success btn-flat" data-toggle="modal" data-target="#registAppModal">앱 등록(Regist App)</Button></li>
       </ol>
     </section>
-
+	
     <!-- Main content -->
     <section class="content">
       <div class="row">
@@ -125,7 +125,7 @@
                   <tr>
                     <th>활성</th>
                     <th>노출</th>
-                    <th>앱이름</th>
+                    <th>게임명</th>
                     <th>회사명</th>
                     <th>마켓경로</th>
                     <th>패키지명</th>
@@ -139,7 +139,7 @@
                   <tr>
                     <th>Enable</th>
                     <th>Visible</th>
-                    <th>App Name</th>
+                    <th>Game Name</th>
                     <th>Company Name</th>
                     <th>Market URL</th>
                     <th>Package</th>

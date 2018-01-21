@@ -38,7 +38,7 @@
               <table id="mytable" class="table table-bordered table-striped">
               	 <thead>
                   <tr>
-                    <th>가입된 앱</th>
+                    <th>가입된 게임</th>
                     <th>이벤트 내용</th>
                     <th>보상</th>
                     <th>달성 여부</th>
@@ -47,7 +47,7 @@
                 </thead>
                 <tfoot>
                   <tr>
-                    <th>App Name</th>
+                    <th>Game Name</th>
                     <th>Event Content</th>
                     <th>Coin</th>
                     <th>Event Success Enable</th>

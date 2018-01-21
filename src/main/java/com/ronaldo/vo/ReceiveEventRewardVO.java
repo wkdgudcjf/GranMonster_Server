@@ -1,9 +1,12 @@
 package com.ronaldo.vo;
 
+import com.ronaldo.config.GranConfig.AppTypeEnum;
+
 public class ReceiveEventRewardVO {
 	private String userKey;
 	private String appKey;
 	private String eventKey;
+	private AppTypeEnum appTypeEnum;
 	public String getUserKey() {
 		return userKey;
 	}
@@ -22,5 +25,10 @@ public class ReceiveEventRewardVO {
 	public void setEventKey(String eventKey) {
 		this.eventKey = eventKey;
 	}
-
+	public AppTypeEnum getAppTypeEnum() {
+		return appTypeEnum;
+	}
+	public void setAppTypeEnum(AppTypeEnum appTypeEnum) {
+		this.appTypeEnum = appTypeEnum;
+	}
 }

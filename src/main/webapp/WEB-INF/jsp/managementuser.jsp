@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 
@@ -39,23 +40,23 @@
               	<thead>
                   <tr>
                     <th>활성여부</th>
-                    <th>타입</th>
+                    <th>플랫폼</th>
                     <th>키</th>
                     <th>이메일</th>
                     <th>비밀번호</th>
-                    <th>돈</th>
-                    <th>캐쉬</th>
+                    <th>금액(￦)</th>
+                    <th>그랑코인</th>
                   </tr>
                 </thead>
                 <tfoot>
                   <tr>
                     <th>Enable</th>
-                    <th>type</th>
+                    <th>Platform</th>
                     <th>Key</th>
                     <th>email</th>
                     <th>password</th>
-                    <th>money</th>
-                    <th>cash</th>
+                    <th>money(￦)</th>
+                    <th>Gran Coin</th>
                   </tr>
                 </tfoot>
                 <tbody>
@@ -75,7 +76,7 @@
 				        <td><a href="#" onclick="goToUserInfo(${item.userID});">${item.userKey}</a></td>
 				        <td>${item.userEmail}</td>
 				        <td>${item.userPassword}</td>
-				        <td>${item.userMoney}</td>
+				        <td><fmt:formatNumber value="${item.userMoney}" pattern="#,###"/></td>
 				        <td>${item.userCoin}</td>
 				    </tr>
 			    </c:forEach>

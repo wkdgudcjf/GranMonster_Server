@@ -12,7 +12,21 @@ public class BillingDTO {
     private String appName;
     private String userKey;
 	private Timestamp billingDateTime;
-
+	private boolean appType; // true == Android , false == IOS
+	private String appTypeString;
+	
+	public String getAppTypeString() {
+		return appTypeString;
+	}
+	public void setAppTypeString(String appTypeString) {
+		this.appTypeString = appTypeString;
+	}
+	public boolean isAppType() {
+		return appType;
+	}
+	public void setAppType(boolean appType) {
+		this.appType = appType;
+	}
 	public String getBillingType() {
 		return billingType;
 	}

@@ -5,9 +5,9 @@
 <mapper namespace="com.ronaldo.mapper.UserInAppMapper">
 	<insert id="registUserInApp" parameterType="UserInAppDTO">
        	INSERT INTO UserInApp 
-       	(userID,appID)
+       	(userID,appID,appType)
        	VALUES
-       	(#{userID},#{appID})
+       	(#{userID},#{appID},#{appType})
     </insert>
     <select id="getUserInApp" parameterType="UserInAppDTO" resultType="UserInAppDTO">
         SELECT * FROM UserInApp WHERE appID = #{appID} AND userID = #{userID}

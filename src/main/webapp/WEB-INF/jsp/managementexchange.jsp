@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 
@@ -127,7 +128,7 @@
                     <th>활성여부</th>
                     <th>상품명</th>
                     <th>상품키</th>
-                    <th>금액</th>
+                    <th>금액(￦)</th>
                     <th>그랑코인</th>
                     <th>가로 이미지</th>
                     <th>세로 이미지</th>
@@ -138,7 +139,7 @@
                     <th>Enable</th>
                     <th>Name</th>
                     <th>Key</th>
-                    <th>Money</th>
+                    <th>Money(￦)</th>
                     <th>Gran Coin</th>
                     <th>Horizontal Image</th>
                     <th>Vertical Image</th>
@@ -159,7 +160,7 @@
 					</td>
 			        <td><a href="#" onclick="modifyExchangeModal(${item.exchangeID});">${item.exchangeName}</a></td>
 			        <td>${item.exchangeKey}</td>
-			        <td>${item.exchangeMoney}</td>
+			        <td><fmt:formatNumber value="${item.exchangeMoney}" pattern="#,###"/></td>
 			        <td>${item.exchangeCoin}</td>
 			        <td><img src="image/HExchange/${item.exchangeHImagePath}"  style="max-width: 150px; max-height: 100px;"></td>
 			        <td><img src="image/VExchange/${item.exchangeVImagePath}"  style="max-width: 100px; max-height: 150px;"></td>

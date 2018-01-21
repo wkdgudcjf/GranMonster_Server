@@ -6,6 +6,7 @@ public class ReturnUserVO {
     private LoginEnum state;
     private String userEmail;
     private int userCoin;
+    private boolean firstLogin;
 	public LoginEnum getState() {
 		return state;
 	}
@@ -23,5 +24,11 @@ public class ReturnUserVO {
 	}
 	public void setUserCoin(int userCoin) {
 		this.userCoin = userCoin;
+	}
+	public boolean isFirstLogin() {
+		return firstLogin;
+	}
+	public void setFirstLogin(boolean firstLogin) {
+		this.firstLogin = firstLogin;
 	}
 }

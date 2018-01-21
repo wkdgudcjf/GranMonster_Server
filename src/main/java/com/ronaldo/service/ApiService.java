@@ -62,7 +62,7 @@ public interface ApiService
 	public List<ExchangeDTO> getEnableExchangeList(boolean exchangeEnable);
 	
 	public boolean registUser(String userKey,AppTypeEnum appTypeEnum);
-	public boolean registUserInApp(int userID,int appID);
+	public boolean registUserInApp(int userID,int appID,AppTypeEnum appTypeEnum);
 	public List<UserDTO> getUserList();
 	public UserDTO getUser(String userKey);
 	public UserDTO getUser(int userID);
@@ -72,8 +72,8 @@ public interface ApiService
 	public List<BillingDTO> getBillingList();
 	public List<BillingDTO> getUserBillingList(String userKey);
 	public List<BillingDTO> getAppBillingList(String appID);
-	public boolean addBilling(UserDTO userDTO, int appID, int billingCoin, int billingMoney, String billingType);
-	public boolean minusBilling(UserDTO userDTO, int appID,int billingCoin,String billingType);
+	public boolean addBilling(UserDTO userDTO, int appID, int billingCoin, int billingMoney, String billingType,AppTypeEnum appTypeEnum);
+	public boolean minusBilling(UserDTO userDTO, int appID,int billingCoin,String billingType,AppTypeEnum appTypeEnum);
 	
 	public List<AppEventDTO> getAppEventList(int appID);
 	public List<AppEventDTO> getAppEventEnableList(int appID);

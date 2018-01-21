@@ -260,12 +260,13 @@ public class ApiServiceImpl implements ApiService
 		}
 	}
 	@Override
-	public boolean registUserInApp(int userID,int appID) {
+	public boolean registUserInApp(int userID,int appID,AppTypeEnum appTypeEnum) {
 		try
 		{
 			UserInAppDTO userInAppDTO = new UserInAppDTO();
 			userInAppDTO.setUserID(userID);
 			userInAppDTO.setAppID(appID);
+			userInAppDTO.setAppType(appTypeEnum==AppTypeEnum.ANDROID?true:false);
 			//여기서 그 유저가 이 앱에 로그인이 되어 있다면?
 			userInAppMapper.registUserInApp(userInAppDTO);
 			return true;
@@ -304,7 +305,7 @@ public class ApiServiceImpl implements ApiService
 		return billingMapper.getBillingList();
 	}
 	@Override
-	public boolean addBilling(UserDTO userDTO, int appID, int billingCoin, int billingMoney,String billingType) {
+	public boolean addBilling(UserDTO userDTO, int appID, int billingCoin, int billingMoney,String billingType,AppTypeEnum appTypeEnum) {
 		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
 		defaultTransactionDefinition.setName("addBilling");
 		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -315,6 +316,7 @@ public class ApiServiceImpl implements ApiService
 		billingDTO.setBillingCoin(billingCoin);
 		billingDTO.setBillingMoney(billingMoney);
 		billingDTO.setBillingType(billingType);
+		billingDTO.setAppType(appTypeEnum==AppTypeEnum.ANDROID?true:false);
 		try
 		{
 			billingMapper.registBilling(billingDTO);
@@ -333,7 +335,7 @@ public class ApiServiceImpl implements ApiService
 		}
 	}
 	@Override
-	public boolean minusBilling(UserDTO userDTO, int appID, int billingCoin,String billingType) {
+	public boolean minusBilling(UserDTO userDTO, int appID, int billingCoin,String billingType,AppTypeEnum appTypeEnum) {
 		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
 		defaultTransactionDefinition.setName("minusBilling");
 		defaultTransactionDefinition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
@@ -343,6 +345,7 @@ public class ApiServiceImpl implements ApiService
 		billingDTO.setAppID(appID);
 		billingDTO.setBillingCoin(billingCoin);
 		billingDTO.setBillingType(billingType);
+		billingDTO.setAppType(appTypeEnum==AppTypeEnum.ANDROID?true:false);
 		try
 		{
 			billingMapper.registBilling(billingDTO);
@@ -607,6 +610,7 @@ public class ApiServiceImpl implements ApiService
 		String userKey = receiveUserVO.getUserKey();
 		AppTypeEnum appTypeEnum = receiveUserVO.getAppTypeEnum();
 		AppDTO appDTO = getApp(appKey);
+		
 		if (appDTO == null)
 		{
 			returnUserVO.setState(LoginEnum.NOT_EXIST_APPKEY);
@@ -634,16 +638,18 @@ public class ApiServiceImpl implements ApiService
 				return;
 			}
 			userDTO = getUser(userKey);
-		} 
+		}
+		returnUserVO.setFirstLogin(false);
 		if (getUserInApp(userDTO.getUserID() , appDTO.getAppID()) == null) // 앱 처음이면 앱 등록시킨다.
 		{
-			if(!registUserInApp(userDTO.getUserID() , appDTO.getAppID()))
+			if(!registUserInApp(userDTO.getUserID() , appDTO.getAppID(),appTypeEnum))
 			{
 				returnUserVO.setState(LoginEnum.USER_ALREADY_JOIN_APP);
 				LOG.info("login(USER_ALREADY_JOIN_APP) - AppKey : " + appKey+" / UserKey : "+userKey);
 				dataSourceTransactionManager.rollback(transactionStatus);
 				return;
 			}
+			returnUserVO.setFirstLogin(true);
 		}
 		dataSourceTransactionManager.commit(transactionStatus);
 		returnUserVO.setUserCoin(userDTO.getUserCoin());
@@ -908,7 +914,7 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("purchase(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}	
-		if(!addBilling(userDTO, appDTO.getAppID(), coin, price, "그랑코인 결제"))
+		if(!addBilling(userDTO, appDTO.getAppID(), coin, price, "그랑코인 결제",appTypeEnum))
 		{
 			returnPurchaseVO.setState(PurchaseEnum.INVALID_BILLING);
 			LOG.info("purchase(INVALID_BILLING) - AppKey : " + appKey+" / UserKey : "+userKey);
@@ -925,6 +931,7 @@ public class ApiServiceImpl implements ApiService
 		String appKey = receiveExhaustVO.getAppKey();
 		String userKey = receiveExhaustVO.getUserKey();
 		String payload = receiveExhaustVO.getPayload();
+		AppTypeEnum appTypeEnum = receiveExhaustVO.getAppTypeEnum();
 		int coin = receiveExhaustVO.getCoin();
 		
 		String userpayload = getUserPayload(userKey);
@@ -955,7 +962,7 @@ public class ApiServiceImpl implements ApiService
 			return;
 		}
 		
-		if(!minusBilling(userDTO, appDTO.getAppID(), coin, "그랑코인 사용"))
+		if(!minusBilling(userDTO, appDTO.getAppID(), coin, "그랑코인 사용",appTypeEnum))
 		{
 			returnExhaustVO.setState(ExhaustEnum.INVALID_BILLING);
 			LOG.info("exhaust(INVALID_BILLING) - AppKey : " + appKey+" / UserKey : "+userKey);
@@ -1060,7 +1067,7 @@ public class ApiServiceImpl implements ApiService
 		String appKey = receiveEventRewardVO.getAppKey();
 		String userKey = receiveEventRewardVO.getUserKey();
 		String appEventKey = receiveEventRewardVO.getEventKey();
-		
+		AppTypeEnum appTypeEnum = receiveEventRewardVO.getAppTypeEnum();
 		AppDTO appDTO = getApp(appKey);
 		if (appDTO == null) {
 			returnEventRewardVO.setState(EventRewardEnum.NOT_EXIST_APPKEY);
@@ -1131,7 +1138,7 @@ public class ApiServiceImpl implements ApiService
 			dataSourceTransactionManager.rollback(transactionStatus);
 			return;
 		}
-		if(!addBilling(userDTO, appDTO.getAppID(), appEventDTO.getAppEventCoin(), 0, appEventDTO.getAppEventContent()))
+		if(!addBilling(userDTO, appDTO.getAppID(), appEventDTO.getAppEventCoin(), 0, appEventDTO.getAppEventContent(),appTypeEnum))
 		{
 			dataSourceTransactionManager.rollback(transactionStatus);
 			returnEventRewardVO.setState(EventRewardEnum.INVALID_BILLING); // 영수증 에러

@@ -442,7 +442,7 @@
 		        error:function(request,status,error){
 		        	alert(request.responseText);
 		        }
-			})
+			});
 		 }
 	 function registAppEventModal(){
 		 var date = moment();
@@ -570,7 +570,7 @@
 		        error:function(request,status,error){
 		        	alert(request.responseText);
 		        }
-			})
+			});
 		}
     </script>
 </body>

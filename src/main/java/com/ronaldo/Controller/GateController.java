@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ronaldo.config.SessionWire;
+import com.ronaldo.service.ApiService;
 import com.ronaldo.service.AuthUserService;
 import com.ronaldo.vo.AuthUserVO;
 
@@ -16,6 +17,8 @@ public class GateController {
 
 	@Autowired
 	private AuthUserService userService;
+	@Autowired
+	private ApiService apiService;
 	@Autowired
 	SessionWire sessionWire;
 
@@ -89,11 +92,13 @@ public class GateController {
 	}
 
 	private String setAdmin(Model model) {
+		model.addAttribute("applist",apiService.getAppList());
 		model.addAttribute("user", userService.searchAuthUser(sessionWire.getId()));
 		return "admin";
 	}
 
 	private String setRedirectAdmin(Model model) {
+		model.addAttribute("applist",apiService.getAppList());
 		model.addAttribute("user", userService.searchAuthUser(sessionWire.getId()));
 		return "redirect:/admin";
 	}

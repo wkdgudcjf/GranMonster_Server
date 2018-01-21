@@ -6,9 +6,16 @@ public class UserInAppDTO {
     private int userInAppID;
     private int userID;
     private int appID;
+    private boolean appType; // true == Android , false == IOS
     private String appName;
     private List<AppEventDTO> appEventList;
     
+	public boolean getAppType() {
+		return appType;
+	}
+	public void setAppType(boolean appType) {
+		this.appType = appType;
+	}
 	public List<AppEventDTO> getAppEventList() {
 		return appEventList;
 	}

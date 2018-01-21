@@ -5,7 +5,7 @@ import com.ronaldo.config.GranConfig.AppTypeEnum;
 public class ReceiveExchangeAPIVO {
     private String userKey;
     private String appKey;
-    
+    private AppTypeEnum appTypeEnum;
 	public String getUserKey() {
 		return userKey;
 	}
@@ -18,4 +18,10 @@ public class ReceiveExchangeAPIVO {
 	public void setAppKey(String appKey) {
 		this.appKey = appKey;
 	}
+	public AppTypeEnum getAppTypeEnum() {
+		return appTypeEnum;
+	}
+	public void setAppTypeEnum(AppTypeEnum appTypeEnum) {
+		this.appTypeEnum = appTypeEnum;
+	}	
 }
