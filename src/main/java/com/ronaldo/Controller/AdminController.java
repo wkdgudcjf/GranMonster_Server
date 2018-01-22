@@ -4,7 +4,10 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -440,9 +443,27 @@ public class AdminController
 	@RequestMapping(value = "/dashboard", method = RequestMethod.POST)
     public ResponseEntity<List<DashBoardVO>> dashboard(@RequestParam("searchTime") String searchTime)
 	{
+		Timestamp startTimeStamp;
+		Timestamp endTimeStamp;
 		if(searchTime==null || searchTime.equals(""))
 		{
-			
+			Date date = new Date();
+			Calendar cal = Calendar.getInstance(); // locale-specific
+			cal.setTime(date);
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			startTimeStamp = new Timestamp(cal.getTimeInMillis());
+			cal.set(Calendar.HOUR_OF_DAY, 23);
+			cal.set(Calendar.MINUTE, 59);
+			cal.set(Calendar.SECOND, 59);
+			endTimeStamp = new Timestamp(cal.getTimeInMillis());
+		}
+		else
+		{
+			startTimeStamp = Timestamp.valueOf(searchTime.substring(0,16)+":00");
+			endTimeStamp = Timestamp.valueOf(searchTime.substring(19,35)+":00");
 		}
 		ArrayList<DashBoardVO> list = new ArrayList<DashBoardVO>();
 		DashBoardVO test = new DashBoardVO();

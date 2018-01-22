@@ -187,8 +187,39 @@
 				        </td>
 				    </tr>
 				    <tr>
+				        <td style="display: none;">
+				        <c:choose>
+						<c:when test="${item.appEnable==true}"> 
+						    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
+						</c:when> 
+						<c:otherwise> 
+						    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
+						</c:otherwise>
+						</c:choose>
+						</td>
+						<td style="display: none;">
+				        <c:choose>
+						<c:when test="${item.appVisible==true}"> 
+						    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
+						</c:when> 
+						<c:otherwise> 
+						    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
+						</c:otherwise>
+						</c:choose>
+						</td>
+				        <td style="display: none;"><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
+				        / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
+				        <td style="display: none;">${item.companyName}</td>
 				        <td>IOS - <a href="${item.appIOSURL}">${item.appIOSURL}</a></td>
 				        <td>IOS - ${item.appIOSPackage}</td>
+				        <td style="display: none;">${item.appDateTime}</td>
+				        <td style="display: none;"><img src="image/appIcon/${item.appImageIconPath}"  style="max-width: 57px; max-height: 57px;"></td>
+				        <td style="display: none;"><img src="image/appHBanner1/${item.appImageHBannerPath1}"  style="max-width: 100px; max-height: 150px;"
+				         onClick="imagePopup('image/appHBanner1/${item.appImageHBannerPath1}','image/appHBanner2/${item.appImageHBannerPath2}','image/appHBanner3/${item.appImageHBannerPath3}')">
+				         </td>
+				        <td style="display: none;"><img src="image/appVBanner1/${item.appImageVBannerPath1}"  style="max-width: 150px; max-height: 100px;"
+				         onClick="imagePopup('image/appVBanner1/${item.appImageVBannerPath1}','image/appVBanner2/${item.appImageVBannerPath2}','image/appVBanner3/${item.appImageVBannerPath3}')">
+				        </td>
 				    </tr>
 				    </c:forEach>
                 </tbody>
@@ -515,6 +546,14 @@
  <!-- Custom scripts for this template -->
 	<script type="text/javascript">
 	 $(document).ready(function(){
+		 $('#mytable').DataTable({
+		      'paging'      : true,
+		      'lengthChange': true,
+		      'searching'   : true,
+		      'ordering'    : true,
+		      'info'        : true,
+		      'autoWidth'   : true
+		    })
 		 $('#navi_app').attr('class',"active");
 		   var fileTarget = $('.filebox .upload-hidden');
 

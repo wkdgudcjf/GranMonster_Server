@@ -62,6 +62,9 @@
 							<c:when test="${status.first==true}"> 
 							   	 <td rowspan="${item.appEventList.size()}">${item.appName}</td>
 							</c:when> 
+							<c:otherwise> 
+						     	<td style="display: none;">${item.appName}</td>
+							</c:otherwise>
 						</c:choose>
 				        <td>${event.appEventContent}</td>
 				        <td>${event.appEventCoin}</td>
@@ -92,6 +95,14 @@
  <!-- Custom scripts for this template -->
 	<script type="text/javascript">
 	 $(document).ready(function(){
+		 $('#mytable').DataTable({
+	      'paging'      : true,
+	      'lengthChange': true,
+	      'searching'   : true,
+	      'ordering'    : true,
+	      'info'        : true,
+	      'autoWidth'   : true
+	    })
 		 $('#navi_user').attr('class',"active");
 		});
     </script>

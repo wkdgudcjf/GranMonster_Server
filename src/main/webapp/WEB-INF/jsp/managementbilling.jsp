@@ -101,16 +101,22 @@
  <!-- Custom scripts for this template -->
 	<script type="text/javascript">
 	 $(document).ready(function(){
+		 $('#mytable').DataTable({
+	      'paging'      : true,
+	      'lengthChange': true,
+	      'searching'   : true,
+	      'ordering'    : true,
+	      'info'        : true,
+	      'autoWidth'   : true,
+	      'drawCallback': tableSum
+	    })
 		 $('#navi_billing').attr('class',"active");
-         $(".content").on("keyup", "input[type=search]", tableSum);
-        // $(".content").on("change", "li[class=paginate_button]", tableSum);
-         tableSum();
       });
 
 	 function tableSum() {
          var money = 0;
          $('#mytable tbody tr td:nth-child(3)').each(function() {
-             money += parseInt($(this).text());
+             money += parseInt($(this).text().replace(",",""));
          });
 
          var coin = 0;
@@ -118,7 +124,7 @@
              coin += parseInt($(this).text());
          });
 
-         $('#money-sum').text(money);
+         $('#money-sum').text(money.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
          $('#coin-sum').text(coin);
      }
     </script>

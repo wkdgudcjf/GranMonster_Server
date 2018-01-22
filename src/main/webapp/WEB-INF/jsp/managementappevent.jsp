@@ -328,6 +328,14 @@
  <!-- Custom scripts for this template -->
 	<script type="text/javascript">
 	 $(document).ready(function(){
+		 $('#mytable').DataTable({
+		      'paging'      : true,
+		      'lengthChange': true,
+		      'searching'   : true,
+		      'ordering'    : true,
+		      'info'        : true,
+		      'autoWidth'   : true
+		    })
 		 $('#navi_app').attr('class',"active");
 		 var $fileBox = null;
 		 $(function() 

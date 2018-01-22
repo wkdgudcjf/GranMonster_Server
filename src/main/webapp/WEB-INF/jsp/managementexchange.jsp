@@ -301,6 +301,14 @@
 	<script type="text/javascript">
 	 $(document).ready(function()
 	 {
+		 $('#mytable').DataTable({
+		      'paging'      : true,
+		      'lengthChange': true,
+		      'searching'   : true,
+		      'ordering'    : true,
+		      'info'        : true,
+		      'autoWidth'   : true
+		    })
 		 $('#navi_exchange').attr('class',"active");
 		   var fileTarget = $('.filebox .upload-hidden');
 

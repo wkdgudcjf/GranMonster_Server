@@ -143,8 +143,16 @@
 <!-- page script -->
 <script>
 	$(document).ready(function(){
+		 $('#mytable').DataTable({
+		      'paging'      : true,
+		      'lengthChange': true,
+		      'searching'   : true,
+		      'ordering'    : true,
+		      'info'        : true,
+		      'autoWidth'   : true,
+		      'drawCallback': tableSum
+		    })
 		 $('#navi_dashboard').attr('class',"active");
-	     $(".content").on("keyup", "input[type=search]", tableSum);
 	     searchDash();
 	 });
 	function searchDash()
