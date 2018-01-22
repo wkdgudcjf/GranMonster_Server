@@ -76,19 +76,6 @@
                   </tr>
                 </tfoot>
                 <tbody id="table_body">
-                  <c:forEach var="item" items="${applist}">
-	                <tr>
-				        <td>${item.appName}</td>
-						<td>2</td>
-				        <td>3</td>
-				        <td>4</td>
-				        <td>5</td>
-				        <td>6</td>
-				        <td>7</td>
-				        <td><fmt:formatNumber value="8" pattern="#,###"/></td>
-				        <td><fmt:formatNumber value="9" pattern="#,###"/></td>
-				    </tr>
-				    </c:forEach>
                 </tbody>
               </table>
             </div>
@@ -232,12 +219,14 @@
 	    
 	    var ds = 0;
 	    $('#mytable tbody tr td:nth-child(8)').each(function() {
-	        ds += parseInt($(this).text());
+	        ds += parseInt($(this).text().replace(",",""));
+	        $(this).text($(this).text().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	    });
 	
 	    var es = 0;
 	    $('#mytable tbody tr td:nth-child(9)').each(function() {
-	        es += parseInt($(this).text());
+	        es += parseInt($(this).text().replace(",",""));
+	        $(this).text($(this).text().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	    });
 	
 	    $('#Daily-installation').text(di);
@@ -246,8 +235,17 @@
 	    $('#Entire-acquisition').text(ea);
 	    $('#Daily-usage').text(du);
 	    $('#Entire-usage').text(eu);
-	    $('#Daily-sales').text(ds);
-	    $('#Entire-sales').text(es);
+	    $('#Daily-sales').text(ds.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	    $('#Entire-sales').text(es.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	}
+	function test()
+	{
+		$('#mytable tbody tr td:nth-child(8)').each(function() {
+	        $(this).text($(this).text().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	    });
+	    $('#mytable tbody tr td:nth-child(9)').each(function() {
+	        $(this).text($(this).text().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+	    });
 	}
 </script>
 </body>

@@ -1,5 +1,7 @@
 package com.ronaldo.service;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.ronaldo.domain.AppEventDTO;
@@ -10,6 +12,7 @@ import com.ronaldo.domain.CompanyDTO;
 import com.ronaldo.domain.ExchangeDTO;
 import com.ronaldo.domain.UserEventDTO;
 import com.ronaldo.domain.UserInAppDTO;
+import com.ronaldo.vo.DashBoardVO;
 import com.ronaldo.vo.ReceiveAppEventVO;
 import com.ronaldo.vo.ReceiveAppListVO;
 import com.ronaldo.vo.ReceiveAppVO;
@@ -70,8 +73,6 @@ public interface ApiService
 	public UserInAppDTO getUserInApp(int userID,int appID);
 	
 	public List<BillingDTO> getBillingList();
-	public List<BillingDTO> getUserBillingList(String userKey);
-	public List<BillingDTO> getAppBillingList(String appID);
 	public boolean addBilling(UserDTO userDTO, int appID, int billingCoin, int billingMoney, String billingType,AppTypeEnum appTypeEnum);
 	public boolean minusBilling(UserDTO userDTO, int appID,int billingCoin,String billingType,AppTypeEnum appTypeEnum);
 	
@@ -99,5 +100,5 @@ public interface ApiService
 	public void event(ReceiveEventVO receiveEventVO, ReturnEventVO returnEventVO);
 	public void eventReward(ReceiveEventRewardVO receiveEventRewardVO, ReturnEventRewardVO returnEventRewardVO);
 	public void visible(ReceiveVisibleVO receiveVisibleVO, ReturnVisibleVO returnVisibleVO);
-	
+	public void dashBoard(ArrayList<DashBoardVO> dashBoardVOlist, Timestamp startTimeStamp, Timestamp endTimeStamp);
 }

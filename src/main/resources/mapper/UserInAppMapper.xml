@@ -15,4 +15,7 @@
     <select id="getUserInAppByUserID" parameterType="int" resultType="UserInAppDTO">
      	SELECT * FROM UserInApp natural join App WHERE userID = #{userID}
     </select>
+     <select id="getUserInAppByAppID" parameterType="int" resultType="UserInAppDTO">
+     	SELECT * FROM UserInApp WHERE appID = #{appID}
+    </select>
 </mapper>

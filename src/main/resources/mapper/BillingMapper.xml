@@ -6,7 +6,9 @@
     <select id="getBillingList"  resultType="BillingDTO">
         SELECT * FROM Billing natural join User natural join App ORDER BY billingDateTime desc
     </select>
-	
+    <select id="getBillingListByAppID" parameterType="int" resultType="BillingDTO">
+        SELECT * FROM Billing WHERE appID = #{appID}
+    </select>
 	<insert id="registBilling" parameterType="BillingDTO">
       	INSERT INTO Billing (userID,appID,billingMoney,billingCoin,billingType,appType) 
       	VALUES (#{userID},#{appID},#{billingMoney},#{billingCoin},#{billingType},#{appType})

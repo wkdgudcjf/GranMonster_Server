@@ -465,30 +465,9 @@ public class AdminController
 			startTimeStamp = Timestamp.valueOf(searchTime.substring(0,16)+":00");
 			endTimeStamp = Timestamp.valueOf(searchTime.substring(19,35)+":00");
 		}
-		ArrayList<DashBoardVO> list = new ArrayList<DashBoardVO>();
-		DashBoardVO test = new DashBoardVO();
-		test.setAppName("test1");
-		test.setDailyAcquisition(1);
-		test.setDailyInstallation(2);
-		test.setDailySales(3);
-		test.setDailyUsage(4);
-		test.setEntireAcquisition(10);
-		test.setEntireInstallation(6);
-		test.setEntireSales(15);
-		test.setEntireUsage(23);
-		list.add(test);
-		DashBoardVO test2 = new DashBoardVO();
-		test2.setAppName("test2");
-		test2.setDailyAcquisition(4);
-		test2.setDailyInstallation(35);
-		test2.setDailySales(45);
-		test2.setDailyUsage(45);
-		test2.setEntireAcquisition(10);
-		test2.setEntireInstallation(66);
-		test2.setEntireSales(145);
-		test2.setEntireUsage(263);
-		list.add(test2);
-        return new ResponseEntity<>(list,HttpStatus.OK);
+		ArrayList<DashBoardVO> dashBoardVOlist = new ArrayList<DashBoardVO>();
+		apiService.dashBoard(dashBoardVOlist,startTimeStamp,endTimeStamp);
+        return new ResponseEntity<>(dashBoardVOlist,HttpStatus.OK);
     }
 	@RequestMapping(value = "/registappevent", method = RequestMethod.POST)
     public ResponseEntity<String> registappevent(@ModelAttribute ReceiveAppEventVO receiveAppEventVO)

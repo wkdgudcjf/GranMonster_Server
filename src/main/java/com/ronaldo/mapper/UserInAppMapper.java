@@ -12,4 +12,5 @@ public interface  UserInAppMapper{
 	public List<UserInAppDTO> getUserInAppByUserID(int userID);
 	public UserInAppDTO getUserInApp(UserInAppDTO userInAppDTO);
 	public void registUserInApp(UserInAppDTO userInAppDTO) throws Exception;
+	public List<UserInAppDTO> getUserInAppByAppID(int appID);
 }

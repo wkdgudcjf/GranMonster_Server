@@ -44,7 +44,7 @@ import com.ronaldo.mapper.ExchangeMapper;
 import com.ronaldo.mapper.UserEventMapper;
 import com.ronaldo.mapper.UserInAppMapper;
 import com.ronaldo.mapper.UserMapper;
-
+import com.ronaldo.vo.DashBoardVO;
 import com.ronaldo.vo.ReceiveAppEventVO;
 import com.ronaldo.vo.ReceiveAppListVO;
 import com.ronaldo.vo.ReceiveAppVO;
@@ -360,14 +360,6 @@ public class ApiServiceImpl implements ApiService
 			dataSourceTransactionManager.rollback(transactionStatus);
 			return false;
 		}
-	}
-	@Override
-	public List<BillingDTO> getUserBillingList(String userKey) {
-		return billingMapper.getUserBillingList(userMapper.getUser(userKey).getUserID());
-	}
-	@Override
-	public List<BillingDTO> getAppBillingList(String appKey) {
-		return billingMapper.getAppBillingList(appMapper.getAppByKey(appKey).getAppID());
 	}
 	@Override
 	public List<AppEventDTO> getAppEventList(int appID) {
@@ -1198,6 +1190,69 @@ public class ApiServiceImpl implements ApiService
 		{
 			LOG.info(e.getMessage());
 			return false;
+		}
+	}
+	@Override
+	public void dashBoard(ArrayList<DashBoardVO> dashBoardVOlist, Timestamp startTimeStamp, Timestamp endTimeStamp) {
+		List<AppDTO> appList = appMapper.getAppList();
+		for(int i=0;i<appList.size();i++)
+		{
+			int dailyInstallation = 0;
+			int entireInstallation = 0;
+			int dailyAcquisition = 0;
+			int entireAcquisition = 0;
+			int dailyUsage = 0;
+			int entireUsage = 0;
+			int dailySales = 0;
+			int entireSales = 0;
+			DashBoardVO dashBoardVO = new DashBoardVO();
+			dashBoardVO.setAppName(appList.get(i).getAppName());
+			List<BillingDTO> billingList = billingMapper.getBillingListByAppID(appList.get(i).getAppID());
+			for(int j=0;j<billingList.size();j++)
+			{
+				if(billingList.get(j).getBillingType().equals("그랑코인 사용"))
+				{
+					entireUsage+=billingList.get(j).getBillingCoin();
+					if(startTimeStamp.before(billingList.get(j).getBillingDateTime()) && endTimeStamp.after(billingList.get(j).getBillingDateTime()))
+					{
+						dailyUsage+=billingList.get(j).getBillingCoin();
+					}
+				}
+				else
+				{
+					entireAcquisition+=billingList.get(j).getBillingCoin();
+					if(startTimeStamp.before(billingList.get(j).getBillingDateTime()) && endTimeStamp.after(billingList.get(j).getBillingDateTime()))
+					{
+						dailyAcquisition+=billingList.get(j).getBillingCoin();
+					}
+				}
+				if(billingList.get(j).getBillingType().equals("그랑코인 결제"))
+				{
+					entireSales+=billingList.get(j).getBillingMoney();
+					if(startTimeStamp.before(billingList.get(j).getBillingDateTime()) && endTimeStamp.after(billingList.get(j).getBillingDateTime()))
+					{
+						dailySales+=billingList.get(j).getBillingMoney();
+					}
+				}
+			}
+			List<UserInAppDTO> userInAppList = userInAppMapper.getUserInAppByAppID(appList.get(i).getAppID());
+			for(int j=0;j<userInAppList.size();j++)
+			{
+				entireInstallation++;
+				if(startTimeStamp.before(userInAppList.get(j).getUserInAppDateTime()) && endTimeStamp.after(userInAppList.get(j).getUserInAppDateTime()))
+				{
+					dailyInstallation++;
+				}
+			}
+			dashBoardVO.setDailyAcquisition(dailyAcquisition);
+			dashBoardVO.setDailyInstallation(dailyInstallation);
+			dashBoardVO.setDailySales(dailySales);
+			dashBoardVO.setDailyUsage(dailyUsage);
+			dashBoardVO.setEntireAcquisition(entireAcquisition);
+			dashBoardVO.setEntireInstallation(entireInstallation);
+			dashBoardVO.setEntireSales(entireSales);
+			dashBoardVO.setEntireUsage(entireUsage);
+			dashBoardVOlist.add(dashBoardVO);
 		}
 	}
 	

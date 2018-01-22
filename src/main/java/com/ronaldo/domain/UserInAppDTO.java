@@ -1,5 +1,6 @@
 package com.ronaldo.domain;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class UserInAppDTO {
@@ -8,8 +9,15 @@ public class UserInAppDTO {
     private int appID;
     private boolean appType; // true == Android , false == IOS
     private String appName;
+    private Timestamp userInAppDateTime;
     private List<AppEventDTO> appEventList;
     
+	public Timestamp getUserInAppDateTime() {
+		return userInAppDateTime;
+	}
+	public void setUserInAppDateTime(Timestamp userInAppDateTime) {
+		this.userInAppDateTime = userInAppDateTime;
+	}
 	public boolean getAppType() {
 		return appType;
 	}
