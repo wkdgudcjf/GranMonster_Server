@@ -157,27 +157,27 @@
 	 });
 	function searchDash()
 	{
-		 $("#table_body").empty();
 		 $.ajax({
 				url:"/dashboard",
 				type: "POST",
 				data : {'searchTime':$("#searchTime").val()},
 				dataType  : 'json',
 		        success: function (data) {
+				    var $datatable = $('#mytable').DataTable();
+                    $datatable.clear();
 		        	$.each(data , function(idx, item) {
-		        		var str = "<tr>";
-		        		str+="<td>"+item.appName+"</td>";
-		        		str+="<td>"+item.dailyInstallation+"</td>";
-		        		str+="<td>"+item.entireInstallation+"</td>";
-		        		str+="<td>"+item.dailyAcquisition+"</td>";
-		        		str+="<td>"+item.entireAcquisition+"</td>";
-		        		str+="<td>"+item.dailyUsage+"</td>";
-		        		str+="<td>"+item.entireUsage+"</td>";
-		        		str+="<td>"+item.dailySales+"</td>";
-		        		str+="<td>"+item.entireSales+"</td></tr>";
-		        		$("#table_body").append(str);
+                        $datatable.row.add([
+                            item.appName,
+                            item.dailyInstallation,
+                            item.entireInstallation,
+                            item.dailyAcquisition,
+                            item.entireAcquisition,
+                            item.dailyUsage,
+                            item.entireUsage,
+                            item.dailySales,
+                            item.entireSales
+                        ]).draw();
 		        	});
-		        	tableSum();
 		        	$("#searchModal").modal('hide');
 		        },
 		        error:function(request,status,error){
@@ -185,6 +185,7 @@
 		        }
 			});
 	 }
+
 	function searchModal(){
 		 var date = moment();
 		    $("#searchTime").daterangepicker({
