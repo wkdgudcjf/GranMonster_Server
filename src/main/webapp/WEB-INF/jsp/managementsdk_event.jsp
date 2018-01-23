@@ -91,7 +91,7 @@ public void RequestEventComplete(string eventKey)
 		</div>
 		<br/>
 		<div id="sdk_event_reward_sourcecode">
-		 <h1>D. 구매 진행 로직 소스코드</h1>
+		 <h1>D. 이벤트 보상 소스코드</h1>
 			<pre><code>
 public void RequestEventReward(string eventKey)
 {

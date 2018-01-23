@@ -55,6 +55,7 @@
 			    <h5> 위 그림은 그랑몬스터 서버가 내려주는 상품 키를 등록하는 작업입니다. </h5>
 			    <h5>그랑코인 샵 다이얼로그가 처음 로딩되는 순간 그랑몬스터 서버로부터 판매 중인 아이템의 ProductName들을 받아옵니다.</h5>
 			    <h5>해당 정보는 List&lt;GrancoinShopManager.Exchange&gt; 타입으로 제공되며 이를 받아 Unity IAP 초기화 규칙에 따르는 로직을 작성하면 됩니다. </h5>
+			    <h5>위 함수는 4-3에 1번 항목에 들어가는 initializer Callback 함수 입니다. </h5>
 			     </div>
 			     <!-- /.box-body -->
 		   </div>

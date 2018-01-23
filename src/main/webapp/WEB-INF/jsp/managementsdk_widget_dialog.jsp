@@ -66,56 +66,21 @@
 		<pre><code>
 private void Start()
 {
-      if (WidgetManager.IsInitialized() == false)
-      {
-         Utility.DebugLog("로딩 시간을 줄이기 위해 위젯을 미리 로드합니다.");
-         string debugMessage = WidgetManager.Initialize ?
-            "위젯 미리 로드에 성공하였습니다." : "위젯 미리 로드에 실패하였습니다.";
-         Utility.DebugLog(debugMessage);
-      }
+   if (WidgetManager.IsInitialized() == false)
+   {
+      Utility.DebugLog("로딩 시간을 줄이기 위해 위젯을 미리 로드합니다.");
+      string debugMessage = WidgetManager.Initialize ?
+         "위젯 미리 로드에 성공하였습니다." : "위젯 미리 로드에 실패하였습니다.";
+      Utility.DebugLog(debugMessage);
+   }
 
-      if (GrancoinShopManager.IsInitialized() == false)
-      {
-         Utility.DebugLog("로딩 시간을 줄이기 위해 그랑코인 샵을 미리 로드합니다.");
-         string debugMessage = GrancoinShopManager.Initialize ?
-            "그랑코인 샵 미리 로드에 성공하였습니다." : "그랑코인 샵 미리 로드에 실패하였습니다.";
-         Utility.DebugLog(debugMessage);
-      }
-
-      int firstLogin = PlayerPrefs.GetInt("HasPlayed");
-      if (firstLogin == 0)
-      {
-         PlayerPrefs.SetInt("HasPlayed", 1);
-
-         if (ServerConnection.FirstLogin(GlobalConstants.GranmonsterGameKey))
-         {
-            // 어플리케이션을 설치하고 첫 실행을 하였다 하더라도 서버의 데이터도 함께 검증해야 합니다.
-            // 유저가 고의적으로 어플리케이션을 삭제 후 재설치를 반복하여 부당 이득을 취하는 것을 방지하기 위함입니다.
-            ResponseProtocol.ResponseEvent responseEvent = granmonster.EventManager.EventComplete(GlobalConstants.GranmonsterGameKey, "install");
-            if (responseEvent.State != ResponseProtocol.ResponseEvent.StatusCode.SUCCESS)
-            {
-               Utility.DebugLog("install 이벤트 완료 요청을 보냈지만 실패했습니다.(Error Code : " + responseEvent.State + ")");
-               return;
-            }
-
-            responseEvent = granmonster.EventManager.EventComplete(GlobalConstants.GranmonsterGameKey, "first_run");
-            if (responseEvent.State != ResponseProtocol.ResponseEvent.StatusCode.SUCCESS)
-            {
-               Utility.DebugLog("first_run 이벤트 완료 요청을 보냈지만 실패했습니다.(Error Code : " + responseEvent.State + ")");
-               return;
-            }
-
-            Utility.DebugLog("설치 후 첫 실행 이벤트를 완료하였습니다.");
-         }
-         else
-         {
-            Utility.DebugLog("ServerConnection.FirstLogin() 함수가 false를 리턴하였습니다.");
-         }
-      }
-      else
-      {
-         Utility.DebugLog("설치 후 두 번 이상 로그인 하였습니다. 이벤트 완료 요청을 하지 않습니다.");
-      }
+   if (GrancoinShopManager.IsInitialized() == false)
+   {
+      Utility.DebugLog("로딩 시간을 줄이기 위해 그랑코인 샵을 미리 로드합니다.");
+      string debugMessage = GrancoinShopManager.Initialize ?
+         "그랑코인 샵 미리 로드에 성공하였습니다." : "그랑코인 샵 미리 로드에 실패하였습니다.";
+      Utility.DebugLog(debugMessage);
+   }
 }
 		</code></pre>
      </div>

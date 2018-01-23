@@ -682,6 +682,7 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("appList(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
+		returnAppListVO.setUserCoin(userDTO.getUserCoin());
 		List<UserInAppDTO> userInAppList = getUserInAppByUserID(userDTO.getUserID());
 		List<UserEventDTO> userEventList = getUserEventList(userDTO.getUserID());
 		

@@ -7,6 +7,7 @@ import com.ronaldo.config.ErrorCodeConfig.AppListEnum;
 public class ReturnAppListVO {
     private AppListEnum state;
 	private List<ReturnAppVO> appList;
+	private int userCoin;
 	public AppListEnum getState() {
 		return state;
 	}
@@ -19,6 +20,10 @@ public class ReturnAppListVO {
 	public void setAppList(List<ReturnAppVO> appList) {
 		this.appList = appList;
 	}
-
-    
+	public int getUserCoin() {
+		return userCoin;
+	}
+	public void setUserCoin(int userCoin) {
+		this.userCoin = userCoin;
+	}
 }

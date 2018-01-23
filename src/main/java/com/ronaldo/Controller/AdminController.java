@@ -108,6 +108,15 @@ public class AdminController
 		}
     	return setManagementSDK(model,"managementsdk_billing_button");
     }
+	@RequestMapping(value = "/managementsdk_billing_exhaust", method = RequestMethod.GET)
+    public String managementsdk_billing_exhaust(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_billing_exhaust");
+    }
 	@RequestMapping(value = "/managementsdk_widget_dialog", method = RequestMethod.GET)
     public String managementsdk_widget_dialog(Model model)
 	{
@@ -135,6 +144,7 @@ public class AdminController
 		}
     	return setManagementSDK(model,"managementsdk_login");
     }
+	
 	@RequestMapping(value = "/managementsdk_event", method = RequestMethod.GET)
     public String managementsdk_event(Model model)
 	{
@@ -143,6 +153,16 @@ public class AdminController
     		return setRedirectLogin(model);
 		}
     	return setManagementSDK(model,"managementsdk_event");
+    }
+	
+	@RequestMapping(value = "/managementsdk_errorcode", method = RequestMethod.GET)
+    public String managementsdk_errorcode(Model model)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementSDK(model,"managementsdk_errorcode");
     }
 	
 	@RequestMapping(value = "/managementuser", method = RequestMethod.GET)

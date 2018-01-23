@@ -72,10 +72,14 @@
                 <li><a href="/managementsdk_billing"><i class="fa fa-circle-o"></i> 4-1. 연동 방법 </a></li>
                 <li><a href="/managementsdk_billing_dialog"><i class="fa fa-circle-o"></i> 4-2. Gran샵 다이얼로그</a></li>
                 <li><a href="/managementsdk_billing_button"><i class="fa fa-circle-o"></i> 4-3. Gran샵 플로팅 버튼</a></li>
+                <li><a href="/managementsdk_billing_exhaust"><i class="fa fa-circle-o"></i> 4-3. 그랑코인 사용</a></li>
               </ul>
             </li>
              <li>
             	<a href="/managementsdk_event"><i class="fa fa-circle-o"></i> 5. 이벤트 연동</a>
+            </li>
+            <li>
+            	<a href="/managementsdk_errorcode"><i class="fa fa-circle-o"></i> 6. 에러 코드</a>
             </li>
           </ul>
         </li>
