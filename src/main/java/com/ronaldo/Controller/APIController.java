@@ -15,19 +15,25 @@ import com.ronaldo.vo.ReceiveEventRewardVO;
 import com.ronaldo.vo.ReceiveEventVO;
 import com.ronaldo.vo.ReceiveExchangeAPIVO;
 import com.ronaldo.vo.ReceiveExhaustVO;
+import com.ronaldo.vo.ReceiveInstallVO;
 import com.ronaldo.vo.ReceivePayloadVO;
+import com.ronaldo.vo.ReceivePlayVO;
 import com.ronaldo.vo.ReceivePurchaseVO;
 import com.ronaldo.vo.ReceiveUserVO;
-import com.ronaldo.vo.ReceiveVisibleVO;
+import com.ronaldo.vo.ReceiveWidgetVisibleVO;
+import com.ronaldo.vo.ReceiveBillingVisibleVO;
 import com.ronaldo.vo.ReturnAppListVO;
+import com.ronaldo.vo.ReturnBillingVisibleVO;
 import com.ronaldo.vo.ReturnEventRewardVO;
 import com.ronaldo.vo.ReturnEventVO;
 import com.ronaldo.vo.ReturnExchangeListVO;
 import com.ronaldo.vo.ReturnExhaustVO;
+import com.ronaldo.vo.ReturnInstallVO;
 import com.ronaldo.vo.ReturnPayloadVO;
+import com.ronaldo.vo.ReturnPlayVO;
 import com.ronaldo.vo.ReturnPurchaseVO;
 import com.ronaldo.vo.ReturnUserVO;
-import com.ronaldo.vo.ReturnVisibleVO;
+import com.ronaldo.vo.ReturnWidgetVisibleVO;
 
 @RestController
 public class APIController {
@@ -43,17 +49,6 @@ public class APIController {
 		apiService.login(receiveUserVO,returnUserVO);
 		
 		return new ResponseEntity<>(returnUserVO, HttpStatus.OK);
-		// Only OK. Because state... hmm.. anyway communication ok..
-	}
-
-	@RequestMapping(value = "/api/visible", method = RequestMethod.POST)
-	public ResponseEntity<ReturnVisibleVO> visible(@RequestBody ReceiveVisibleVO receiveVisibleVO)
-	{
-		ReturnVisibleVO returnVisibleVO = new ReturnVisibleVO();
-
-		apiService.visible(receiveVisibleVO,returnVisibleVO);
-		
-		return new ResponseEntity<>(returnVisibleVO, HttpStatus.OK);
 		// Only OK. Because state... hmm.. anyway communication ok..
 	}
 	
@@ -118,5 +113,44 @@ public class APIController {
 		apiService.eventReward(receiveEventRewardVO,returnEventRewardVO);
 		
 		return new ResponseEntity<>(returnEventRewardVO, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/api/install", method = RequestMethod.POST)
+	public ResponseEntity<ReturnInstallVO> install(@RequestBody ReceiveInstallVO receiveInstallVO) {
+		ReturnInstallVO returnInstallVO = new ReturnInstallVO();
+		
+		apiService.install(receiveInstallVO,returnInstallVO);
+		
+		return new ResponseEntity<>(returnInstallVO, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/api/play", method = RequestMethod.POST)
+	public ResponseEntity<ReturnPlayVO> play(@RequestBody ReceivePlayVO receivePlayVO) {
+		ReturnPlayVO returnPlayVO = new ReturnPlayVO();
+		
+		apiService.play(receivePlayVO,returnPlayVO);
+		
+		return new ResponseEntity<>(returnPlayVO, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/api/billingVisible", method = RequestMethod.POST)
+	public ResponseEntity<ReturnBillingVisibleVO> billingvisible(@RequestBody ReceiveBillingVisibleVO receiveBillingVisibleVO)
+	{
+		ReturnBillingVisibleVO returnBillingVisibleVO = new ReturnBillingVisibleVO();
+
+		apiService.billingVisible(receiveBillingVisibleVO,returnBillingVisibleVO);
+		
+		return new ResponseEntity<>(returnBillingVisibleVO, HttpStatus.OK);
+		// Only OK. Because state... hmm.. anyway communication ok..
+	}
+	
+	@RequestMapping(value = "/api/widgetVisible", method = RequestMethod.POST)
+	public ResponseEntity<ReturnWidgetVisibleVO> widgetvisible(@RequestBody ReceiveWidgetVisibleVO receiveWidgetVisibleVO)
+	{
+		ReturnWidgetVisibleVO returnWidgetVisibleVO = new ReturnWidgetVisibleVO();
+
+		apiService.widgetVisible(receiveWidgetVisibleVO,returnWidgetVisibleVO);
+		
+		return new ResponseEntity<>(returnWidgetVisibleVO, HttpStatus.OK);
+		// Only OK. Because state... hmm.. anyway communication ok..
 	}
 }

@@ -5,7 +5,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ReceiveAppVO {
 	private int appID;
 	private boolean appEnable;
-	private boolean appVisible;
+	private boolean appBillingVisible;
+	private boolean appWidgetVisible;
 	private String appAndroidPackage;
 	private String appAndroidURL;
 	private String appIOSPackage;
@@ -25,11 +26,17 @@ public class ReceiveAppVO {
 	public void setAppID(int appID) {
 		this.appID = appID;
 	}
-	public boolean isAppVisible() {
-		return appVisible;
+	public boolean isAppBillingVisible() {
+		return appBillingVisible;
 	}
-	public void setAppVisible(boolean appVisible) {
-		this.appVisible = appVisible;
+	public void setAppBillingVisible(boolean appBillingVisible) {
+		this.appBillingVisible = appBillingVisible;
+	}
+	public boolean isAppWidgetVisible() {
+		return appWidgetVisible;
+	}
+	public void setAppWidgetVisible(boolean appWidgetVisible) {
+		this.appWidgetVisible = appWidgetVisible;
 	}
 	public boolean isAppEnable() {
 		return appEnable;

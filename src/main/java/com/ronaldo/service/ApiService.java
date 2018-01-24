@@ -22,19 +22,25 @@ import com.ronaldo.vo.ReceiveEventVO;
 import com.ronaldo.vo.ReceiveExchangeAPIVO;
 import com.ronaldo.vo.ReceiveExchangeVO;
 import com.ronaldo.vo.ReceiveExhaustVO;
+import com.ronaldo.vo.ReceiveInstallVO;
 import com.ronaldo.vo.ReceivePayloadVO;
+import com.ronaldo.vo.ReceivePlayVO;
 import com.ronaldo.vo.ReceivePurchaseVO;
 import com.ronaldo.vo.ReceiveUserVO;
-import com.ronaldo.vo.ReceiveVisibleVO;
+import com.ronaldo.vo.ReceiveWidgetVisibleVO;
+import com.ronaldo.vo.ReceiveBillingVisibleVO;
 import com.ronaldo.vo.ReturnAppListVO;
+import com.ronaldo.vo.ReturnBillingVisibleVO;
 import com.ronaldo.vo.ReturnEventRewardVO;
 import com.ronaldo.vo.ReturnEventVO;
 import com.ronaldo.vo.ReturnExchangeListVO;
 import com.ronaldo.vo.ReturnExhaustVO;
+import com.ronaldo.vo.ReturnInstallVO;
 import com.ronaldo.vo.ReturnPayloadVO;
+import com.ronaldo.vo.ReturnPlayVO;
 import com.ronaldo.vo.ReturnPurchaseVO;
 import com.ronaldo.vo.ReturnUserVO;
-import com.ronaldo.vo.ReturnVisibleVO;
+import com.ronaldo.vo.ReturnWidgetVisibleVO;
 import com.ronaldo.domain.UserDTO;
 
 public interface ApiService
@@ -99,6 +105,9 @@ public interface ApiService
 	public void exhaust(ReceiveExhaustVO receiveExhaustVO, ReturnExhaustVO returnExhaustVO);
 	public void event(ReceiveEventVO receiveEventVO, ReturnEventVO returnEventVO);
 	public void eventReward(ReceiveEventRewardVO receiveEventRewardVO, ReturnEventRewardVO returnEventRewardVO);
-	public void visible(ReceiveVisibleVO receiveVisibleVO, ReturnVisibleVO returnVisibleVO);
+	public void billingVisible(ReceiveBillingVisibleVO receiveBillingVisibleVO, ReturnBillingVisibleVO returnBillingVisibleVO);
+	public void widgetVisible(ReceiveWidgetVisibleVO receiveWidgetVisibleVO, ReturnWidgetVisibleVO returnWidgetVisibleVO);
 	public void dashBoard(ArrayList<DashBoardVO> dashBoardVOlist, Timestamp startTimeStamp, Timestamp endTimeStamp);
+	public void install(ReceiveInstallVO receiveInstallVO, ReturnInstallVO returnInstallVO);
+	public void play(ReceivePlayVO receivePlayVO, ReturnPlayVO returnPlayVO);
 }

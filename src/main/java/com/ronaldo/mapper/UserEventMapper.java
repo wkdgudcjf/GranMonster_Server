@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ronaldo.domain.UserEventDTO;
 
 @Mapper
-public interface  UserEventMapper{
+public interface UserEventMapper{
 	public UserEventDTO getUserEvent(UserEventDTO userEventDTO);
 	public void registUserEvent(UserEventDTO userEventDTO);
 	public List<UserEventDTO> getUserEventList(int userID);

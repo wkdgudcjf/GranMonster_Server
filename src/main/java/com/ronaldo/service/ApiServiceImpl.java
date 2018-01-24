@@ -18,16 +18,20 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import com.ronaldo.config.ErrorCodeConfig.AppListEnum;
+import com.ronaldo.config.ErrorCodeConfig.BillingVisibleEnum;
 import com.ronaldo.config.ErrorCodeConfig.EventEnum;
 import com.ronaldo.config.ErrorCodeConfig.EventRewardEnum;
 import com.ronaldo.config.ErrorCodeConfig.ExchangeEnum;
 import com.ronaldo.config.ErrorCodeConfig.ExhaustEnum;
+import com.ronaldo.config.ErrorCodeConfig.InstallEnum;
 import com.ronaldo.config.ErrorCodeConfig.LoginEnum;
 import com.ronaldo.config.ErrorCodeConfig.PayloadEnum;
+import com.ronaldo.config.ErrorCodeConfig.PlayEnum;
 import com.ronaldo.config.ErrorCodeConfig.PurchaseEnum;
-import com.ronaldo.config.ErrorCodeConfig.VisibleEnum;
+import com.ronaldo.config.ErrorCodeConfig.WidgetVisibleEnum;
 import com.ronaldo.config.GranConfig.AppTypeEnum;
 import com.ronaldo.domain.AppEventDTO;
+import com.ronaldo.domain.AppRouteDTO;
 import com.ronaldo.domain.AppDTO;
 import com.ronaldo.domain.BillingDTO;
 import com.ronaldo.domain.CompanyDTO;
@@ -39,6 +43,7 @@ import com.ronaldo.domain.UserEventDTO;
 import com.ronaldo.mapper.BillingMapper;
 import com.ronaldo.mapper.AppEventMapper;
 import com.ronaldo.mapper.AppMapper;
+import com.ronaldo.mapper.AppRouteMapper;
 import com.ronaldo.mapper.CompanyMapper;
 import com.ronaldo.mapper.ExchangeMapper;
 import com.ronaldo.mapper.UserEventMapper;
@@ -54,22 +59,28 @@ import com.ronaldo.vo.ReceiveEventVO;
 import com.ronaldo.vo.ReceiveExchangeAPIVO;
 import com.ronaldo.vo.ReceiveExchangeVO;
 import com.ronaldo.vo.ReceiveExhaustVO;
+import com.ronaldo.vo.ReceiveInstallVO;
 import com.ronaldo.vo.ReceivePayloadVO;
+import com.ronaldo.vo.ReceivePlayVO;
 import com.ronaldo.vo.ReceivePurchaseVO;
 import com.ronaldo.vo.ReceiveUserVO;
-import com.ronaldo.vo.ReceiveVisibleVO;
+import com.ronaldo.vo.ReceiveWidgetVisibleVO;
+import com.ronaldo.vo.ReceiveBillingVisibleVO;
 import com.ronaldo.vo.ReturnAppEventVO;
 import com.ronaldo.vo.ReturnAppListVO;
 import com.ronaldo.vo.ReturnAppVO;
+import com.ronaldo.vo.ReturnBillingVisibleVO;
 import com.ronaldo.vo.ReturnEventRewardVO;
 import com.ronaldo.vo.ReturnEventVO;
 import com.ronaldo.vo.ReturnExchangeListVO;
 import com.ronaldo.vo.ReturnExchangeVO;
 import com.ronaldo.vo.ReturnExhaustVO;
+import com.ronaldo.vo.ReturnInstallVO;
 import com.ronaldo.vo.ReturnPayloadVO;
+import com.ronaldo.vo.ReturnPlayVO;
 import com.ronaldo.vo.ReturnPurchaseVO;
 import com.ronaldo.vo.ReturnUserVO;
-import com.ronaldo.vo.ReturnVisibleVO;
+import com.ronaldo.vo.ReturnWidgetVisibleVO;
 
 @Service
 public class ApiServiceImpl implements ApiService
@@ -97,6 +108,9 @@ public class ApiServiceImpl implements ApiService
 
 	@Autowired
 	private UserEventMapper userEventMapper;
+	
+	@Autowired
+	private AppRouteMapper appRouteMapper;
 
 	@Autowired
 	private DataSourceTransactionManager dataSourceTransactionManager;
@@ -168,7 +182,8 @@ public class ApiServiceImpl implements ApiService
 		appDTO.setAppIOSURL(receiveAppVO.getAppIOSURL());
 		appDTO.setAppIOSPackage(receiveAppVO.getAppIOSPackage());
 		appDTO.setAppEnable(receiveAppVO.isAppEnable());
-		appDTO.setAppVisible(receiveAppVO.isAppVisible());
+		appDTO.setAppBillingVisible(receiveAppVO.isAppBillingVisible());
+		appDTO.setAppWidgetVisible(receiveAppVO.isAppWidgetVisible());
 		try
 		{
 			appMapper.updateApp(appDTO);
@@ -669,6 +684,7 @@ public class ApiServiceImpl implements ApiService
 		{
 			if(appDTOList.get(i).getAppKey().compareTo(appKey)==0)
 			{
+				System.out.println("??");
 				AppDTO appDto = appDTOList.get(i);
 				appDTOList.remove(i);
 				appDTOList.add(0, appDto);
@@ -719,7 +735,7 @@ public class ApiServiceImpl implements ApiService
 			returnAppVO.setAppInstall(false);
 			// event 확인하기 (userKey로)
 			List<AppEventDTO> appEventList = getAppEventEnableList(appDTOList.get(i).getAppID());
-			
+			System.out.println(appDTOList.get(i).getAppName());
 			List<ReturnAppEventVO> returnEventList = new ArrayList<ReturnAppEventVO>();
 			for(int j=0;j<appEventList.size();j++)
 			{
@@ -731,6 +747,7 @@ public class ApiServiceImpl implements ApiService
 				}
 				if(appEventList.get(j).getAppEventStartTime().getTime() > System.currentTimeMillis())// 시작시간이 지금보다 앞서면
 				{
+					System.out.println("뭐냥시발 "+appDTOList.get(i).getAppName());
 					LOG.info("appList(NOT_YET_EVENT_START) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventList.get(j).getAppEventKey());
 					continue;
 				}
@@ -966,12 +983,12 @@ public class ApiServiceImpl implements ApiService
 		return;
 	}
 	@Override
-	public void visible(ReceiveVisibleVO receiveVisibleVO, ReturnVisibleVO returnVisibleVO) {
-		String appKey = receiveVisibleVO.getAppKey();
-		String userKey = receiveVisibleVO.getUserKey();
+	public void billingVisible(ReceiveBillingVisibleVO receiveBillingVisibleVO, ReturnBillingVisibleVO returnBillingVisibleVO) {
+		String appKey = receiveBillingVisibleVO.getAppKey();
+		String userKey = receiveBillingVisibleVO.getUserKey();
 		AppDTO appDTO = getApp(appKey);
 		if (appDTO == null) {
-			returnVisibleVO.setState(VisibleEnum.NOT_EXIST_APPKEY);
+			returnBillingVisibleVO.setState(BillingVisibleEnum.NOT_EXIST_APPKEY);
 			LOG.info("visible(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
@@ -979,18 +996,47 @@ public class ApiServiceImpl implements ApiService
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
-			returnVisibleVO.setState(VisibleEnum.NOT_EXIST_USERKEY);
+			returnBillingVisibleVO.setState(BillingVisibleEnum.NOT_EXIST_USERKEY);
 			LOG.info("visible(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
 		
-		if(appDTO.isAppVisible())
+		if(appDTO.isAppBillingVisible())
 		{
-			returnVisibleVO.setState(VisibleEnum.VISIBLE);
+			returnBillingVisibleVO.setState(BillingVisibleEnum.VISIBLE);
 		}
 		else
 		{
-			returnVisibleVO.setState(VisibleEnum.INVISIBLE);
+			returnBillingVisibleVO.setState(BillingVisibleEnum.INVISIBLE);
+		}
+		return;
+	}
+	@Override
+	public void widgetVisible(ReceiveWidgetVisibleVO receiveWidgetVisibleVO, ReturnWidgetVisibleVO returnWidgetVisibleVO) {
+		String appKey = receiveWidgetVisibleVO.getAppKey();
+		String userKey = receiveWidgetVisibleVO.getUserKey();
+		AppDTO appDTO = getApp(appKey);
+		if (appDTO == null) {
+			returnWidgetVisibleVO.setState(WidgetVisibleEnum.NOT_EXIST_APPKEY);
+			LOG.info("visible(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
+
+		UserDTO userDTO = getUser(userKey);
+		if (userDTO == null)
+		{
+			returnWidgetVisibleVO.setState(WidgetVisibleEnum.NOT_EXIST_USERKEY);
+			LOG.info("visible(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
+		
+		if(appDTO.isAppWidgetVisible())
+		{
+			returnWidgetVisibleVO.setState(WidgetVisibleEnum.VISIBLE);
+		}
+		else
+		{
+			returnWidgetVisibleVO.setState(WidgetVisibleEnum.INVISIBLE);
 		}
 		return;
 	}
@@ -1255,6 +1301,76 @@ public class ApiServiceImpl implements ApiService
 			dashBoardVO.setEntireUsage(entireUsage);
 			dashBoardVOlist.add(dashBoardVO);
 		}
+	}
+	@Override
+	public void install(ReceiveInstallVO receiveInstallVO, ReturnInstallVO returnInstallVO) {
+		String appKey = receiveInstallVO.getAppKey();
+		String userKey = receiveInstallVO.getUserKey();
+		int desAppID = receiveInstallVO.getDesAppID();
+		AppDTO appDTO = getApp(appKey);
+		if (appDTO == null) {
+			returnInstallVO.setState(InstallEnum.NOT_EXIST_APPKEY);
+			LOG.info("install(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
+
+		UserDTO userDTO = getUser(userKey);
+		if (userDTO == null)
+		{
+			returnInstallVO.setState(InstallEnum.NOT_EXIST_USERKEY);
+			LOG.info("visible(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
+		AppRouteDTO appRouteDTO = new AppRouteDTO();
+		appRouteDTO.setSrcAppID(appDTO.getAppID());
+		appRouteDTO.setDesAppID(desAppID);
+		appRouteDTO.setAppRouteType(true);
+		try
+		{
+			appRouteMapper.registAppRoute(appRouteDTO);
+			returnInstallVO.setState(InstallEnum.SUCCESS);
+		}
+		catch(Exception e)
+		{
+			LOG.info(e.getMessage());
+			returnInstallVO.setState(InstallEnum.UNKNOWN);
+		}
+		return;
+	}
+	@Override
+	public void play(ReceivePlayVO receivePlayVO, ReturnPlayVO returnPlayVO) {
+		String appKey = receivePlayVO.getAppKey();
+		String userKey = receivePlayVO.getUserKey();
+		int desAppID = receivePlayVO.getDesAppID();
+		AppDTO appDTO = getApp(appKey);
+		if (appDTO == null) {
+			returnPlayVO.setState(PlayEnum.NOT_EXIST_APPKEY);
+			LOG.info("play(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
+
+		UserDTO userDTO = getUser(userKey);
+		if (userDTO == null)
+		{
+			returnPlayVO.setState(PlayEnum.NOT_EXIST_USERKEY);
+			LOG.info("play(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			return;
+		}
+		AppRouteDTO appRouteDTO = new AppRouteDTO();
+		appRouteDTO.setSrcAppID(appDTO.getAppID());
+		appRouteDTO.setDesAppID(desAppID);
+		appRouteDTO.setAppRouteType(false);
+		try
+		{
+			appRouteMapper.registAppRoute(appRouteDTO);
+			returnPlayVO.setState(PlayEnum.SUCCESS);
+		}
+		catch(Exception e)
+		{
+			LOG.info(e.getMessage());
+			returnPlayVO.setState(PlayEnum.UNKNOWN);
+		}
+		return;
 	}
 	
 }

@@ -16,6 +16,7 @@
         <mapper resource="mapper/AppEventMapper.xml"/>
         <mapper resource="mapper/UserEventMapper.xml"/>
         <mapper resource="mapper/UserInAppMapper.xml"/>
+        <mapper resource="mapper/AppRouteMapper.xml"/>
     </mappers>
     
 </configuration>

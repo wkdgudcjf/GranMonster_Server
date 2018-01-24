@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ronaldo.domain.ExchangeDTO;
 
 @Mapper
-public interface  ExchangeMapper{
+public interface ExchangeMapper{
 	 public ExchangeDTO getExchange(int exchangeID);
 	 public List<ExchangeDTO> getExchangeList();
 	 public List<ExchangeDTO> getEnableExchangeList(boolean exchangeEnable);

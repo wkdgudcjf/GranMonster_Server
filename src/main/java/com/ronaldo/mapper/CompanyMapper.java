@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ronaldo.domain.CompanyDTO;
 
 @Mapper
-public interface  CompanyMapper{
+public interface CompanyMapper{
 	 public CompanyDTO getCompany(int companyID);
 	 public List<CompanyDTO> getCompanyList();
 	 public List<CompanyDTO> getEnableCompanyList(boolean appEnable);

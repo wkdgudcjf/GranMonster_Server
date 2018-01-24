@@ -124,7 +124,8 @@
                 <thead>
                   <tr>
                     <th>활성</th>
-                    <th>노출</th>
+                    <th>결제 노출</th>
+                    <th>위젯 노출</th>
                     <th>게임명</th>
                     <th>회사명</th>
                     <th>마켓경로</th>
@@ -138,7 +139,8 @@
                 <tfoot>
                   <tr>
                     <th>Enable</th>
-                    <th>Visible</th>
+                    <th>Billing Visible</th>
+                    <th>Widget Visible</th>
                     <th>Game Name</th>
                     <th>Company Name</th>
                     <th>Market URL</th>
@@ -153,24 +155,34 @@
                   <c:forEach var="item" items="${applist}">
 	                <tr>
 				        <td rowspan=2>
-				        <c:choose>
-						<c:when test="${item.appEnable==true}"> 
-						    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
-						</c:when> 
-						<c:otherwise> 
-						    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
-						</c:otherwise>
-						</c:choose>
+					        <c:choose>
+							<c:when test="${item.appEnable==true}"> 
+							    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
+							</c:when> 
+							<c:otherwise> 
+							    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
+							</c:otherwise>
+							</c:choose>
 						</td>
 						<td rowspan=2>
-				        <c:choose>
-						<c:when test="${item.appVisible==true}"> 
-						    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
-						</c:when> 
-						<c:otherwise> 
-						    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
-						</c:otherwise>
-						</c:choose>
+				        	<c:choose>
+							<c:when test="${item.appBillingVisible==true}"> 
+							    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
+							</c:when> 
+							<c:otherwise> 
+							    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
+							</c:otherwise>
+							</c:choose>
+						</td>
+						<td rowspan=2>
+					        <c:choose>
+							<c:when test="${item.appWidgetVisible==true}"> 
+							    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
+							</c:when> 
+							<c:otherwise> 
+							    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
+							</c:otherwise>
+							</c:choose>
 						</td>
 				        <td rowspan=2><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
 				        / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
@@ -199,13 +211,23 @@
 						</td>
 						<td style="display: none;">
 				        <c:choose>
-						<c:when test="${item.appVisible==true}"> 
-						    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
-						</c:when> 
-						<c:otherwise> 
-						    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
-						</c:otherwise>
-						</c:choose>
+							<c:when test="${item.appBillingVisible==true}"> 
+							    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
+							</c:when> 
+							<c:otherwise> 
+							    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
+							</c:otherwise>
+							</c:choose>
+						</td>
+						<td style="display: none;">
+					        <c:choose>
+							<c:when test="${item.appWidgetVisible==true}"> 
+							    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
+							</c:when> 
+							<c:otherwise> 
+							    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
+							</c:otherwise>
+							</c:choose>
 						</td>
 				        <td style="display: none;"><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
 				        / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
@@ -523,12 +545,22 @@
 	            </div>
 	            
 	             <div class="form-group">
-	              <label for="modifyVisible">노출 여부</label><br>
+	              <label for="modifyBillingVisible">결제 노출 여부</label><br>
 	              <label class="radio-inline">
-			     	 <input type="radio" id="modifyAppVisible" value="true" name="appVisible">노출
+			     	 <input type="radio" id="modifyBillingVisible" value="true" name="appBillingVisible">노출
 				  </label>
 				  <label class="radio-inline">
-				     <input type="radio" id="modifyAppInVisible" value="false" name="appVisible">비노출
+				     <input type="radio" id="modifyBillingInVisible" value="false" name="appBillingVisible">비노출
+				  </label>
+	            </div>
+	            
+	            <div class="form-group">
+	              <label for="modifyWidgetVisible">위젯 노출 여부</label><br>
+	              <label class="radio-inline">
+			     	 <input type="radio" id="modifyWidgetVisible" value="true" name="appWidgetVisible">노출
+				  </label>
+				  <label class="radio-inline">
+				     <input type="radio" id="modifyWidgetInVisible" value="false" name="appWidgetVisible">비노출
 				  </label>
 	            </div>
 	          </form>
@@ -768,13 +800,21 @@
 			        	{
 			        		 $("#modifyAppDisable").prop("checked", true)
 			        	}
-			           	if(data.appVisible)
+			           	if(data.appBillingVisible)
 			        	{
-			        		 $("#modifyAppVisible").prop("checked", true)
+			        		 $("#modifyBillingVisible").prop("checked", true)
 			        	}
 			        	 else
 			        	{
-			        		 $("#modifyAppInVisible").prop("checked", true)
+			        		 $("#modifyBillingInVisible").prop("checked", true)
+			        	}
+			           	if(data.appWidgetVisible)
+			        	{
+			        		 $("#modifyWidgetVisible").prop("checked", true)
+			        	}
+			        	 else
+			        	{
+			        		 $("#modifyWidgetInVisible").prop("checked", true)
 			        	}
 			        	 $("#modifyAppID").val(data.appID);
 			        	 $("#modifyAppModal").modal('show');

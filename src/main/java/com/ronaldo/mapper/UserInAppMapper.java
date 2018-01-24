@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ronaldo.domain.UserInAppDTO;
 
 @Mapper
-public interface  UserInAppMapper{
+public interface UserInAppMapper{
 	public List<UserInAppDTO> getUserInAppByUserID(int userID);
 	public UserInAppDTO getUserInApp(UserInAppDTO userInAppDTO);
 	public void registUserInApp(UserInAppDTO userInAppDTO) throws Exception;

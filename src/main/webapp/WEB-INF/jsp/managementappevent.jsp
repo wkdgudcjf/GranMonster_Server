@@ -179,7 +179,7 @@
 	            
 	            <!-- Date and time range -->
                 <div class="form-group">
-                <label>이벤트 기간</label>
+                <label onClick="inputLimitTime();">이벤트 기간(클릭시 무제한)</label>
                   <div class="input-group">
                     <div class="input-group-addon">
                       <i class="fa fa-clock-o"></i>
@@ -248,7 +248,7 @@
 	            </div>
 	            <!-- Date and time range -->
                 <div class="form-group">
-                <label>이벤트 기간</label>
+                <label onClick="modifyLimitTime();">이벤트 기간(클릭시 무제한)</label>
                   <div class="input-group">
                     <div class="input-group-addon">
                       <i class="fa fa-clock-o"></i>
@@ -367,7 +367,34 @@
 			})
 		}
 	 });
-	
+	function inputLimitTime()
+	{
+		var date = moment();
+	    $("#inputAppEventReservationTime").daterangepicker({
+	        timePicker: true,
+	        timePickerIncrement: 1,
+	        minDate: date,
+	        startDate: date,
+	        endDate: '2099-12-31',
+	        locale: {
+	            format: 'YYYY-MM-DD HH:mm'
+	        }
+	    });
+	}
+	function modifyLimitTime()
+	{
+		var date = moment();
+	    $("#modifyAppEventReservationTime").daterangepicker({
+	        timePicker: true,
+	        timePickerIncrement: 1,
+	        minDate: date,
+	        startDate: date,
+	        endDate: '2099-12-31',
+	        locale: {
+	            format: 'YYYY-MM-DD HH:mm'
+	        }
+	    });
+	}
 	 function registAppEvent(){
 		 var inputAppEventContent = $('#inputAppEventContent'),
 		 inputAppEventCoin = $('#inputAppEventCoin'),

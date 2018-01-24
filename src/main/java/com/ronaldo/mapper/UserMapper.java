@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ronaldo.domain.UserDTO;
 
 @Mapper
-public interface  UserMapper{
+public interface UserMapper{
 	 public List<UserDTO> getUserList();
 	 public void registUser(UserDTO userDTO) throws Exception;
 	 public UserDTO getUser(String userKey);

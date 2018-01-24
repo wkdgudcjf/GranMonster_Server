@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ronaldo.domain.AppEventDTO;
 
 @Mapper
-public interface  AppEventMapper{
+public interface AppEventMapper{
 	public List<AppEventDTO> getAppEventList();
 	public List<AppEventDTO> getAppEventByAppID(int appID);
 	public List<AppEventDTO> getAppEventByAppIDByEnable(int appID);

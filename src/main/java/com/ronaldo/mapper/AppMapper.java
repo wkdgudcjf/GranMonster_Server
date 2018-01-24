@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ronaldo.domain.AppDTO;
 
 @Mapper
-public interface  AppMapper{
+public interface AppMapper{
 	public AppDTO getAppByID(int appID);
 	public AppDTO getAppByKey(String appKey);
 	 public List<AppDTO> getAppList();

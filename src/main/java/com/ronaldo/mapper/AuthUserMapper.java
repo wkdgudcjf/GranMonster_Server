@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ronaldo.domain.AuthUserDTO;
 
 @Mapper
-public interface  AuthUserMapper{
+public interface AuthUserMapper{
 	public AuthUserDTO searchAuthUser(String authUserID); 
 	//public List<GrantedAuthority> readAuthority(String username);
 	public void createAuthUser(AuthUserDTO authUserDTO);

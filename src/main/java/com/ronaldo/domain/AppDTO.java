@@ -22,7 +22,8 @@ public class AppDTO {
 	private String companyName;
 	private Timestamp appDateTime;
 	private boolean appEnable;
-	private boolean appVisible;
+	private boolean appBillingVisible;
+	private boolean appWidgetVisible;
 	private List<AppEventDTO> appEventList;
 	
     public List<AppEventDTO> getAppEventList() {
@@ -56,11 +57,17 @@ public class AppDTO {
 	public void setAppIOSPackage(String appIOSPackage) {
 		this.appIOSPackage = appIOSPackage;
 	}
-	public boolean isAppVisible() {
-		return appVisible;
+	public boolean isAppBillingVisible() {
+		return appBillingVisible;
 	}
-	public void setAppVisible(boolean appVisible) {
-		this.appVisible = appVisible;
+	public void setAppBillingVisible(boolean appBillingVisible) {
+		this.appBillingVisible = appBillingVisible;
+	}
+	public boolean isAppWidgetVisible() {
+		return appWidgetVisible;
+	}
+	public void setAppWidgetVisible(boolean appWidgetVisible) {
+		this.appWidgetVisible = appWidgetVisible;
 	}
 	public String getAppKey() {
 		return appKey;

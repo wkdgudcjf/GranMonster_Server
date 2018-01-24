@@ -246,10 +246,10 @@ public class AdminController
 	}
 	@RequestMapping(value = "/downloadSDK", method = RequestMethod.POST)
     public View downLoadFile() {
-        String fullPath = context.getRealPath("sdk/Granmonster_SDK_v1.0.unitypackage");
+        String fullPath = context.getRealPath("sdk/Granmonster_SDK_v1.1.unitypackage");
         File downloadFile = new File(fullPath);
         DownloadFileView downloadFileView = new DownloadFileView();
-        downloadFileView.downloadFileName = "Granmonster_SDK_v1.0.unitypackage";
+        downloadFileView.downloadFileName = "Granmonster_SDK_v1.1.unitypackage";
         downloadFileView.file = downloadFile;
         return downloadFileView;
     }
