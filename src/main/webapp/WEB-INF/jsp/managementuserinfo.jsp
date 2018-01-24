@@ -39,10 +39,10 @@
               	 <thead>
                   <tr>
                     <th>가입된 게임</th>
-                    <th>이벤트 내용</th>
-                    <th>보상</th>
-                    <th>달성 여부</th>
-                    <th>보상 여부</th>
+                    <th class="no-sort">이벤트 내용</th>
+                    <th class="no-sort">보상</th>
+                    <th class="no-sort">달성 여부</th>
+                    <th class="no-sort">보상 여부</th>
                   </tr>
                 </thead>
                 <tfoot>
@@ -101,7 +101,8 @@
 	      'searching'   : true,
 	      'ordering'    : true,
 	      'info'        : true,
-	      'autoWidth'   : true
+	      'autoWidth'   : true,
+	      columnDefs: [ { orderable: false, targets: 'no-sort' }],
 	    })
 		 $('#navi_user').attr('class',"active");
 		});

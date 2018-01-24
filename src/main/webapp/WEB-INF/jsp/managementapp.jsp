@@ -128,8 +128,8 @@
                     <th>위젯 노출</th>
                     <th>게임명</th>
                     <th>회사명</th>
-                    <th>마켓경로</th>
-                    <th>패키지명</th>
+                    <th class="no-sort">마켓경로</th>
+                    <th class="no-sort">패키지명</th>
                     <th>등록시간</th>
                     <th>아이콘 이미지</th>
                     <th>가로 배너 이미지</th>
@@ -584,7 +584,8 @@
 		      'searching'   : true,
 		      'ordering'    : true,
 		      'info'        : true,
-		      'autoWidth'   : true
+		      'autoWidth'   : true,
+		      columnDefs: [ { orderable: false, targets: 'no-sort' }]
 		    })
 		 $('#navi_app').attr('class',"active");
 		   var fileTarget = $('.filebox .upload-hidden');
