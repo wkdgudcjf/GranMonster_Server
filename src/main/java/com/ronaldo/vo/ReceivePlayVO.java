@@ -5,7 +5,7 @@ import com.ronaldo.config.GranConfig.AppTypeEnum;
 public class ReceivePlayVO {
 	private String userKey;
 	private String appKey;
-	private int desAppID;
+	private String desAppKey;
 	private AppTypeEnum appTypeEnum;
 	public String getUserKey() {
 		return userKey;
@@ -19,11 +19,11 @@ public class ReceivePlayVO {
 	public void setAppKey(String appKey) {
 		this.appKey = appKey;
 	}
-	public int getDesAppID() {
-		return desAppID;
+	public String getDesAppKey() {
+		return desAppKey;
 	}
-	public void setDesAppID(int desAppID) {
-		this.desAppID = desAppID;
+	public void setDesAppKey(String desAppKey) {
+		this.desAppKey = desAppKey;
 	}
 	public AppTypeEnum getAppTypeEnum() {
 		return appTypeEnum;

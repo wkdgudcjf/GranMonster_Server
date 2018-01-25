@@ -1306,14 +1306,19 @@ public class ApiServiceImpl implements ApiService
 	public void install(ReceiveInstallVO receiveInstallVO, ReturnInstallVO returnInstallVO) {
 		String appKey = receiveInstallVO.getAppKey();
 		String userKey = receiveInstallVO.getUserKey();
-		int desAppID = receiveInstallVO.getDesAppID();
+		String desAppKey = receiveInstallVO.getDesAppKey();
 		AppDTO appDTO = getApp(appKey);
 		if (appDTO == null) {
 			returnInstallVO.setState(InstallEnum.NOT_EXIST_APPKEY);
 			LOG.info("install(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
-
+		AppDTO desAppDTO = getApp(desAppKey);
+		if (desAppDTO == null) {
+			returnInstallVO.setState(InstallEnum.NOT_EXIST_APPKEY);
+			LOG.info("install(NOT_EXIST_APPKEY) - AppKey : " + desAppKey+" / UserKey : "+userKey);
+			return;
+		}
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
@@ -1323,7 +1328,7 @@ public class ApiServiceImpl implements ApiService
 		}
 		AppRouteDTO appRouteDTO = new AppRouteDTO();
 		appRouteDTO.setSrcAppID(appDTO.getAppID());
-		appRouteDTO.setDesAppID(desAppID);
+		appRouteDTO.setDesAppID(desAppDTO.getAppID());
 		appRouteDTO.setAppRouteType(true);
 		try
 		{
@@ -1341,14 +1346,19 @@ public class ApiServiceImpl implements ApiService
 	public void play(ReceivePlayVO receivePlayVO, ReturnPlayVO returnPlayVO) {
 		String appKey = receivePlayVO.getAppKey();
 		String userKey = receivePlayVO.getUserKey();
-		int desAppID = receivePlayVO.getDesAppID();
+		String desAppKey = receivePlayVO.getDesAppKey();
 		AppDTO appDTO = getApp(appKey);
 		if (appDTO == null) {
 			returnPlayVO.setState(PlayEnum.NOT_EXIST_APPKEY);
 			LOG.info("play(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
-
+		AppDTO desAppDTO = getApp(desAppKey);
+		if (desAppDTO == null) {
+			returnPlayVO.setState(PlayEnum.NOT_EXIST_APPKEY);
+			LOG.info("play(NOT_EXIST_APPKEY) - AppKey : " + desAppKey+" / UserKey : "+userKey);
+			return;
+		}
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
@@ -1358,7 +1368,7 @@ public class ApiServiceImpl implements ApiService
 		}
 		AppRouteDTO appRouteDTO = new AppRouteDTO();
 		appRouteDTO.setSrcAppID(appDTO.getAppID());
-		appRouteDTO.setDesAppID(desAppID);
+		appRouteDTO.setDesAppID(desAppDTO.getAppID());
 		appRouteDTO.setAppRouteType(false);
 		try
 		{
