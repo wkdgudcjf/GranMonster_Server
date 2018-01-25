@@ -684,7 +684,6 @@ public class ApiServiceImpl implements ApiService
 		{
 			if(appDTOList.get(i).getAppKey().compareTo(appKey)==0)
 			{
-				System.out.println("??");
 				AppDTO appDto = appDTOList.get(i);
 				appDTOList.remove(i);
 				appDTOList.add(0, appDto);
@@ -735,7 +734,6 @@ public class ApiServiceImpl implements ApiService
 			returnAppVO.setAppInstall(false);
 			// event 확인하기 (userKey로)
 			List<AppEventDTO> appEventList = getAppEventEnableList(appDTOList.get(i).getAppID());
-			System.out.println(appDTOList.get(i).getAppName());
 			List<ReturnAppEventVO> returnEventList = new ArrayList<ReturnAppEventVO>();
 			for(int j=0;j<appEventList.size();j++)
 			{
@@ -747,7 +745,6 @@ public class ApiServiceImpl implements ApiService
 				}
 				if(appEventList.get(j).getAppEventStartTime().getTime() > System.currentTimeMillis())// 시작시간이 지금보다 앞서면
 				{
-					System.out.println("뭐냥시발 "+appDTOList.get(i).getAppName());
 					LOG.info("appList(NOT_YET_EVENT_START) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventList.get(j).getAppEventKey());
 					continue;
 				}
