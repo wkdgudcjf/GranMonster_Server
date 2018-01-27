@@ -41,6 +41,7 @@ import com.ronaldo.vo.ReturnPlayVO;
 import com.ronaldo.vo.ReturnPurchaseVO;
 import com.ronaldo.vo.ReturnUserVO;
 import com.ronaldo.vo.ReturnWidgetVisibleVO;
+import com.ronaldo.vo.RouteVO;
 import com.ronaldo.domain.UserDTO;
 
 public interface ApiService
@@ -110,4 +111,6 @@ public interface ApiService
 	public void dashBoard(ArrayList<DashBoardVO> dashBoardVOlist, Timestamp startTimeStamp, Timestamp endTimeStamp);
 	public void install(ReceiveInstallVO receiveInstallVO, ReturnInstallVO returnInstallVO);
 	public void play(ReceivePlayVO receivePlayVO, ReturnPlayVO returnPlayVO);
+	
+	public List<RouteVO> getAppRoute(int appID);
 }

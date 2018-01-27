@@ -124,8 +124,6 @@
                 <thead>
                   <tr>
                     <th>활성</th>
-                    <th>결제 노출</th>
-                    <th>위젯 노출</th>
                     <th>게임명</th>
                     <th>회사명</th>
                     <th class="no-sort">마켓경로</th>
@@ -139,8 +137,6 @@
                 <tfoot>
                   <tr>
                     <th>Enable</th>
-                    <th>Billing Visible</th>
-                    <th>Widget Visible</th>
                     <th>Game Name</th>
                     <th>Company Name</th>
                     <th>Market URL</th>
@@ -164,27 +160,7 @@
 							</c:otherwise>
 							</c:choose>
 						</td>
-						<td rowspan=2>
-				        	<c:choose>
-							<c:when test="${item.appBillingVisible==true}"> 
-							    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
-							</c:when> 
-							<c:otherwise> 
-							    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
-							</c:otherwise>
-							</c:choose>
-						</td>
-						<td rowspan=2>
-					        <c:choose>
-							<c:when test="${item.appWidgetVisible==true}"> 
-							    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
-							</c:when> 
-							<c:otherwise> 
-							    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
-							</c:otherwise>
-							</c:choose>
-						</td>
-				        <td rowspan=2><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
+				        <td rowspan=2><a href="#" onclick="goToAppInfo(${item.appID});">${item.appName}</a>
 				        / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
 				        <td rowspan=2>${item.companyName}</td>
 				        <td>Android - <a href="${item.appAndroidURL}">${item.appAndroidURL}</a></td>
@@ -208,26 +184,6 @@
 						    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
 						</c:otherwise>
 						</c:choose>
-						</td>
-						<td style="display: none;">
-				        <c:choose>
-							<c:when test="${item.appBillingVisible==true}"> 
-							    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
-							</c:when> 
-							<c:otherwise> 
-							    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
-							</c:otherwise>
-							</c:choose>
-						</td>
-						<td style="display: none;">
-					        <c:choose>
-							<c:when test="${item.appWidgetVisible==true}"> 
-							    <img src="/image/enable.png" style="max-width:30px; max-height:30px;"> 
-							</c:when> 
-							<c:otherwise> 
-							    <img src="/image/disable.png" style="max-width:30px; max-height:30px;"> 
-							</c:otherwise>
-							</c:choose>
 						</td>
 				        <td style="display: none;"><a href="#" onclick="modifyAppModal(${item.appID});">${item.appName}</a>
 				        / <a href="#" onclick="goToEvent(${item.appID});">이벤트</a></td>
@@ -414,164 +370,6 @@
         </div>
       </div>
     </div>
-    
-     <!-- ModifyApp Modal -->
-    <div class="modal fade" id="modifyAppModal" tabindex="-1" role="dialog" aria-labelledby="modifyAppModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header" style="text-align: center;">
-            <h1 class="modal-title" id="modifyAppModalLabel">Modify App</h1>
-          </div>
-          <div class="modal-body">
-          	  <form id="modifyappform">
-          	  <input type="hidden" id="modifyAppID" value="temp" name="appID">
-	            <div class="form-group">
-                  <label for="modifyAppName">앱 이름(고유)</label>
-                  <input type="text" name="appName" class="form-control" id="modifyAppName" aria-describedby="nameHelp" placeholder="앱이름">
-	            </div>
-	            <div class="form-group">
-                  <label for="modifyAppAndroidPackage">Android 패키지명</label>
-                  <input type="text" name="appAndroidPackage" class="form-control" id="modifyAppAndroidPackage" aria-describedby="nameHelp" placeholder="Android 패키지명">
-	            </div>
-	            <div class="form-group">
-	              <label for="modifyAppAndroidURL">Android URL</label>
-	              <input type="text" name="appAndroidURL" class="form-control" id="modifyAppAndroidURL" aria-describedby="nameHelp" placeholder="Android URL">
-	            </div>
-	            <div class="form-group">
-                  <label for="modifyAppIOSPackage">IOS 패키지명</label>
-                  <input type="text" name="appIOSPackage" class="form-control" id="modifyAppIOSPackage" aria-describedby="nameHelp" placeholder="IOS 패키지명">
-	            </div>
-	            <div class="form-group">
-	              <label for="modifyAppIOSURL">IOS URL</label>
-	              <input type="text" name="appIOSURL" class="form-control" id="modifyAppIOSURL" aria-describedby="nameHelp" placeholder="IOS URL">
-	            </div>
-	            <div class="form-group">
-	              <label for="appKey">고유키</label>
-	              <p id="appKey"></p>
-	            </div>
-	             <div class="form-group">
-	             	<label for="modifyCompany">회사 선택</label>
-             		  <select name="companyID" class="input-large form-control">
-	             		  <c:forEach var="item" items="${companylist}">
-			                 <option value="${item.companyID}" id="modify_${item.companyID}">${item.companyName}</option>
-						    </c:forEach>
-                 	  </select>
-		         </div>
-	            <div class="form-group">
-	            <label for="modifyAppIconImage">아이콘 이미지 업로드(57x57)(부재시 기존이미지 사용)</label>
-	             <div class="filebox bs3-primary preview-image">
-                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-                      <label for="modifyAppIconImage">이미지찾기</label> 
-                    <input type="file" id="modifyAppIconImage" name="appIconImage" class="upload-hidden" accept="image/*"> 
-                  </div>
-	            </div>
-	            
-	            <!-- Form Element sizes -->
-		          <div class="box box-success">
-		            <div class="box-header with-border">
-		              <h3 class="box-title">가로형 배너 이미지 업로드(635x395)(부재시 기존이미지 사용)</h3>
-		            </div>
-		            <div class="box-body">
-		                <div class="form-group" style="margin-bottom: 0px;">
-			             <div class="filebox bs3-primary preview-image">
-		                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-		                      <label for="modifyAppHBannerImage1">이미지찾기</label> 
-		                    <input type="file" id="modifyAppHBannerImage1" name="appHBannerImage1" class="upload-hidden" accept="image/*"> 
-		                  </div>
-		          	   </div>
-		              <br>
-		              <div class="form-group" style="margin-bottom: 0px;">
-			             <div class="filebox bs3-primary preview-image">
-		                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-		                      <label for="modifyAppHBannerImage2">이미지찾기</label> 
-		                    <input type="file" id="modifyAppHBannerImage2" name="appHBannerImage2" class="upload-hidden" accept="image/*"> 
-		                  </div>
-		          	   </div>
-		              <br>
-		              <div class="form-group" style="margin-bottom: 0px;">
-			             <div class="filebox bs3-primary preview-image">
-		                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-		                      <label for="modifyAppHBannerImage3">이미지찾기</label> 
-		                    <input type="file" id="modifyAppHBannerImage3" name="appHBannerImage3" class="upload-hidden" accept="image/*"> 
-		                  </div>
-		          	   </div>
-		            </div>
-		            <!-- /.box-body -->
-		          </div>
-		          <!-- /.box -->
-		          
-          		<!-- Form Element sizes -->
-		          <div class="box box-success">
-		            <div class="box-header with-border">
-		              <h3 class="box-title">세로형 배너 이미지 업로드(580x285)(부재시 기존이미지 사용)</h3>
-		            </div>
-		            <div class="box-body">
-		                <div class="form-group" style="margin-bottom: 0px;">
-			             <div class="filebox bs3-primary preview-image">
-	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-	                      <label for="modifyAppVBannerImage1">이미지찾기</label> 
-	                    <input type="file" id="modifyAppVBannerImage1" name="appVBannerImage1" class="upload-hidden" accept="image/*"> 
-	                 	 </div>
-		          	   </div>
-		              <br>
-		              <div class="form-group" style="margin-bottom: 0px;">
-			             <div class="filebox bs3-primary preview-image">
-	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-	                      <label for="modifyAppVBannerImage2">이미지찾기</label> 
-	                    <input type="file" id="modifyAppVBannerImage2" name="appVBannerImage2" class="upload-hidden" accept="image/*"> 
-	                  	</div>
-		          	   </div>
-		              <br>
-		              <div class="form-group" style="margin-bottom: 0px;">
-			             <div class="filebox bs3-primary preview-image">
-	                      <input class="upload-name" value="파일선택" disabled="disabled" style="width: 200px;">
-	                      <label for="modifyAppVBannerImage3">이미지찾기</label> 
-	                    <input type="file" id="modifyAppVBannerImage3" name="appVBannerImage3" class="upload-hidden" accept="image/*"> 
-	                  </div>
-		            </div>
-		            <!-- /.box-body -->
-		           </div>
-	              <!-- /.box -->
-	          </div>
-	           
-	            <div class="form-group">
-	              <label for="modifyEnable">활성여부</label><br>
-	              <label class="radio-inline">
-			     	 <input type="radio" id="modifyAppEnable" value="true" name="appEnable">활성
-				  </label>
-				  <label class="radio-inline">
-				     <input type="radio" id="modifyAppDisable" value="false" name="appEnable">비활성
-				  </label>
-	            </div>
-	            
-	             <div class="form-group">
-	              <label for="modifyBillingVisible">결제 노출 여부</label><br>
-	              <label class="radio-inline">
-			     	 <input type="radio" id="modifyBillingVisible" value="true" name="appBillingVisible">노출
-				  </label>
-				  <label class="radio-inline">
-				     <input type="radio" id="modifyBillingInVisible" value="false" name="appBillingVisible">비노출
-				  </label>
-	            </div>
-	            
-	            <div class="form-group">
-	              <label for="modifyWidgetVisible">위젯 노출 여부</label><br>
-	              <label class="radio-inline">
-			     	 <input type="radio" id="modifyWidgetVisible" value="true" name="appWidgetVisible">노출
-				  </label>
-				  <label class="radio-inline">
-				     <input type="radio" id="modifyWidgetInVisible" value="false" name="appWidgetVisible">비노출
-				  </label>
-	            </div>
-	          </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="#" onclick="modifyApp();">수정하기</a>
-          </div>
-        </div>
-      </div>
-    </div>
 </div>
 <!-- ./wrapper -->
 <jsp:include page="include/plugin_js.jsp" flush="false"/>
@@ -724,107 +522,6 @@
 		        }
 			});
 		}
-		 function modifyApp(){
-			 var modifyAppName = $('#modifyAppName'),
-			 modifyAppAndroidPackage = $('#modifyAppAndroidPackage'),
-			 modifyAppAndroidURL = $('#modifyAppAndroidURL'),
-			 modifyAppIOSPackage = $('#modifyAppIOSPackage'),
-			 modifyAppIOSURL = $('#modifyAppIOSURL');
-			 if (modifyAppName.val().length == 0) {
-				 alert('앱 이름을 입력하세요.');
-				 return;
-			 }
-			 if (modifyAppAndroidPackage.val().length == 0 && modifyAppAndroidURL.val().length != 0 )
-		 	 {
-				 alert('Android Package를 입력하세요.');
-				 return;
-		 	 }
-			 if (modifyAppAndroidPackage.val().length != 0 && modifyAppAndroidURL.val().length == 0 )
-		 	 {
-				 alert('Android URL을 입력하세요.');
-				 return;
-		 	 }
-			 if (modifyAppIOSPackage.val().length == 0 && modifyAppIOSURL.val().length != 0 )
-		 	 {
-				 alert('IOS Package를 입력하세요.');
-				 return;
-		 	 }
-			 if (modifyAppIOSPackage.val().length != 0 && modifyAppIOSURL.val().length == 0 )
-		 	 {
-				 alert('IOS URL을 입력하세요.');
-				 return;
-		 	 }
-			 if (modifyAppAndroidPackage.val().length == 0 && modifyAppIOSPackage.val().length == 0) {
-				 alert('패키지명을 하나 이상 입력하세요.');
-				 return;
-			 }
-			 if (modifyAppAndroidURL.val().length == 0  && modifyAppIOSURL.val().length == 0) {
-				 alert('URL을 하나 이상 입력하세요.');
-				 return;
-			 }
-				$.ajax({
-					url:"/modifyapp",
-					type: "POST",
-					data: new FormData($("#modifyappform")[0]),
-					enctype: 'multipart/form-data',
-			        processData: false,
-			        dataType : "text",
-			        contentType: false,
-			        cache: false,
-			        success: function () {
-			        	location.reload();
-			        },
-			        error:function(request,status,error){
-			        	alert(request.responseText);
-			        }
-				})
-			 }
-		 function modifyAppModal(id){
-				$.ajax({
-					url:"/getapp",
-					type: "POST",
-					data : {'appID':id},
-					dataType  : 'json',
-			        success: function (data) {
-			        	 $("#modifyAppName").val(data.appName);
-			        	 $("#modifyAppAndroidPackage").val(data.appAndroidPackage);
-			        	 $("#modifyAppAndroidURL").val(data.appAndroidURL);
-			        	 $("#modifyAppIOSPackage").val(data.appIOSPackage);
-			        	 $("#modifyAppIOSURL").val(data.appIOSURL);
-			        	 $("#appKey").text(data.appKey);
-			        	 $("#modify_"+data.companyID).prop("selected", true);
-			           	 if(data.appEnable)
-			        	{
-			        		 $("#modifyAppEnable").prop("checked", true)
-			        	}
-			        	 else
-			        	{
-			        		 $("#modifyAppDisable").prop("checked", true)
-			        	}
-			           	if(data.appBillingVisible)
-			        	{
-			        		 $("#modifyBillingVisible").prop("checked", true)
-			        	}
-			        	 else
-			        	{
-			        		 $("#modifyBillingInVisible").prop("checked", true)
-			        	}
-			           	if(data.appWidgetVisible)
-			        	{
-			        		 $("#modifyWidgetVisible").prop("checked", true)
-			        	}
-			        	 else
-			        	{
-			        		 $("#modifyWidgetInVisible").prop("checked", true)
-			        	}
-			        	 $("#modifyAppID").val(data.appID);
-			        	 $("#modifyAppModal").modal('show');
-			        },
-			        error:function(request,status,error){
-			        	alert(request.responseText);
-			        }
-				})
-			}
 		 function goToEvent(appID){
 			 var form = document.createElement('form');
 			 var objs;
@@ -837,7 +534,20 @@
 			 form.setAttribute('action', "/managementappevent");
 			 document.body.appendChild(form);
 			 form.submit();
-			}
+		}
+		 function goToAppInfo(appID){
+			 var form = document.createElement('form');
+			 var objs;
+			 objs = document.createElement('input');
+			 objs.setAttribute('type', 'hidden');
+			 objs.setAttribute('name' , 'appID');
+			 objs.setAttribute('value', appID);
+			 form.appendChild(objs);
+			 form.setAttribute('method', 'post');
+			 form.setAttribute('action', "/managementappinfo");
+			 document.body.appendChild(form);
+			 form.submit();
+		}
 		 function imagePopup(image1,image2,image3){
 		     $("#image1").attr("src",image1);
 		     $("#image2").attr("src",image2);

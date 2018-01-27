@@ -72,6 +72,15 @@ public class AdminController
 		}
     	return setManagementApp(model);
     }
+	@RequestMapping(value = "/managementappinfo", method = RequestMethod.POST)
+    public String managementappinfo(Model model,@RequestParam("appID") int appID)
+	{
+    	if(sessionWire.getId()==null)
+		{
+    		return setRedirectLogin(model);
+		}
+    	return setManagementAppInfo(model,appID);
+    }
 	@RequestMapping(value = "/managementsdk", method = RequestMethod.GET)
     public String managementsdk(Model model)
 	{
@@ -630,6 +639,14 @@ public class AdminController
     	model.addAttribute("companylist",apiService.getCompanyList());
     	model.addAttribute("applist",apiService.getAppList());
     	return "managementapp";
+    }
+	private String setManagementAppInfo(Model model,int appID)
+    {
+    	model.addAttribute("user",userService.searchAuthUser(sessionWire.getId()));
+    	model.addAttribute("companylist",apiService.getCompanyList());
+    	model.addAttribute("app",apiService.getApp(appID));
+    	model.addAttribute("routeList",apiService.getAppRoute(appID));
+    	return "managementappinfo";
     }
 	private String setManagementCompany(Model model)
     {

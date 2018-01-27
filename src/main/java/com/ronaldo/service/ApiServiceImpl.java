@@ -81,6 +81,7 @@ import com.ronaldo.vo.ReturnPlayVO;
 import com.ronaldo.vo.ReturnPurchaseVO;
 import com.ronaldo.vo.ReturnUserVO;
 import com.ronaldo.vo.ReturnWidgetVisibleVO;
+import com.ronaldo.vo.RouteVO;
 
 @Service
 public class ApiServiceImpl implements ApiService
@@ -1386,6 +1387,43 @@ public class ApiServiceImpl implements ApiService
 			returnPlayVO.setState(PlayEnum.UNKNOWN);
 		}
 		return;
+	}
+	@Override
+	public List<RouteVO> getAppRoute(int appID) {
+		List<AppDTO> appList = appMapper.getAppList();
+		ArrayList<RouteVO> routeList = new ArrayList<RouteVO>();
+		for(int i=0;i<appList.size();i++)
+		{
+			if(appList.get(i).getAppID()==appID)
+			{
+				continue;
+			}
+			RouteVO routeVo = new RouteVO();
+			routeVo.setAppID(appList.get(i).getAppID());
+			routeVo.setAppName(appList.get(i).getAppName());
+			routeVo.setInstall(0);
+			routeVo.setPlay(0);
+			routeList.add(routeVo);
+		}
+		List<AppRouteDTO> routeDTOList = appRouteMapper.getAppRouteDTO(appID);
+		for(int i=0;i<routeDTOList.size();i++)
+		{
+			for(int j=0;j<routeList.size();j++)
+			{
+				if(routeDTOList.get(i).getDesAppID()==routeList.get(j).getAppID())
+				{
+					if(routeDTOList.get(i).isAppRouteType()==true)
+					{
+						routeList.get(j).incrementInstall();
+					}
+					else
+					{
+						routeList.get(j).incrementPlay();
+					}
+				}
+			}
+		}
+		return routeList;
 	}
 	
 }

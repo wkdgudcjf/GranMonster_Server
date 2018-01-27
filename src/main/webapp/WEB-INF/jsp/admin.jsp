@@ -75,7 +75,7 @@
                     <th>Entire sales(￦)</th>
                   </tr>
                 </tfoot>
-                <tbody id="table_body">
+                <tbody>
                 </tbody>
               </table>
             </div>
@@ -88,93 +88,6 @@
       <!-- /.row -->
     </section>
     <!-- /.content -->
-    
-    <!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Install Route List</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="mytable2" class="table table-bordered table-striped">
-              	<thead>
-                  <tr>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                  </tr>
-                </thead>
-                <tfoot>
-	              <tr>
-	               <th>1</th>
-	               <th id="Daily-installation">2</th>
-	               <th id="Entire-installation">3</th>
-	               <th id="Daily-acquisition">4</th>
-	               <th id="Entire-acquisition">5</th>
-	              </tr>
-                </tfoot>
-                <tbody id="table_body">
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-    </section>
-    <!-- /.content -->
-    
-    <!-- Main content -->
-    <section class="content">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Play Route List</h3>
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <table id="mytable3" class="table table-bordered table-striped">
-              	<thead>
-                  <tr>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
-                  </tr>
-                </thead>
-                <tfoot>
-	              <tr>
-	               <th>1</th>
-	               <th id="Daily-installation">2</th>
-	               <th id="Entire-installation">3</th>
-	               <th id="Daily-acquisition">4</th>
-	               <th id="Entire-acquisition">5</th>
-	              </tr>
-                </tfoot>
-                <tbody id="table_body">
-                </tbody>
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
-        </div>
-        <!-- /.col -->
-      </div>
-      <!-- /.row -->
-    </section>
-    <!-- /.content -->
-    
   </div>
   <!-- /.content-wrapper -->
 </div>
@@ -226,30 +139,6 @@
 		      'autoWidth'   : true,
 		      'drawCallback': tableSum
 		    })
-	     $('#mytable2').DataTable({
-	      'paging'      : true,
-	      'lengthChange': true,
-	      'searching'   : true,
-	      'ordering'    : true,
-	      'info'        : true,
-	      'autoWidth'   : true,
-	      "columnDefs": [{
-	          "targets": 'no-sort',
-	          "orderable": false,
-	    	}]
-	     })
-	     $('#mytable3').DataTable({
-	      'paging'      : true,
-	      'lengthChange': true,
-	      'searching'   : true,
-	      'ordering'    : true,
-	      'info'        : true,
-	      'autoWidth'   : true,
-	      "columnDefs": [{
-	          "targets": 'no-sort',
-	          "orderable": false,
-	    	}]
-	     })
 		 $('#navi_dashboard').attr('class',"active");
 	     searchDash();
 	 });
@@ -261,10 +150,10 @@
 				data : {'searchTime':$("#searchTime").val()},
 				dataType  : 'json',
 		        success: function (data) {
-				    var $datatable = $('#mytable').DataTable();
-                    $datatable.clear();
+				    var datatable = $('#mytable').DataTable();
+                    datatable.clear();
 		        	$.each(data , function(idx, item) {
-                        $datatable.row.add([
+                        datatable.row.add([
                             item.appName,
                             item.dailyInstallation,
                             item.entireInstallation,
@@ -348,15 +237,6 @@
 	    $('#Entire-usage').text(eu);
 	    $('#Daily-sales').text(ds.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 	    $('#Entire-sales').text(es.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-	}
-	function test()
-	{
-		$('#mytable tbody tr td:nth-child(8)').each(function() {
-	        $(this).text($(this).text().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-	    });
-	    $('#mytable tbody tr td:nth-child(9)').each(function() {
-	        $(this).text($(this).text().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-	    });
 	}
 </script>
 </body>
