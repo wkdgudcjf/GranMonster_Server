@@ -740,12 +740,12 @@ public class ApiServiceImpl implements ApiService
 				if(appEventList.get(j).getAppEventEndTime().getTime() < System.currentTimeMillis())// 시간지났으면
 				{
 					disableAppEvent(appEventList.get(j).getAppEventID());
-					LOG.info("appList(ALREADY_EVENT_END) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventList.get(j).getAppEventKey());
+					//LOG.info("appList(ALREADY_EVENT_END) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventList.get(j).getAppEventKey());
 					continue;
 				}
 				if(appEventList.get(j).getAppEventStartTime().getTime() > System.currentTimeMillis())// 시작시간이 지금보다 앞서면
 				{
-					LOG.info("appList(NOT_YET_EVENT_START) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventList.get(j).getAppEventKey());
+					//LOG.info("appList(NOT_YET_EVENT_START) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventList.get(j).getAppEventKey());
 					continue;
 				}
 				ReturnAppEventVO appEventVO = new ReturnAppEventVO();
