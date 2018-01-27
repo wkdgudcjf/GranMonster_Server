@@ -100,6 +100,7 @@ public class WidgetTestManager : MonoBehaviour {
 		        <h4>Notice!</h4>
 		         <p><b>※</b> 위젯 샵 플로팅 버튼의 경우 Canvas에서 동작하게 구현되었습니다.
 				<p>따라서 그랑코인 샵 플로팅 버튼은 반드시 Canvas 컴포넌트를 갖고 있는 오브젝트의 자식으로 들어가야 합니다.</p>
+				<p>또한 Canvas의 Render Mode가 Screen Space - Camera로 되어 있는지 확인해야하고 되어 있다면 Render Camera에 오브젝트가 들어가 있는지 확인해야 합니다.</p>
 		     </div>
     	 </div>
     	 <br/>
