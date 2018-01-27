@@ -123,6 +123,7 @@ public void LogIn()
 		<div class="callout callout-warning">
 	        <h4>Notice!</h4>
 	        <p><b>※</b> AppKey는 어플리케이션 소스 내에 따로 저장해 놓는 것이 좋습니다. </p>
+	        <p><b>※</b> 그랑몬스터 SDK의 모든 API는 UserKey가 필요하므로 Login없이는 사용할 수 없습니다. </p>
 	        <p><b>※</b> 만약 로그아웃을 하고 다시 로그인을 하려면 로그인 코드를 재사용 또는 새로운 login함수를 정의 할 경우 함수 내 반드시 login API를 포함해야 합니다. </p>
 	        <p><b>※</b> 만약 매번 Google Login이나 IPhone Login을 하지 않으려면 발급받은 UserKey를 따로 저장하여 그랑 몬스터 로그인에 사용하시면 됩니다. </p>
 	     	<p><b>※</b> GranMonster SDK는 앱을 구동하고 Login을 하면 앱이 종료될 때 까지 Login된 UserKey를 재사용합니다.</p>

@@ -624,10 +624,11 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("login(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
+		String appName = appDTO.getAppName();
 		if (userKey == null || userKey.equals(""))
 		{
 			returnUserVO.setState(LoginEnum.USER_KEY_INVALID);
-			LOG.info("login(USER_KEY_INVALID) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("login(USER_KEY_INVALID) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}
 		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
@@ -640,7 +641,7 @@ public class ApiServiceImpl implements ApiService
 			if (!registUser(userKey,appTypeEnum)) // 일단 유저 등록시키고.
 			{
 				returnUserVO.setState(LoginEnum.USER_KEY_INVALID);
-				LOG.info("login(USER_KEY_INVALID) - AppKey : " + appKey+" / UserKey : "+userKey);
+				LOG.info("login(USER_KEY_INVALID) - appName : " + appName+" / UserKey : "+userKey);
 				dataSourceTransactionManager.rollback(transactionStatus);
 				return;
 			}
@@ -652,7 +653,7 @@ public class ApiServiceImpl implements ApiService
 			if(!registUserInApp(userDTO.getUserID() , appDTO.getAppID(),appTypeEnum))
 			{
 				returnUserVO.setState(LoginEnum.USER_ALREADY_JOIN_APP);
-				LOG.info("login(USER_ALREADY_JOIN_APP) - AppKey : " + appKey+" / UserKey : "+userKey);
+				LOG.info("login(USER_ALREADY_JOIN_APP) - appName : " + appName+" / UserKey : "+userKey);
 				dataSourceTransactionManager.rollback(transactionStatus);
 				return;
 			}
@@ -691,10 +692,11 @@ public class ApiServiceImpl implements ApiService
 			}
 		}
 		UserDTO userDTO = getUser(userKey);
+		String appName = appDTO.getAppName();
 		if (userDTO == null)
 		{
 			returnAppListVO.setState(AppListEnum.NOT_EXIST_USERKEY);
-			LOG.info("appList(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("appList(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}
 		returnAppListVO.setUserCoin(userDTO.getUserCoin());
@@ -797,18 +799,19 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("payload(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
+		String appName = appDTO.getAppName();
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
 			returnPayloadVO.setState(PayloadEnum.NOT_EXIST_USERKEY);
-			LOG.info("payload(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("payload(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}
 		String payload = setUserPayload(appKey, userKey);
 		if(payload.equals("fail"))
 		{
 			returnPayloadVO.setState(PayloadEnum.USER_KEY_INVALID);
-			LOG.info("payload(USER_KEY_INVALID) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("payload(USER_KEY_INVALID) - appName : " + appName+" / UserKey : "+userKey);
 		}
 		else
 		{
@@ -833,11 +836,12 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("exchange(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
+		String appName = appDTO.getAppName();
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
 			exchangeListDAO.setState(ExchangeEnum.NOT_EXIST_USERKEY);
-			LOG.info("exchange(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("exchange(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}	
 		exchangeList = getEnableExchangeList(true);
@@ -869,17 +873,19 @@ public class ApiServiceImpl implements ApiService
 		int coin = receivePurchaseVO.getCoin();
 		int price = receivePurchaseVO.getPrice();
 		
-		String userpayload = getUserPayload(userKey);
 		
-		if (!(userpayload.equals(payload))) {
-			returnPurchaseVO.setState(PurchaseEnum.NOT_EQUAL_PAYLOAD);
-			LOG.info("purchase(NOT_EQUAL_PAYLOAD) - AppKey : " + appKey+" / UserKey : "+userKey+" /rec : "+payload+" /saved : "+userpayload);
-			return;
-		}
 		AppDTO appDTO = getApp(appKey);
 		if (appDTO == null) {
 			returnPurchaseVO.setState(PurchaseEnum.NOT_EXIST_APPKEY);
 			LOG.info("purchase(NOT_EXIST_APPKEY) - " + appKey+"/"+userKey);
+			return;
+		}
+		String appName = appDTO.getAppName();
+		String userpayload = getUserPayload(userKey);
+		
+		if (!(userpayload.equals(payload))) {
+			returnPurchaseVO.setState(PurchaseEnum.NOT_EQUAL_PAYLOAD);
+			LOG.info("purchase(NOT_EQUAL_PAYLOAD) - appName : " + appName+" / UserKey : "+userKey+" /rec : "+payload+" /saved : "+userpayload);
 			return;
 		}
 	/*	String emailAddress = "gran-server-service@granmonster-185912.iam.gserviceaccount.com";
@@ -918,13 +924,13 @@ public class ApiServiceImpl implements ApiService
 		if (userDTO == null)
 		{
 			returnPurchaseVO.setState(PurchaseEnum.NOT_EXIST_USERKEY);
-			LOG.info("purchase(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("purchase(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}	
 		if(!addBilling(userDTO, appDTO.getAppID(), coin, price, "그랑코인 결제",appTypeEnum))
 		{
 			returnPurchaseVO.setState(PurchaseEnum.INVALID_BILLING);
-			LOG.info("purchase(INVALID_BILLING) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("purchase(INVALID_BILLING) - appName : " + appName+" / UserKey : "+userKey);
 		}
 		returnPurchaseVO.setState(PurchaseEnum.SUCCESS);
 		returnPurchaseVO.setCoin(userDTO.getUserCoin());
@@ -941,38 +947,37 @@ public class ApiServiceImpl implements ApiService
 		AppTypeEnum appTypeEnum = receiveExhaustVO.getAppTypeEnum();
 		int coin = receiveExhaustVO.getCoin();
 		
-		String userpayload = getUserPayload(userKey);
-		
-		if (!(userpayload.equals(payload))) {
-			returnExhaustVO.setState(ExhaustEnum.NOT_EQUAL_PAYLOAD);
-			LOG.info("exhaust(NOT_EQUAL_PAYLOAD) - AppKey : " + appKey+" / UserKey : "+userKey+" /rec : "+payload+" /saved : "+userpayload);
-			return;
-		}
 		AppDTO appDTO = getApp(appKey);
 		if (appDTO == null) {
 			returnExhaustVO.setState(ExhaustEnum.NOT_EXIST_APPKEY);
 			LOG.info("exhaust(NOT_EXIST_APPKEY) - " + appKey+"/"+userKey);
 			return;
 		}
-		
+		String userpayload = getUserPayload(userKey);
+		String appName = appDTO.getAppName();
+		if (!(userpayload.equals(payload))) {
+			returnExhaustVO.setState(ExhaustEnum.NOT_EQUAL_PAYLOAD);
+			LOG.info("exhaust(NOT_EQUAL_PAYLOAD) - appName : " + appName+" / UserKey : "+userKey+" /rec : "+payload+" /saved : "+userpayload);
+			return;
+		}
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
 			returnExhaustVO.setState(ExhaustEnum.NOT_EXIST_USERKEY);
-			LOG.info("exhaust(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("exhaust(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}	
 		if(userDTO.getUserCoin() < coin) // 코인이 더 적으면 false 리턴
 		{
 			returnExhaustVO.setState(ExhaustEnum.NOT_ENOUGH_COIN);
-			LOG.info("exhaust(NOT_ENOUGH_COIN) - AppKey : " + appKey+" / UserKey : "+userKey+" /rec : "+coin+" /saved : "+userDTO.getUserCoin());
+			LOG.info("exhaust(NOT_ENOUGH_COIN) - appName : " + appName+" / UserKey : "+userKey+" /rec : "+coin+" /saved : "+userDTO.getUserCoin());
 			return;
 		}
 		
 		if(!minusBilling(userDTO, appDTO.getAppID(), coin, "그랑코인 사용",appTypeEnum))
 		{
 			returnExhaustVO.setState(ExhaustEnum.INVALID_BILLING);
-			LOG.info("exhaust(INVALID_BILLING) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("exhaust(INVALID_BILLING) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}
 		returnExhaustVO.setState(ExhaustEnum.SUCCESS);
@@ -989,12 +994,12 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("visible(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
-
+		String appName = appDTO.getAppName();
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
 			returnBillingVisibleVO.setState(BillingVisibleEnum.NOT_EXIST_USERKEY);
-			LOG.info("visible(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("visible(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}
 		
@@ -1018,12 +1023,12 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("visible(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
-
+		String appName = appDTO.getAppName();
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
 			returnWidgetVisibleVO.setState(WidgetVisibleEnum.NOT_EXIST_USERKEY);
-			LOG.info("visible(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("visible(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}
 		
@@ -1050,10 +1055,11 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("event(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
+		String appName = appDTO.getAppName();
 		AppEventDTO appEventDTO  = getAppEvent(appDTO.getAppID(),appEventKey);
 		if (appEventDTO == null) {
 			returnEventVO.setState(EventEnum.NOT_REGIST_EVENT); // 이벤트가 없을때.
-			LOG.info("event(NOT_REGIST_EVENT) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("event(NOT_REGIST_EVENT) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		
@@ -1061,14 +1067,14 @@ public class ApiServiceImpl implements ApiService
 		{
 			disableAppEvent(appEventDTO.getAppEventID());
 			returnEventVO.setState(EventEnum.ALREADY_EVENT_END); // 이벤트 종료.
-			LOG.info("event(ALREADY_EVENT_END) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("event(ALREADY_EVENT_END) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		
 		if(!appEventDTO.isAppEventEnable())
 		{
 			returnEventVO.setState(EventEnum.NOT_ENABLE_EVENT); // 이벤트가 활성화되지 않았을때
-			LOG.info("event(NOT_ENABLE_EVENT) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("event(NOT_ENABLE_EVENT) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		
@@ -1076,7 +1082,7 @@ public class ApiServiceImpl implements ApiService
 		if (userDTO == null)
 		{
 			returnEventVO.setState(EventEnum.NOT_EXIST_USERKEY);
-			LOG.info("event(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("event(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}	
 
@@ -1084,13 +1090,13 @@ public class ApiServiceImpl implements ApiService
 		if(userEventDTO!=null)
 		{
 			returnEventVO.setState(EventEnum.ALREADY_SUCCESS_EVENT); //  이미 이벤트 진행
-			LOG.info("event(ALREADY_SUCCESS_EVENT) AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("event(ALREADY_SUCCESS_EVENT) appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		if(!registUserEvent(userDTO.getUserID(),appEventDTO.getAppEventID())) // userevent 등록
 		{
 			returnEventVO.setState(EventEnum.INVALID_EVENT); //등록실패
-			LOG.info("event(INVALID_EVENT) AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("event(INVALID_EVENT) appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		returnEventVO.setState(EventEnum.SUCCESS); //성공
@@ -1110,11 +1116,11 @@ public class ApiServiceImpl implements ApiService
 			LOG.info("eventReward(NOT_EXIST_APPKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
 			return;
 		}
-			
+		String appName = appDTO.getAppName();
 		AppEventDTO appEventDTO  = getAppEvent(appDTO.getAppID(),appEventKey);
 		if (appEventDTO == null) {
 			returnEventRewardVO.setState(EventRewardEnum.NOT_EXIST_EVENT); // 이벤트가 없을때.
-			LOG.info("eventReward(NOT_EXIST_EVENT) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("eventReward(NOT_EXIST_EVENT) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		
@@ -1122,7 +1128,7 @@ public class ApiServiceImpl implements ApiService
 		{
 			disableAppEvent(appEventDTO.getAppEventID());
 			returnEventRewardVO.setState(EventRewardEnum.ALREADY_EVENT_END); // 이벤트 종료
-			LOG.info("eventReward(ALREADY_EVENT_END) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("eventReward(ALREADY_EVENT_END) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		
@@ -1131,14 +1137,14 @@ public class ApiServiceImpl implements ApiService
 			// 여기서 앱이 제한인원 이면 그냥 바로 disable 해버리고 리턴.
 			disableAppEvent(appEventDTO.getAppEventID());
 			returnEventRewardVO.setState(EventRewardEnum.ALREADY_EVENT_LIMIT_COUNT); // 제한인원 걸림.
-			LOG.info("eventReward(ALREADY_EVENT_LIMIT_COUNT) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("eventReward(ALREADY_EVENT_LIMIT_COUNT) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		
 		if(!appEventDTO.isAppEventEnable())
 		{
 			returnEventRewardVO.setState(EventRewardEnum.NOT_ENABLE_EVENT); // 이벤트가 활성화되지 않았을때
-			LOG.info("eventReward(NOT_ENABLE_EVENT) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("eventReward(NOT_ENABLE_EVENT) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		
@@ -1146,7 +1152,7 @@ public class ApiServiceImpl implements ApiService
 		if (userDTO == null)
 		{
 			returnEventRewardVO.setState(EventRewardEnum.NOT_EXIST_USERKEY);
-			LOG.info("eventReward(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("eventReward(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}
 		
@@ -1154,13 +1160,13 @@ public class ApiServiceImpl implements ApiService
 		if(userEventDTO==null)
 		{
 			returnEventRewardVO.setState(EventRewardEnum.NOT_ACHIEVE_EVENT); // 이벤트를 달성하지 않았을때
-			LOG.info("eventReward(NOT_ACHIEVE_EVENT) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("eventReward(NOT_ACHIEVE_EVENT) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		else if(userEventDTO.isUserEventEnable())
 		{
 			returnEventRewardVO.setState(EventRewardEnum.ALREADY_REWARD_EVENT); // 이미 이벤트 보상을 받았을때
-			LOG.info("eventReward(ALREADY_REWARD_EVENT) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("eventReward(ALREADY_REWARD_EVENT) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		DefaultTransactionDefinition defaultTransactionDefinition = new DefaultTransactionDefinition();
@@ -1170,7 +1176,7 @@ public class ApiServiceImpl implements ApiService
 		if(!modifyUserEvent(userEventDTO.getUserEventID(),userDTO.getUserID(),appEventDTO.getAppEventID()))
 		{
 			returnEventRewardVO.setState(EventRewardEnum.INVALID_USER); // 유저 정보 에러
-			LOG.info("eventReward(INVALID_USER) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("eventReward(INVALID_USER) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			dataSourceTransactionManager.rollback(transactionStatus);
 			return;
 		}
@@ -1178,7 +1184,7 @@ public class ApiServiceImpl implements ApiService
 		{
 			dataSourceTransactionManager.rollback(transactionStatus);
 			returnEventRewardVO.setState(EventRewardEnum.INVALID_BILLING); // 영수증 에러
-			LOG.info("eventReward(INVALID_BILLING) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("eventReward(INVALID_BILLING) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			dataSourceTransactionManager.rollback(transactionStatus);
 			return;
 		}
@@ -1186,7 +1192,7 @@ public class ApiServiceImpl implements ApiService
 		{
 			dataSourceTransactionManager.rollback(transactionStatus);
 			returnEventRewardVO.setState(EventRewardEnum.INVALID_EVENT_COUNT); // 이벤트 카운트 에러
-			LOG.info("eventReward(INVALID_EVENT_COUNT) - AppKey : " + appKey+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
+			LOG.info("eventReward(INVALID_EVENT_COUNT) - appName : " + appName+" / UserKey : "+userKey +" /eventKey : "+appEventKey);
 			return;
 		}
 		if(appEventDTO.getAppEventCount()+1 >= appEventDTO.getAppEventLimit() && appEventDTO.getAppEventLimit() != 0)
@@ -1313,14 +1319,15 @@ public class ApiServiceImpl implements ApiService
 		AppDTO desAppDTO = getApp(desAppKey);
 		if (desAppDTO == null) {
 			returnInstallVO.setState(InstallEnum.NOT_EXIST_APPKEY);
-			LOG.info("install(NOT_EXIST_APPKEY) - AppKey : " + desAppKey+" / UserKey : "+userKey);
+			LOG.info("install(DES_NOT_EXIST_APPKEY) - AppKey : " + desAppKey+" / UserKey : "+userKey);
 			return;
 		}
+		String appName = appDTO.getAppName();
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
 			returnInstallVO.setState(InstallEnum.NOT_EXIST_USERKEY);
-			LOG.info("visible(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("visible(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}
 		AppRouteDTO appRouteDTO = new AppRouteDTO();
@@ -1353,14 +1360,15 @@ public class ApiServiceImpl implements ApiService
 		AppDTO desAppDTO = getApp(desAppKey);
 		if (desAppDTO == null) {
 			returnPlayVO.setState(PlayEnum.NOT_EXIST_APPKEY);
-			LOG.info("play(NOT_EXIST_APPKEY) - AppKey : " + desAppKey+" / UserKey : "+userKey);
+			LOG.info("play(DES_NOT_EXIST_APPKEY) - AppKey : " + desAppKey+" / UserKey : "+userKey);
 			return;
 		}
+		String appName = appDTO.getAppName();
 		UserDTO userDTO = getUser(userKey);
 		if (userDTO == null)
 		{
 			returnPlayVO.setState(PlayEnum.NOT_EXIST_USERKEY);
-			LOG.info("play(NOT_EXIST_USERKEY) - AppKey : " + appKey+" / UserKey : "+userKey);
+			LOG.info("play(NOT_EXIST_USERKEY) - appName : " + appName+" / UserKey : "+userKey);
 			return;
 		}
 		AppRouteDTO appRouteDTO = new AppRouteDTO();
