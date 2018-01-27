@@ -102,7 +102,7 @@
    		style="padding:20px; 
     	background-color:#fff;">
       <h1>
-       	 ${app.appName}
+       	 <img src="image/appIcon/${app.appImageIconPath}"  style="max-width: 57px; max-height: 57px;">  ${app.appName}
         <small>App info</small>
       </h1>
       <ol class="breadcrumb">
