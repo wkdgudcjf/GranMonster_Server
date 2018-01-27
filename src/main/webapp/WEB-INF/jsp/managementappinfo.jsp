@@ -362,7 +362,6 @@
 		      'autoWidth'   : true,
 		      'drawCallback': tableSum
 		    })
-		    searchDash();
 		 $('#navi_app').attr('class',"active");
 		   var fileTarget = $('.filebox .upload-hidden');
 
