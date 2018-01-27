@@ -561,7 +561,7 @@ public class AdminController
 				 ver++;
 				 HImagePath = receiveExchangeVO.getExchangeName()+"_v"+ver+"_H"+originalFileExtension;
 			 }
-			 if(Hbytes.length != 0)
+			 if(Vbytes.length != 0)
 			 {
 				 String originalFileName = receiveExchangeVO.getExchangeVImage().getOriginalFilename();
 	             String originalFileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
