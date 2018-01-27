@@ -109,8 +109,8 @@ public class ShopTestManager : MonoBehaviour {
 		 <h1>C. notice</h1>
 		<div class="callout callout-warning">
 	        <h4>Notice!</h4>
-	        <p><b>※</b> 위젯 플로팅 버튼의 경우 Canvas에서 동작하게 구현되었습니다.</p>
-	        <p>NGUI와 같이 Canvas를 사용하지 않는 3rd Party 라이브러리를 사용하는 경우 별도로 Canvas 오브젝트를 생성하여 준 뒤 버튼의 부모 컴포넌트로 지정해야 합니다. </p>
+	        <p><b>※</b> 그랑코인 샵 플로팅 버튼의 경우 Canvas에서 동작하게 구현되었습니다.
+			<p>따라서 그랑코인 샵 플로팅 버튼은 반드시 Canvas 컴포넌트를 갖고 있는 오브젝트의 자식으로 들어가야 합니다.</p>
 	     </div>
    	 </div>
    	 <br/>
