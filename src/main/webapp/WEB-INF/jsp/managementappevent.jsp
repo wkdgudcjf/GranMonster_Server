@@ -334,7 +334,9 @@
 		      'searching'   : true,
 		      'ordering'    : true,
 		      'info'        : true,
-		      'autoWidth'   : true
+		      'autoWidth'   : true,
+		      "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+		      "pageLength"  : 20
 		    })
 		 $('#navi_app').attr('class',"active");
 		 var $fileBox = null;

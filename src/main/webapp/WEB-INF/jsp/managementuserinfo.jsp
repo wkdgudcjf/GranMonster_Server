@@ -101,6 +101,8 @@
 	      'searching'   : true,
 	      'ordering'    : true,
 	      'info'        : true,
+	      "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+	      "pageLength"  : 20,
 	      'autoWidth'   : true,
 	      columnDefs: [ { orderable: false, targets: 'no-sort' }],
 	    })

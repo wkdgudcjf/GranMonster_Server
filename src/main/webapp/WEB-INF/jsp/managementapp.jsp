@@ -383,6 +383,8 @@
 		      'ordering'    : true,
 		      'info'        : true,
 		      'autoWidth'   : true,
+		      "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+		      "pageLength"  : 20,
 		      columnDefs: [ { orderable: false, targets: 'no-sort' }]
 		    })
 		 $('#navi_app').attr('class',"active");

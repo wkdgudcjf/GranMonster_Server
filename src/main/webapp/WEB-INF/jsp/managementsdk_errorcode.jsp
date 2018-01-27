@@ -30,7 +30,7 @@
 
     <!-- Main content -->
     <section class="content">
-   		<div id="#sdk_errorcode_api">
+   		<div id="sdk_errorcode_api">
 		    <h1>API와 에러 코드 종류</h1>
 		    <br/>
 			<h5> <b> API는 RequestProtocol과 ResponseProtocol을 사용하여 호출합니다.</b></h5>
@@ -193,7 +193,7 @@ public class ResponseProtocol
 		   </div>
 		</div>
 		<br/>
-		<div id="#sdk_errorcode_sourcecode">
+		<div id="sdk_errorcode_sourcecode">
 		 <h1>B. 에러코드 처리 소스</h1>
 			<pre><code>
 public void exhaustTest()

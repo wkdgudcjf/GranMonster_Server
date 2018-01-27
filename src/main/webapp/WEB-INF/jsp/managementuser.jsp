@@ -111,6 +111,8 @@
 		      'searching'   : true,
 		      'ordering'    : true,
 		      'info'        : true,
+		      "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+		      "pageLength"  : 20,
 		      'autoWidth'   : true
 		    })
 		 $('#navi_user').attr('class',"active");

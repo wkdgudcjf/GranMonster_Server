@@ -137,6 +137,8 @@
 		      'ordering'    : true,
 		      'info'        : true,
 		      'autoWidth'   : true,
+		      "lengthMenu": [[10, 20, 50, -1], [10, 20, 50, "All"]],
+		      "pageLength"  : 20,
 		      'drawCallback': tableSum
 		    })
 		 $('#navi_dashboard').attr('class',"active");
