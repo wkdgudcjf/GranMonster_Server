@@ -572,7 +572,7 @@ public class AdminController
 				 ver++;
 				 VImagePath = receiveExchangeVO.getExchangeName()+"_v"+ver+"_V"+originalFileExtension;
 			 }
-			if(apiService.modifyExchange(receiveExchangeVO,HImagePath,HImagePath))
+			if(apiService.modifyExchange(receiveExchangeVO,HImagePath,VImagePath))
 			{
 				if(Hbytes.length != 0)
 				{
