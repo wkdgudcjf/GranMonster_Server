@@ -42,7 +42,7 @@ public class ExcelCommonUtil {
         setFileName(response, mapToFileName());
 
         Sheet sheet = workbook.createSheet();
-        sheet.setDefaultColumnWidth(25);
+        sheet.setDefaultColumnWidth(30);
         
         createHead(sheet, mapToHeadList());
 
