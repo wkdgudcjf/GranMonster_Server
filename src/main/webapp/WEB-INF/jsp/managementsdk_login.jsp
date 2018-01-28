@@ -37,11 +37,11 @@
 			<h5> <b> Google Login 또는 IPhone Login을 성공시 Callback 메소드에서 그랑몬스터 로그인을 처리합니다.</b></h5>
 			<br/>
 			<div style="text-align:center;">
-				<img src="/sdk_image/sdk_login_callback1.png" style="max-width: 800px; max-height: 800px;">
+				<img src="/sdk_image/sdk_login_prepare.png" style="max-width: 800px; max-height: 800px;">
 				<h3>그림 - Login Callback 함수</h3>
 			</div>
 			<div style="text-align:center;">
-				<img src="/sdk_image/sdk_login_callback2.png" style="max-width: 800px; max-height: 800px;">
+				<img src="/sdk_image/sdk_login_callback.png" style="max-width: 800px; max-height: 800px;">
 				<h3>그림 - Login후 처리</h3>
 			</div>
 			<br/>
@@ -67,7 +67,7 @@
 		<div id="sdk_login_sourcecode">
 		 <h1>B. 소스코드</h1>
 			<pre><code>
-public void LogIn()
+public void Login()
 {
 	   Social.localUser.Authenticate((bool success) =>
 	   { 
@@ -86,26 +86,13 @@ public void LogIn()
 	            appKey = "$2a$10$Kr/mC59ODWIAFM0CFn1R6eQp/Yj9QM03VmINS85geyilXYNhhBKHy",
 	         };
 	
-	         if (Application.platform == RuntimePlatform.Android)
-	         {
-	            requestLogin.appTypeEnum = AppTypeEnum.ANDROID;
-	         }
-	         else if (Application.platform == RuntimePlatform.IPhonePlayer)
-	         {
-	            requestLogin.appTypeEnum = AppTypeEnum.IPHONE;
-	         }
-	         else
-	         {
-	            Utility.DebugLog("Not supported platform.");
-	         }
-	
-	         ServerResponse loginResponse = ServerConnection.Login(requestLogin.appTypeEnum, JsonUtility.ToJson(requestLogin));
-	         if (RestApiCallStatusMethods.Error(loginResponse.Status))
-	         {
-	            Utility.DebugLog(ToString() + "/TryAuthentification/" + loginResponse.Data);
-	            return;
-	         }
-	
+	         ServerResponse loginResponse = ServerConnection.Login(JsonUtility.ToJson(requestLogin));
+             if (RestApiCallStatusMethods.Error(loginResponse.Status))
+             {
+                 Utility.DebugLog(ToString() + "/TryAuthentification/" + loginResponse.Data);
+             	 return;
+             }
+
 	         // 첫 로그인 이벤트를 진행합니다.
 	         ResponseProtocol.ResponseLogin responseLogin = ResponseProtocol.ResponseLogin.CreateFromJson(loginResponse.Data);
 	         if (responseLogin.FirstLogin)

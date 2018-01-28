@@ -23,11 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 
 import com.ronaldo.Component.DownloadFileView;
-import com.ronaldo.Component.ExcelXlsxView;
 import com.ronaldo.config.GranConfig;
 import com.ronaldo.config.SessionWire;
 import com.ronaldo.domain.AppEventDTO;
@@ -255,10 +253,10 @@ public class AdminController
 	}
 	@RequestMapping(value = "/downloadSDK", method = RequestMethod.POST)
     public View downLoadFile() {
-        String fullPath = context.getRealPath("sdk/Granmonster_SDK_v1.1.unitypackage");
+        String fullPath = context.getRealPath("sdk/Granmonster_SDK_v1.2.unitypackage");
         File downloadFile = new File(fullPath);
         DownloadFileView downloadFileView = new DownloadFileView();
-        downloadFileView.downloadFileName = "Granmonster_SDK_v1.1.unitypackage";
+        downloadFileView.downloadFileName = "Granmonster_SDK_v1.2.unitypackage";
         downloadFileView.file = downloadFile;
         return downloadFileView;
     }

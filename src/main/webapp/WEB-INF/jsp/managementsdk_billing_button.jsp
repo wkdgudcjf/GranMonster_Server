@@ -58,7 +58,11 @@
 				<h5><b>onPurchaseButtonClick</b> : 그랑코인 샵의 UI와 UI Event 등은 모두 granmonster.dll 모듈 안에 구현되어 있습니다. </h5>
  				<h5>그러나 실제 구매 과정에서 그랑몬스터 서버를 거쳐가기 전에 Google App Store 서버 또는 Apple App Store 서버를 먼저 거쳐야 합니다. </h5>
  				<h5>따라서 Unity IAP 모듈의 구매 진행을 수행하는 함수를 등록하여 주어야 합니다.</h5>
-				<h5><b>onDialogCloseCallBack</b> : 그랑코인 샵 다이얼로그가 닫힐 때 그 이후 추가해야할 작업이 필요하다면 이 곳에 함수를 등록합니다. 이것은 옵션이기 때문에 필요하지 않다면 공란으로 비워두어도 됩니다.</h5>
+ 				<h5><b>onDialogOpenCallBack</b> : 그랑코인 샵 다이얼로그가 열릴 때 그 이후 추가해야할 작업이 필요하다면 이 곳에 함수를 등록합니다.</h5>
+ 				<h5>NGUI와 같이 3rd Party 라이브러리를 사용하여 UI를 디스플레이 할때 문제가 있다면 이 곳에서 처리하는 함수를 등록하여 해결할 수 있습니다.</h5>
+ 				<h5>이것은 옵션이기 때문에 필요하지 않다면 공란으로 비워두어도 됩니다.</h5>
+				<h5><b>onDialogCloseCallBack</b> : 그랑코인 샵 다이얼로그가 닫힐 때 그 이후 추가해야할 작업이 필요하다면 이 곳에 함수를 등록합니다.</h5>
+				<h5>이것은 옵션이기 때문에 필요하지 않다면 공란으로 비워두어도 됩니다.</h5>
 				<br/>
 				<h5>그랑코인 샵 플로팅 버튼 초기화가 완료되었다면 그랑코인 샵 플로팅 버튼을 화면에 보여주는 작업만 남았습니다.</h5>
 				<h5>그랑코인 샵 플로팅 버튼을 보여주려면 위 스크린샷 2번 항목처럼 granmonster.GranmonsterShopButton.Show() 함수를 사용하면 됩니다.</h5>
@@ -81,26 +85,33 @@ using UnityEngine;
 using granmonster;
 
 public class ShopTestManager : MonoBehaviour {
-	public Transform buttonParent;
-	public Transform widgetParent;
-
-	public IAPManager IAPManager;
-
-	private void Start ()
-	{
-		// 반드시 그랑몬스터 상점 버튼을 먼저 초기화 해야합니다.
-		GranmonsterShopButton.Initialize(GlobalConstants.GranmonsterGameKey, new Orientation(Orientation.Type.Vertical),
-			widgetParent, this, IAPManager.InitializePurchasing, IAPManager.ProcessPurchase, OnShopClose);
-
-		// 200, 200 위치에 플로팅 버튼을 띄웁니다.
-		// 위치는 상황에 맞게 어느 곳에서나 띄울 수 있습니다.
-		GranmonsterShopButton.Show(buttonParent, new Vector3(200, 200, 0));
-	}
-
-	public void OnShopClose()
-	{
-		// NOTE: 그랑코인 상점 다이얼로그를 닫은 후에 해야할 작업이 있다면 이곳에 코드를 작성합니다.
-	}
+	   public Transform buttonParent;
+	   public Transform widgetParent;
+	
+	   public IAPManager IAPManager;
+	
+	   private void Start ()
+	   {
+	      // 반드시 그랑몬스터 상점 버튼을 먼저 초기화 해야합니다.
+	      GranmonsterShopButton.Initialize(GlobalConstants.GranmonsterGameKey, new Orientation(Orientation.Type.Vertical),
+	         widgetParent, this, IAPManager.InitializePurchasing, IAPManager.ProcessPurchase, OnShopOpen, OnShopClose);
+	
+	      // 200, 200 위치에 플로팅 버튼을 띄웁니다.
+	      // 위치는 상황에 맞게 어느 곳에서나 띄울 수 있습니다.
+	      GranmonsterShopButton.Show(buttonParent, new Vector3(200, 200, 0));
+	   }
+	
+	   public void OnShopOpen()
+	   {
+	      // NOTE: 그랑코인 상점 다이얼로그를 열고나서 해야할 작업이 있다면 이곳에 코드를 작성합니다.
+	      Utility.DebugLog("ShopTestManager/OnShopOpen");
+	   }
+	
+	   public void OnShopClose()
+	   {
+	      // NOTE: 그랑코인 상점 다이얼로그를 닫은 후에 해야할 작업이 있다면 이곳에 코드를 작성합니다.
+	      Utility.DebugLog("ShopTestManager/OnShopClose");
+	   }
 }
 			</code></pre>
 	</div>

@@ -54,7 +54,11 @@
 		       <h5>그렇지 않을 경우 위젯이 다른 UI에 가려 보이지 않는다던가, UI 관련 이벤트 핸들링이 의도했던 대로 이루어지지 않을 수도 있습니다.</h5>
 		       <h5><b>monoBehavior</b> : granmonster.GranmonsterWidgetButton.Initialize() 함수 내부에서는 코루틴을 통한 로직을 처리합니다.</h5>
 		       <h5>따라서 이 코루틴을 돌릴 주체가 되는 MonoBehaviour 타입이 필요합니다. 대개의 경우에는 이 함수를 호출하는 MonoBehaviour를 상속받는 클래스의 this가 되는 것이 좋습니다. </h5>
-		       <h5><b>onDialogCloseCallBack</b> : 만약 유저가 위젯을 의도적으로 닫았을 때 어떤 작업이 추가로 실행되도록 하고 싶다면 이 곳에 콜백함수를 넣어줍니다. 이는 옵션이기 때문에 필요하지 않다면 공란으로 비워두셔도 좋습니다. </h5>
+		       <h5><b>onDialogOpenCallBack</b> : 위젯이 열렸을 때 어떤 작업이 추가로 실행되도록 하고 싶다면 이 곳에 콜백함수를 넣어줍니다. </h5>
+		       <h5>NGUI와 같이 3rd Party 라이브러리를 사용하여 UI를 디스플레이 할때 문제가 있다면 이 곳에서 처리하는 함수를 등록하여 해결할 수 있습니다.</h5>
+		       <h5>이는 옵션이기 때문에 필요하지 않다면 공란으로 비워두셔도 좋습니다.</h5>
+		       <h5><b>onDialogCloseCallBack</b> : 만약 유저가 위젯을 의도적으로 닫았을 때 어떤 작업이 추가로 실행되도록 하고 싶다면 이 곳에 콜백함수를 넣어줍니다.</h5>
+		       <h5>이는 옵션이기 때문에 필요하지 않다면 공란으로 비워두셔도 좋습니다. </h5>
 			   <br/>		      
 		       <h5>위젯 플로팅 버튼은 초기화를 한 뒤, 원하는 위치와 부모 컴포넌트를 지정하여 위젯 플로팅 버튼을 화면에 띄울 수 있습니다.</h5>
 		       <h5>위 그림의 2번 항목처럼 granmonster.GranmonsterWidgetButton.Show() 함수를 이용하여 화면에 띄웁니다.</h5>
@@ -79,7 +83,7 @@ public class WidgetTestManager : MonoBehaviour {
 	   {
 	      // 반드시 그랑몬스터 위젯 버튼을 먼저 초기화 해야합니다.
 	      bool success = GranmonsterWidgetButton.Initialize(GlobalConstants.GranmonsterGameKey,
-	         new Orientation(Orientation.Type.Vertical), widgetParent, this, OnWidgetClose);
+	         new Orientation(Orientation.Type.Horizontal), widgetParent, this, OnWidgetOpen, OnWidgetClose);
 	      Debug.Log("Initialize : " + success);
 	
 	      // 100, 100 위치에 플로팅 버튼을 띄웁니다.
@@ -87,9 +91,16 @@ public class WidgetTestManager : MonoBehaviour {
 	      GranmonsterWidgetButton.Show(buttonParent, new Vector3(100, 100, 0));
 	   }
 	
+	   public void OnWidgetOpen()
+	   {
+	      // NOTE: 위젯 다이얼로그를 열고나서 해야할 작업이 있다면 이곳에 코드를 작성합니다.
+	      Utility.DebugLog("WidgetTestManager/OnWidgetOpen");
+	   }
+	
 	   public void OnWidgetClose()
 	   {
 	      // NOTE: 위젯 다이얼로그를 닫은 후에 해야할 작업이 있다면 이곳에 코드를 작성합니다.
+	      Utility.DebugLog("WidgetTestManager/OnWidgetClose");
 	   }
 }
 		</code></pre>
