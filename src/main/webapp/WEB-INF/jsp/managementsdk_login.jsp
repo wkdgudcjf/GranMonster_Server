@@ -37,12 +37,8 @@
 			<h5> <b> Google Login 또는 IPhone Login을 성공시 Callback 메소드에서 그랑몬스터 로그인을 처리합니다.</b></h5>
 			<br/>
 			<div style="text-align:center;">
-				<img src="/sdk_image/sdk_login_prepare.png" style="max-width: 800px; max-height: 800px;">
+				<img src="/sdk_image/sdk_login.png" style="max-width: 800px; max-height: 800px;">
 				<h3>그림 - Login Callback 함수</h3>
-			</div>
-			<div style="text-align:center;">
-				<img src="/sdk_image/sdk_login_callback.png" style="max-width: 800px; max-height: 800px;">
-				<h3>그림 - Login후 처리</h3>
 			</div>
 			<br/>
 			<div class="box box-primary">
@@ -51,11 +47,11 @@
 			     </div>
 			     <div class="box-body">
 			       <h5><b>1)</b> granmonster 네임 스페이스 안에 그랑몬스터 서버와 클라이언트의 모듈이 통신하기 위한 프로토콜이 정의되어 있습니다.</h5>
-			       <h5>RequestProtocol.Login 지역 변수를 선언하고 서버가 필요로 하는 데이터를 넣어줍니다.</h5>
+			       <h5>granmonster.ServerConnection.Login() 함수를 통해 그랑몬스터 서버 로그인을 할 수 있습니다.</h5>
 			       <h5>userKey에는 구글 아이디 또는 아이폰 아이디를 넣고, appKey에는 	관리자 페이지에서 게임 등록 시 발급되는 게임 키를 넣어줍니다.</h5>
 			       <h5>또한 플랫폼을 확인하여 셋팅합니다.</h5>
-			       <h5>값을 모두 세팅한 다음에 ServerConnection 클래스에 있는 Login() 함수를 호출하여 서버에 요청을 합니다.</h5>
-			       <h5>서버의 응답을 받고 난 뒤 RestApiCallStatusMethods 유틸리티 클래스에 있는 함수들을 이용하여 서버 통신 유효성을 검사합니다. </h5>
+			       <h5>해당 함수의 매개변수로는 userKey와 appKey가 있으며 각각 유저, 게임을 고유하게 식별할 수 있는 키입니다.</h5>
+			       <h5>서버의 응답을 ResponseProtocol.ResponseLogin으로 받을 수 있으며 이 안에 있는 State 값을 통해 유효성 검사를 할 수 있습니다. </h5>
 			       <br/>
 			       <h5><b>2)</b> 만약 그랑몬스터 로그인 완료 후 추가로 해야할 작업이 있다면 해당 블록의 시점에서 원하는 작업을 추가로 진행하면 됩니다. </h5>
 			       <h5>위 그림에서는 첫 로그인인지 확인하여 Event를 호출하는 작업을 진행합니다.</h5>
@@ -67,41 +63,44 @@
 		<div id="sdk_login_sourcecode">
 		 <h1>B. 소스코드</h1>
 			<pre><code>
-public void Login()
+IEnumerator TryAuthentification()
 {
-	   Social.localUser.Authenticate((bool success) =>
-	   { 
-	      if ( true == success )
-	      {
-	         // 그랑몬스터 로그인
-	         if (Social.localUser.id == null)
-	         {
-	            Utility.DebugLog("구글 아이디가 없습니다.");
-	            return;
-	         }
-	
-	         RequestProtocol.Login requestLogin = new RequestProtocol.Login
-	         {
-	            userKey = Social.localUser.id,
-	            appKey = "$2a$10$Kr/mC59ODWIAFM0CFn1R6eQp/Yj9QM03VmINS85geyilXYNhhBKHy",
-	         };
-	
-	         ServerResponse loginResponse = ServerConnection.Login(JsonUtility.ToJson(requestLogin));
-             if (RestApiCallStatusMethods.Error(loginResponse.Status))
-             {
-                 Utility.DebugLog(ToString() + "/TryAuthentification/" + loginResponse.Data);
-             	 return;
-             }
+      yield return new WaitForSeconds(2.0f);
 
-	         // 첫 로그인 이벤트를 진행합니다.
-	         ResponseProtocol.ResponseLogin responseLogin = ResponseProtocol.ResponseLogin.CreateFromJson(loginResponse.Data);
-	         if (responseLogin.FirstLogin)
-	         {
-	            EventManager.EventComplete("$2a$10$Kr/mC59ODWIAFM0CFn1R6eQp/Yj9QM03VmINS85geyilXYNhhBKHy", "install");
-	            EventManager.EventComplete("$2a$10$Kr/mC59ODWIAFM0CFn1R6eQp/Yj9QM03VmINS85geyilXYNhhBKHy", "first_run");
-	         }
-	      }
-	   });
+      Social.localUser.Authenticate((bool success) =>
+      {
+         if (success)
+         {
+            ServerResponse loginResponse = ServerConnection.Login(Social.localUser.id, GlobalConstants.GranmonsterGameKey);
+            if (RestApiCallStatusMethods.Error(loginResponse.Status))
+            {
+               Utility.DebugLog(ToString() + "/TryAuthentification/" + loginResponse.Data);
+               return;
+            }
+
+            // 첫 로그인 이벤트를 진행합니다.
+            ResponseProtocol.ResponseLogin responseLogin = ResponseProtocol.ResponseLogin.CreateFromJson(loginResponse.Data);
+            if (responseLogin.State != ResponseProtocol.ResponseLogin.StatusCode.SUCCESS)
+            {
+               Utility.DebugLog(ToString() + "/TryAuthentification/Error code : " + responseLogin.State);
+               return;
+            }
+
+            if (responseLogin.FirstLogin)
+            {
+               granmonster.EventManager.EventComplete(GlobalConstants.GranmonsterGameKey, "install");
+               granmonster.EventManager.EventComplete(GlobalConstants.GranmonsterGameKey, "first_run");
+            }
+
+            OnLoginSuccess();
+         }
+         else
+         {
+            Debug.Log("구글 로그인에 실패하였습니다.");
+         }
+      });
+
+      EndBlocking();
 }
 			</code></pre>
 	</div>
