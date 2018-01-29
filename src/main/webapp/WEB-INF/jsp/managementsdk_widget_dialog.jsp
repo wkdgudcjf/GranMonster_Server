@@ -46,6 +46,7 @@
 			     </div>
 			     <div class="box-body">
 			       <h5>위 그림에 보이는 1번 항목처럼 Granmonster SDK 안에 있는 함수를 호출하여 위젯을 미리 로딩할 수 있습니다.</h5>
+			       <h5>만약 그랑코인 보유량이 변할 때마다 게임 내 UI에서 실시간으로 반영을 하고 싶다면 위 스크린샷에서 표시한 부분과 같이 이벤트 핸들러를 등록하면 됩니다.</h5>
 			     </div>
 			     <!-- /.box-body -->
 		   </div>
@@ -54,23 +55,23 @@
 		<div id="sdk_widget_sourcecode">
 		 <h1>B. 소스코드</h1>
 		<pre><code>
-private void Start()
-{
-   if (WidgetManager.IsInitialized() == false)
-   {
-      Utility.DebugLog("로딩 시간을 줄이기 위해 위젯을 미리 로드합니다.");
-      string debugMessage = WidgetManager.Initialize ?
-         "위젯 미리 로드에 성공하였습니다." : "위젯 미리 로드에 실패하였습니다.";
-      Utility.DebugLog(debugMessage);
-   }
+// 반드시 그랑몬스터 위젯 버튼을 먼저 초기화 해야합니다.
+GranmonsterWidgetButton.Initialize("$2a$10$Kr/mC59ODWIAFM0CFn1R6eQp/Yj9QM03VmINS85geyilXYNhhBKHy",
+   new Orientation(Orientation.Type.Horizontal), WidgetParent.transform, this, OnWidgetOpen, OnWidgetClose);
 
-   if (GrancoinShopManager.IsInitialized() == false)
+GranmonsterWidgetButton.Show(WidgetParent.transform, new Vector3(screenPosition.x - 70, 247, 0));
+
+if (User.IsInitialized())
+{
+   GranCoin.text = granmonster.User.GetCoin().ToString("N0");
+   granmonster.User.AddGranCoinValueChangedHandler((value) =>
    {
-      Utility.DebugLog("로딩 시간을 줄이기 위해 그랑코인 샵을 미리 로드합니다.");
-      string debugMessage = GrancoinShopManager.Initialize ?
-         "그랑코인 샵 미리 로드에 성공하였습니다." : "그랑코인 샵 미리 로드에 실패하였습니다.";
-      Utility.DebugLog(debugMessage);
-   }
+      GranCoin.text = value.ToString("N0");
+   });
+}
+else
+{
+   GranCoin.text = "0";
 }
 		</code></pre>
      </div>
