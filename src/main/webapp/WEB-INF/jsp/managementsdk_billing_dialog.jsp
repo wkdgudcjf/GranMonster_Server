@@ -47,8 +47,8 @@
 			     </div>
 			     <div class="box-body">
 			    <h5> 위 그림의 1번 항목에서는 그랑코인 샵 다이얼로그를 초기화하는 방법을 보여줍니다. </h5>
-			    <h5> 그랑코인 샵 다이얼로그를 초기화하기 위해서는 granmonster.GrancoinShopManager.Initialize() 함수를 사용합니다.
-				</h5>
+			    <h5>그랑코인 샵 다이얼로그를 초기화하기 위해서는 granmonster.GrancoinShopManager.Initialize() 함수를 사용합니다.</h5>
+				<h5>서버가 다이얼로그 노출을 의도적으로 막은 경우 다이얼로그는 열리지 않을 수 있습니다.</h5>
 			     </div>
 			     <!-- /.box-body -->
 		   </div>
